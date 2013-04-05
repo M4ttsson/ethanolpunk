@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 
 namespace Athyl
 {
@@ -23,7 +24,6 @@ namespace Athyl
         SpriteBatch spriteBatch;
         
         World world;
-
 
         //tests
         DrawableGameObject floor;
@@ -57,12 +57,13 @@ namespace Athyl
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //create a world with normal gravity
-            world = new World(new Vector2(0.0f, 9.85f));
+            world = new World(new Vector2(0.0f, 9.0f));
 
             //draw floor (should be in map.cs)
             floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 40.0f), 1000);
-            floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 40);
+            floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 20);
             floor.body.BodyType = BodyType.Static;
+
         }
 
         /// <summary>
@@ -84,6 +85,9 @@ namespace Athyl
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            float timeStep = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            world.Step(timeStep);
+
             base.Update(gameTime);
         }
 
@@ -97,6 +101,7 @@ namespace Athyl
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
             floor.Draw(spriteBatch);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
