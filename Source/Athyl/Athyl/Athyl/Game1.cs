@@ -25,6 +25,9 @@ namespace Athyl
         World world;
 
 
+        //tests
+        DrawableGameObject floor;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -53,6 +56,13 @@ namespace Athyl
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //create a world with normal gravity
+            world = new World(new Vector2(0.0f, 9.85f));
+
+            //draw floor (should be in map.cs)
+            floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 40.0f), 1000);
+            floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 40);
+            floor.body.BodyType = BodyType.Static;
         }
 
         /// <summary>
@@ -84,6 +94,10 @@ namespace Athyl
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
+            floor.Draw(spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
