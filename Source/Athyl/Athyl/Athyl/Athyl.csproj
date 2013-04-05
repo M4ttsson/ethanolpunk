@@ -60,6 +60,12 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DebugViewXNA">
+      <HintPath>\\edunet\dfs\home06\ht11\timmah111\My Documents\Farseer Physics Engine 3.3.1 Samples XNA\Farseer Physics Engine 3.3.1 Samples XNA\DebugView XNA\bin\x86\Release\DebugViewXNA.dll</HintPath>
+    </Reference>
+    <Reference Include="FarseerPhysicsXNA">
+      <HintPath>\\edunet\dfs\home06\ht11\timmah111\My Documents\Farseer Physics Engine 3.3.1 Samples XNA\Farseer Physics Engine 3.3.1 Samples XNA\Farseer Physics Engine 3.3 XNA\bin\x86\Release\FarseerPhysicsXNA.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -114,12 +120,6 @@
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AthylContent\AthylContent.contentproj">
-      <Name>AthylContent</Name>
-      <XnaReferenceType>Content</XnaReferenceType>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
