@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 using FarseerPhysics;
+using FarseerPhysics.Dynamics;
 
 namespace Athyl
 {
@@ -20,6 +21,9 @@ namespace Athyl
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        
+        World world;
+
 
         public Game1()
         {
