@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Athyl", "Athyl\Athyl\Athyl.csproj", "{9738ABF0-1D44-4D2F-A05C-2DB3E38F1ED9}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "AthylContent", "Athyl\AthylContent\AthylContent.contentproj", "{E0E5A85E-2DB4-41D2-8737-2C65BDCEB09F}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9738ABF0-1D44-4D2F-A05C-2DB3E38F1ED9}.Debug|x86.ActiveCfg = Debug|x86
+		{9738ABF0-1D44-4D2F-A05C-2DB3E38F1ED9}.Debug|x86.Build.0 = Debug|x86
+		{9738ABF0-1D44-4D2F-A05C-2DB3E38F1ED9}.Release|x86.ActiveCfg = Release|x86
+		{9738ABF0-1D44-4D2F-A05C-2DB3E38F1ED9}.Release|x86.Build.0 = Release|x86
+		{E0E5A85E-2DB4-41D2-8737-2C65BDCEB09F}.Debug|x86.ActiveCfg = Debug|x86
+		{E0E5A85E-2DB4-41D2-8737-2C65BDCEB09F}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
