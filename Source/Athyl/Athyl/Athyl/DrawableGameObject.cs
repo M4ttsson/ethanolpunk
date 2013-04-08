@@ -40,7 +40,6 @@ namespace Athyl
             this.Size = size;
             this.texture = texture;
             
-
             body = BodyFactory.CreateRectangle(world, Size.X, Size.Y, 1);
             body.BodyType = BodyType.Dynamic;
 
