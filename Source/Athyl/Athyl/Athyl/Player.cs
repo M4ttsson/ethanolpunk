@@ -17,9 +17,17 @@ namespace Athyl
 {
     class Player
     {
+
+
+        
+
+
+
        public DrawableGameObject torso;
         DrawableGameObject wheel;
         RevoluteJoint axis;
+
+        public enum stance { melee, midRange, longRange };
 
         DateTime previousJump;
         const float jumpInterval = 0.5f;
@@ -84,6 +92,13 @@ namespace Athyl
             }
         }
 
+        public void useWeapon()
+        {
+        }
+
+        public void changeStance()
+        {
+        }
         public enum Movement
         {
             Left,
@@ -96,5 +111,6 @@ namespace Athyl
             torso.Draw(spriteBatch, new Vector2(torso.Size.X, torso.Size.Y + wheel.Size.Y));
             //wheel.Draw(spriteBatch);
         }
+
     }
 }
