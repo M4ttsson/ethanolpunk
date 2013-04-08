@@ -79,8 +79,9 @@ namespace Athyl
             floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000);
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
             floor.body.BodyType = BodyType.Static;
+            
 
-            player = new Player(world, Content.Load<Texture2D>("testat"), new Vector2(20, 75), 100, new Vector2(430, 0));
+            player = new Player(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
         }
 
         /// <summary>

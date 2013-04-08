@@ -36,10 +36,10 @@ namespace Athyl
 
         const float speed = 3.0f;
 
-        public Player(World world, Texture2D texture, Vector2 size, float mass, Vector2 startPosition)
+        public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition)
         {
             Vector2 torsoSize = new Vector2(size.X, size.Y - size.X / 2.0f);
-            float wheelSize = size.X;
+            
 
             //create torso
             torso = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f);
@@ -48,7 +48,7 @@ namespace Athyl
             // Create the feet of the body, here implemented as high friction wheels 
             wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f);
             wheel.Position = torso.Position + new Vector2(0, torsoSize.Y / 2.0f);
-            wheel.body.Friction = 1.0f;
+            wheel.body.Friction = 3.0f;
 
             // Create a joint to keep the torso upright
             JointFactory.CreateFixedAngleJoint(world, torso.body);
