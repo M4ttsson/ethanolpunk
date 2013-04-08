@@ -94,7 +94,7 @@ namespace Athyl
                 this.Exit();
 
 
-            world.Step(0.033333f);
+            //world.Step(0.033333f);
 
             base.Update(gameTime);
         }
