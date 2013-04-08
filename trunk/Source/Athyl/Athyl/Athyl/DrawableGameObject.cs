@@ -41,6 +41,7 @@ namespace Athyl
             body.BodyType = BodyType.Dynamic;
             this.Size = size;
             this.texture = texture;
+            
         }
 
         public DrawableGameObject(World world, Texture2D texture, float diameter, float mass)
