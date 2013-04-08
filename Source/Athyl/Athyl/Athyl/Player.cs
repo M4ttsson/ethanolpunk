@@ -22,7 +22,7 @@ namespace Athyl
         RevoluteJoint axis;
 
         DateTime previousJump;
-        const float jumpInterval = 1.0f;
+        const float jumpInterval = 0.5f;
         Vector2 jumpForce = new Vector2(0, -0.7f);
         
 
