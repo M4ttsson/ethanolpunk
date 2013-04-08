@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConvertUnits.cs" />
+    <Compile Include="CoordinateHelper.cs" />
     <Compile Include="DrawableGameObject.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Player.cs" />

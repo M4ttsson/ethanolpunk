@@ -27,6 +27,9 @@ namespace Athyl
         DebugViewXNA debugView;
         World world;
 
+        Player player;
+        KeyboardState prevKeyboardState;
+
         //tests
         DrawableGameObject floor;
         DrawableGameObject box;
@@ -66,26 +69,18 @@ namespace Athyl
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //create a world with normal gravity
-            world = new World(new Vector2(0.0f, 9.82f));
+            world = new World(new Vector2(0, 9.82f));
+            
 
             debugView = new DebugViewXNA(world);
             debugView.LoadContent(GraphicsDevice, Content);
             texture = Content.Load<Texture2D>("testat");
 
-            box = new DrawableGameObject(world, texture, new Vector2(40, 40), 10);
-            box.Position = new Vector2(60, 60);
-            box.body.Friction = 1;
-            
-            //draw floor (should be in map.cs)
-            //floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 40.0f), 10);
-            //floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 20);
-            ////floor.body.IsStatic = true;
-            //floor.body.BodyType = BodyType.Static;
-            //floor.body.Restitution = 2;
-            //floor.body.Friction = 1;
+            floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000);
+            floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
+            floor.body.BodyType = BodyType.Static;
 
-            //box = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(40, 40), 2);
-            //box.Position = new Vector2(70, 70);
+            player = new Player(world, Content.Load<Texture2D>("testat"), new Vector2(20, 75), 100, new Vector2(430, 0));
         }
 
         /// <summary>
@@ -107,10 +102,31 @@ namespace Athyl
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            Debug.WriteLine(box.Position);
-            world.Step(0.033333f);
+            KeyboardState keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
+            {
+                player.Jump();
+            }
             
 
+            if (keyboardState.IsKeyDown(Keys.Left))
+            {
+                player.Move(Player.Movement.Left);
+            }
+            else if (keyboardState.IsKeyDown(Keys.Right))
+            {
+                player.Move(Player.Movement.Right);
+            }
+            else
+            {
+                player.Move(Player.Movement.Stop);
+            }
+
+            //Debug.WriteLine(box.Position);
+            prevKeyboardState = keyboardState;
+            world.Step(0.033333f);
+            
             base.Update(gameTime);
         }
 
@@ -122,13 +138,19 @@ namespace Athyl
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-            box.Draw(spriteBatch);
+           // spriteBatch.Begin();
+           // box.Draw(spriteBatch);
+           // spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+
+            player.Draw(spriteBatch);
+
+            floor.Draw(spriteBatch);
             spriteBatch.End();
 
-            //spriteBatch.Begin();
-            //floor.Draw(spriteBatch);
-            //spriteBatch.End();
+           // spriteBatch.Begin();
+           //// floor.Draw(spriteBatch);
+           // spriteBatch.End();
             //var projection = Matrix.CreateOrthographicOffCenter(
             // 0f,
             // ConvertUnits.ToSimUnits(graphics.GraphicsDevice.Viewport.Width),
