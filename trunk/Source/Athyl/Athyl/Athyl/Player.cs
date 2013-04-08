@@ -94,6 +94,7 @@ namespace Athyl
             DrawableGameObject shot = new DrawableGameObject(world, projectile, 10, 5);
             shot.body.IsBullet = true;
 
+
         }
 
         public void changeStance()
