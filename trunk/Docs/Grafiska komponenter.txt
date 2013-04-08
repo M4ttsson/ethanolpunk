@@ -1,0 +1,72 @@
+Karaktärer:
+En rollfigur.
+en fiende.
+
+Vapen:
+Minst ett mid-range vapen.
+Annars ett short- och long-range också.
+
+Minst en bana:
+lite saker att hoppa på/över och nått pussel av nått slag.
+
+GUI:
+Hälsa
+Etanol
+Tid
+Vilket vapen
+Ammo count
+
+Items:
+ammo
+etanol
+hälsa
+
+SKillträd:
+Meny
+Tiles
+path
+bakgrund:
+
+Rollfigur:
+Gilliam.
+Bandit/Rogue.
+Ganska bad-ass.
+Movements:
+Springa
+Hoppa -dubbel hopp-
+Ducka.
+Någon typ av attack.
+Fylla på etanol och hälsa.
+- klättra - 
+- Dodge -
+
+Vapen:
+Mid-range:
+Revolver
+shotgun
+automat vapen
+skjuta.
+ladda.
+slut på ammo.
+-trixa-
+
+-Shorrt-range:-
+Svärd
+klubba
+knytnävar
+Attack
+-trixa-
+
+-Long-range:-
+Rifle
+Sniper
+ladda.
+slut på ammo.
+skjuta.
+-trixa-
+
+Bana:
+Bakgrund
+platå
+backe
+Natur (träd etc?)
