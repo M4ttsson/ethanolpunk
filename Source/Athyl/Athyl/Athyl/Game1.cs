@@ -26,7 +26,7 @@ namespace Athyl
         SpriteBatch spriteBatch;
         DebugViewXNA debugView;
         World world;
-        AI theAI;
+        List<AI> theAI = new List<AI>();
         Player player;
         KeyboardState prevKeyboardState;
 
@@ -80,7 +80,7 @@ namespace Athyl
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
             floor.body.BodyType = BodyType.Static;
 
-            theAI = new AI(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20, new Vector2(600, 0));
+            
             player = new Player(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
         }
 
@@ -126,8 +126,14 @@ namespace Athyl
                 player.Move(Player.Movement.Stop);
             }
 
+            if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 0.94f)
+                theAI.Add(new AI(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20));
 
-            theAI.UpdateEnemy(player);
+            if (gameTime.TotalGameTime.TotalSeconds == 5)
+                theAI.Add(new AI(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20));
+            
+            foreach(AI ai in theAI)
+                ai.UpdateEnemy(player);
 
 
             //Debug.WriteLine(box.Position);
@@ -151,7 +157,9 @@ namespace Athyl
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             player.Draw(spriteBatch);
-            theAI.Draw(spriteBatch);
+
+            foreach (AI ai in theAI)
+                ai.Draw(spriteBatch);
 
 
             floor.Draw(spriteBatch);

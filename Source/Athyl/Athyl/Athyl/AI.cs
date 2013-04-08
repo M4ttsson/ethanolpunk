@@ -13,6 +13,7 @@ using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics.Joints;
+using FarseerPhysics.Collision.Shapes;
 
 namespace Athyl
 {
@@ -23,15 +24,19 @@ namespace Athyl
         DrawableGameObject wheel;
         RevoluteJoint axis;
         const float speed = 1.0f;
+        Random randomX = new Random(Environment.TickCount);
 
-        public AI(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition)
+
+        public AI(World world, Texture2D texture, Vector2 size, float mass, float wheelSize)
         {
             Vector2 torsoSize = new Vector2(size.X, size.Y - size.X / 2.0f);
+           
 
+            
 
             //create torso
             enemyBody = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f);
-            enemyBody.Position = startPosition;
+            enemyBody.Position = new Vector2(randomX.Next(50, 600), 50);
 
             // Create the feet of the body, here implemented as high friction wheels 
             wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f);
@@ -71,7 +76,11 @@ namespace Athyl
                 
             }
 
+            
         }
+
+
+        
 
         public void attackPlayer()
         {
