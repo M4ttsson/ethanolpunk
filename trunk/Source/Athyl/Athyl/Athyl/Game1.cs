@@ -27,10 +27,16 @@ namespace Athyl
 
         //tests
         DrawableGameObject floor;
+        DrawableGameObject box;
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this)
+                {
+                      PreferredBackBufferHeight = 800,
+                      PreferredBackBufferWidth = 800,
+                      IsFullScreen = false
+                 };
             Content.RootDirectory = "Content";
         }
 
@@ -64,6 +70,8 @@ namespace Athyl
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 20);
             floor.body.BodyType = BodyType.Static;
 
+            box = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(40, 40), 2);
+            box.Position = new Vector2(70, 70);
         }
 
         /// <summary>
@@ -85,8 +93,8 @@ namespace Athyl
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            float timeStep = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            world.Step(timeStep);
+
+            world.Step(0.033333f);
 
             base.Update(gameTime);
         }
@@ -101,7 +109,7 @@ namespace Athyl
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque);
             floor.Draw(spriteBatch);
-
+            box.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

@@ -44,7 +44,7 @@ namespace Athyl
             body = BodyFactory.CreateRectangle(world, Size.X, Size.Y, 1);
             body.BodyType = BodyType.Dynamic;
 
-            //body.Mass = mass;
+            body.Mass = mass;
         }
 
         /// <summary>
