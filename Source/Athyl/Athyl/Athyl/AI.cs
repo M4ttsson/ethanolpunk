@@ -12,34 +12,63 @@ using Microsoft.Xna.Framework.Media;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using FarseerPhysics.Dynamics.Joints;
 
 namespace Athyl
 {
     class AI
     {
 
-        Body enemyBody;
+        DrawableGameObject enemyBody;
+        DrawableGameObject wheel;
+        RevoluteJoint axis;
+        const float speed = 1.0f;
 
-        public AI()
+        public AI(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition)
         {
+            Vector2 torsoSize = new Vector2(size.X, size.Y - size.X / 2.0f);
+
+
+            //create torso
+            enemyBody = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f);
+            enemyBody.Position = startPosition;
+
+            // Create the feet of the body, here implemented as high friction wheels 
+            wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f);
+            wheel.Position = enemyBody.Position + new Vector2(0, torsoSize.Y / 2.0f);
+            wheel.body.Friction = 3.0f;
+
+            // Create a joint to keep the torso upright
+            JointFactory.CreateFixedAngleJoint(world, enemyBody.body);
+
+            // Connect the feet to the torso
+            axis = JointFactory.CreateRevoluteJoint(world, enemyBody.body, wheel.body, Vector2.Zero);
+            axis.CollideConnected = false;
+
+            axis.MotorEnabled = true;
+            axis.MotorSpeed = 0;
+            axis.MotorTorque = 3;
+            axis.MaxMotorTorque = 10;
+
 
         }
-        /*
-        //kass prototyp på move-towards AI.
+
 
         Vector2 right = new Vector2(2, 0);
         Vector2 left = new Vector2(-2, 0);
 
-        public void towardsPlayer()
+        public void towardsPlayer(Player aPlayer)
         {
-            if (enemyBody.Position.X < playerBody.Position.X)
+            if (enemyBody.Position.X < aPlayer.torso.Position.X)
             {
-                enemyBody.Position += right;
+                
+                axis.MotorSpeed = MathHelper.TwoPi * speed;
             }
 
-            else if (enemyBody.Position.X > playerBody.Position.X)
+            else if (enemyBody.Position.X > aPlayer.torso.Position.X)
             {
-                enemyBody.Position += left;
+                axis.MotorSpeed = -MathHelper.TwoPi * speed;
+                
             }
 
         }
@@ -49,12 +78,17 @@ namespace Athyl
 
         }
 
-        public void UpdateEnemy()
+        public void UpdateEnemy(Player aPlayer)
         {
-            towardsPlayer();
-            attackPlayer();
+            towardsPlayer(aPlayer);
+            //attackPlayer();
         }
 
-        */
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            enemyBody.Draw(spriteBatch, new Vector2(enemyBody.Size.X, enemyBody.Size.Y + wheel.Size.Y));
+            //wheel.Draw(spriteBatch);
+        }
+
     }
 }

@@ -18,11 +18,6 @@ namespace Athyl
     class Player
     {
 
-
-        
-
-
-
        public DrawableGameObject torso;
         DrawableGameObject wheel;
         RevoluteJoint axis;
@@ -31,16 +26,18 @@ namespace Athyl
 
         DateTime previousJump;
         const float jumpInterval = 0.5f;
-        Vector2 jumpForce = new Vector2(0, -0.7f);
-        
+        Vector2 jumpForce = new Vector2(0, -1f);
+        Texture2D projectile;
+
+        List<DrawableGameObject> shots = new List<DrawableGameObject>();
 
         const float speed = 3.0f;
 
         public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition)
         {
             Vector2 torsoSize = new Vector2(size.X, size.Y - size.X / 2.0f);
-            
 
+            projectile = texture;
             //create torso
             torso = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f);
             torso.Position = startPosition;
@@ -92,8 +89,11 @@ namespace Athyl
             }
         }
 
-        public void useWeapon()
+        public void useWeapon(World world)
         {
+            DrawableGameObject shot = new DrawableGameObject(world, projectile, 10, 5);
+            shot.body.IsBullet = true;
+
         }
 
         public void changeStance()

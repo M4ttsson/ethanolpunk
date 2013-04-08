@@ -26,7 +26,7 @@ namespace Athyl
         SpriteBatch spriteBatch;
         DebugViewXNA debugView;
         World world;
-
+        AI theAI;
         Player player;
         KeyboardState prevKeyboardState;
 
@@ -79,8 +79,8 @@ namespace Athyl
             floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000);
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
             floor.body.BodyType = BodyType.Static;
-            
 
+            theAI = new AI(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20, new Vector2(600, 0));
             player = new Player(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
         }
 
@@ -126,6 +126,10 @@ namespace Athyl
                 player.Move(Player.Movement.Stop);
             }
 
+
+            theAI.UpdateEnemy(player);
+
+
             //Debug.WriteLine(box.Position);
             prevKeyboardState = keyboardState;
             world.Step(0.033333f);
@@ -147,6 +151,8 @@ namespace Athyl
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             player.Draw(spriteBatch);
+            theAI.Draw(spriteBatch);
+
 
             floor.Draw(spriteBatch);
             spriteBatch.End();
