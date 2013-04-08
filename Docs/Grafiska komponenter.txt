@@ -9,6 +9,9 @@ Annars ett short- och long-range också.
 Minst en bana:
 lite saker att hoppa på/över och nått pussel av nått slag.
 
+Menyer:
+
+
 GUI:
 Hälsa
 Etanol
