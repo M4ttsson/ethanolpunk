@@ -115,14 +115,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI.cs" />
     <Compile Include="ConvertUnits.cs" />
     <Compile Include="CoordinateHelper.cs" />
     <Compile Include="DrawableGameObject.cs" />
+    <Compile Include="Inventory.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="NPC.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Skilltree.cs" />
+    <Compile Include="Sounds.cs" />
+    <Compile Include="Weapons.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
