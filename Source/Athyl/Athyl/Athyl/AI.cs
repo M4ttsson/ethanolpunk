@@ -31,9 +31,6 @@ namespace Athyl
         public AI(World world, Texture2D texture, Vector2 size, float mass, float wheelSize)
         {
             Vector2 torsoSize = new Vector2(size.X, size.Y - size.X / 2.0f);
-           
-
-            
 
             //create torso
             enemyBody = new DrawableGameObject(world, texture, mass / 2.0f, "enemy");
@@ -73,10 +70,7 @@ namespace Athyl
             }
 
             return false;
-            
         }
-
-
         Vector2 right = new Vector2(2, 0);
         Vector2 left = new Vector2(-2, 0);
 
@@ -95,13 +89,8 @@ namespace Athyl
                     axis.MotorSpeed = -MathHelper.TwoPi * speed;
 
                 }
-
-            }
-            
+            } 
         }
-
-
-        
 
         public void attackPlayer()
         {

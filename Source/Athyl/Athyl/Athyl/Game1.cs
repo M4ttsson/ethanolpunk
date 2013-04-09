@@ -41,8 +41,8 @@ namespace Athyl
         {
             graphics = new GraphicsDeviceManager(this)
                 {
-                      PreferredBackBufferHeight = 800,
-                      PreferredBackBufferWidth = 800,
+                      PreferredBackBufferHeight = 720,
+                      PreferredBackBufferWidth = 1280,
                       IsFullScreen = false
                  };
             Content.RootDirectory = "Content";
