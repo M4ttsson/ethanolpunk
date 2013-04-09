@@ -27,7 +27,7 @@ namespace Athyl
 
         DateTime previousJump;
         const float jumpInterval = 0.5f;
-        Vector2 jumpForce = new Vector2(0, -1f);
+        Vector2 jumpForce = new Vector2(0, -0.6f);
         Texture2D projectile;
 
         bool OnGround;
@@ -41,8 +41,10 @@ namespace Athyl
             Vector2 torsoSize = new Vector2(size.X, size.Y - size.X / 2.0f);
 
             projectile = texture;
+
             //create torso
-            torso = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f, "player");
+            //torso = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f, "player");
+            torso = new DrawableGameObject(world, texture, 60, "player");
             torso.Position = startPosition;
 
             // Create the feet of the body, here implemented as high friction wheels 
@@ -62,9 +64,9 @@ namespace Athyl
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
             
-            torso.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+            //torso.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
 
-            torso.body.OnSeparation += new OnSeparationEventHandler(body_OnSeparation);
+            //torso.body.OnSeparation += new OnSeparationEventHandler(body_OnSeparation);
 
             previousJump = DateTime.Now;
         }

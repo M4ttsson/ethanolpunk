@@ -14,6 +14,8 @@ using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics.DebugViews;
+using FarseerPhysics.Common;
+using FarseerPhysics.Common.Decomposition;
 
 namespace Athyl
 {
@@ -81,11 +83,11 @@ namespace Athyl
             floor.body.BodyType = BodyType.Static;
 
             
-            player = new Player(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
-           
+            player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
+            
         }
 
-
+        
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -129,10 +131,10 @@ namespace Athyl
             }
 
             if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 0.91f)
-                theAI.Add(new AI(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20));
+                theAI.Add(new AI(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20));
 
             if (gameTime.TotalGameTime.TotalSeconds == 5)
-                theAI.Add(new AI(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20));
+                theAI.Add(new AI(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20));
             
             foreach(AI ai in theAI)
                 ai.UpdateEnemy(player);
