@@ -128,7 +128,7 @@ namespace Athyl
                 player.Move(Player.Movement.Stop);
             }
 
-            if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 0.94f)
+            if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 0.91f)
                 theAI.Add(new AI(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20));
 
             if (gameTime.TotalGameTime.TotalSeconds == 5)

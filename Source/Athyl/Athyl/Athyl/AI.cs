@@ -20,12 +20,13 @@ namespace Athyl
     class AI
     {
 
-        DrawableGameObject enemyBody;
+        public static DrawableGameObject enemyBody;
         DrawableGameObject wheel;
         RevoluteJoint axis;
         const float speed = 1.0f;
         Random randomX = new Random(Environment.TickCount);
 
+        bool hit = false;
 
         public AI(World world, Texture2D texture, Vector2 size, float mass, float wheelSize)
         {
@@ -55,7 +56,23 @@ namespace Athyl
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
 
+            enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+        }
 
+        bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+        {
+            if (contact.IsTouching())
+            {
+                if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
+                {
+                    axis.MotorSpeed = 0;
+                    hit = true;
+                    return true;
+                }
+            }
+
+            return false;
+            
         }
 
 
@@ -64,18 +81,21 @@ namespace Athyl
 
         public void towardsPlayer(Player aPlayer)
         {
-            if (enemyBody.Position.X < aPlayer.torso.Position.X)
+            if (!hit)
             {
-                
-                axis.MotorSpeed = MathHelper.TwoPi * speed;
-            }
+                if (enemyBody.Position.X < aPlayer.torso.Position.X)
+                {
 
-            else if (enemyBody.Position.X > aPlayer.torso.Position.X)
-            {
-                axis.MotorSpeed = -MathHelper.TwoPi * speed;
-                
-            }
+                    axis.MotorSpeed = MathHelper.TwoPi * speed;
+                }
 
+                else if (enemyBody.Position.X > aPlayer.torso.Position.X)
+                {
+                    axis.MotorSpeed = -MathHelper.TwoPi * speed;
+
+                }
+
+            }
             
         }
 
