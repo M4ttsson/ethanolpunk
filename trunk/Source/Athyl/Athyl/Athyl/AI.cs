@@ -35,11 +35,11 @@ namespace Athyl
             
 
             //create torso
-            enemyBody = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f);
+            enemyBody = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f, "enemy");
             enemyBody.Position = new Vector2(randomX.Next(50, 600), 50);
 
             // Create the feet of the body, here implemented as high friction wheels 
-            wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f);
+            wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f, "enemy");
             wheel.Position = enemyBody.Position + new Vector2(0, torsoSize.Y / 2.0f);
             wheel.body.Friction = 3.0f;
 

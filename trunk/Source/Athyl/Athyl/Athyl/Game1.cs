@@ -76,13 +76,15 @@ namespace Athyl
             debugView.LoadContent(GraphicsDevice, Content);
             texture = Content.Load<Texture2D>("testat");
 
-            floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000);
+            floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000, "ground");
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
             floor.body.BodyType = BodyType.Static;
 
             
             player = new Player(world, Content.Load<Texture2D>("megaman"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
+           
         }
+
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
