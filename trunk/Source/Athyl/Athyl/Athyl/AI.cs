@@ -56,6 +56,7 @@ namespace Athyl
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
 
+            
             //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
