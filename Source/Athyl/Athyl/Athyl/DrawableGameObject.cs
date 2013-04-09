@@ -35,20 +35,35 @@ namespace Athyl
             set { size = CoordinateHelper.ToWorld(value); }
         }
 
-        public DrawableGameObject(World world, Texture2D texture, Vector2 size, float mass)
+        /// <summary>
+        /// Create a new object
+        /// </summary>
+        /// <param name="world">World to create the object in</param>
+        /// <param name="texture">Texture for the object</param>
+        /// <param name="size">Object size</param>
+        /// <param name="mass">Mass</param>
+        /// <param name="userdata">Type of object. For example enemy, player, weapon etc.</param>
+        public DrawableGameObject(World world, Texture2D texture, Vector2 size, float mass, string userdata)
         {
-            body = BodyFactory.CreateRectangle(world, size.X * CoordinateHelper.pixelToUnit, size.Y * CoordinateHelper.pixelToUnit, 1);
+            body = BodyFactory.CreateRectangle(world, size.X * CoordinateHelper.pixelToUnit, size.Y * CoordinateHelper.pixelToUnit, 1, userdata);
             body.BodyType = BodyType.Dynamic;
             this.Size = size;
             this.texture = texture;
             
         }
 
-        public DrawableGameObject(World world, Texture2D texture, float diameter, float mass)
+        /// <summary>
+        /// Create a new circle object
+        /// </summary>
+        /// <param name="world">World to create the object in</param>
+        /// <param name="texture">Texture for the object</param>
+        /// <param name="size">Object size</param>
+        /// <param name="mass">Mass</param>
+        /// <param name="userdata">Type of object. For example enemy, player, weapon etc.</param>
+        public DrawableGameObject(World world, Texture2D texture, float diameter, float mass, string userdata)
         {
             size = new Vector2(diameter, diameter);
-            body = BodyFactory.CreateCircle(world, (diameter / 2.0f) * CoordinateHelper.pixelToUnit, 1);
-
+            body = BodyFactory.CreateCircle(world, (diameter / 2.0f) * CoordinateHelper.pixelToUnit, 1, userdata);
             body.BodyType = BodyType.Dynamic;
 
             this.Size = size;

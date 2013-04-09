@@ -39,11 +39,11 @@ namespace Athyl
 
             projectile = texture;
             //create torso
-            torso = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f);
+            torso = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f, "player");
             torso.Position = startPosition;
 
             // Create the feet of the body, here implemented as high friction wheels 
-            wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f);
+            wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f, "player");
             wheel.Position = torso.Position + new Vector2(0, torsoSize.Y / 2.0f);
             wheel.body.Friction = 3.0f;
 
@@ -91,7 +91,7 @@ namespace Athyl
 
         public void useWeapon(World world)
         {
-            DrawableGameObject shot = new DrawableGameObject(world, projectile, 10, 5);
+            DrawableGameObject shot = new DrawableGameObject(world, projectile, 10, 5, "shot");
             shot.body.IsBullet = true;
 
 
