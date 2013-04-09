@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Diagnostics;
 
 namespace Athyl
 {
@@ -28,6 +29,8 @@ namespace Athyl
         const float jumpInterval = 0.5f;
         Vector2 jumpForce = new Vector2(0, -1f);
         Texture2D projectile;
+
+        bool OnGround;
 
         List<DrawableGameObject> shots = new List<DrawableGameObject>();
 
@@ -58,8 +61,24 @@ namespace Athyl
             axis.MotorSpeed = 0;
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
+            
+            torso.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+
+            torso.body.OnSeparation += new OnSeparationEventHandler(body_OnSeparation);
 
             previousJump = DateTime.Now;
+        }
+
+        //Om den inte är på ett golv, sätt OnGround till false. Hur?
+
+        void body_OnSeparation(Fixture fixtureA, Fixture fixtureB)
+        {
+           // throw new NotImplementedException();
+            if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground")
+            {
+                OnGround = false;
+                Debug.WriteLine(OnGround);
+            }
         }
 
         public void Jump()
@@ -71,21 +90,47 @@ namespace Athyl
             }
         }
 
+        bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+        {
+            if (contact.IsTouching())
+            {
+                if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground")
+                {
+                    OnGround = true;
+                    Debug.WriteLine(OnGround);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+       
+
         public void Move(Movement movement)
         {
             switch (movement)
             {
                 case Movement.Left:
-                    axis.MotorSpeed = -MathHelper.TwoPi * speed;
+                    if(!OnGround)
+                    {
+                        //torso.body.ApplyForce(new Vector2(-speed/2, 0));
+                    }
+                    //else
+                        axis.MotorSpeed = -MathHelper.TwoPi * speed;
                     break;
 
                 case Movement.Right:
-                    axis.MotorSpeed = MathHelper.TwoPi * speed;
+                    if(!OnGround)
+                    {
+                        //torso.body.ApplyForce(new Vector2(speed/2, 0));
+                    }
+                    //else
+                        axis.MotorSpeed = MathHelper.TwoPi * speed;
                     break;
 
                 case Movement.Stop:
                     axis.MotorSpeed = 0;
-                    break;
+                    break;       
             }
         }
 
@@ -93,8 +138,6 @@ namespace Athyl
         {
             DrawableGameObject shot = new DrawableGameObject(world, projectile, 10, 5, "shot");
             shot.body.IsBullet = true;
-
-
         }
 
         public void changeStance()
