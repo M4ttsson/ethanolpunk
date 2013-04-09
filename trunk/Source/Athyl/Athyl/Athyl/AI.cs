@@ -36,7 +36,7 @@ namespace Athyl
             
 
             //create torso
-            enemyBody = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f, "enemy");
+            enemyBody = new DrawableGameObject(world, texture, mass / 2.0f, "enemy");
             enemyBody.Position = new Vector2(randomX.Next(50, 600), 50);
 
             // Create the feet of the body, here implemented as high friction wheels 
@@ -56,7 +56,7 @@ namespace Athyl
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
 
-            enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+            //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
