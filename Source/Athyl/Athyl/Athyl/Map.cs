@@ -18,7 +18,23 @@ namespace Athyl
 {
     class Map
     {
+        List<DrawableGameObject> ground = new List<DrawableGameObject>();
 
+        public Map(World world, Texture2D texture)
+        {
+            for (int i = 0; i < 32; i++)
+            {
+                DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(40, 40), 100, "ground");
+                floor.Position = new Vector2(i * 40, 680);
+                floor.body.BodyType = BodyType.Static;
+                ground.Add(floor);
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch){
+            foreach (DrawableGameObject dgo in ground)
+                dgo.Draw(spriteBatch);
+        }
 
     }
 }
