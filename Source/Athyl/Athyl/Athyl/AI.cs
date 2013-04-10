@@ -36,11 +36,15 @@ namespace Athyl
             //create torso
             enemyBody = new DrawableGameObject(world, texture, mass / 2.0f, "enemy");
             enemyBody.Position = new Vector2(randomX.Next(50, 600), 50);
+            enemyBody.body.Restitution = 0;
+
 
             // Create the feet of the body, here implemented as high friction wheels 
             wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f, "enemy");
             wheel.Position = enemyBody.Position + new Vector2(0, torsoSize.Y / 2.0f);
             wheel.body.Friction = 3.0f;
+            wheel.body.Restitution = 0;
+            
 
             // Create a joint to keep the torso upright
             JointFactory.CreateFixedAngleJoint(world, enemyBody.body);
@@ -53,6 +57,7 @@ namespace Athyl
             axis.MotorSpeed = 0;
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
+            
 
             
             //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
