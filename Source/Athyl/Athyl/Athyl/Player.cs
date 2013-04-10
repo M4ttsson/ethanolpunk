@@ -14,11 +14,13 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
 
+
+
 namespace Athyl
 {
     class Player
     {
-
+        
        public DrawableGameObject torso;
         DrawableGameObject wheel;
         RevoluteJoint axis;
@@ -29,7 +31,8 @@ namespace Athyl
         const float jumpInterval = 0.5f;
         Vector2 jumpForce = new Vector2(0, -0.6f);
         Texture2D projectile;
-
+        
+        
         bool OnGround;
 
         List<DrawableGameObject> shots = new List<DrawableGameObject>();

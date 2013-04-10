@@ -12,6 +12,7 @@ using System.Diagnostics;
 
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Dynamics.Contacts;
 using FarseerPhysics.Factories;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics.Common;
@@ -86,9 +87,17 @@ namespace Athyl
 
             
             player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
+
+           // world.ContactManager.OnBroadphaseCollision += OnBroadPhaseCollision;
+            world.ContactManager.EndContact += OnBroadPhaseCollision;
+            
             
         }
 
+        public void OnBroadPhaseCollision(Contact contact)
+        {
+
+        }
         
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -112,6 +121,26 @@ namespace Athyl
             }
 
             KeyboardState keyboardState = Keyboard.GetState();
+
+            /*Vector2 targetPosition;
+            float minFrac = float.MaxValue;
+            const float l = 11.0f;
+            Vector2 point1 = player.torso.Position;
+            Vector2 d = new Vector2(l * (float)Math.Cos(MathHelper.ToRadians(90)), l * (float)Math.Sin(MathHelper.ToRadians(90)));
+            Vector2 point2 = point1 + d;
+
+            Vector2 point = Vector2.Zero, normal = Vector2.Zero;
+
+            
+            world.RayCast((f, p, n, fr) =>
+            {
+                    if (fr < minFrac)
+                    {
+                        minFrac = fr;
+                        targetPosition = p;
+                    }
+                    return fr;
+            }, point1, point2);*/
 
             if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
             {
@@ -170,16 +199,6 @@ namespace Athyl
             floor.Draw(spriteBatch);
            // map.Draw(spriteBatch);
             spriteBatch.End();
-
-           // spriteBatch.Begin();
-           //// floor.Draw(spriteBatch);
-           // spriteBatch.End();
-            //var projection = Matrix.CreateOrthographicOffCenter(
-            // 0f,
-            // ConvertUnits.ToSimUnits(graphics.GraphicsDevice.Viewport.Width),
-            // ConvertUnits.ToSimUnits(graphics.GraphicsDevice.Viewport.Height), 0f, 0f,
-            // 1f);
-            //debugView.RenderDebugData(ref projection);
      
 
             base.Draw(gameTime);
