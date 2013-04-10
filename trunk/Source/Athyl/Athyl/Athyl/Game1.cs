@@ -190,19 +190,19 @@ namespace Athyl
             #region Textures
             //Vapenladdning
             
-            if (keyboardState.IsKeyDown(Keys.NumPad4))
+            if (keyboardState.IsKeyDown(Keys.D1))
             {
                 weapon.weaponId = 0;
                 currentTextureString = "Sniper";
             }
 
-            else if (keyboardState.IsKeyDown(Keys.NumPad5))
+            else if (keyboardState.IsKeyDown(Keys.D2))
             {
                 weapon.weaponId = 1;
                 currentTextureString = "AK47";
             }
 
-            else if (keyboardState.IsKeyDown(Keys.NumPad6))
+            else if (keyboardState.IsKeyDown(Keys.D3))
             {
                 weapon.weaponId = 2;
                 currentTextureString = "M4A1";
