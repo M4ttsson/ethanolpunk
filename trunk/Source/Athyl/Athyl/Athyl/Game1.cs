@@ -33,6 +33,7 @@ namespace Athyl
         KeyboardState prevKeyboardState;
 
         //tests
+        Map map;
         DrawableGameObject floor;
         DrawableGameObject box;
         Texture2D texture;
@@ -72,7 +73,8 @@ namespace Athyl
 
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
-            
+            //map = new Map(world, Content.Load<Texture2D>("middleground"));
+
 
             debugView = new DebugViewXNA(world);
             debugView.LoadContent(GraphicsDevice, Content);
@@ -165,8 +167,8 @@ namespace Athyl
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
 
-
             floor.Draw(spriteBatch);
+           // map.Draw(spriteBatch);
             spriteBatch.End();
 
            // spriteBatch.Begin();
