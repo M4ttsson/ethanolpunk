@@ -102,7 +102,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RunningDummy.png">
+    <Compile Include="RunningDummy.tga">
       <Name>RunningDummy</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
