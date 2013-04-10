@@ -20,7 +20,7 @@ namespace Athyl
     class AI
     {
 
-        public static DrawableGameObject enemyBody;
+        public DrawableGameObject enemyBody;
         DrawableGameObject wheel;
         RevoluteJoint axis;
         const float speed = 1.0f;

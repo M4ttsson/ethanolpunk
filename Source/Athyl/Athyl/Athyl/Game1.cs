@@ -89,7 +89,7 @@ namespace Athyl
             player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
 
            // world.ContactManager.OnBroadphaseCollision += OnBroadPhaseCollision;
-            world.ContactManager.EndContact += OnBroadPhaseCollision;
+            //world.ContactManager.EndContact += OnBroadPhaseCollision;
             
             
         }
@@ -161,7 +161,7 @@ namespace Athyl
                 player.Move(Player.Movement.Stop);
             }
 
-            if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 0.91f)
+            if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 0.95f)
                 theAI.Add(new AI(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20));
 
             if (gameTime.TotalGameTime.TotalSeconds == 5)
