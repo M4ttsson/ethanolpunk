@@ -32,6 +32,7 @@ namespace Athyl
         {
             Vector2 torsoSize = new Vector2(size.X, size.Y - size.X / 2.0f);
 
+
             //create torso
             enemyBody = new DrawableGameObject(world, texture, mass / 2.0f, "enemy");
             enemyBody.Position = new Vector2(randomX.Next(50, 600), 50);
