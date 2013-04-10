@@ -49,11 +49,13 @@ namespace Athyl
             //torso = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f, "player");
             torso = new DrawableGameObject(world, texture, 60, "player");
             torso.Position = startPosition;
+            torso.body.Restitution = 0;
 
             // Create the feet of the body, here implemented as high friction wheels 
             wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f, "player");
             wheel.Position = torso.Position + new Vector2(0, torsoSize.Y / 2.0f);
             wheel.body.Friction = 3.0f;
+            wheel.body.Restitution = 0;
 
             // Create a joint to keep the torso upright
             JointFactory.CreateFixedAngleJoint(world, torso.body);
