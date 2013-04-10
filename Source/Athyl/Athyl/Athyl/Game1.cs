@@ -33,6 +33,10 @@ namespace Athyl
         Player player;
         KeyboardState prevKeyboardState;
 
+        Weapons weapon;
+        Vector2 weaponPosition;
+        Texture2D weaponTexture;
+        string currentTextureString = "Sniper";
         //tests
         Map map;
         DrawableGameObject floor;
@@ -43,6 +47,7 @@ namespace Athyl
         {
             graphics = new GraphicsDeviceManager(this)
                 {
+
                       PreferredBackBufferHeight = 720,
                       PreferredBackBufferWidth = 1280,
                       IsFullScreen = false
@@ -74,23 +79,28 @@ namespace Athyl
 
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
+
             //map = new Map(world, Content.Load<Texture2D>("middleground"));
 
 
             debugView = new DebugViewXNA(world);
             debugView.LoadContent(GraphicsDevice, Content);
             texture = Content.Load<Texture2D>("testat");
+            weaponTexture = Content.Load<Texture2D>(currentTextureString);
 
             floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000, "ground");
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
             floor.body.BodyType = BodyType.Static;
 
-            
+            weapon = new Weapons(0, Content.Load<Texture2D>(currentTextureString), new Vector2(50, 50));
+
             player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
+
 
            // world.ContactManager.OnBroadphaseCollision += OnBroadPhaseCollision;
             //world.ContactManager.EndContact += OnBroadPhaseCollision;
             
+
             
         }
 
@@ -114,6 +124,9 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            weaponPosition.X = player.torso.Position.X - 10;
+            weaponPosition.Y = player.torso.Position.Y - 10;
+
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
@@ -146,7 +159,7 @@ namespace Athyl
             {
                 player.Jump();
             }
-            
+
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
@@ -162,19 +175,48 @@ namespace Athyl
             }
 
             if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 0.95f)
-                theAI.Add(new AI(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20));
+            {
 
-            if (gameTime.TotalGameTime.TotalSeconds == 5)
                 theAI.Add(new AI(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20));
-            
-            foreach(AI ai in theAI)
+            }
+
+
+            foreach (AI ai in theAI)
+    {
                 ai.UpdateEnemy(player);
+    }
+
+
+            #region Textures
+            //Vapenladdning
+            
+            if (keyboardState.IsKeyDown(Keys.NumPad4))
+            {
+                weapon.weaponId = 0;
+                currentTextureString = "Sniper";
+            }
+
+            else if (keyboardState.IsKeyDown(Keys.NumPad5))
+            {
+                weapon.weaponId = 1;
+                currentTextureString = "AK47";
+            }
+
+            else if (keyboardState.IsKeyDown(Keys.NumPad6))
+            {
+                weapon.weaponId = 2;
+                currentTextureString = "M4A1";
+
+            }
+            weaponTexture = Content.Load<Texture2D>(currentTextureString);
+
+            #endregion
 
 
             //Debug.WriteLine(box.Position);
             prevKeyboardState = keyboardState;
             world.Step(0.033333f);
-            
+
             base.Update(gameTime);
         }
 
@@ -186,20 +228,20 @@ namespace Athyl
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-           // spriteBatch.Begin();
-           // box.Draw(spriteBatch);
-           // spriteBatch.End();
+            // spriteBatch.Begin();
+            // box.Draw(spriteBatch);
+            // spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-
+          
             player.Draw(spriteBatch);
-
+            spriteBatch.Draw(weaponTexture, new Vector2(player.torso.Position.X - 18,player.torso.Position.Y - 10), Color.White); 
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
 
             floor.Draw(spriteBatch);
            // map.Draw(spriteBatch);
             spriteBatch.End();
-     
+
 
             base.Draw(gameTime);
         }
