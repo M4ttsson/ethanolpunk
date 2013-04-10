@@ -19,6 +19,7 @@ namespace Athyl
     class Map
     {
         List<DrawableGameObject> ground = new List<DrawableGameObject>();
+        DrawableGameObject onetile;
 
         public Map(World world, Texture2D texture)
         {
@@ -29,11 +30,16 @@ namespace Athyl
                 floor.body.BodyType = BodyType.Static;
                 ground.Add(floor);
             }
+           /* DrawableGameObject test = new DrawableGameObject(world, texture, new Vector2(40, 40), 100, "ground");
+            test.Position = new Vector2(300, 680);
+            test.body.BodyType = BodyType.Static;
+            onetile = test;*/
         }
 
         public void Draw(SpriteBatch spriteBatch){
             foreach (DrawableGameObject dgo in ground)
                 dgo.Draw(spriteBatch);
+           // onetile.Draw(spriteBatch);
         }
 
     }
