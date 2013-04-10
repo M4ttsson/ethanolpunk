@@ -17,13 +17,11 @@ namespace Athyl
 {
     class Weapons
     {
-
         int bulletSpeed;
-        int weaponId;
         int clipAmmo;
         float reloadSpeed;
         float bulletSpread;
-
+        public int weaponId;
         //Hits per Second
         float meleeAtkSpeed;
         
@@ -32,12 +30,24 @@ namespace Athyl
 
         public Weapons()
         {
-
+            bulletSpeed = 0;
+            clipAmmo = 0;
+            reloadSpeed = 0;
+            bulletSpread = 0;
+            meleeAtkSpeed = 0;
+            hasPiercing = false;
         }
 
-
-        public void shootBullet(DrawableGameObject weapon)
+        public Weapons(int weaponId, Texture2D Texture, Vector2 position)
         {
+            this.weaponId = weaponId;
+
+            if (weaponId == 0)
+                sniper_r700();
+            else if (weaponId == 1)
+                assaultRifle_ak47();
+            else if (weaponId == 2)
+                furiousFisting();
 
         }
 
@@ -47,6 +57,7 @@ namespace Athyl
             clipAmmo = 6;
             reloadSpeed = 0.8f;
             bulletSpread = 0.5f;
+            
             /*
              * if(shotHasBeenFired() == true && clipAmmo != 0)
                {
@@ -54,28 +65,28 @@ namespace Athyl
              *      reload();
              * }
              * 
-             * if(clipAmmo == 0)
-             * {
-             *     reloadTotal();
-             * }
              * 
              * */
         }
 
-        
-        public void assaultRifle_m4a1()
-        {
-
-        }
-
         public void assaultRifle_ak47()
         {
-
+            bulletSpeed = 275;
+            clipAmmo = 31;
+            reloadSpeed = 2.5f;
+            bulletSpread = 1.5f;
         }
 
         public void furiousFisting()
         {
-            meleeAtkSpeed = 3;
+
+            bulletSpeed = 100;
+            reloadSpeed = -1;
+            clipAmmo = -1;
+            bulletSpread = 1.5f;
+
         }
+
+
     }
 }
