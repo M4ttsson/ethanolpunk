@@ -41,6 +41,8 @@ namespace Athyl
         DrawableGameObject box;
         Texture2D texture;
 
+        Sounds music;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this)
@@ -80,16 +82,18 @@ namespace Athyl
 
            // map = new Map(world, Content.Load<Texture2D>("middleground"));
 
+
            
             //map = new Map(world, Content.Load<Texture2D>("middleground"));
-
-
 
             debugView = new DebugViewXNA(world);
             debugView.LoadContent(GraphicsDevice, Content);
             texture = Content.Load<Texture2D>("testat");
             //weaponTexture = Content.Load<Texture2D>(currentTextureString);
             
+            music = new Sounds(this);
+            music.Play("castlevagina");
+
             floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000, "ground");
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
             floor.body.BodyType = BodyType.Static;
@@ -220,6 +224,7 @@ namespace Athyl
 
             floor.Draw(spriteBatch);
             //map.Draw(spriteBatch);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
