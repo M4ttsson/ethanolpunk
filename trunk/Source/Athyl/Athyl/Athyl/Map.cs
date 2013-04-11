@@ -18,7 +18,7 @@ namespace Athyl
 {
     class Map
     {
-        List<DrawableGameObject> ground = new List<DrawableGameObject>();
+        private List<DrawableGameObject> ground = new List<DrawableGameObject>();
         DrawableGameObject onetile;
 
         public Map(World world, Texture2D texture)
