@@ -102,11 +102,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RunningDummy.tga">
-      <Name>RunningDummy</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="RunningDummyEnemy.tga">
       <Name>RunningDummyEnemy</Name>
       <Importer>TextureImporter</Importer>
@@ -137,6 +132,13 @@
   <ItemGroup>
     <Compile Include="Sky.png">
       <Name>Sky</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="RunningDummy.tga">
+      <Name>RunningDummy</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
