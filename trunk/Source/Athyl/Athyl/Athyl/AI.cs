@@ -19,6 +19,12 @@ namespace Athyl
 {
     class AI
     {
+        private int framecount;
+        private Texture2D myTexture;
+        private float TimePerFrame;
+        private int Frame;
+        private float TotalElapsed;
+        private int runDirection;
 
         public DrawableGameObject enemyBody;
         DrawableGameObject wheel;
@@ -30,18 +36,18 @@ namespace Athyl
 
         public AI(World world, Texture2D texture, Vector2 size, float mass, float wheelSize)
         {
-            Vector2 torsoSize = new Vector2(size.X, size.Y - size.X / 2.0f);
-
+            Load(texture, 22, 1);
+            Vector2 torsoSize = new Vector2(size.X, size.Y);
 
             //create torso
-            enemyBody = new DrawableGameObject(world, texture, mass / 2.0f, "enemy");
-            enemyBody.Position = new Vector2(randomX.Next(50, 600), 50);
+            enemyBody = new DrawableGameObject(world, texture, mass, "enemy");
+            enemyBody.Position = new Vector2(randomX.Next(50, 600), 0);
             enemyBody.body.Restitution = 0;
 
 
             // Create the feet of the body, here implemented as high friction wheels 
             wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f, "enemy");
-            wheel.Position = enemyBody.Position + new Vector2(0, torsoSize.Y / 2.0f);
+            wheel.Position = enemyBody.Position + new Vector2(torsoSize.X, torsoSize.Y/2);
             wheel.body.Friction = 3.0f;
             wheel.body.Restitution = 0;
             
@@ -84,18 +90,30 @@ namespace Athyl
         {
             if (!hit)
             {
-                if (enemyBody.Position.X < aPlayer.torso.Position.X)
+                if (((int)enemyBody.Position.X - (int)aPlayer.torso.Position.X) < -250)
                 {
+                    axis.MotorSpeed = 0;
+                    UpdateFrame(0.2f);
+                }
 
+                else if (((int)enemyBody.Position.X - (int)aPlayer.torso.Position.X) > 250)
+                {
+                    axis.MotorSpeed = 0;
+                    UpdateFrame(0.2f);
+                }
+
+                else if (enemyBody.Position.X < aPlayer.torso.Position.X)
+                {
                     axis.MotorSpeed = MathHelper.TwoPi * speed;
+                    UpdateFrame(0.2f);
                 }
 
                 else if (enemyBody.Position.X > aPlayer.torso.Position.X)
                 {
                     axis.MotorSpeed = -MathHelper.TwoPi * speed;
-
+                    UpdateFrame(0.2f);
                 }
-            } 
+            }
         }
 
         public void attackPlayer()
@@ -111,9 +129,73 @@ namespace Athyl
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            enemyBody.Draw(spriteBatch, new Vector2(enemyBody.Size.X, enemyBody.Size.Y + wheel.Size.Y));
+            DrawFrame(spriteBatch, wheel.Position + new Vector2(-55.0f/2, -110));
+            //enemyBody.Draw(spriteBatch, new Vector2(enemyBody.Size.X, enemyBody.Size.Y + wheel.Size.Y));
             //wheel.Draw(spriteBatch);
         }
+        public void Load(Texture2D texture, int FrameCount, int FramesPerSec)
+        {
+            framecount = FrameCount;
+            myTexture = texture;
+            TimePerFrame = (float)1 / FramesPerSec;
+            Frame = 11;
+            TotalElapsed = 0;
+        }
 
+        public void UpdateFrame(float elapsed)
+        {
+            if (axis.MotorSpeed > 0)
+            {
+                if (Frame < 11)
+                    Frame = 12;
+
+                TotalElapsed += elapsed;
+                if (TotalElapsed > TimePerFrame)
+                {
+                    Frame++;
+                    if (Frame == 22)
+                        Frame = 12;
+                    TotalElapsed -= TimePerFrame;
+                    runDirection = (int)axis.MotorSpeed;
+                }
+            }
+
+            else if (axis.MotorSpeed < 0)
+            {
+                if (Frame > 11)
+                    Frame = 9;
+
+                TotalElapsed += elapsed;
+                if (TotalElapsed > TimePerFrame)
+                {
+                    Frame--;
+                    if (Frame == 0)
+                        Frame = 9;
+                    TotalElapsed -= TimePerFrame;
+                    runDirection = (int)axis.MotorSpeed;
+                }
+            }
+
+            else if (axis.MotorSpeed == 0)
+            {
+                if (runDirection > 0)
+                    Frame = 11;
+                else if (runDirection < 0)
+                    Frame = 10;
+            }
+        }
+
+        public void DrawFrame(SpriteBatch Batch, Vector2 screenpos)
+        {
+            DrawFrame(Batch, Frame, screenpos);
+        }
+        public void DrawFrame(SpriteBatch Batch, int Frame, Vector2 screenpos)
+        {
+            int FrameWidth = myTexture.Width / framecount;
+            Rectangle sourcerect = new Rectangle(FrameWidth * Frame, 0,
+                FrameWidth, myTexture.Height);
+            Batch.Draw(myTexture, screenpos, sourcerect, Color.White,
+                0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
+        }
     }
 }
