@@ -45,6 +45,9 @@ namespace Athyl
 
         Sounds music;
 
+        private bool paused = false;
+        
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this)
@@ -201,7 +204,22 @@ namespace Athyl
                 //theAI.Add(new AI(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20));
             }
 
+            if (keyboardState.IsKeyDown(Keys.M) && paused == false)
+            {
+                music.Pause();
+                paused = true;
+            }
+
+            else if(keyboardState.IsKeyDown(Keys.M) && paused == true)
+            {
+                music.Resume();
+                paused = false;
+            }
+
+             
+
             weapon.UpdateWeapon(gameTime, this, player);
+
             foreach (AI ai in theAI)
             {
                 ai.UpdateEnemy(player);
