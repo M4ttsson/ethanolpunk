@@ -30,13 +30,13 @@ namespace Athyl
         //Hits per Second
         float meleeAtkSpeed;
         bool hasPiercing;
-
+        DrawableGameObject drawGame;
 
         public Weapons()
         {
 
 
-
+            //drawGame = new DrawableGameObject
             bulletSpeed = 0;
             clipAmmo = 0;
             reloadSpeed = 0;
@@ -44,8 +44,7 @@ namespace Athyl
             meleeAtkSpeed = 0;
             hasPiercing = false;
             weaponId = 1;
-
-
+            //weaponBody  =
 
         }
         public Weapons( World world, Game1 game, int weaponIdParam, Texture2D Texture) // Vector2 position
@@ -58,13 +57,13 @@ namespace Athyl
                 assaultRifle_ak47();
             else if (weaponIdParam == 2)
                 furiousFisting();
-/*
+            /*
             weaponBody.BodyType = BodyType.Dynamic;
             weaponBody.IsBullet = true;
             weaponBody.Position.Equals(weaponTexture);
             weaponBody.ApplyAngularImpulse(bulletSpeed);
             weaponBody.IsSensor = true;
- */
+            */
 
             Texture = game.Content.Load<Texture2D>(currentTextureString);
             weaponTexture = Texture;
