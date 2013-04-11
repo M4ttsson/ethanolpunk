@@ -97,9 +97,9 @@ namespace Athyl
             music = new Sounds(this);
             music.Play("castlevagina");
 
-            floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000, "ground");
+            /*floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000, "ground");
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
-            floor.body.BodyType = BodyType.Static;
+            floor.body.BodyType = BodyType.Static;*/
             weapon = new Weapons(world, this, weapon.weaponId, weapon.weaponTexture);
 
 
@@ -249,7 +249,7 @@ namespace Athyl
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
 
-            floor.Draw(spriteBatch);
+            //floor.Draw(spriteBatch);
             /*wallleft.Draw(spriteBatch);
             wallright.Draw(spriteBatch);*/
             map.Draw(spriteBatch);
