@@ -122,6 +122,7 @@
     <Compile Include="DrawableGameObject.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Projectile.cs" />

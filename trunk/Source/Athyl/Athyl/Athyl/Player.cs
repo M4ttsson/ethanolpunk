@@ -20,6 +20,9 @@ namespace Athyl
 {
     class Player
     {
+        
+        public DrawableGameObject torso;
+
         private int framecount;
         private Texture2D myTexture;
         private float TimePerFrame;
@@ -28,7 +31,8 @@ namespace Athyl
         private KeyboardState KBstate;
         private int hashCode = 0;
 
-        public DrawableGameObject torso;
+        //public DrawableGameObject torso;
+
         DrawableGameObject wheel;
         RevoluteJoint axis;
 
@@ -62,7 +66,7 @@ namespace Athyl
             // Create the feet of the body, here implemented as high friction wheels 
             wheel = new DrawableGameObject(world, texture, wheelSize, mass, "player");
             wheel.Position = torso.Position + new Vector2(torsoSize.X, torsoSize.Y/2);
-            wheel.body.Friction = 3.0f;
+            wheel.body.Friction = 10000f;
             wheel.body.Restitution = 0;
 
             // Create a joint to keep the torso upright
