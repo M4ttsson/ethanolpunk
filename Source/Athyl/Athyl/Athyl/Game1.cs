@@ -82,7 +82,7 @@ namespace Athyl
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
 
-            map = new Map(world, Content.Load<Texture2D>("middleground"));
+           // map = new Map(world, Content.Load<Texture2D>("middleground"));
 
 
            
@@ -100,13 +100,13 @@ namespace Athyl
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
             floor.body.BodyType = BodyType.Static;
 
-            wallleft = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
+           /* wallleft = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
             wallleft.Position = new Vector2(0, GraphicsDevice.Viewport.Height / 2.0f);
-            wallleft.body.BodyType = BodyType.Static;
+            wallleft.body.BodyType = BodyType.Static;*/
 
-            wallright = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
+           /* wallright = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
             wallright.Position = new Vector2(GraphicsDevice.Viewport.Width - 50, GraphicsDevice.Viewport.Height / 2.0f);
-            wallright.body.BodyType = BodyType.Static;
+            wallright.body.BodyType = BodyType.Static;*/
 
             weapon = new Weapons(this, weapon.weaponId, weapon.weaponTexture);
             //weapon = new Weapons(0, Content.Load<Texture2D>(currentTextureString), new Vector2(50, 50));
@@ -232,10 +232,10 @@ namespace Athyl
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
 
-            /*floor.Draw(spriteBatch);
-            wallleft.Draw(spriteBatch);
+            floor.Draw(spriteBatch);
+            /*wallleft.Draw(spriteBatch);
             wallright.Draw(spriteBatch);*/
-            map.Draw(spriteBatch);
+            //map.Draw(spriteBatch);
 
             spriteBatch.End();
 
