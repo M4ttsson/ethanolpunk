@@ -5,21 +5,102 @@ using System.Text;
 
 namespace Athyl
 {
-    class Skilltree
+    class Skilltree : Weapons
     {
+        Player playerInfo;
+        float fireBreathDamage;
+        float fireBreathDPS;
+        float fireBurstDamage;
+        float fireBurstDuration;
+        float shieldHP;
+        float shieldDuration;
+
+
+
+        #region MeleeStance
 
         public void fireBreath()
         {
+
         }
 
+        public void increaseAtkSpd()
+        {
+
+        }
+
+        public void increaseMovementSpd()
+        {
+        }
+
+        public void increaseJumpHeight()
+        {
+        }
+
+
+
+
+        #endregion
+
+        #region MidRange
         public void fireBurst()
         {
         }
 
+        //rate of fire
+        public void increaseROF()
+        {
+        }
+
+        //reloadspeed
+        public void decreaseRLDSPD()
+        {
+        }
+
+        public void increaseAmmoCap()
+        {
+
+        }
+
+        public void bulletPenetration()
+        {
+        }
+        #endregion
+
+        #region Longrange
         public void shield()
         {
 
         }
+
+        public void LaserSight()
+        {
+        }
+
+        public void increaseSniperAmmo()
+        {
+        }
+
+        public void increaseSniperMovSpd()
+        {
+        }
+
+        public void shieldCdReduce()
+        {
+        }
+
+        public void sniperAccuracy()
+        {
+        }
+
+        public void headshotBonus()
+        {
+        }
+
+
+
+        #endregion
+
 
 
 
