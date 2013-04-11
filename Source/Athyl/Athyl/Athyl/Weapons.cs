@@ -21,7 +21,7 @@ namespace Athyl
         Vector2 weaponPosition;
         public Texture2D weaponTexture;
         string currentTextureString = "AK47";
-
+        Body weaponBody;
         int bulletSpeed;
         int clipAmmo;
         float reloadSpeed;
@@ -29,12 +29,14 @@ namespace Athyl
         public int weaponId;
         //Hits per Second
         float meleeAtkSpeed;
-        
         bool hasPiercing;
 
 
         public Weapons()
         {
+
+
+
             bulletSpeed = 0;
             clipAmmo = 0;
             reloadSpeed = 0;
@@ -42,9 +44,11 @@ namespace Athyl
             meleeAtkSpeed = 0;
             hasPiercing = false;
             weaponId = 1;
-        }
 
-        public Weapons(Game1 game, int weaponIdParam, Texture2D Texture) // Vector2 position
+
+
+        }
+        public Weapons( World world, Game1 game, int weaponIdParam, Texture2D Texture) // Vector2 position
         {
             this.weaponId = weaponIdParam;
 
@@ -54,7 +58,14 @@ namespace Athyl
                 assaultRifle_ak47();
             else if (weaponIdParam == 2)
                 furiousFisting();
-            
+/*
+            weaponBody.BodyType = BodyType.Dynamic;
+            weaponBody.IsBullet = true;
+            weaponBody.Position.Equals(weaponTexture);
+            weaponBody.ApplyAngularImpulse(bulletSpeed);
+            weaponBody.IsSensor = true;
+ */
+
             Texture = game.Content.Load<Texture2D>(currentTextureString);
             weaponTexture = Texture;
             Console.WriteLine(currentTextureString);
@@ -97,6 +108,7 @@ namespace Athyl
 
         public void furiousFisting()
         {
+            currentTextureString = "FuriousFist";
             bulletSpeed = 100;
             reloadSpeed = -1;
             clipAmmo = -1;
@@ -107,8 +119,14 @@ namespace Athyl
 
         public void UpdateWeapon(GameTime gameTime, Game1 game, Player player)
         {
+            
+
             KeyboardState kbState = Keyboard.GetState();
 
+            if (kbState.IsKeyDown(Keys.P))
+            {
+                weaponBody.ApplyAngularImpulse(bulletSpeed);
+            }
 
             changeTexture(game, weaponTexture); 
             if (kbState.IsKeyDown(Keys.D1))
@@ -124,10 +142,10 @@ namespace Athyl
             else if (kbState.IsKeyDown(Keys.D3))
             {
 
-               // weaponId = 2;
-               // currentTextureString = "M4A1";
+                furiousFisting();
 
             }
+
             weaponPosition.X = player.torso.Position.X + 30;
             weaponPosition.Y = player.torso.Position.Y;
         }
