@@ -98,13 +98,12 @@ namespace Athyl
 
             weapon = new Weapons(0, Content.Load<Texture2D>(currentTextureString), new Vector2(50, 50));
 
-            player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
+            //player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
+            player = new Player(world, Content.Load<Texture2D>("RunningDummy"), new Vector2(55, 120), 100, 20, new Vector2(430, 0));
 
 
            // world.ContactManager.OnBroadphaseCollision += OnBroadPhaseCollision;
             //world.ContactManager.EndContact += OnBroadPhaseCollision;
-            
-
             
         }
 
@@ -128,14 +127,16 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            weaponPosition.X = player.torso.Position.X - 10;
-            weaponPosition.Y = player.torso.Position.Y - 10;
+            weaponPosition.X = player.torso.Position.X;
+            weaponPosition.Y = player.torso.Position.Y;
 
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
+
+            
 
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -164,7 +165,6 @@ namespace Athyl
                 player.Jump();
             }
 
-
             if (keyboardState.IsKeyDown(Keys.Left))
             {
                 player.Move(Player.Movement.Left);
@@ -180,16 +180,19 @@ namespace Athyl
 
             if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 0.95f)
             {
+                theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), 100, 20));
 
-                theAI.Add(new AI(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20));
+                //Debug.WriteLine(theAI[0].enemyBody.Position.X + " Ai\n");
+
+                //Debug.WriteLine(player.torso.Position.X + " Player\n");
+                //theAI.Add(new AI(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20));
             }
 
 
             foreach (AI ai in theAI)
-    {
+            {
                 ai.UpdateEnemy(player);
-    }
-
+            }
 
             #region Textures
             //Vapenladdning
@@ -245,7 +248,6 @@ namespace Athyl
             floor.Draw(spriteBatch);
             //map.Draw(spriteBatch);
             spriteBatch.End();
-
 
             base.Draw(gameTime);
         }
