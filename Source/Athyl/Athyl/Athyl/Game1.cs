@@ -38,6 +38,8 @@ namespace Athyl
         //tests
         Map map;
         DrawableGameObject floor;
+        DrawableGameObject wallright;
+        DrawableGameObject wallleft;
         DrawableGameObject box;
         Texture2D texture;
 
@@ -97,6 +99,15 @@ namespace Athyl
             floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000, "ground");
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
             floor.body.BodyType = BodyType.Static;
+
+            wallleft = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
+            wallleft.Position = new Vector2(0, GraphicsDevice.Viewport.Height / 2.0f);
+            wallleft.body.BodyType = BodyType.Static;
+
+            wallright = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
+            wallright.Position = new Vector2(GraphicsDevice.Viewport.Width - 50, GraphicsDevice.Viewport.Height / 2.0f);
+            wallright.body.BodyType = BodyType.Static;
+
             weapon = new Weapons(this, weapon.weaponId, weapon.weaponTexture);
             //weapon = new Weapons(0, Content.Load<Texture2D>(currentTextureString), new Vector2(50, 50));
 
@@ -222,6 +233,8 @@ namespace Athyl
                 ai.Draw(spriteBatch);
 
             floor.Draw(spriteBatch);
+            wallleft.Draw(spriteBatch);
+
             //map.Draw(spriteBatch);
 
             spriteBatch.End();
