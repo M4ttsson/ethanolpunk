@@ -42,7 +42,7 @@ namespace Athyl
         DrawableGameObject wallleft;
         DrawableGameObject box;
         Texture2D texture;
-
+        Texture2D skyTexture;
         Sounds music;
 
         private bool paused = false;
@@ -115,7 +115,7 @@ namespace Athyl
 
             //player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
             player = new Player(world, Content.Load<Texture2D>("RunningDummy"), new Vector2(55, 120), 100, 20, new Vector2(430, 0));
-
+            skyTexture = Content.Load<Texture2D>("Sky");
 
            // world.ContactManager.OnBroadphaseCollision += OnBroadPhaseCollision;
             //world.ContactManager.EndContact += OnBroadPhaseCollision;
@@ -150,7 +150,7 @@ namespace Athyl
                 Exit();
             }
 
-            
+            Console.WriteLine(theAI.Count);
 
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -192,7 +192,7 @@ namespace Athyl
                 player.Move(Player.Movement.Stop);
             }
 
-            if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 0.95f)
+            if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 1.2f)
             {
                 theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), 100, 20));
 
@@ -242,7 +242,7 @@ namespace Athyl
             // box.Draw(spriteBatch);
             // spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-            
+            spriteBatch.Draw(skyTexture, new Vector2(0, 0), Color.Wheat);
             player.Draw(spriteBatch);
             weapon.DrawWeapon(spriteBatch);
             //spriteBatch.Draw(weaponTexture, new Vector2(player.torso.Position.X - 18,player.torso.Position.Y - 10), Color.White); 

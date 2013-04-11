@@ -40,14 +40,14 @@ namespace Athyl
 
         DateTime previousJump;
         const float jumpInterval = 0.5f;
-        Vector2 jumpForce = new Vector2(0, -1.5f);
+        Vector2 jumpForce = new Vector2(0, -2f);
         Texture2D projectile;
         
         bool OnGround;
 
         List<DrawableGameObject> shots = new List<DrawableGameObject>();
 
-        const float speed = 3.0f;
+        const float speed = 6.0f;
 
         public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition)
         {
@@ -117,7 +117,7 @@ namespace Athyl
                 if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground")
                 {
                     OnGround = true;
-                    Debug.WriteLine(OnGround);
+                    //Debug.WriteLine(OnGround);
                     return true;
                 }
             }

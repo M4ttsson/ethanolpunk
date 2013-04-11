@@ -133,7 +133,7 @@ namespace Athyl
                  (int)Size.Y
              );
             
-             spriteBatch.Draw(texture, destination, null, Color.White, body.Rotation, new Vector2(texture.Width / 2.0f, texture.Height / 2.0f), SpriteEffects.None, 0);
+             spriteBatch.Draw(texture, destination, null, Color.Wheat, body.Rotation, new Vector2(texture.Width / 2.0f, texture.Height / 2.0f), SpriteEffects.None, 0);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Athyl
                  (int)Size.X,
                  (int)Size.Y
              );
-             spriteBatch.Draw(texture, destination, null, Color.White, body.Rotation, new Vector2(texture.Width / 2.0f, texture.Height / 2.0f), SpriteEffects.None, 0);
+             spriteBatch.Draw(texture, destination, null, Color.Wheat, body.Rotation, new Vector2(texture.Width / 2.0f, texture.Height / 2.0f), SpriteEffects.None, 0);
         }
     }
 }
