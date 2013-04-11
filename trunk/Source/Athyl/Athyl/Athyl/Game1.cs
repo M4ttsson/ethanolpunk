@@ -99,16 +99,17 @@ namespace Athyl
             floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000, "ground");
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
             floor.body.BodyType = BodyType.Static;
+            weapon = new Weapons(world, this, weapon.weaponId, weapon.weaponTexture);
+
 
            /* wallleft = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
-            wallleft.Position = new Vector2(0, GraphicsDevice.Viewport.Height / 2.0f);
+            wallleft.Position = new Vector2(0, GraphicsDevice.Viewport.Height / 2.0f); 
             wallleft.body.BodyType = BodyType.Static;*/
 
            /* wallright = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
             wallright.Position = new Vector2(GraphicsDevice.Viewport.Width - 50, GraphicsDevice.Viewport.Height / 2.0f);
             wallright.body.BodyType = BodyType.Static;*/
 
-            weapon = new Weapons(this, weapon.weaponId, weapon.weaponTexture);
             //weapon = new Weapons(0, Content.Load<Texture2D>(currentTextureString), new Vector2(50, 50));
 
             //player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
