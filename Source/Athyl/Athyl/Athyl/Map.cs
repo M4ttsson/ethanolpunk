@@ -25,7 +25,7 @@ namespace Athyl
         {
             for (int i = 0; i < 32; i++)
             {
-                DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(40, 40), 100, "ground");
+                DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
                 floor.Position = new Vector2(i * 40 + 20, 700);
                 floor.body.BodyType = BodyType.Static;
                 ground.Add(floor);
