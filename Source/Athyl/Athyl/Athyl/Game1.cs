@@ -161,7 +161,6 @@ namespace Athyl
                     return fr;
             }, point1, point2);*/
 
-            weapon.UpdateWeapon(gameTime);
             if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
             {
                 player.Jump();
@@ -190,7 +189,7 @@ namespace Athyl
                 //theAI.Add(new AI(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20));
             }
 
-
+            weapon.UpdateWeapon(gameTime, this, player);
             foreach (AI ai in theAI)
             {
                 ai.UpdateEnemy(player);

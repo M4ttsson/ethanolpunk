@@ -41,11 +41,12 @@ namespace Athyl
             bulletSpread = 0;
             meleeAtkSpeed = 0;
             hasPiercing = false;
+            weaponId = 1;
         }
 
         public Weapons(Game1 game, int weaponIdParam, Texture2D Texture) // Vector2 position
         {
-            weaponIdParam = this.weaponId;
+            this.weaponId = weaponIdParam;
 
             if (weaponIdParam == 0)
                 sniper_r700();
@@ -56,9 +57,15 @@ namespace Athyl
             
             Texture = game.Content.Load<Texture2D>(currentTextureString);
             weaponTexture = Texture;
+            Console.WriteLine(currentTextureString);
 
         }
 
+        public void changeTexture(Game1 game, Texture2D Texture)
+        {
+            Texture = game.Content.Load<Texture2D>(currentTextureString);
+            weaponTexture = Texture;
+        }
         public void sniper_r700()
         {
             currentTextureString = "Sniper";
@@ -98,25 +105,19 @@ namespace Athyl
         }
 
 
-
-
-
-        public void UpdateWeapon(GameTime gameTime)
+        public void UpdateWeapon(GameTime gameTime, Game1 game, Player player)
         {
             KeyboardState kbState = Keyboard.GetState();
 
-            //weaponPosition.X = player.torso.Position.X;
-            //weaponPosition.Y = player.torso.Position.Y;
 
+            changeTexture(game, weaponTexture); 
             if (kbState.IsKeyDown(Keys.D1))
             {
-                weaponId = 0;
                 sniper_r700();
             }
 
             else if (kbState.IsKeyDown(Keys.D2))
             {
-                weaponId = 1;
                 assaultRifle_ak47();
             }
 
@@ -127,7 +128,8 @@ namespace Athyl
                // currentTextureString = "M4A1";
 
             }
-
+            weaponPosition.X = player.torso.Position.X + 30;
+            weaponPosition.Y = player.torso.Position.Y;
         }
 
 
