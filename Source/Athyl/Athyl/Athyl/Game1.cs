@@ -93,8 +93,8 @@ namespace Athyl
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
 
+              
             
-
             map = new Map(world, Content.Load<Texture2D>("middleground"));
 
             debugView = new DebugViewXNA(world);
