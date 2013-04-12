@@ -103,7 +103,7 @@ namespace Athyl
             //weaponTexture = Content.Load<Texture2D>(currentTextureString);
             
             music = new Sounds(this);
-            music.Play("castlevagina");
+            music.Play("Title");
             //music.Stop();
 
             /*floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000, "ground");
