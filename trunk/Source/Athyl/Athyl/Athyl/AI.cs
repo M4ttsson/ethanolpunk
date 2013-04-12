@@ -117,26 +117,30 @@ namespace Athyl
                     UpdateFrame(0.2f);
                 }
 
-                else if (enemyBody.Position.X > aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y)
+                if (enemyBody.Position.X > aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y)
                 {
-                    if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
-                    {
-                        axis.MotorSpeed = -MathHelper.TwoPi * speed;
-                        enemyBody.body.ApplyLinearImpulse(jumpForce);
-                        previousJump = DateTime.Now;
-                        UpdateFrame(0.2f);
-                    }
+                    
+                        if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
+                        {
+                            axis.MotorSpeed = -MathHelper.TwoPi * speed;
+                            enemyBody.body.ApplyLinearImpulse(jumpForce);
+                            previousJump = DateTime.Now;
+                            UpdateFrame(0.2f);
+                        }
+                    
                 }
 
                 else if (enemyBody.Position.X < aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y)
                 {
-                    if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
-                    {
-                        axis.MotorSpeed = MathHelper.TwoPi * speed;
-                        enemyBody.body.ApplyLinearImpulse(jumpForce);
-                        previousJump = DateTime.Now;
-                        UpdateFrame(0.2f);
-                    }
+                    
+                        if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
+                        {
+                            axis.MotorSpeed = MathHelper.TwoPi * speed;
+                            enemyBody.body.ApplyLinearImpulse(jumpForce);
+                            previousJump = DateTime.Now;
+                            UpdateFrame(0.2f);
+                        }
+                    
                 }
             }
         }
