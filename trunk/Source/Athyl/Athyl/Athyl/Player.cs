@@ -39,7 +39,7 @@ namespace Athyl
 
         public enum stance { melee, midRange, longRange };
 
-        Vector2 jumpForce = new Vector2(0, -2.5f);
+        Vector2 jumpForce = new Vector2(0, -1.9f);
 
         Texture2D projectile;
 
