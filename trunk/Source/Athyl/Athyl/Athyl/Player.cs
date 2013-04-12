@@ -66,7 +66,7 @@ namespace Athyl
             torso.body.Restitution = 0;
 
             // Create the feet of the body, here implemented as high friction wheels 
-            wheel = new DrawableGameObject(world, texture, torsoSize.X/2, mass, "wheel");
+            wheel = new DrawableGameObject(world, texture, wheelSize, mass, "wheel");
             wheel.Position = torso.Position + new Vector2(torsoSize.X, torsoSize.Y/2);
             wheel.body.Friction = 10000f;
             wheel.body.Restitution = 0;
@@ -184,10 +184,10 @@ namespace Athyl
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            DrawFrame(spriteBatch, wheel.Position + new Vector2(-55.0f/2, -110.0f));
-
-            //torso.Draw(spriteBatch);//, new Vector2(torso.Size.X, torso.Size.Y));
-            //wheel.Draw(spriteBatch);
+            //DrawFrame(spriteBatch, wheel.Position + new Vector2(-115.0f, -110.0f));
+            DrawFrame(spriteBatch, new Vector2(torso.Position.X, torso.Position.Y - torso.Size.Y/2));
+            torso.Draw(spriteBatch);//, new Vector2(torso.Size.X, torso.Size.Y));
+            wheel.Draw(spriteBatch);
         }
 
         public void Load(Texture2D texture, int FrameCount, int FramesPerSec)
