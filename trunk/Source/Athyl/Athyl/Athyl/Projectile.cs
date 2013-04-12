@@ -17,11 +17,32 @@ namespace Athyl
 {
     class Projectile
     {
-        int projectileVelocity;
-        Vector2 projectileDirection;
+        private int projectileVelocity;
+        private Vector2 projectileDirection;
+        private float damage;
+        public enum projectiletype { small, medium, large }
 
-        public Projectile()
+        public Projectile(projectiletype type)
         {
+            if (type == projectiletype.small)
+            {
+                projectileVelocity = 5;
+                damage = 10;
+
+                
+            }
+
+            else if (type == projectiletype.medium)
+            {
+                projectileVelocity = 10;
+                damage = 20;
+            }
+
+            else if (type == projectiletype.large)
+            {
+                projectileVelocity = 15;
+                damage = 30;
+            }
         }
 
 
