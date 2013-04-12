@@ -31,6 +31,9 @@ namespace Athyl
         RevoluteJoint axis;
         const float speed = 1.0f;
         Random randomX = new Random(Environment.TickCount);
+        Vector2 jumpForce = new Vector2(0, -2f);
+        DateTime previousJump;
+        const float jumpInterval = 0.5f;
 
         bool hit = false;
 
@@ -112,6 +115,28 @@ namespace Athyl
                 {
                     axis.MotorSpeed = -MathHelper.TwoPi * speed;
                     UpdateFrame(0.2f);
+                }
+
+                else if (enemyBody.Position.X > aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y)
+                {
+                    if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
+                    {
+                        axis.MotorSpeed = -MathHelper.TwoPi * speed;
+                        enemyBody.body.ApplyLinearImpulse(jumpForce);
+                        previousJump = DateTime.Now;
+                        UpdateFrame(0.2f);
+                    }
+                }
+
+                else if (enemyBody.Position.X < aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y)
+                {
+                    if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
+                    {
+                        axis.MotorSpeed = MathHelper.TwoPi * speed;
+                        enemyBody.body.ApplyLinearImpulse(jumpForce);
+                        previousJump = DateTime.Now;
+                        UpdateFrame(0.2f);
+                    }
                 }
             }
         }
