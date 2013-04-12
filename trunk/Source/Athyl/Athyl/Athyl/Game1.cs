@@ -73,10 +73,13 @@ namespace Athyl
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
             weapon = new Weapons();
             IsMouseVisible = true;
             base.Initialize();
         }
+
+
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -91,8 +94,6 @@ namespace Athyl
             world = new World(new Vector2(0, 9.82f));
 
             map = new Map(world, Content.Load<Texture2D>("middleground"));
-
-
 
             debugView = new DebugViewXNA(world);
             debugView.LoadContent(GraphicsDevice, Content);
@@ -122,9 +123,37 @@ namespace Athyl
             player = new Player(world, Content.Load<Texture2D>("RunningDummy"), new Vector2(55, 120), 100, 20, new Vector2(430, 0));
             skyTexture = Content.Load<Texture2D>("Sky");
 
-           // world.ContactManager.OnBroadphaseCollision += OnBroadPhaseCollision;
-            //world.ContactManager.EndContact += OnBroadPhaseCollision;
-            
+            //foot contacts
+            world.ContactManager.BeginContact += BeginContact;
+            world.ContactManager.EndContact += EndContact;
+
+        }
+
+        private bool BeginContact(Contact contact)
+        {
+
+                if (contact.FixtureA.UserData.ToString() == "wheel")
+                {
+                    player.numFootContacts++;
+                }
+                if (contact.FixtureB.UserData.ToString() == "wheel")
+                {
+                    player.numFootContacts++;
+                }
+
+            return true;
+        }
+
+        private void EndContact(Contact contact)
+        {
+            if (contact.FixtureA.UserData.ToString() == "wheel")
+            {
+                player.numFootContacts--;
+            }
+            if (contact.FixtureB.UserData.ToString() == "wheel")
+            {
+                player.numFootContacts--;
+            }
         }
 
         public void OnBroadPhaseCollision(Contact contact)
@@ -147,7 +176,15 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
+            //check if player foot is touching the ground
+            if (player.numFootContacts < 1)
+            {
+                player.OnGround = false;
+            }
+            else
+            {
+                player.OnGround = true;
+            }
 
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -155,29 +192,7 @@ namespace Athyl
                 Exit();
             }
 
-            Console.WriteLine(theAI.Count);
-
             KeyboardState keyboardState = Keyboard.GetState();
-
-            /*Vector2 targetPosition;
-            float minFrac = float.MaxValue;
-            const float l = 11.0f;
-            Vector2 point1 = player.torso.Position;
-            Vector2 d = new Vector2(l * (float)Math.Cos(MathHelper.ToRadians(90)), l * (float)Math.Sin(MathHelper.ToRadians(90)));
-            Vector2 point2 = point1 + d;
-
-            Vector2 point = Vector2.Zero, normal = Vector2.Zero;
-
-            
-            world.RayCast((f, p, n, fr) =>
-            {
-                    if (fr < minFrac)
-                    {
-                        minFrac = fr;
-                        targetPosition = p;
-                    }
-                    return fr;
-            }, point1, point2);*/
 
             if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
             {
@@ -197,14 +212,10 @@ namespace Athyl
                 player.Move(Player.Movement.Stop);
             }
 
+
             if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 1.2f)
             {
                 theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), 100, 20));
-
-                //Debug.WriteLine(theAI[0].enemyBody.Position.X + " Ai\n");
-
-                //Debug.WriteLine(player.torso.Position.X + " Player\n");
-                //theAI.Add(new AI(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20));
             }
 
             if (keyboardState.IsKeyDown(Keys.M) && paused == false)
@@ -253,6 +264,7 @@ namespace Athyl
             //spriteBatch.Draw(weaponTexture, new Vector2(player.torso.Position.X - 18,player.torso.Position.Y - 10), Color.White); 
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
+
 
             //floor.Draw(spriteBatch);
             /*wallleft.Draw(spriteBatch);

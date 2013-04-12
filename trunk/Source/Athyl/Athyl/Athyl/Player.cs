@@ -35,19 +35,21 @@ namespace Athyl
 
         DrawableGameObject wheel;
         RevoluteJoint axis;
+        Body foot;
+
 
         public enum stance { melee, midRange, longRange };
 
-        DateTime previousJump;
-        const float jumpInterval = 0.5f;
-        Vector2 jumpForce = new Vector2(0, -2f);
+        Vector2 jumpForce = new Vector2(0, -2.5f);
+
         Texture2D projectile;
-        
-        bool OnGround;
+
+        public bool OnGround { get; set; }
+        public int numFootContacts { get; set; }
 
         List<DrawableGameObject> shots = new List<DrawableGameObject>();
 
-        const float speed = 6.0f;
+        const float speed = 3.0f;
 
         public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition)
         {
@@ -64,7 +66,7 @@ namespace Athyl
             torso.body.Restitution = 0;
 
             // Create the feet of the body, here implemented as high friction wheels 
-            wheel = new DrawableGameObject(world, texture, wheelSize, mass, "player");
+            wheel = new DrawableGameObject(world, texture, torsoSize.X/2, mass, "wheel");
             wheel.Position = torso.Position + new Vector2(torsoSize.X, torsoSize.Y/2);
             wheel.body.Friction = 10000f;
             wheel.body.Restitution = 0;
@@ -81,32 +83,20 @@ namespace Athyl
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
 
+            numFootContacts = 0;
+
+            //foot = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50), ConvertUnits.ToSimUnits(10), 1, "foot");
+            //foot.IsSensor = true;
+            //foot.Position = ConvertUnits.ToSimUnits(wheel.Position - new Vector2(0, wheelSize / 2 - 5));
+            //JointFactory.CreateWeldJoint(wheel.body, foot, wheel.Position - new Vector2(0, wheelSize / 2 - 5));
             
-            //torso.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
-
-            //torso.body.OnSeparation += new OnSeparationEventHandler(body_OnSeparation);
-
-            previousJump = DateTime.Now;
-        }
-
-        //Om den inte är på ett golv, sätt OnGround till false. Hur?
-
-        void body_OnSeparation(Fixture fixtureA, Fixture fixtureB)
-        {
-           // throw new NotImplementedException();
-            if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground")
-            {
-                OnGround = false;
-                Debug.WriteLine(OnGround);
-            }
         }
 
         public void Jump()
         {
-            if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
+            if (OnGround)
             {
                 torso.body.ApplyLinearImpulse(jumpForce);
-                previousJump = DateTime.Now;
             }
         }
 
@@ -130,23 +120,43 @@ namespace Athyl
             switch (movement)
             {
                 case Movement.Left:
-                    if(!OnGround)
+                    if (!OnGround)
                     {
-                        //torso.body.ApplyForce(new Vector2(-speed/2, 0));
+                        if (torso.body.LinearVelocity.X > 0)
+                        {
+                            torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
+                            torso.body.ApplyForce(new Vector2(-speed, 0));
+                        }
+                        else if (torso.body.LinearVelocity.X >= -speed)
+                        {
+                            torso.body.ApplyForce(new Vector2(-speed, 0));
+                        }
                     }
-                    //else
+                    else
+                    {
                         axis.MotorSpeed = -MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
+                    }
                     break;
 
                 case Movement.Right:
-                    if(!OnGround)
+                    if (!OnGround)
                     {
-                        //torso.body.ApplyForce(new Vector2(speed/2, 0));
+                        if (torso.body.LinearVelocity.X < 0)
+                        {
+                            torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
+                            torso.body.ApplyForce(new Vector2(speed, 0));
+                        }
+                        else if (torso.body.LinearVelocity.X <= speed)
+                        {
+                            torso.body.ApplyForce(new Vector2(speed, 0));
+                        }
                     }
-                    //else
+                    else
+                    {
                         axis.MotorSpeed = MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
+                    }
                     break;
 
                 case Movement.Stop:
