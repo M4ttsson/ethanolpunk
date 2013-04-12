@@ -50,7 +50,7 @@ namespace Athyl
 
             // Create the feet of the body, here implemented as high friction wheels 
             wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f, "enemy");
-            wheel.Position = enemyBody.Position + new Vector2(torsoSize.X, torsoSize.Y/2);
+            wheel.Position = enemyBody.Position + new Vector2(0, torsoSize.Y/2);
             wheel.body.Friction = 3.0f;
             wheel.body.Restitution = 0;
             

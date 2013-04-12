@@ -185,9 +185,9 @@ namespace Athyl
         public void Draw(SpriteBatch spriteBatch)
         {
             DrawFrame(spriteBatch, wheel.Position + new Vector2(-55/2, -110.0f));
-           // DrawFrame(spriteBatch, new Vector2(torso.Position.X, torso.Position.Y - torso.Size.Y/2));
+            //DrawFrame(spriteBatch, new Vector2(torso.Position.X, torso.Position.Y - torso.Size.Y/2));
             //torso.Draw(spriteBatch);//, new Vector2(torso.Size.X, torso.Size.Y));
-            wheel.Draw(spriteBatch);
+            //wheel.Draw(spriteBatch);
         }
 
         public void Load(Texture2D texture, int FrameCount, int FramesPerSec)
