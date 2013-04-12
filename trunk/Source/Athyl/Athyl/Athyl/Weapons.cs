@@ -18,10 +18,10 @@ namespace Athyl
     class Weapons
     {
 
-        Vector2 weaponPosition;
+        public Vector2 weaponPosition;
         public Texture2D weaponTexture;
         string currentTextureString = "AK47";
-        Body weaponBody;
+        //Body weaponBody;
         int bulletSpeed;
         int clipAmmo;
         float reloadSpeed;
@@ -31,6 +31,7 @@ namespace Athyl
         float meleeAtkSpeed;
         bool hasPiercing;
         DrawableGameObject drawGame;
+        DrawableGameObject bulletBody;
 
         public Weapons()
         {
@@ -44,7 +45,7 @@ namespace Athyl
             meleeAtkSpeed = 0;
             hasPiercing = false;
             weaponId = 1;
-            //weaponBody  =
+            //bulletBody = new DrawableGameObject(world, weaponTexture, new Vector2(10), 1, "bullet");
 
         }
         public Weapons( World world, Game1 game, int weaponIdParam, Texture2D Texture) // Vector2 position
@@ -57,18 +58,21 @@ namespace Athyl
                 assaultRifle_ak47();
             else if (weaponIdParam == 2)
                 furiousFisting();
-            /*
-            weaponBody.BodyType = BodyType.Dynamic;
+
+
+            
+           /* weaponBody.BodyType = BodyType.Dynamic;
             weaponBody.IsBullet = true;
-            weaponBody.Position.Equals(weaponTexture);
+            weaponBody.Position = new Vector2(
             weaponBody.ApplyAngularImpulse(bulletSpeed);
-            weaponBody.IsSensor = true;
-            */
+            weaponBody.IsSensor = true;*/
+            
 
             Texture = game.Content.Load<Texture2D>(currentTextureString);
             weaponTexture = Texture;
             Console.WriteLine(currentTextureString);
 
+            bulletBody = new DrawableGameObject(world, weaponTexture, new Vector2(10), 1, "bullet");
         }
 
         public void changeTexture(Game1 game, Texture2D Texture)
@@ -124,7 +128,7 @@ namespace Athyl
 
             if (kbState.IsKeyDown(Keys.P))
             {
-                weaponBody.ApplyAngularImpulse(bulletSpeed);
+              //  weaponBody.ApplyAngularImpulse(bulletSpeed);
             }
 
             changeTexture(game, weaponTexture); 
@@ -144,9 +148,6 @@ namespace Athyl
                 furiousFisting();
 
             }
-
-            weaponPosition.X = player.torso.Position.X + 30;
-            weaponPosition.Y = player.torso.Position.Y;
         }
 
 

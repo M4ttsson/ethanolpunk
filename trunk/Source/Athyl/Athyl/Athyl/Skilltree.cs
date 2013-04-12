@@ -8,13 +8,6 @@ namespace Athyl
     class Skilltree : Weapons
     {
         Player playerInfo;
-        float fireBreathDamage;
-        float fireBreathDPS;
-        float fireBurstDamage;
-        float fireBurstDuration;
-        float shieldHP;
-        float shieldDuration;
-
 
 
         #region MeleeStance
