@@ -123,7 +123,7 @@ namespace Athyl
             //weapon = new Weapons(0, Content.Load<Texture2D>(currentTextureString), new Vector2(50, 50));
 
             //player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
-            player = new Player(world, Content.Load<Texture2D>("RunningDummy"), new Vector2(55, 120), 100, 20, new Vector2(430, 0));
+            player = new Player(world, Content.Load<Texture2D>("RunningDummy"), new Vector2(55, 120), 100, 20, new Vector2(600, 600));
             skyTexture = Content.Load<Texture2D>("Sky");
 
             //foot contacts
@@ -247,7 +247,7 @@ namespace Athyl
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
 
-            weapon.weaponPosition.X = player.torso.Position.X + 25;
+            weapon.weaponPosition.X = player.torso.Position.X-55/2;
             weapon.weaponPosition.Y = player.torso.Position.Y;
             // spriteBatch.Begin();
             // box.Draw(spriteBatch);
@@ -265,7 +265,7 @@ namespace Athyl
             /*wallleft.Draw(spriteBatch);
             wallright.Draw(spriteBatch);*/
             map.Draw(spriteBatch);
-            Debug.WriteLine(player.torso.Position);
+            //Debug.WriteLine(player.torso.Position);
 
             spriteBatch.End();
 

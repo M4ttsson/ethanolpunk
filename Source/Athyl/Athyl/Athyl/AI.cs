@@ -44,7 +44,7 @@ namespace Athyl
 
             //create torso
             enemyBody = new DrawableGameObject(world, texture, mass, "enemy");
-            enemyBody.Position = new Vector2(randomX.Next(50, 600), 0);
+            enemyBody.Position = new Vector2(randomX.Next(50, 300), 400);
             enemyBody.body.Restitution = 0;
 
 
@@ -69,7 +69,7 @@ namespace Athyl
             
 
             
-            //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+            enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
@@ -86,6 +86,7 @@ namespace Athyl
 
             return false;
         }
+
         Vector2 right = new Vector2(2, 0);
         Vector2 left = new Vector2(-2, 0);
 
@@ -117,7 +118,7 @@ namespace Athyl
                     UpdateFrame(0.2f);
                 }
 
-                if (enemyBody.Position.X > aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y)
+                if (enemyBody.Position.X > aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y+10)
                 {
                     
                     if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
@@ -130,7 +131,7 @@ namespace Athyl
                     
                 }
 
-                else if (enemyBody.Position.X < aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y)
+                else if (enemyBody.Position.X < aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y+10)
                 {
                     
                     if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
