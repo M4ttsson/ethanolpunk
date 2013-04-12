@@ -56,6 +56,7 @@ namespace Athyl
             projectile = texture;
             Load(texture, 22, 1);
 
+
             //Vector2 torsoSize = new Vector2(size.X, size.Y);
             Vector2 torsoSize = new Vector2(myTexture.Width / framecount, myTexture.Height);
 
@@ -64,7 +65,7 @@ namespace Athyl
             torso = new DrawableGameObject(world, texture, 60, "player");
             torso.Position = startPosition;
             torso.body.Restitution = 0;
-
+            
             // Create the feet of the body, here implemented as high friction wheels 
             wheel = new DrawableGameObject(world, texture, wheelSize, mass, "wheel");
             wheel.Position = torso.Position + new Vector2(torsoSize.X, torsoSize.Y/2);
@@ -184,8 +185,8 @@ namespace Athyl
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //DrawFrame(spriteBatch, wheel.Position + new Vector2(-115.0f, -110.0f));
-            DrawFrame(spriteBatch, new Vector2(torso.Position.X, torso.Position.Y - torso.Size.Y/2));
+            DrawFrame(spriteBatch, wheel.Position + new Vector2(-55.0f/2, -110.0f));
+           // DrawFrame(spriteBatch, new Vector2(torso.Position.X, torso.Position.Y - torso.Size.Y/2));
             torso.Draw(spriteBatch);//, new Vector2(torso.Size.X, torso.Size.Y));
             wheel.Draw(spriteBatch);
         }
