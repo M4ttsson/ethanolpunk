@@ -34,9 +34,9 @@ namespace Athyl
 
         public void Play(string sound)
         {
-            song = game.Content.Load<Song>(sound);
-            MediaPlayer.Play(song);
-            MediaPlayer.IsRepeating = true;
+            //song = game.Content.Load<Song>(sound);
+            //MediaPlayer.Play(song);
+            //MediaPlayer.IsRepeating = true;
         }
 
 
