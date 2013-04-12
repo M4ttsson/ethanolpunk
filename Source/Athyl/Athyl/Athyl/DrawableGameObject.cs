@@ -51,6 +51,8 @@ namespace Athyl
         {
             body = BodyFactory.CreateRectangle(world, size.X * CoordinateHelper.pixelToUnit, size.Y * CoordinateHelper.pixelToUnit, 1, userdata);
             body.BodyType = BodyType.Dynamic;
+          //  body.Mass = mass;
+
             this.Size = size;
             this.texture = texture;
             
@@ -69,7 +71,7 @@ namespace Athyl
             List<Vertices> verticeList = CreateCompoundPolygon(texture);
             body = BodyFactory.CreateCompoundPolygon(world, verticeList, 1, userdata);
             body.BodyType = BodyType.Dynamic;
-            
+           // body.Mass = mass;
 
             Vector2 size = new Vector2(texture.Width, texture.Height);
             this.Size = size;
@@ -90,6 +92,7 @@ namespace Athyl
             size = new Vector2(diameter, diameter);
             body = BodyFactory.CreateCircle(world, (diameter / 2.0f) * CoordinateHelper.pixelToUnit, 1, userdata);
             body.BodyType = BodyType.Dynamic;
+           // body.Mass = mass;
 
             this.Size = size;
             this.texture = texture;
