@@ -30,7 +30,6 @@ namespace Athyl
                 floor.Position = new Vector2(i * 40 + 20, 700);
                 floor.body.BodyType = BodyType.Static;
                 ground.Add(floor);
-                JointFactory.CreateWeldJoint(ground.Last<DrawableGameObject>.body, 
                 Debug.WriteLine(floor.Position);
             }
          
