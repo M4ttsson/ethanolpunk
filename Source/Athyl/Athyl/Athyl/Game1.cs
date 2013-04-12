@@ -93,6 +93,8 @@ namespace Athyl
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
 
+            
+
             map = new Map(world, Content.Load<Texture2D>("middleground"));
 
             debugView = new DebugViewXNA(world);
@@ -242,7 +244,7 @@ namespace Athyl
             //Debug.WriteLine(box.Position);
             prevKeyboardState = keyboardState;
             world.Step(0.033333f);
-
+            
             base.Update(gameTime);
         }
 
@@ -270,6 +272,7 @@ namespace Athyl
             /*wallleft.Draw(spriteBatch);
             wallright.Draw(spriteBatch);*/
             map.Draw(spriteBatch);
+            Debug.WriteLine(player.torso.Position);
 
             spriteBatch.End();
 
