@@ -70,7 +70,7 @@ namespace Athyl
             wheel = new DrawableGameObject(world, texture, wheelSize, mass, "wheel");
             wheel.Position = torso.Position + new Vector2(0, torsoSize.Y/2);
             wheel.body.Friction = 10000f;
-            wheel.body.Restitution = 0;
+            wheel.body.Restitution = 0.0f;
 
             // Create a joint to keep the torso upright
             JointFactory.CreateFixedAngleJoint(world, torso.body);
