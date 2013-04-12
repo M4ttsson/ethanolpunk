@@ -163,7 +163,7 @@ namespace Athyl
         {
             DrawFrame(spriteBatch, wheel.Position + new Vector2(-55.0f/2, -110f));
             //enemyBody.Draw(spriteBatch, new Vector2(enemyBody.Size.X, enemyBody.Size.Y + wheel.Size.Y));
-            wheel.Draw(spriteBatch);
+            //wheel.Draw(spriteBatch);
         }
         public void Load(Texture2D texture, int FrameCount, int FramesPerSec)
         {
