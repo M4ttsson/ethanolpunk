@@ -18,11 +18,27 @@ using FarseerPhysics.Factories;
 
 namespace Athyl
 {
+   
+
     class Map
     {
         private List<DrawableGameObject> ground = new List<DrawableGameObject>();
-
+        private World world;
+        private Texture2D texture;
         public Map(World world, Texture2D texture)
+        {
+            this.world = world;
+            this.texture = texture;
+            InializeMap();
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (DrawableGameObject dgo in ground)
+                dgo.Draw(spriteBatch);
+        }
+
+        public void InializeMap()
         {
             for (int i = 0; i < 32; i++)
             {
@@ -32,13 +48,47 @@ namespace Athyl
                 ground.Add(floor);
                 Debug.WriteLine(floor.Position);
             }
-         
-        }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            foreach (DrawableGameObject dgo in ground)
-                dgo.Draw(spriteBatch);
+            for (int i = 0; i < 10; i++)
+            {
+                DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
+                floor.Position = new Vector2(i * 40 + 20, 500);
+                floor.body.BodyType = BodyType.Static;
+                ground.Add(floor);
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
+                floor.Position = new Vector2(i * 40 + 900, 500);
+                floor.body.BodyType = BodyType.Static;
+                ground.Add(floor);
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
+                floor.Position = new Vector2(i * 40 + 460, 300);
+                floor.body.BodyType = BodyType.Static;
+                ground.Add(floor);
+            }
+
+
+            for (int i = 0; i < 10; i++)
+            {
+                DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
+                floor.Position = new Vector2(i * 40 + 20, 100);
+                floor.body.BodyType = BodyType.Static;
+                ground.Add(floor);
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
+                floor.Position = new Vector2(i * 40 + 900, 100);
+                floor.body.BodyType = BodyType.Static;
+                ground.Add(floor);
+            }
         }
     }
 }
