@@ -28,8 +28,7 @@ namespace Athyl
         private float TimePerFrame;
         private int Frame;
         private float TotalElapsed;
-        private KeyboardState KBstate;
-        private int hashCode = 0;
+        private bool Direction = true;
 
         //public DrawableGameObject torso;
 
@@ -202,7 +201,6 @@ namespace Athyl
 
         public void UpdateFrame(float elapsed)
         {
-            KBstate = Keyboard.GetState();
                         
             if (axis.MotorSpeed > 0)
             {
@@ -217,7 +215,7 @@ namespace Athyl
                         Frame = 12;
                     TotalElapsed -= TimePerFrame;
                 }
-                hashCode = KBstate.GetHashCode();
+                Direction = true;
             }
 
             else if (axis.MotorSpeed < 0)
@@ -233,14 +231,14 @@ namespace Athyl
                         Frame = 9;
                     TotalElapsed -= TimePerFrame;
                 }
-                hashCode = KBstate.GetHashCode();
+                Direction = false;
             }
 
             else if (axis.MotorSpeed == 0)
             {
-                if (hashCode == 128)
+                if (Direction)
                     Frame = 11;
-                else if (hashCode == 32)
+                else
                     Frame = 10;
             }
         }

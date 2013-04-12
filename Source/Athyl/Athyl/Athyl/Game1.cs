@@ -215,24 +215,11 @@ namespace Athyl
                 player.Move(Player.Movement.Stop);
             }
 
-
             if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 1.2f && theAI.Count == 0)
+
             {
                 theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), 100, 20));
             }
-
-            if (keyboardState.IsKeyDown(Keys.M) && paused == false)
-            {
-                music.Pause();
-                paused = true;
-            }
-
-            else if(keyboardState.IsKeyDown(Keys.M) && paused == true)
-            {
-                music.Resume();
-                paused = false;
-            }
-
              
 
             weapon.UpdateWeapon(gameTime, this, player);
@@ -241,6 +228,8 @@ namespace Athyl
             {
                 ai.UpdateEnemy(player);
             }
+
+            music.UpdateSound(gameTime);
 
             //Debug.WriteLine(box.Position);
             prevKeyboardState = keyboardState;
@@ -257,6 +246,9 @@ namespace Athyl
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+
+            weapon.weaponPosition.X = player.torso.Position.X + 25;
+            weapon.weaponPosition.Y = player.torso.Position.Y;
             // spriteBatch.Begin();
             // box.Draw(spriteBatch);
             // spriteBatch.End();
