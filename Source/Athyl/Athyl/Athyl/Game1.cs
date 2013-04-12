@@ -18,6 +18,7 @@ using FarseerPhysics.DebugViews;
 using FarseerPhysics.Common;
 using FarseerPhysics.Common.Decomposition;
 
+
 namespace Athyl
 {
     /// <summary>
@@ -25,13 +26,14 @@ namespace Athyl
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         DebugViewXNA debugView;
         World world;
         List<AI> theAI = new List<AI>();
         Player player;
         KeyboardState prevKeyboardState;
+
 
         Weapons weapon;
 
@@ -43,6 +45,8 @@ namespace Athyl
         DrawableGameObject box;
         Texture2D texture;
         Texture2D skyTexture;
+        Menu startButtonPosition;
+        Menu exitButtonPosition;
         Sounds music;
 
         private bool paused = false;
@@ -70,6 +74,7 @@ namespace Athyl
         {
             // TODO: Add your initialization logic here
             weapon = new Weapons();
+            IsMouseVisible = true;
             base.Initialize();
         }
 
