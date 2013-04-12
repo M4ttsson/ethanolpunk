@@ -57,7 +57,8 @@ namespace Athyl
 
 
             //Vector2 torsoSize = new Vector2(size.X, size.Y);
-            Vector2 torsoSize = new Vector2(myTexture.Width / framecount, myTexture.Height);
+            //Vector2 torsoSize = new Vector2(myTexture.Width / framecount, myTexture.Height-wheelSize);
+            Vector2 torsoSize = new Vector2(size.X, size.Y-wheelSize+5);
 
             //create torso
             //torso = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f, "player");
@@ -249,9 +250,9 @@ namespace Athyl
         }
         public void DrawFrame(SpriteBatch Batch, int Frame, Vector2 screenpos)
         {
-            int FrameWidth = myTexture.Width / framecount;
-            Rectangle sourcerect = new Rectangle(FrameWidth * Frame, 0,
-                FrameWidth, myTexture.Height);
+           int FrameWidth = myTexture.Width / framecount;
+           Rectangle sourcerect = new Rectangle(FrameWidth * Frame, 0,
+               FrameWidth, myTexture.Height);
             Batch.Draw(myTexture, screenpos, sourcerect, Color.White,
                 0.0f, new Vector2(0.0f,0.0f), 1.0f, SpriteEffects.None, 1.0f);
         }
