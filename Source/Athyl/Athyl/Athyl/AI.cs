@@ -36,6 +36,7 @@ namespace Athyl
         const float jumpInterval = 0.5f;
 
         bool hit = false;
+        bool seen = false;
 
         public AI(World world, Texture2D texture, Vector2 size, float mass, float wheelSize)
         {
@@ -94,13 +95,13 @@ namespace Athyl
         {
             if (!hit)
             {
-                if (((int)enemyBody.Position.X - (int)aPlayer.torso.Position.X) < -250)
+                if (((int)enemyBody.Position.X - (int)aPlayer.torso.Position.X) < -250 && !seen)
                 {
                     axis.MotorSpeed = 0;
                     UpdateFrame(0.2f);
                 }
 
-                else if (((int)enemyBody.Position.X - (int)aPlayer.torso.Position.X) > 250)
+                else if (((int)enemyBody.Position.X - (int)aPlayer.torso.Position.X) > 250 && !seen)
                 {
                     axis.MotorSpeed = 0;
                     UpdateFrame(0.2f);
@@ -110,12 +111,14 @@ namespace Athyl
                 {
                     axis.MotorSpeed = MathHelper.TwoPi * speed;
                     UpdateFrame(0.2f);
+                    seen = true;
                 }
 
                 else if (enemyBody.Position.X > aPlayer.torso.Position.X)
                 {
                     axis.MotorSpeed = -MathHelper.TwoPi * speed;
                     UpdateFrame(0.2f);
+                    seen = true;
                 }
 
                 if (enemyBody.Position.X > aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y+10)
@@ -131,9 +134,8 @@ namespace Athyl
                     
                 }
 
-                else if (enemyBody.Position.X < aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y+10)
+                else if (enemyBody.Position.X < aPlayer.torso.Position.X && enemyBody.Position.Y > aPlayer.torso.Position.Y+10 && seen)
                 {
-                    
                     if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
                     {
                          axis.MotorSpeed = MathHelper.TwoPi * speed;
