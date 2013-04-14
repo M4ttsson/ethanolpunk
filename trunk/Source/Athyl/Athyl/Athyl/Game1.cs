@@ -123,7 +123,7 @@ namespace Athyl
             //weapon = new Weapons(0, Content.Load<Texture2D>(currentTextureString), new Vector2(50, 50));
 
             //player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
-            player = new Player(world, Content.Load<Texture2D>("RunningDummy"), new Vector2(55, 120), 100, 20, new Vector2(600, 600));
+            player = new Player(world, Content.Load<Texture2D>("TestGubbar2x11"), new Vector2(55, 120), 100, 20, new Vector2(600, 600));
             skyTexture = Content.Load<Texture2D>("Sky");
 
             //foot contacts

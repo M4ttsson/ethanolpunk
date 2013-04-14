@@ -23,10 +23,12 @@ namespace Athyl
         
         public DrawableGameObject torso;
 
-        private int framecount;
+        private int frameRow;
+        private int frameColumn;
         private Texture2D myTexture;
         private float TimePerFrame;
-        private int Frame;
+        private int ColFrame;
+        private int RowFrame;
         private float TotalElapsed;
         private bool Direction = true;
 
@@ -39,7 +41,7 @@ namespace Athyl
 
         public enum stance { melee, midRange, longRange };
 
-        Vector2 jumpForce = new Vector2(0, -1.9f);
+        Vector2 jumpForce = new Vector2(0, -3.0f);
 
         Texture2D projectile;
 
@@ -53,8 +55,7 @@ namespace Athyl
         public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition)
         {
             projectile = texture;
-            Load(texture, 22, 1);
-
+            Load(texture, 2, 11, 1);
 
             //Vector2 torsoSize = new Vector2(size.X, size.Y);
             //Vector2 torsoSize = new Vector2(myTexture.Width / framecount, myTexture.Height-wheelSize);
@@ -188,71 +189,95 @@ namespace Athyl
             DrawFrame(spriteBatch, wheel.Position + new Vector2(-55/2, -110.0f));
             //DrawFrame(spriteBatch, new Vector2(torso.Position.X, torso.Position.Y - torso.Size.Y/2));
             //torso.Draw(spriteBatch);//, new Vector2(torso.Size.X, torso.Size.Y));
-            //wheel.Draw(spriteBatch);
+            wheel.Draw(spriteBatch);
         }
 
-        public void Load(Texture2D texture, int FrameCount, int FramesPerSec)
+        public void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec)
         {
-            framecount = FrameCount;
+            frameRow = FrameRow;
+            frameColumn = FrameColumn;
             myTexture = texture;
             TimePerFrame = (float)1 / FramesPerSec;
-            Frame = 11;
+            ColFrame = 0;
+            RowFrame = 0;
             TotalElapsed = 0;
         }
 
         public void UpdateFrame(float elapsed)
         {
-                        
+            TotalElapsed += elapsed;
+            if (TotalElapsed > TimePerFrame)
+            {
+                ColFrame++;
+                if (ColFrame == 11)
+                    ColFrame = 1;
+                TotalElapsed -= TimePerFrame;
+            }
+
             if (axis.MotorSpeed > 0)
             {
-                if (Frame < 11)
-                    Frame = 12;
-
-                TotalElapsed += elapsed;
-                if (TotalElapsed > TimePerFrame)
-                {
-                    Frame++;
-                    if (Frame == 22)
-                        Frame = 12;
-                    TotalElapsed -= TimePerFrame;
-                }
-                Direction = true;
+                RowFrame = 0;
             }
-
             else if (axis.MotorSpeed < 0)
             {
-                if (Frame > 11)
-                    Frame = 9;
-
-                TotalElapsed += elapsed;
-                if (TotalElapsed > TimePerFrame)
-                {
-                    Frame--;
-                    if (Frame == 0)
-                        Frame = 9;
-                    TotalElapsed -= TimePerFrame;
-                }
-                Direction = false;
+                RowFrame = 1;
             }
-
             else if (axis.MotorSpeed == 0)
             {
-                if (Direction)
-                    Frame = 11;
-                else
-                    Frame = 10;
+                ColFrame = 0;
             }
+                        
+            //if (axis.MotorSpeed > 0)
+            //{                
+            //    if (Frame < 11)
+            //        Frame = 12;
+
+            //    TotalElapsed += elapsed;
+            //    if (TotalElapsed > TimePerFrame)
+            //    {
+            //        Frame++;
+            //        if (Frame == 22)
+            //            Frame = 12;
+            //        TotalElapsed -= TimePerFrame;
+            //    }
+            //    Direction = true;
+            //}
+
+            //else if (axis.MotorSpeed < 0)
+            //{
+            //    if (Frame > 11)
+            //        Frame = 9;
+
+            //    TotalElapsed += elapsed;
+            //    if (TotalElapsed > TimePerFrame)
+            //    {
+            //        Frame--;
+            //        if (Frame == 0)
+            //            Frame = 9;
+            //        TotalElapsed -= TimePerFrame;
+            //    }
+            //    Direction = false;
+            //}
+
+            //else if (axis.MotorSpeed == 0)
+            //{
+            //    if (Direction)
+            //        Frame = 11;
+            //    else
+            //        Frame = 10;
+            //}
         }
 
         public void DrawFrame(SpriteBatch Batch, Vector2 screenpos)
         {
-            DrawFrame(Batch, Frame, screenpos);
+            DrawFrame(Batch, ColFrame, RowFrame, screenpos);
         }
-        public void DrawFrame(SpriteBatch Batch, int Frame, Vector2 screenpos)
+        public void DrawFrame(SpriteBatch Batch, int colFrame, int rowFrame, Vector2 screenpos)
         {
-           int FrameWidth = myTexture.Width / framecount;
-           Rectangle sourcerect = new Rectangle(FrameWidth * Frame, 0,
-               FrameWidth, myTexture.Height);
+            int FrameWidth = myTexture.Width / frameColumn;
+            int FrameHeight = myTexture.Height / frameRow;
+            Rectangle sourcerect = new Rectangle(FrameWidth * colFrame, FrameHeight * rowFrame,
+               FrameWidth, FrameHeight);
             Batch.Draw(myTexture, screenpos, sourcerect, Color.White,
                 0.0f, new Vector2(0.0f,0.0f), 1.0f, SpriteEffects.None, 1.0f);
         }
