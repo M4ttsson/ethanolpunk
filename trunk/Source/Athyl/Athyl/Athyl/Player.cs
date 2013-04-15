@@ -22,6 +22,8 @@ namespace Athyl
     {
         
         public DrawableGameObject torso;
+        public bool OnGround { get; set; }
+        public int numFootContacts { get; set; }
 
         private int frameRow;
         private int frameColumn;
@@ -46,13 +48,21 @@ namespace Athyl
 
         Texture2D projectile;
 
-        public bool OnGround { get; set; }
-        public int numFootContacts { get; set; }
+        
 
         List<DrawableGameObject> shots = new List<DrawableGameObject>();
 
         const float speed = 3.0f;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="texture"></param>
+        /// <param name="size"></param>
+        /// <param name="mass"></param>
+        /// <param name="wheelSize"></param>
+        /// <param name="startPosition"></param>
         public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition)
         {
             projectile = texture;
