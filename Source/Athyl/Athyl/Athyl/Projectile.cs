@@ -23,11 +23,12 @@ namespace Athyl
         public enum projectiletype { small, medium, large }
         List<DrawableGameObject> bullets = new List<DrawableGameObject>();
         Game1 game;
+        List<DrawableGameObject> removeList = new List<DrawableGameObject>();
 
         public Projectile(Game1 game)
         {
             this.game = game;
-                
+            
         }
 
 
@@ -47,6 +48,22 @@ namespace Athyl
                 bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(0.1f, 0.0f));
             else
                 bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(-0.1f, 0.0f));
+            bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+        }
+
+        bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+        {
+            if (contact.IsTouching())
+            {
+                if (fixtureA.UserData.ToString() == "enemy" && fixtureB.UserData.ToString() == "shot")
+                {
+                    //removeList.Add(fixtureB.Body);
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -55,7 +72,7 @@ namespace Athyl
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            List<DrawableGameObject> removeList = new List<DrawableGameObject>();
+            
             for(int i = 0; i < bullets.Count; i++){
                 bullets[i].Draw(spriteBatch);
                 if (bullets[i].body.Position.X > ConvertUnits.ToSimUnits(game.graphics.PreferredBackBufferWidth) || bullets[i].body.Position.X < 0
