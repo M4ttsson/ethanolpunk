@@ -29,7 +29,8 @@ namespace Athyl
         private Texture2D saveButton;
         private Texture2D LoadButon;
         private Texture2D loadingScreen;
-        private Texture2D pauseMenuBackground;
+        private Texture2D pauseMenuBackgroundFront;
+        private Texture2D pauseMenuBackgroundBack;
 
 
         Vector2 startButtonPosition;
@@ -39,6 +40,7 @@ namespace Athyl
         Vector2 settingsButtonPosition;
         Vector2 saveButtonPosition;
         Vector2 loadButtonPosition;
+        Vector2 pauseMenuPosition;
 
         private Thread backGroundThread;
         private bool isLoading = false;
@@ -56,7 +58,8 @@ namespace Athyl
             settingsButton = game.Content.Load<Texture2D>("SettingsButton");
             saveButton = game.Content.Load<Texture2D>("SaveButton");
             LoadButon = game.Content.Load<Texture2D>("LoadButton");
-            pauseMenuBackground = game.Content.Load<Texture2D>("PauseMenuBackground");
+            pauseMenuBackgroundFront = game.Content.Load<Texture2D>("PauseMenu");
+            pauseMenuBackgroundBack = game.Content.Load<Texture2D>("PauseMenuBackground");
         }
 
         public void StartMenu(Game1 game)
@@ -74,6 +77,7 @@ namespace Athyl
         public void PauseMenu(Game1 game)
         {
             gameState = GameState.Paused;
+            pauseMenuPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - pauseMenuBackgroundFront.Width / 2), 160);
             resumeButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width / 2), 230);
             saveButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 330);
             loadButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 360);
@@ -137,7 +141,8 @@ namespace Athyl
 
             if (gameState == GameState.Paused)
             {
-                spriteBatch.Draw(pauseMenuBackground, new Rectangle(0, 0, (int)1280, (int)720), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(0, 0, (int)1280, (int)720), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle((int)pauseMenuPosition.X, (int)pauseMenuPosition.Y, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
                 spriteBatch.Draw(resumeButton, new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, resumeButton.Width, resumeButton.Height), Color.White);
                 spriteBatch.Draw(settingsButton, new Rectangle((int)settingsButtonPosition.X, (int)settingsButtonPosition.Y, settingsButton.Width, settingsButton.Height), Color.White);
                 spriteBatch.Draw(exitButton, new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, exitButton.Width, exitButton.Height), Color.White);
