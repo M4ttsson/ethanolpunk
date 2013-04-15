@@ -96,6 +96,13 @@ namespace Athyl
         {
 
             KeyboardState kbState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
+
+            if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
+            {
+                MouseClicked(mouseState.X, mouseState.Y, game);
+            }
+            previousMouseState = mouseState;
 
 
             if (kbState.IsKeyDown(Keys.F2))
@@ -125,6 +132,30 @@ namespace Athyl
 
 
         }
+
+        void MouseClicked(int x, int y, Game1 game)
+        {
+            //creates a rectangle of 10x10 around the place where the mouse was clicked
+            Rectangle mouseClickRect = new Rectangle(x, y, 10, 10);
+
+            //check the startmenu
+            if (gameState == GameState.Paused)
+            {
+                Rectangle resumeButtonRect = new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, 120, 60);
+                Rectangle settingsButtonRect = new Rectangle((int)settingsButtonPosition.X, (int)settingsButtonPosition.Y, 160, 60);
+                Rectangle exitbuttonRect = new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, 120, 60);
+
+                if (mouseClickRect.Intersects(resumeButtonRect))
+                {
+                    gameState = GameState.Playing;
+                }
+                else if (mouseClickRect.Intersects(exitbuttonRect))
+                {
+                    game.Exit();
+                }
+            }
+        }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {

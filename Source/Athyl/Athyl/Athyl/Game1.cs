@@ -77,6 +77,7 @@ namespace Athyl
             menu.gameState = Menu.GameState.Playing;
             weapon = new Weapons(world);
             IsMouseVisible = true;
+            
             projectile = new Projectile(this);
 
 
