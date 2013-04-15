@@ -22,8 +22,6 @@ namespace Athyl
     {
         
         public DrawableGameObject torso;
-        public bool OnGround { get; set; }
-        public int numFootContacts { get; set; }
 
         private int frameRow;
         private int frameColumn;
@@ -42,36 +40,30 @@ namespace Athyl
         RevoluteJoint axis;
         Body foot;
         DrawableGameObject shot = null;
+        Projectile projectile;
 
 
         public enum stance { melee, midRange, longRange };
 
         Vector2 jumpForce = new Vector2(0, -3.0f);
 
-        Texture2D projectile;
+       
 
-        
+        public bool OnGround { get; set; }
+        public int numFootContacts { get; set; }
 
         List<DrawableGameObject> shots = new List<DrawableGameObject>();
 
         const float speed = 3.0f;
+        Game1 game;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="world"></param>
-        /// <param name="texture"></param>
-        /// <param name="size"></param>
-        /// <param name="mass"></param>
-        /// <param name="wheelSize"></param>
-        /// <param name="startPosition"></param>
-        public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition)
+        public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition, Game1 game)
         {
 
-            
-            projectile = texture;
             Load(texture, 3, 11, 1);
-            
+
+            this.game = game;
+
             //Vector2 torsoSize = new Vector2(size.X, size.Y);
             //Vector2 torsoSize = new Vector2(myTexture.Width / framecount, myTexture.Height-wheelSize);
             Vector2 torsoSize = new Vector2(size.X, size.Y-wheelSize+5);
@@ -101,6 +93,7 @@ namespace Athyl
             axis.MaxMotorTorque = 10;
 
             numFootContacts = 0;
+            projectile = new Projectile(game);
 
             //foot = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50), ConvertUnits.ToSimUnits(10), 1, "foot");
             //foot.IsSensor = true;
@@ -223,7 +216,12 @@ namespace Athyl
         }
         public void useWeapon(World world)
         {
+
+            projectile.NewBullet(torso.body.Position, Direction, world);
+            /*shot = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"), 10, 1, "shot");
+
             shot = new DrawableGameObject(world, projectile, 10, 40, "shot");
+
             shot.body.IsBullet = true;
             //shot.body.IsSensor = true;
             shot.body.Position = torso.body.Position;
@@ -232,6 +230,7 @@ namespace Athyl
                 shot.body.ApplyLinearImpulse(new Vector2(0.1f, 0.0f));
             else
                 shot.body.ApplyLinearImpulse(new Vector2(-0.1f, 0.0f));
+            shots.Add(shot);*/
 
         }
 
@@ -245,8 +244,11 @@ namespace Athyl
         public void Draw(SpriteBatch spriteBatch)
         {
             DrawFrame(spriteBatch, wheel.Position + new Vector2(-55/2, -110.0f));
-            if(shot != null)
-                shot.Draw(spriteBatch);
+            foreach (DrawableGameObject d in shots)
+            {
+                d.Draw(spriteBatch);
+            }
+            projectile.Draw(spriteBatch);
             //DrawFrame(spriteBatch, new Vector2(torso.Position.X, torso.Position.Y - torso.Size.Y/2));
             //torso.Draw(spriteBatch);//, new Vector2(torso.Size.X, torso.Size.Y));
             //wheel.Draw(spriteBatch);
