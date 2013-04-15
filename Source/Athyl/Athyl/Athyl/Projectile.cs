@@ -79,7 +79,7 @@ namespace Athyl
                     || bullets[i].body.Position.Y > ConvertUnits.ToSimUnits(game.graphics.PreferredBackBufferHeight) || bullets[i].body.Position.Y < 0)
                 {
                     removeList.Add(bullets[i]);
-                    game.world.BodyList.Remove(bullets[i].body);
+                    game.world.RemoveBody(bullets[i].body);
                 }
                 Console.WriteLine(game.world.BodyList.Count);
             }
