@@ -55,7 +55,7 @@ namespace Athyl
         public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition)
         {
             projectile = texture;
-            Load(texture, 2, 11, 1);
+            Load(texture, 3, 11, 1);
 
             //Vector2 torsoSize = new Vector2(size.X, size.Y);
             //Vector2 torsoSize = new Vector2(myTexture.Width / framecount, myTexture.Height-wheelSize);
@@ -189,7 +189,7 @@ namespace Athyl
             DrawFrame(spriteBatch, wheel.Position + new Vector2(-55/2, -110.0f));
             //DrawFrame(spriteBatch, new Vector2(torso.Position.X, torso.Position.Y - torso.Size.Y/2));
             //torso.Draw(spriteBatch);//, new Vector2(torso.Size.X, torso.Size.Y));
-            wheel.Draw(spriteBatch);
+            //wheel.Draw(spriteBatch);
         }
 
         public void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec)
