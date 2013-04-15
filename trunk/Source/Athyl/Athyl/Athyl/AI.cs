@@ -33,13 +33,18 @@ namespace Athyl
         Random randomX = new Random(Environment.TickCount);
         Vector2 jumpForce = new Vector2(0, -2f);
         DateTime previousJump;
-        const float jumpInterval = 0.5f;
+        const float jumpInterval = 1f;
+
+        public bool OnGround { get; set; }
+        private int numFootContacts;
 
         bool hit = false;
         bool seen = false;
 
         public AI(World world, Texture2D texture, Vector2 size, float mass, float wheelSize)
         {
+
+
             Load(texture, 22, 1);
             Vector2 torsoSize = new Vector2(size.X, size.Y-wheelSize+5);
 
@@ -50,7 +55,7 @@ namespace Athyl
 
 
             // Create the feet of the body, here implemented as high friction wheels 
-            wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f, "enemy");
+            wheel = new DrawableGameObject(world, texture, wheelSize, mass / 2.0f, "enemyWheel");
             wheel.Position = enemyBody.Position + new Vector2(0, torsoSize.Y/2+5);
             wheel.body.Friction = 3.0f;
             wheel.body.Restitution = 0;
@@ -67,9 +72,10 @@ namespace Athyl
             axis.MotorSpeed = 0;
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
+
+            numFootContacts = 0;
             
 
-            
             enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
