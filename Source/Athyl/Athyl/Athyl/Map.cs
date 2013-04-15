@@ -46,7 +46,7 @@ namespace Athyl
                 floor.Position = new Vector2(i * 40 + 20, 700);
                 floor.body.BodyType = BodyType.Static;
                 ground.Add(floor);
-                Debug.WriteLine(floor.Position);
+                //Debug.WriteLine(floor.Position);
             }
 
             for (int i = 0; i < 10; i++)

@@ -204,6 +204,7 @@ namespace Athyl
 
                 KeyboardState keyboardState = Keyboard.GetState();
 
+
                 if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
                 {
                     player.Jump();
@@ -248,6 +249,7 @@ namespace Athyl
             {
                 Exit();
             }
+
             base.Update(gameTime);
         }
 
