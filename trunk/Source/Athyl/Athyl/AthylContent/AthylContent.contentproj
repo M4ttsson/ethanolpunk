@@ -193,8 +193,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestGubbar2x11.tga">
-      <Name>TestGubbar2x11</Name>
+    <Compile Include="TestGubbar.png">
+      <Name>TestGubbar</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

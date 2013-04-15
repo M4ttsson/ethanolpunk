@@ -112,7 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI.cs" />
-    <Compile Include="AnimatedSprite.cs" />
     <Compile Include="ConvertUnits.cs" />
     <Compile Include="CoordinateHelper.cs" />
     <Compile Include="DrawableGameObject.cs" />
