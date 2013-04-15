@@ -97,9 +97,6 @@ namespace Athyl
 
             map = new Map(world, Content.Load<Texture2D>("middleground"));
 
-            debugView = new DebugViewXNA(world);
-            debugView.LoadContent(GraphicsDevice, Content);
-            texture = Content.Load<Texture2D>("testat");
             //weaponTexture = Content.Load<Texture2D>(currentTextureString);
 
             music = new Sounds(this);
