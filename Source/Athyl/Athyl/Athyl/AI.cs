@@ -41,6 +41,8 @@ namespace Athyl
         bool hit = false;
         bool seen = false;
 
+        //For the normal enemies, the HP should be 100
+        public int enemyHP = 100;
         public AI(World world, Texture2D texture, Vector2 size, float mass, float wheelSize)
         {
 
@@ -87,6 +89,7 @@ namespace Athyl
                 {
                     axis.MotorSpeed = 0;
                     hit = true;
+                    enemyHP -= 5;
                     return true;
                 }
             }

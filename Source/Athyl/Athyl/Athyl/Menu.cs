@@ -124,6 +124,9 @@ namespace Athyl
 
         public void Draw(SpriteBatch spriteBatch)
         {
+
+           
+
             if (gameState == GameState.StartMenu)
             {
                 spriteBatch.Draw(startButton, new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, startButton.Width, startButton.Height), Color.White);

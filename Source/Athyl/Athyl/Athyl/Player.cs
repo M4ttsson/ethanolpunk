@@ -33,7 +33,9 @@ namespace Athyl
         private int RowFrame;
         private float TotalElapsed;
         public bool Direction = true;
-
+        public int playerHP = 100;
+        private bool hasJumped = false;
+        private float tempfallDamage = 0;
         //public DrawableGameObject torso;
 
         DrawableGameObject wheel;
@@ -65,9 +67,11 @@ namespace Athyl
         /// <param name="startPosition"></param>
         public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition)
         {
+
+            
             projectile = texture;
             Load(texture, 3, 11, 1);
-
+            
             //Vector2 torsoSize = new Vector2(size.X, size.Y);
             //Vector2 torsoSize = new Vector2(myTexture.Width / framecount, myTexture.Height-wheelSize);
             Vector2 torsoSize = new Vector2(size.X, size.Y-wheelSize+5);
@@ -107,9 +111,12 @@ namespace Athyl
 
         public void Jump()
         {
+
+
             if (OnGround)
             {
                 torso.body.ApplyLinearImpulse(jumpForce);
+
             }
         }
 
@@ -182,10 +189,41 @@ namespace Athyl
                     break;       
             }
         }
+        public void UpdatePlayer()
+        {
 
+            //check if player foot is touching the ground
+            if (numFootContacts < 1)
+            {
+                OnGround = false;
+            }
+            else
+            {
+                OnGround = true;
+            }
+
+
+
+
+
+            //Falldamage on player.
+            if (torso.body.LinearVelocity.Y > 10 && !OnGround)
+            {
+                //playerHP -= (int)torso.body.LinearVelocity.Y * 2;
+                hasJumped = true;
+                tempfallDamage = torso.body.LinearVelocity.Y;
+            }
+
+
+            if (hasJumped == true && OnGround == true)
+            {
+                playerHP -= (int)(tempfallDamage * 1.5);
+                hasJumped = false;
+            }
+        }
         public void useWeapon(World world)
         {
-            shot = new DrawableGameObject(world, projectile, 10, 1, "shot");
+            shot = new DrawableGameObject(world, projectile, 10, 40, "shot");
             shot.body.IsBullet = true;
             //shot.body.IsSensor = true;
             shot.body.Position = torso.body.Position;
@@ -197,9 +235,6 @@ namespace Athyl
 
         }
 
-        public void changeStance()
-        {
-        }
         public enum Movement
         {
             Left,
@@ -293,17 +328,17 @@ namespace Athyl
             //}
         }
 
-        public void DrawFrame(SpriteBatch Batch, Vector2 screenpos)
+        public void DrawFrame(SpriteBatch spriteBatch, Vector2 screenpos)
         {
-            DrawFrame(Batch, ColFrame, RowFrame, screenpos);
+            DrawFrame(spriteBatch, ColFrame, RowFrame, screenpos);
         }
-        public void DrawFrame(SpriteBatch Batch, int colFrame, int rowFrame, Vector2 screenpos)
+        public void DrawFrame(SpriteBatch spriteBatch, int colFrame, int rowFrame, Vector2 screenpos)
         {
             int FrameWidth = myTexture.Width / frameColumn;
             int FrameHeight = myTexture.Height / frameRow;
             Rectangle sourcerect = new Rectangle(FrameWidth * colFrame, FrameHeight * rowFrame,
                FrameWidth, FrameHeight);
-            Batch.Draw(myTexture, screenpos, sourcerect, Color.White,
+            spriteBatch.Draw(myTexture, screenpos, sourcerect, Color.White,
                 0.0f, new Vector2(0.0f,0.0f), 1.0f, SpriteEffects.None, 1.0f);
         }
     }
