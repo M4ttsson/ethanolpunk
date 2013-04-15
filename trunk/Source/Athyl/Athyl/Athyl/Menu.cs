@@ -29,6 +29,7 @@ namespace Athyl
         private Texture2D saveButton;
         private Texture2D LoadButon;
         private Texture2D loadingScreen;
+        private Texture2D pauseMenuBackground;
 
 
         Vector2 startButtonPosition;
@@ -49,12 +50,13 @@ namespace Athyl
         public Menu(Game1 game)
         {
             startButton = game.Content.Load<Texture2D>("StartButton");
-            //exitButton = game.Content.Load<Texture2D>("ExitButon");
+            exitButton = game.Content.Load<Texture2D>("ExitButton");
             pauseButton = game.Content.Load<Texture2D>("PauseButton");
             resumeButton = game.Content.Load<Texture2D>("ResumeButton");
-            //settingsButton = game.Content.Load<Texture2D>("SeetingsButton");
+            settingsButton = game.Content.Load<Texture2D>("SettingsButton");
             saveButton = game.Content.Load<Texture2D>("SaveButton");
             LoadButon = game.Content.Load<Texture2D>("LoadButton");
+            pauseMenuBackground = game.Content.Load<Texture2D>("PauseMenuBackground");
         }
 
         public void StartMenu(Game1 game)
@@ -72,10 +74,12 @@ namespace Athyl
         public void PauseMenu(Game1 game)
         {
             gameState = GameState.Paused;
-            resumeButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 300);
+            resumeButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width / 2), 230);
             saveButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 330);
             loadButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 360);
-            settingsButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 390);
+            settingsButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - settingsButton.Width / 2), 280);
+            exitButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), 330);
+
         }
 
         public void LoadGame()
@@ -130,7 +134,10 @@ namespace Athyl
 
             if (gameState == GameState.Paused)
             {
+                spriteBatch.Draw(pauseMenuBackground, new Rectangle(0, 0, (int)1280, (int)720), Color.White);
                 spriteBatch.Draw(resumeButton, new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, resumeButton.Width, resumeButton.Height), Color.White);
+                spriteBatch.Draw(settingsButton, new Rectangle((int)settingsButtonPosition.X, (int)settingsButtonPosition.Y, settingsButton.Width, settingsButton.Height), Color.White);
+                spriteBatch.Draw(exitButton, new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, exitButton.Width, exitButton.Height), Color.White);
             }
             //spriteBatch.Draw(settingsButton, new Rectangle((int)settingsButtonPosition.X, (int)settingsButtonPosition.Y, settingsButton.Width, settingsButton.Height), Color.White);
 

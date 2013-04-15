@@ -97,6 +97,10 @@ namespace Athyl
 
             map = new Map(world, Content.Load<Texture2D>("middleground"));
 
+            debugView = new DebugViewXNA(world);
+            debugView.LoadContent(GraphicsDevice, Content);
+            //texture = Content.Load<Texture2D>("testat");
+
             //weaponTexture = Content.Load<Texture2D>(currentTextureString);
 
             music = new Sounds(this);
@@ -275,7 +279,7 @@ namespace Athyl
             spriteBatch.Draw(skyTexture, new Vector2(0, 0), Color.Wheat);
             player.Draw(spriteBatch);
             weapon.DrawWeapon(spriteBatch);
-            menu.Draw(spriteBatch);
+
             //spriteBatch.Draw(weaponTexture, new Vector2(player.torso.Position.X - 18,player.torso.Position.Y - 10), Color.White); 
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
@@ -285,6 +289,7 @@ namespace Athyl
             /*wallleft.Draw(spriteBatch);
             wallright.Draw(spriteBatch);*/
             map.Draw(spriteBatch);
+            menu.Draw(spriteBatch);
             //Debug.WriteLine(player.torso.Position);
 
             spriteBatch.End();

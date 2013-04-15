@@ -140,6 +140,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PauseMenuBackground.png">
+      <Name>PauseMenuBackground</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="RunningDummyEnemy.png">
       <Name>RunningDummyEnemy</Name>
       <Importer>TextureImporter</Importer>
