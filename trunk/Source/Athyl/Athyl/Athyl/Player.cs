@@ -177,7 +177,7 @@ namespace Athyl
         {
             shot = new DrawableGameObject(world, projectile, 10, 1, "shot");
             shot.body.IsBullet = true;
-            shot.body.IsSensor = true;
+            //shot.body.IsSensor = true;
             shot.body.Position = torso.body.Position;
             shot.body.IgnoreGravity = true;
             if(Direction)
