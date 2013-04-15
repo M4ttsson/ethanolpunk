@@ -55,14 +55,17 @@ namespace Athyl
         {
             if (contact.IsTouching())
             {
-                if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy")
+                if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy" )
                 {
                     if(!removeListbody.Contains(fixtureA.Body))
                         removeListbody.Add(fixtureA.Body);
                     foreach (DrawableGameObject i in bullets)
                     {
                         if (i.body.BodyId == fixtureA.Body.BodyId)
-                            removeList.Add(i);
+                        {
+                            if (!removeList.Contains(i))
+                                removeList.Add(i);
+                        }
                     }
                     Console.WriteLine("removed");
                     return true;
