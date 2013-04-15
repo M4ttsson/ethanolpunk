@@ -30,7 +30,7 @@ namespace Athyl
         private int ColFrame;
         private int RowFrame;
         private float TotalElapsed;
-        private bool Direction = true;
+        public bool Direction = true;
 
         //public DrawableGameObject torso;
 

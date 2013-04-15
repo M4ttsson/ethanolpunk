@@ -18,8 +18,8 @@ using System.Threading;
 namespace Athyl
 {
     class Menu
-    {  
-        public enum GameState { StartMenu, Loading, Playing ,Paused }
+    {
+        public enum GameState { StartMenu, Loading, Playing, Paused }
 
         private Texture2D startButton;
         private Texture2D exitButton;
@@ -44,19 +44,19 @@ namespace Athyl
         MouseState mouseState;
         MouseState previousMouseState;
 
-        GameState gameState;
+        public GameState gameState;
 
         public Menu(Game1 game)
         {
             startButton = game.Content.Load<Texture2D>("StartButton");
-            exitButton = game.Content.Load<Texture2D>("ExitButon");
+            //exitButton = game.Content.Load<Texture2D>("ExitButon");
             pauseButton = game.Content.Load<Texture2D>("PauseButton");
             resumeButton = game.Content.Load<Texture2D>("ResumeButton");
-            settingsButton = game.Content.Load<Texture2D>("SeetingsButton");
+            //settingsButton = game.Content.Load<Texture2D>("SeetingsButton");
             saveButton = game.Content.Load<Texture2D>("SaveButton");
             LoadButon = game.Content.Load<Texture2D>("LoadButton");
         }
-        
+
         public void StartMenu(Game1 game)
         {
             gameState = GameState.StartMenu;
@@ -82,17 +82,62 @@ namespace Athyl
         {
             //Load the game images into the content pipeline
 
-            
+
         }
-        public void Update(GameTime gametime)
+        public void UpdateMenu(GameTime gametime, Game1 game)
         {
+
+            KeyboardState kbState = Keyboard.GetState();
+
+
+            if (kbState.IsKeyDown(Keys.F2))
+            {
+                gameState = GameState.Paused;
+            }
+
+            else if (kbState.IsKeyDown(Keys.F3))
+            {
+                gameState = GameState.Playing;
+            }
+
+            if (gameState == GameState.Playing)
+            {
+                PauseIcon(game);
+
+            }
+            else if (gameState == GameState.Paused)
+            {
+                PauseMenu(game);
+            }
+
+            else if (gameState == GameState.StartMenu)
+            {
+                StartMenu(game);
+            }
+
+
         }
 
-        public void Draw(SpriteBatch draw)
+        public void Draw(SpriteBatch spriteBatch)
         {
+            if (gameState == GameState.StartMenu)
+            {
+                spriteBatch.Draw(startButton, new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, startButton.Width, startButton.Height), Color.White);
+            }
+            //spriteBatch.Draw(exitButton, new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, exitButton.Width, exitButton.Height), Color.White);
+
+            //spriteBatch.Draw(pauseButton, new Rectangle((int)pauseButtonPosition.X, (int)pauseButtonPosition.Y, pauseButton.Width, pauseButton.Height), Color.White);
+
+            if (gameState == GameState.Paused)
+            {
+                spriteBatch.Draw(resumeButton, new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, resumeButton.Width, resumeButton.Height), Color.White);
+            }
+            //spriteBatch.Draw(settingsButton, new Rectangle((int)settingsButtonPosition.X, (int)settingsButtonPosition.Y, settingsButton.Width, settingsButton.Height), Color.White);
+
+
         }
 
-  
-            
+
+
     }
 }

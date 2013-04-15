@@ -156,6 +156,7 @@ namespace Athyl
                         previousJump = DateTime.Now;
                         UpdateFrame(0.2f);
                     }
+
                     
                 }
 
