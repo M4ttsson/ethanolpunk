@@ -27,9 +27,9 @@ namespace Athyl
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         public GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
         DebugViewXNA debugView;
-        World world;
+        public World world;
         List<AI> theAI = new List<AI>();
         Player player;
         KeyboardState prevKeyboardState;
@@ -47,6 +47,7 @@ namespace Athyl
         Texture2D skyTexture;
         Menu menu;
         Sounds music;
+        Projectile projectile;
 
         private bool paused = false;
 
@@ -76,6 +77,8 @@ namespace Athyl
             menu.gameState = Menu.GameState.Playing;
             weapon = new Weapons(world);
             IsMouseVisible = true;
+            projectile = new Projectile(this);
+
 
             myFont = Content.Load<SpriteFont>("AthylFont");
             base.Initialize();
@@ -126,7 +129,7 @@ namespace Athyl
             //weapon = new Weapons(0, Content.Load<Texture2D>(currentTextureString), new Vector2(50, 50));
 
             //player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
-            player = new Player(world, Content.Load<Texture2D>("TestGubbar"), new Vector2(55, 120), 100, 20, new Vector2(600, 600));
+            player = new Player(world, Content.Load<Texture2D>("TestGubbar"), new Vector2(55, 120), 100, 20, new Vector2(600, 600), this);
             skyTexture = Content.Load<Texture2D>("Sky");
 
             //foot contacts
@@ -238,7 +241,9 @@ namespace Athyl
 
                     music.UpdateSound(gameTime);
                     prevKeyboardState = keyboardState;
+
                     player.UpdatePlayer();
+
                     world.Step(0.033333f);
                 }
 
@@ -281,6 +286,7 @@ namespace Athyl
             player.Draw(spriteBatch);
             weapon.DrawWeapon(spriteBatch);
 
+            projectile.Draw(spriteBatch);
             //spriteBatch.Draw(weaponTexture, new Vector2(player.torso.Position.X - 18,player.torso.Position.Y - 10), Color.White); 
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
