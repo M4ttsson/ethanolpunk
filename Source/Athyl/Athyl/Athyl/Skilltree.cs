@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Athyl
 {
-    class Skilltree : Weapons
+    class Skilltree
     {
         Player playerInfo;
 

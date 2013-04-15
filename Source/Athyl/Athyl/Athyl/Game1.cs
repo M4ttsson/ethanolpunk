@@ -45,22 +45,21 @@ namespace Athyl
         DrawableGameObject box;
         Texture2D texture;
         Texture2D skyTexture;
-        Menu startButtonPosition;
-        Menu exitButtonPosition;
+        Menu menu;
         Sounds music;
 
         private bool paused = false;
-        
+
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this)
                 {
 
-                      PreferredBackBufferHeight = 720,
-                      PreferredBackBufferWidth = 1280,
-                      IsFullScreen = false
-                 };
+                    PreferredBackBufferHeight = 720,
+                    PreferredBackBufferWidth = 1280,
+                    IsFullScreen = false
+                };
             Content.RootDirectory = "Content";
         }
 
@@ -73,9 +72,11 @@ namespace Athyl
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
-            weapon = new Weapons();
+            menu = new Menu(this);
+            menu.gameState = Menu.GameState.Playing;
+            weapon = new Weapons(world);
             IsMouseVisible = true;
+            
             base.Initialize();
         }
 
@@ -93,16 +94,16 @@ namespace Athyl
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
 
-              
-            
+
             map = new Map(world, Content.Load<Texture2D>("middleground"));
 
             debugView = new DebugViewXNA(world);
             debugView.LoadContent(GraphicsDevice, Content);
             texture = Content.Load<Texture2D>("testat");
             //weaponTexture = Content.Load<Texture2D>(currentTextureString);
-            
+
             music = new Sounds(this);
+
             music.Play("Title");
             //music.Stop();
 
@@ -112,13 +113,13 @@ namespace Athyl
             weapon = new Weapons(world, this, weapon.weaponId, weapon.weaponTexture);
 
 
-           /* wallleft = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
-            wallleft.Position = new Vector2(0, GraphicsDevice.Viewport.Height / 2.0f); 
-            wallleft.body.BodyType = BodyType.Static;*/
+            /* wallleft = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
+             wallleft.Position = new Vector2(0, GraphicsDevice.Viewport.Height / 2.0f); 
+             wallleft.body.BodyType = BodyType.Static;*/
 
-           /* wallright = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
-            wallright.Position = new Vector2(GraphicsDevice.Viewport.Width - 50, GraphicsDevice.Viewport.Height / 2.0f);
-            wallright.body.BodyType = BodyType.Static;*/
+            /* wallright = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
+             wallright.Position = new Vector2(GraphicsDevice.Viewport.Width - 50, GraphicsDevice.Viewport.Height / 2.0f);
+             wallright.body.BodyType = BodyType.Static;*/
 
             //weapon = new Weapons(0, Content.Load<Texture2D>(currentTextureString), new Vector2(50, 50));
 
@@ -135,14 +136,14 @@ namespace Athyl
         private bool BeginContact(Contact contact)
         {
 
-                if (contact.FixtureA.UserData.ToString() == "wheel")
-                {
-                    player.numFootContacts++;
-                }
-                if (contact.FixtureB.UserData.ToString() == "wheel")
-                {
-                    player.numFootContacts++;
-                }
+            if (contact.FixtureA.UserData.ToString() == "wheel")
+            {
+                player.numFootContacts++;
+            }
+            if (contact.FixtureB.UserData.ToString() == "wheel")
+            {
+                player.numFootContacts++;
+            }
 
             return true;
         }
@@ -163,7 +164,7 @@ namespace Athyl
         {
 
         }
-        
+
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -179,61 +180,74 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            //check if player foot is touching the ground
-            if (player.numFootContacts < 1)
+
+            menu.UpdateMenu(gameTime, this);
+            if (menu.gameState == Menu.GameState.StartMenu)
             {
-                player.OnGround = false;
-            }
-            else
-            {
-                player.OnGround = true;
+                menu.StartMenu(this);
             }
 
-            // Allows the game to exit
+            else if (menu.gameState == Menu.GameState.Playing)
+            {
+                //check if player foot is touching the ground
+                if (player.numFootContacts < 1)
+                {
+                    player.OnGround = false;
+                }
+                else
+                {
+                    player.OnGround = true;
+                }
+
+                // Allows the game to exit
+
+
+                KeyboardState keyboardState = Keyboard.GetState();
+
+                if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
+                {
+                    player.Jump();
+                }
+
+                if (keyboardState.IsKeyDown(Keys.Left))
+                {
+                    player.Move(Player.Movement.Left);
+                }
+                else if (keyboardState.IsKeyDown(Keys.Right))
+                {
+                    player.Move(Player.Movement.Right);
+                }
+                else
+                {
+                    player.Move(Player.Movement.Stop);
+                }
+                if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 1.2f && theAI.Count == 0)
+                {
+                    theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), 100, 20));
+                }
+
+
+                weapon.UpdateWeapon(gameTime);
+
+                foreach (AI ai in theAI)
+                {
+                    ai.UpdateEnemy(player);
+                }
+
+                music.UpdateSound(gameTime);
+                prevKeyboardState = keyboardState;
+
+                world.Step(0.033333f);
+            }
+            
+            
+            //Debug.WriteLine(box.Position);
+
+
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
-
-            KeyboardState keyboardState = Keyboard.GetState();
-
-            if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
-            {
-                player.Jump();
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Left))
-            {
-                player.Move(Player.Movement.Left);
-            }
-            else if (keyboardState.IsKeyDown(Keys.Right))
-            {
-                player.Move(Player.Movement.Right);
-            }
-            else
-            {
-                player.Move(Player.Movement.Stop);
-            }
-
-            if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 1.2f && theAI.Count == 0)
-            {
-                theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), 100, 20));
-            }
-             
-
-            weapon.UpdateWeapon(gameTime, this, player);
-
-            foreach (AI ai in theAI)
-            {
-                ai.UpdateEnemy(player);
-            }
-
-            music.UpdateSound(gameTime);
-
-            //Debug.WriteLine(box.Position);
-            prevKeyboardState = keyboardState;
-            world.Step(0.033333f);
-            
             base.Update(gameTime);
         }
 
@@ -246,6 +260,7 @@ namespace Athyl
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
 
+
             weapon.weaponPosition.X = player.torso.Position.X-55/2;
             weapon.weaponPosition.Y = player.torso.Position.Y;
             // spriteBatch.Begin();
@@ -254,7 +269,8 @@ namespace Athyl
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             spriteBatch.Draw(skyTexture, new Vector2(0, 0), Color.Wheat);
             player.Draw(spriteBatch);
-            //weapon.DrawWeapon(spriteBatch);
+            weapon.DrawWeapon(spriteBatch);
+            menu.Draw(spriteBatch);
             //spriteBatch.Draw(weaponTexture, new Vector2(player.torso.Position.X - 18,player.torso.Position.Y - 10), Color.White); 
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);

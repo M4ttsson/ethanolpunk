@@ -32,8 +32,10 @@ namespace Athyl
         bool hasPiercing;
         DrawableGameObject drawGame;
         DrawableGameObject bulletBody;
+        Game1 game;
+        SpriteEffects myEffect = SpriteEffects.FlipVertically;
 
-        public Weapons()
+        public Weapons(World world)
         {
 
 
@@ -66,8 +68,8 @@ namespace Athyl
             weaponBody.Position = new Vector2(
             weaponBody.ApplyAngularImpulse(bulletSpeed);
             weaponBody.IsSensor = true;*/
-            
 
+            this.game = game;
             Texture = game.Content.Load<Texture2D>(currentTextureString);
             weaponTexture = Texture;
             Console.WriteLine(currentTextureString);
@@ -120,18 +122,18 @@ namespace Athyl
         }
 
 
-        public void UpdateWeapon(GameTime gameTime, Game1 game, Player player)
+        public void UpdateWeapon(GameTime gameTime)
         {
             
 
             KeyboardState kbState = Keyboard.GetState();
-
+            changeTexture(game, weaponTexture); 
             if (kbState.IsKeyDown(Keys.P))
             {
               //  weaponBody.ApplyAngularImpulse(bulletSpeed);
             }
 
-            changeTexture(game, weaponTexture); 
+            
             if (kbState.IsKeyDown(Keys.D1))
             {
                 sniper_r700();
@@ -153,6 +155,11 @@ namespace Athyl
 
         public void DrawWeapon(SpriteBatch spriteBatch)
         {
+            
+          /*  if (!game.player.Direction)
+            {
+                spriteBatch.Draw(weaponTexture, new Rectangle(0, 0, 0, 0), new Rectangle(0, 0, 0, 0), Color.White, 0, new Vector2(0), myEffect, 0);
+            }*/
             spriteBatch.Draw(weaponTexture, weaponPosition, Color.White);
         }
 
