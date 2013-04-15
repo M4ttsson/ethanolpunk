@@ -80,7 +80,9 @@ namespace Athyl
             projectile = new Projectile(this);
 
 
-            myFont = Content.Load<SpriteFont>("AthylFont");
+            myFont = Content.Load<SpriteFont>("font");
+
+
             base.Initialize();
         }
 
@@ -265,7 +267,7 @@ namespace Athyl
 
         private void DrawText()
         {
-            spriteBatch.DrawString(myFont, player.playerHP.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 70), Color.SlateGray);
+            spriteBatch.DrawString(myFont, player.playerHP.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 70), Color.DarkRed);
         }
         /// <summary>
         /// This is called when the game should draw itself.
@@ -278,9 +280,6 @@ namespace Athyl
             
             weapon.weaponPosition.X = player.torso.Position.X-55/2;
             weapon.weaponPosition.Y = player.torso.Position.Y;
-            // spriteBatch.Begin();
-            // box.Draw(spriteBatch);
-            // spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             spriteBatch.Draw(skyTexture, new Vector2(0, 0), Color.Wheat);
             player.Draw(spriteBatch);
@@ -292,17 +291,19 @@ namespace Athyl
                 ai.Draw(spriteBatch);
 
 
-            //floor.Draw(spriteBatch);
-            /*wallleft.Draw(spriteBatch);
-            wallright.Draw(spriteBatch);*/
+           
             map.Draw(spriteBatch);
             menu.Draw(spriteBatch);
-            //Debug.WriteLine(player.torso.Position);
 
 
 
-
+            //!!!!
+            //!!!!
+            //DON'T PUT ANY DRAWING STUFF AFTER THIS!!
+            //Writes the players HP & Ethanol reserves into the game. 
             DrawText();
+            //!!!!
+            //!!!!
             spriteBatch.End();
 
             base.Draw(gameTime);
