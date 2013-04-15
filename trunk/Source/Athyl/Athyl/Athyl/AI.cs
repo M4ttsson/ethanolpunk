@@ -187,7 +187,12 @@ namespace Athyl
             towardsPlayer(aPlayer);
             //attackPlayer();
         }
-
+        /*
+        public void LowerAiHP(int damageTaken)
+        {
+            enemyHP -= damageTaken;
+        }
+        */
         public void Draw(SpriteBatch spriteBatch)
         {
             DrawFrame(spriteBatch, wheel.Position + new Vector2(-55.0f/2, -110f));

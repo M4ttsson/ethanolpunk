@@ -199,20 +199,21 @@ namespace Athyl
                 OnGround = true;
             }
 
-            //Falldamage on player.
-            if (torso.body.LinearVelocity.Y > 10 && !OnGround)
-            {
-                //playerHP -= (int)torso.body.LinearVelocity.Y * 2;
-                hasJumped = true;
-                tempfallDamage = torso.body.LinearVelocity.Y;
-            }
+                //Falldamage on player.
+                if (torso.body.LinearVelocity.Y > 10 && !OnGround)
+                {
+                    //playerHP -= (int)torso.body.LinearVelocity.Y * 2;
+                    hasJumped = true;
+                    tempfallDamage = torso.body.LinearVelocity.Y;
+                }
 
 
-            if (hasJumped == true && OnGround == true)
-            {
-                playerHP -= (int)(tempfallDamage * 1.5);
-                hasJumped = false;
-            }
+                if (hasJumped == true && OnGround == true)
+                {
+                    playerHP -= (int)(tempfallDamage * 1.5);
+                    hasJumped = false;
+                }
+            
 
             if (playerHP < 0)
             {
