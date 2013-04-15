@@ -222,7 +222,10 @@ namespace Athyl
 
 
         }
-
+        /// <summary>
+        /// Fires the weapon
+        /// </summary>
+        /// <param name="world"></param>
         public void useWeapon(World world)
         {
             if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
