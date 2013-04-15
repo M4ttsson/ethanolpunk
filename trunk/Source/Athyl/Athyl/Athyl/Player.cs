@@ -22,41 +22,44 @@ namespace Athyl
     {
         
         public DrawableGameObject torso;
+        public bool OnGround { get; set; }
+        public int numFootContacts { get; set; }
+
+        public bool Direction = true;
+        public int playerHP = 100;
+
+        public enum stance { melee, midRange, longRange };
+
+        protected DrawableGameObject wheel;
+        protected RevoluteJoint axis;
+        protected Texture2D myTexture;
+        protected Vector2 jumpForce = new Vector2(0, -3.0f);
+        protected const float speed = 3.0f;
+
+        protected Game1 game;
+        protected Projectile projectile;
 
         private int frameRow;
         private int frameColumn;
-        private Texture2D myTexture;
         private float TimePerFrame;
         private int ColFrame;
         private int RowFrame;
         private float TotalElapsed;
-        public bool Direction = true;
-        public int playerHP = 100;
+      
         private bool hasJumped = false;
         private float tempfallDamage = 0;
-        //public DrawableGameObject torso;
 
-        DrawableGameObject wheel;
-        RevoluteJoint axis;
-        Body foot;
-        DrawableGameObject shot = null;
-        Projectile projectile;
+        private List<DrawableGameObject> shots = new List<DrawableGameObject>();
 
-
-        public enum stance { melee, midRange, longRange };
-
-        Vector2 jumpForce = new Vector2(0, -3.0f);
-
-       
-
-        public bool OnGround { get; set; }
-        public int numFootContacts { get; set; }
-
-        List<DrawableGameObject> shots = new List<DrawableGameObject>();
-
-        const float speed = 3.0f;
-        Game1 game;
-
+        /// <summary>
+        /// Creates a new player
+        /// </summary>
+        /// <param name="world">The game world</param>
+        /// <param name="texture">Player texture</param>
+        /// <param name="size">Player size</param>
+        /// <param name="mass">Weight in kg</param>
+        /// <param name="wheelSize">Diameter of wheel</param>
+        /// <param name="startPosition">Startposition</param>
         public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition, Game1 game)
         {
 
@@ -195,10 +198,6 @@ namespace Athyl
                 OnGround = true;
             }
 
-
-
-
-
             //Falldamage on player.
             if (torso.body.LinearVelocity.Y > 10 && !OnGround)
             {
@@ -259,7 +258,7 @@ namespace Athyl
             //wheel.Draw(spriteBatch);
         }
 
-        public void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec)
+        private void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec)
         {
             frameRow = FrameRow;
             frameColumn = FrameColumn;
@@ -270,7 +269,7 @@ namespace Athyl
             TotalElapsed = 0;
         }
 
-        public void UpdateFrame(float elapsed)
+        protected void UpdateFrame(float elapsed)
         {
             TotalElapsed += elapsed;
             if (TotalElapsed > TimePerFrame)
@@ -335,11 +334,12 @@ namespace Athyl
             //}
         }
 
-        public void DrawFrame(SpriteBatch spriteBatch, Vector2 screenpos)
+        private void DrawFrame(SpriteBatch spriteBatch, Vector2 screenpos)
         {
             DrawFrame(spriteBatch, ColFrame, RowFrame, screenpos);
         }
-        public void DrawFrame(SpriteBatch spriteBatch, int colFrame, int rowFrame, Vector2 screenpos)
+
+        private void DrawFrame(SpriteBatch spriteBatch, int colFrame, int rowFrame, Vector2 screenpos)
         {
             int FrameWidth = myTexture.Width / frameColumn;
             int FrameHeight = myTexture.Height / frameRow;
