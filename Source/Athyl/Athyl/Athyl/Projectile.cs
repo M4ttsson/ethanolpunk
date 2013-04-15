@@ -21,28 +21,12 @@ namespace Athyl
         private Vector2 projectileDirection;
         private float damage;
         public enum projectiletype { small, medium, large }
+        List<DrawableGameObject> bullets = new List<DrawableGameObject>();
 
-        public Projectile(projectiletype type)
+        public Projectile(Vector2 direction, World world)
         {
-            if (type == projectiletype.small)
-            {
-                projectileVelocity = 5;
-                damage = 10;
 
-                
-            }
-
-            else if (type == projectiletype.medium)
-            {
-                projectileVelocity = 10;
-                damage = 20;
-            }
-
-            else if (type == projectiletype.large)
-            {
-                projectileVelocity = 15;
-                damage = 30;
-            }
+            
         }
 
 
