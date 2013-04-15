@@ -55,20 +55,20 @@ namespace Athyl
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            List<int> removeList = new List<int>();
+            List<DrawableGameObject> removeList = new List<DrawableGameObject>();
             for(int i = 0; i < bullets.Count; i++){
                 bullets[i].Draw(spriteBatch);
                 if (bullets[i].body.Position.X > ConvertUnits.ToSimUnits(game.graphics.PreferredBackBufferWidth) || bullets[i].body.Position.X < 0
                     || bullets[i].body.Position.Y > ConvertUnits.ToSimUnits(game.graphics.PreferredBackBufferHeight) || bullets[i].body.Position.Y < 0)
                 {
-                    removeList.Add(i);
+                    removeList.Add(bullets[i]);
                     game.world.BodyList.Remove(bullets[i].body);
                 }
                 Console.WriteLine(game.world.BodyList.Count);
             }
-            foreach (int i in removeList)
+            foreach (DrawableGameObject i in removeList)
             {
-                bullets.RemoveAt(i);
+                bullets.Remove(i);
                 //Console.WriteLine(bullets.Count);
             }
            
