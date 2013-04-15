@@ -24,7 +24,7 @@ namespace Athyl
         List<DrawableGameObject> bullets = new List<DrawableGameObject>();
         Game1 game;
         List<DrawableGameObject> removeList = new List<DrawableGameObject>();
-
+        List<Body> removeListbody = new List<Body>();
         public Projectile(Game1 game)
         {
             this.game = game;
@@ -55,10 +55,16 @@ namespace Athyl
         {
             if (contact.IsTouching())
             {
-                if (fixtureA.UserData.ToString() == "enemy" && fixtureB.UserData.ToString() == "shot")
+                if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy")
                 {
-                    //removeList.Add(fixtureB.Body);
-
+                    if(!removeListbody.Contains(fixtureA.Body))
+                        removeListbody.Add(fixtureA.Body);
+                    foreach (DrawableGameObject i in bullets)
+                    {
+                        if (i.body.BodyId == fixtureA.Body.BodyId)
+                            removeList.Add(i);
+                    }
+                    Console.WriteLine("removed");
                     return true;
                 }
             }
@@ -81,15 +87,21 @@ namespace Athyl
                     removeList.Add(bullets[i]);
                     game.world.RemoveBody(bullets[i].body);
                 }
-                Console.WriteLine(game.world.BodyList.Count);
+              //  Console.WriteLine(game.world.BodyList.Count);
             }
             foreach (DrawableGameObject i in removeList)
             {
                 bullets.Remove(i);
                 //Console.WriteLine(bullets.Count);
             }
-           
-            
+
+            foreach (Body i in removeListbody)
+            {
+                game.world.RemoveBody(i);
+                
+            }
+            removeListbody.Clear();
+            removeList.Clear();         
         }
     }
 }
