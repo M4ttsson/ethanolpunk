@@ -8,7 +8,12 @@ namespace Athyl
     class Skilltree
     {
         Player playerInfo;
+        public float fireRate;
 
+        public Skilltree()
+        {
+            fireRate = 0.3f;
+        }
 
         #region MeleeStance
 

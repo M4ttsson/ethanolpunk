@@ -38,9 +38,11 @@ namespace Athyl
         protected float speed = 3.0f;
         protected int ColFrame;
         protected int RowFrame;
+        DateTime lastBullet;
 
         protected Game1 game;
         protected Projectile projectile;
+        private Skilltree skillTree;
 
         private int frameRow;
         private int frameColumn;
@@ -100,6 +102,7 @@ namespace Athyl
 
             numFootContacts = 0;
             projectile = new Projectile(game);
+            skillTree = new Skilltree();
 
             //foot = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50), ConvertUnits.ToSimUnits(10), 1, "foot");
             //foot.IsSensor = true;
@@ -222,10 +225,12 @@ namespace Athyl
 
         public void useWeapon(World world)
         {
-            if (playerAthyl > 0)
+            if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
             {
                 projectile.NewBullet(torso.body.Position, Direction, world);
                 playerAthyl -= 1;
+                lastBullet = DateTime.Now;
+
             }
             /*shot = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"), 10, 1, "shot");
 
