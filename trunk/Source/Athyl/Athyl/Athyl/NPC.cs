@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Athyl
 {
-    class NPC : Player
+    class NPC
     {
     }
 }
