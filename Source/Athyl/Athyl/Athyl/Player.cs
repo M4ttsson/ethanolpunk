@@ -213,6 +213,11 @@ namespace Athyl
                 playerHP -= (int)(tempfallDamage * 1.5);
                 hasJumped = false;
             }
+
+            if (playerHP < 0)
+            {
+                playerHP = 0;
+            }
         }
         public void useWeapon(World world)
         {
