@@ -34,7 +34,7 @@ namespace Athyl
         Player player;
         KeyboardState prevKeyboardState;
 
-
+        SpriteFont myFont;
         Weapons weapon;
 
         //tests
@@ -76,7 +76,8 @@ namespace Athyl
             menu.gameState = Menu.GameState.Playing;
             weapon = new Weapons(world);
             IsMouseVisible = true;
-            
+
+            myFont = Content.Load<SpriteFont>("AthylFont");
             base.Initialize();
         }
 
@@ -190,15 +191,7 @@ namespace Athyl
 
             else if (menu.gameState == Menu.GameState.Playing)
             {
-                //check if player foot is touching the ground
-                if (player.numFootContacts < 1)
-                {
-                    player.OnGround = false;
-                }
-                else
-                {
-                    player.OnGround = true;
-                }
+
 
                 // Allows the game to exit
 
@@ -208,7 +201,9 @@ namespace Athyl
                 if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 1.2f && theAI.Count == 0)
                 {
                     theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), 100, 20));
+                   
                 }
+               
                     if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
                     {
                         player.Jump();
@@ -243,7 +238,7 @@ namespace Athyl
 
                     music.UpdateSound(gameTime);
                     prevKeyboardState = keyboardState;
-
+                    player.UpdatePlayer();
                     world.Step(0.033333f);
                 }
 
@@ -260,6 +255,13 @@ namespace Athyl
             }
         
 
+
+
+
+        private void DrawText()
+        {
+            spriteBatch.DrawString(myFont, player.playerHP.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 70), Color.SlateGray);
+        }
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -268,8 +270,7 @@ namespace Athyl
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-
-
+            
             weapon.weaponPosition.X = player.torso.Position.X-55/2;
             weapon.weaponPosition.Y = player.torso.Position.Y;
             // spriteBatch.Begin();
@@ -292,6 +293,10 @@ namespace Athyl
             menu.Draw(spriteBatch);
             //Debug.WriteLine(player.torso.Position);
 
+
+
+
+            DrawText();
             spriteBatch.End();
 
             base.Draw(gameTime);

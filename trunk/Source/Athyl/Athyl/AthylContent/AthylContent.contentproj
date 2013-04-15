@@ -140,6 +140,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AthylFont.spritefont">
+      <Name>AthylFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="PauseMenuBackground.png">
       <Name>PauseMenuBackground</Name>
       <Importer>TextureImporter</Importer>

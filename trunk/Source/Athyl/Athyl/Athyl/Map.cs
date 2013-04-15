@@ -64,15 +64,16 @@ namespace Athyl
                 floor.body.BodyType = BodyType.Static;
                 ground.Add(floor);
             }
-
-            for (int i = 0; i < 10; i++)
+      
+            for (int i = 0; i < 4; i++)
             {
                 DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
                 floor.Position = new Vector2(i * 40 + 460, 300);
                 floor.body.BodyType = BodyType.Static;
                 ground.Add(floor);
             }
-
+            
+             
 
             for (int i = 0; i < 10; i++)
             {
