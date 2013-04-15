@@ -132,7 +132,7 @@ namespace Athyl
             //weapon = new Weapons(0, Content.Load<Texture2D>(currentTextureString), new Vector2(50, 50));
 
             //player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
-            player = new Player(world, Content.Load<Texture2D>("TestGubbar"), new Vector2(55, 120), 100, 20, new Vector2(600, 600), this);
+            player = new Player(world, Content.Load<Texture2D>("TestGubbar"), new Vector2(55, 120), 100, 20, new Vector2(600, 600), this, "player");
             skyTexture = Content.Load<Texture2D>("Sky");
 
             //foot contacts
@@ -144,11 +144,11 @@ namespace Athyl
         private bool BeginContact(Contact contact)
         {
 
-            if (contact.FixtureA.UserData.ToString() == "wheel")
+            if (contact.FixtureA.UserData.ToString() == "playerwheel")
             {
                 player.numFootContacts++;
             }
-            if (contact.FixtureB.UserData.ToString() == "wheel")
+            if (contact.FixtureB.UserData.ToString() == "playerwheel")
             {
                 player.numFootContacts++;
             }
@@ -158,11 +158,11 @@ namespace Athyl
 
         private void EndContact(Contact contact)
         {
-            if (contact.FixtureA.UserData.ToString() == "wheel")
+            if (contact.FixtureA.UserData.ToString() == "playerwheel")
             {
                 player.numFootContacts--;
             }
-            if (contact.FixtureB.UserData.ToString() == "wheel")
+            if (contact.FixtureB.UserData.ToString() == "playerwheel")
             {
                 player.numFootContacts--;
             }
@@ -207,7 +207,7 @@ namespace Athyl
 
                 if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 1.2f && theAI.Count == 0)
                 {
-                    theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), 100, 20));
+                    theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
                    
                 }
                

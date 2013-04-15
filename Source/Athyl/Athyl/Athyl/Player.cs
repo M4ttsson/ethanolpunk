@@ -35,17 +35,19 @@ namespace Athyl
         protected RevoluteJoint axis;
         protected Texture2D myTexture;
         protected Vector2 jumpForce = new Vector2(0, -3.0f);
-        protected const float speed = 3.0f;
+        protected float speed = 3.0f;
+        protected int ColFrame;
+        protected int RowFrame;
 
         protected Game1 game;
         protected Projectile projectile;
 
         private int frameRow;
         private int frameColumn;
-        private float TimePerFrame;
-        private int ColFrame;
-        private int RowFrame;
-        private float TotalElapsed;
+
+        //should be private
+        protected float TimePerFrame;
+        protected float TotalElapsed;
       
         private bool hasJumped = false;
         private float tempfallDamage = 0;
@@ -61,7 +63,7 @@ namespace Athyl
         /// <param name="mass">Weight in kg</param>
         /// <param name="wheelSize">Diameter of wheel</param>
         /// <param name="startPosition">Startposition</param>
-        public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition, Game1 game)
+        public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition, Game1 game, string userdata)
         {
 
             Load(texture, 3, 11, 1);
@@ -74,12 +76,12 @@ namespace Athyl
 
             //create torso
             //torso = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f, "player");
-            torso = new DrawableGameObject(world, texture, 60, "player");
+            torso = new DrawableGameObject(world, texture, 60, userdata);
             torso.Position = startPosition;
             torso.body.Restitution = 0;
             
             // Create the feet of the body, here implemented as high friction wheels 
-            wheel = new DrawableGameObject(world, texture, wheelSize, mass, "wheel");
+            wheel = new DrawableGameObject(world, texture, wheelSize, mass, userdata + "wheel");
             wheel.Position = torso.Position + new Vector2(0, torsoSize.Y/2);
             wheel.body.Friction = 10000f;
             wheel.body.Restitution = 0.0f;
@@ -108,12 +110,9 @@ namespace Athyl
 
         public void Jump()
         {
-
-
             if (OnGround)
             {
                 torso.body.ApplyLinearImpulse(jumpForce);
-
             }
         }
 
@@ -121,12 +120,7 @@ namespace Athyl
         {
             if (contact.IsTouching())
             {
-                if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground")
-                {
-                    OnGround = true;
-                    //Debug.WriteLine(OnGround);
-                    return true;
-                }
+
             }
             return false;
         }
@@ -225,6 +219,7 @@ namespace Athyl
 
 
         }
+
         public void useWeapon(World world)
         {
             if (playerAthyl > 0)
@@ -255,7 +250,7 @@ namespace Athyl
             Stop
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             DrawFrame(spriteBatch, wheel.Position + new Vector2(-55/2, -110.0f));
             foreach (DrawableGameObject d in shots)
@@ -268,7 +263,7 @@ namespace Athyl
             //wheel.Draw(spriteBatch);
         }
 
-        private void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec)
+        protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec)
         {
             frameRow = FrameRow;
             frameColumn = FrameColumn;
@@ -279,7 +274,7 @@ namespace Athyl
             TotalElapsed = 0;
         }
 
-        protected void UpdateFrame(float elapsed)
+        protected virtual void UpdateFrame(float elapsed)
         {
             TotalElapsed += elapsed;
             if (TotalElapsed > TimePerFrame)
@@ -344,7 +339,7 @@ namespace Athyl
             //}
         }
 
-        private void DrawFrame(SpriteBatch spriteBatch, Vector2 screenpos)
+        protected void DrawFrame(SpriteBatch spriteBatch, Vector2 screenpos)
         {
             DrawFrame(spriteBatch, ColFrame, RowFrame, screenpos);
         }
