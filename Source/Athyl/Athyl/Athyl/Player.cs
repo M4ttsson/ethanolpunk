@@ -27,6 +27,7 @@ namespace Athyl
 
         public bool Direction = true;
         public int playerHP = 100;
+        public int playerAthyl = 200;
 
         public enum stance { melee, midRange, longRange };
 
