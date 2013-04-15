@@ -37,6 +37,7 @@ namespace Athyl
         DrawableGameObject wheel;
         RevoluteJoint axis;
         Body foot;
+        DrawableGameObject shot = null;
 
 
         public enum stance { melee, midRange, longRange };
@@ -128,6 +129,7 @@ namespace Athyl
                         {
                             torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
                             torso.body.ApplyForce(new Vector2(-speed, 0));
+                            
                         }
                         else if (torso.body.LinearVelocity.X >= -speed)
                         {
@@ -139,6 +141,7 @@ namespace Athyl
                         axis.MotorSpeed = -MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
                     }
+                    Direction = false;
                     break;
 
                 case Movement.Right:
@@ -148,6 +151,7 @@ namespace Athyl
                         {
                             torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
                             torso.body.ApplyForce(new Vector2(speed, 0));
+                            
                         }
                         else if (torso.body.LinearVelocity.X <= speed)
                         {
@@ -159,6 +163,7 @@ namespace Athyl
                         axis.MotorSpeed = MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
                     }
+                    Direction = true;
                     break;
 
                 case Movement.Stop:
@@ -170,8 +175,16 @@ namespace Athyl
 
         public void useWeapon(World world)
         {
-            DrawableGameObject shot = new DrawableGameObject(world, projectile, 10, 5, "shot");
+            shot = new DrawableGameObject(world, projectile, 10, 1, "shot");
             shot.body.IsBullet = true;
+            shot.body.IsSensor = true;
+            shot.body.Position = torso.body.Position;
+            shot.body.IgnoreGravity = true;
+            if(Direction)
+                shot.body.ApplyLinearImpulse(new Vector2(0.1f, 0.0f));
+            else
+                shot.body.ApplyLinearImpulse(new Vector2(-0.1f, 0.0f));
+
         }
 
         public void changeStance()
@@ -187,6 +200,8 @@ namespace Athyl
         public void Draw(SpriteBatch spriteBatch)
         {
             DrawFrame(spriteBatch, wheel.Position + new Vector2(-55/2, -110.0f));
+            if(shot != null)
+                shot.Draw(spriteBatch);
             //DrawFrame(spriteBatch, new Vector2(torso.Position.X, torso.Position.Y - torso.Size.Y/2));
             //torso.Draw(spriteBatch);//, new Vector2(torso.Size.X, torso.Size.Y));
             //wheel.Draw(spriteBatch);

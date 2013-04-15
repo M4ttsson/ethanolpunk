@@ -204,54 +204,60 @@ namespace Athyl
 
                 KeyboardState keyboardState = Keyboard.GetState();
 
-
-                if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
-                {
-                    player.Jump();
-                }
-
-                if (keyboardState.IsKeyDown(Keys.Left))
-                {
-                    player.Move(Player.Movement.Left);
-                }
-                else if (keyboardState.IsKeyDown(Keys.Right))
-                {
-                    player.Move(Player.Movement.Right);
-                }
-                else
-                {
-                    player.Move(Player.Movement.Stop);
-                }
                 if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 1.2f && theAI.Count == 0)
                 {
                     theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), 100, 20));
                 }
+                    if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
+                    {
+                        player.Jump();
+                    }
+
+                    if (keyboardState.IsKeyDown(Keys.Left))
+                    {
+                        player.Move(Player.Movement.Left);
+                    }
+                    else if (keyboardState.IsKeyDown(Keys.Right))
+                    {
+                        player.Move(Player.Movement.Right);
+                    }
+                    else
+                    {
+                        player.Move(Player.Movement.Stop);
+                    }
+
+                    if (keyboardState.IsKeyDown(Keys.Z))
+                    {
+                        player.useWeapon(world);
+                    }
+                    
 
 
-                weapon.UpdateWeapon(gameTime);
+                    weapon.UpdateWeapon(gameTime);
 
-                foreach (AI ai in theAI)
-                {
-                    ai.UpdateEnemy(player);
+                    foreach (AI ai in theAI)
+                    {
+                        ai.UpdateEnemy(player);
+                    }
+
+                    music.UpdateSound(gameTime);
+                    prevKeyboardState = keyboardState;
+
+                    world.Step(0.033333f);
                 }
 
-                music.UpdateSound(gameTime);
-                prevKeyboardState = keyboardState;
 
-                world.Step(0.033333f);
+                //Debug.WriteLine(box.Position);
+
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    Exit();
+                }
+
+                base.Update(gameTime);
             }
-            
-            
-            //Debug.WriteLine(box.Position);
-
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                Exit();
-            }
-
-            base.Update(gameTime);
-        }
+        
 
         /// <summary>
         /// This is called when the game should draw itself.
