@@ -34,6 +34,8 @@ namespace Athyl
         Player player;
         KeyboardState prevKeyboardState;
 
+
+
         SpriteFont myFont;
         Weapons weapon;
 
