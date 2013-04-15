@@ -38,7 +38,7 @@ namespace Athyl
         /// <param name="direction"></param>
         /// <param name="world"></param>
         public void NewBullet(Vector2 position, bool direction, World world){
-            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"),new Vector2(10,2), 10, "shot");
+            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"),new Vector2(10,4), 10, "shot");
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
             bullet.body.IgnoreGravity = true;
@@ -55,10 +55,23 @@ namespace Athyl
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (DrawableGameObject d in bullets){
-                d.Draw(spriteBatch);
-              //  Console.WriteLine(game.world.BodyList.Count);
+            List<int> removeList = new List<int>();
+            for(int i = 0; i < bullets.Count; i++){
+                bullets[i].Draw(spriteBatch);
+                if (bullets[i].body.Position.X > ConvertUnits.ToSimUnits(game.graphics.PreferredBackBufferWidth) || bullets[i].body.Position.X < 0
+                    || bullets[i].body.Position.Y > ConvertUnits.ToSimUnits(game.graphics.PreferredBackBufferHeight) || bullets[i].body.Position.Y < 0)
+                {
+                    removeList.Add(i);
+                    game.world.BodyList.Remove(bullets[i].body);
+                }
+                Console.WriteLine(game.world.BodyList.Count);
             }
+            foreach (int i in removeList)
+            {
+                bullets.RemoveAt(i);
+                //Console.WriteLine(bullets.Count);
+            }
+           
             
         }
     }
