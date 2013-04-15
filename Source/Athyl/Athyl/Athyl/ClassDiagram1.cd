@@ -7,13 +7,6 @@
       <FileName>AI.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Athyl.AnimatedSprite" Collapsed="true">
-    <Position X="4.25" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>CAQCCACIhAAAQAAAEAAAIACAAAAAAAAAgARAEAAwgAA=</HashCode>
-      <FileName>AnimatedSprite.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Athyl.DrawableGameObject" Collapsed="true">
     <Position X="7.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
@@ -21,8 +14,8 @@
       <FileName>DrawableGameObject.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Athyl.Game1" Collapsed="true">
-    <Position X="9.75" Y="0.5" Width="1.5" />
+  <Class Name="Athyl.Game1">
+    <Position X="10.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAEEAAgAABgwAAAAAIAggACACQggiBECAAAAAAIAQ=</HashCode>
       <FileName>Game1.cs</FileName>
@@ -50,7 +43,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Athyl.NPC" Collapsed="true">
-    <Position X="9.75" Y="1.5" Width="1.5" />
+    <Position X="8" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NPC.cs</FileName>
@@ -71,9 +64,9 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Athyl.Projectile" Collapsed="true">
-    <Position X="8.75" Y="3.25" Width="1.5" />
+    <Position X="6.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAIAAAAIAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAIAAgAAAAAAAAAAAAAAAAAAAIAAAAIAAAAA=</HashCode>
       <FileName>Projectile.cs</FileName>
     </TypeIdentifier>
   </Class>
