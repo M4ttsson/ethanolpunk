@@ -343,5 +343,10 @@ namespace Athyl
             spriteBatch.Draw(myTexture, screenpos, sourcerect, Color.White,
                 0.0f, new Vector2(0.0f,0.0f), 1.0f, SpriteEffects.None, 1.0f);
         }
+
+        public void DrawPlayerReserves(SpriteBatch spriteBatch)
+        {
+
+        }
     }
 }
