@@ -215,15 +215,23 @@ namespace Athyl
                 }
             
 
-            if (playerHP < 0)
+            if (playerHP <= 0)
             {
                 playerHP = 0;
+                
             }
+
+
+
+
         }
         public void useWeapon(World world)
         {
-
-            projectile.NewBullet(torso.body.Position, Direction, world);
+            if (playerAthyl > 0)
+            {
+                projectile.NewBullet(torso.body.Position, Direction, world);
+                playerAthyl -= 1;
+            }
             /*shot = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"), 10, 1, "shot");
 
             shot = new DrawableGameObject(world, projectile, 10, 40, "shot");

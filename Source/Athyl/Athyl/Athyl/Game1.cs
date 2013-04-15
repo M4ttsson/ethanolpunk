@@ -179,6 +179,7 @@ namespace Athyl
         /// </summary>
         protected override void UnloadContent()
         {
+
         }
 
         /// <summary>
@@ -268,8 +269,8 @@ namespace Athyl
 
         private void DrawText()
         {
-            spriteBatch.DrawString(myFont, player.playerHP.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 70), Color.DarkRed);
-            spriteBatch.DrawString(myFont, player.playerAthyl.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 40), Color.MidnightBlue);
+            spriteBatch.DrawString(myFont, player.playerHP.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 100), Color.DarkRed);
+            spriteBatch.DrawString(myFont, player.playerAthyl.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 70), Color.MidnightBlue);
         }
         /// <summary>
         /// This is called when the game should draw itself.
