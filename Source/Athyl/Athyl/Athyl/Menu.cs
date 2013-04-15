@@ -41,6 +41,7 @@ namespace Athyl
         Vector2 saveButtonPosition;
         Vector2 loadButtonPosition;
         Vector2 pauseMenuPosition;
+        Vector2 loadingScreenPosition;
 
         private Thread backGroundThread;
         private bool isLoading = false;
@@ -60,6 +61,7 @@ namespace Athyl
             LoadButon = game.Content.Load<Texture2D>("LoadButton");
             pauseMenuBackgroundFront = game.Content.Load<Texture2D>("PauseMenu");
             pauseMenuBackgroundBack = game.Content.Load<Texture2D>("PauseMenuBackground");
+            loadingScreen = game.Content.Load<Texture2D>("LoadingGameButton");
         }
 
         public void StartMenu(Game1 game)
@@ -67,6 +69,7 @@ namespace Athyl
             gameState = GameState.StartMenu;
             startButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 300);
             exitButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 355);
+            loadingScreenPosition = new Vector2(800, 500); 
         }
 
         public void PauseIcon(Game1 game)
@@ -89,9 +92,13 @@ namespace Athyl
         public void LoadGame()
         {
             //Load the game images into the content pipeline
+            Thread.Sleep(3000);
 
+            gameState = GameState.Playing;
+            isLoading = true;
 
         }
+
         public void UpdateMenu(GameTime gametime, Game1 game)
         {
 
@@ -104,6 +111,20 @@ namespace Athyl
             }
             previousMouseState = mouseState;
 
+            if (gameState == GameState.Playing && isLoading)
+            {
+                LoadGame();
+                isLoading = false;
+            }
+
+
+            if (gameState == GameState.Loading && !isLoading)
+            {
+                backGroundThread = new Thread(LoadGame);
+                isLoading = true;
+
+                backGroundThread.Start();
+            }
 
             if (kbState.IsKeyDown(Keys.F2))
             {
@@ -138,7 +159,24 @@ namespace Athyl
             //creates a rectangle of 10x10 around the place where the mouse was clicked
             Rectangle mouseClickRect = new Rectangle(x, y, 10, 10);
 
-            //check the startmenu
+            //checking the startmenu
+            if (gameState == GameState.StartMenu)
+            {
+                Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, 120, 60);
+                Rectangle exitButtonRect = new Rectangle((int)exitButtonPosition.X, (int)startButtonPosition.Y, 120, 60);
+
+                if (mouseClickRect.Intersects(startButtonRect))
+                {
+                    gameState = GameState.Loading;
+                    isLoading = true;
+                }
+                else if (mouseClickRect.Intersects(exitButtonRect))
+                {
+                    game.Exit();
+                }
+            }
+
+            //checking the pausemenu
             if (gameState == GameState.Paused)
             {
                 Rectangle resumeButtonRect = new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, 120, 60);
@@ -148,6 +186,7 @@ namespace Athyl
                 if (mouseClickRect.Intersects(resumeButtonRect))
                 {
                     gameState = GameState.Playing;
+                    
                 }
                 else if (mouseClickRect.Intersects(exitbuttonRect))
                 {
@@ -160,15 +199,19 @@ namespace Athyl
         public void Draw(SpriteBatch spriteBatch)
         {
 
-           
+
 
             if (gameState == GameState.StartMenu)
             {
                 spriteBatch.Draw(startButton, new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, startButton.Width, startButton.Height), Color.White);
-            }
-            //spriteBatch.Draw(exitButton, new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, exitButton.Width, exitButton.Height), Color.White);
+                spriteBatch.Draw(exitButton, new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, exitButton.Width, exitButton.Height), Color.White);
 
-            //spriteBatch.Draw(pauseButton, new Rectangle((int)pauseButtonPosition.X, (int)pauseButtonPosition.Y, pauseButton.Width, pauseButton.Height), Color.White);
+            }
+
+            if (gameState == GameState.Loading)
+            {
+                spriteBatch.Draw(loadingScreen, new Rectangle((int)loadingScreenPosition.X, (int)loadingScreenPosition.Y, loadingScreen.Width, loadingScreen.Height), Color.CornflowerBlue);
+            }
 
             if (gameState == GameState.Paused)
             {
