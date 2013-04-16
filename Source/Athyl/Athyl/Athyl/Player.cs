@@ -152,12 +152,12 @@ namespace Athyl
                         if (torso.body.LinearVelocity.X > 0)
                         {
                             torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
-                            torso.body.ApplyForce(new Vector2(-speed, 0));
+                            torso.body.ApplyForce(new Vector2(-speed * 2, 0));
 
                         }
-                        else if (torso.body.LinearVelocity.X >= -speed)
+                        else if (torso.body.LinearVelocity.X >= -speed * 2)
                         {
-                            torso.body.ApplyForce(new Vector2(-speed, 0));
+                            torso.body.ApplyForce(new Vector2(-speed * 2, 0));
                         }
                     }
                     else
@@ -174,12 +174,12 @@ namespace Athyl
                         if (torso.body.LinearVelocity.X < 0)
                         {
                             torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
-                            torso.body.ApplyForce(new Vector2(speed, 0));
+                            torso.body.ApplyForce(new Vector2(speed * 2, 0));
 
                         }
-                        else if (torso.body.LinearVelocity.X <= speed)
+                        else if (torso.body.LinearVelocity.X <= speed * 2)
                         {
-                            torso.body.ApplyForce(new Vector2(speed, 0));
+                            torso.body.ApplyForce(new Vector2(speed * 2, 0));
                         }
                     }
                     else

@@ -318,6 +318,11 @@ namespace Athyl
                 player.Direction = 2;
             }
 
+            if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
+            {
+                theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
+            }
+
             prevKeyboardState = keyboardState;
 
         }
