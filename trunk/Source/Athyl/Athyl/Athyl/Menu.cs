@@ -115,7 +115,7 @@ namespace Athyl
                 LoadGame();
                 isLoading = false;
             }
-
+       
 
             if (gameState == GameState.Loading && !isLoading)
             {
