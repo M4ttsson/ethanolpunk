@@ -113,9 +113,9 @@ namespace Athyl
 
             //weaponTexture = Content.Load<Texture2D>(currentTextureString);
 
-            sound = new Sounds(this);
+            //sound = new Sounds(this);
 
-            sound.Play("castlevagina");
+            //sound.Play("castlevagina");
 
 
             //music.Stop();
@@ -233,7 +233,7 @@ namespace Athyl
 
                 
 
-                sound.UpdateSound(gameTime);
+                //sound.UpdateSound(gameTime);
                 
    
             }
