@@ -29,12 +29,9 @@ namespace Athyl
         private bool seen = false;
 
         public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game)
-            : base(world, texture, size, mass, wheelSize, startPosition, game, "enemy")
+            : base(world, texture, size, mass, startPosition, game, "enemy")
         {
             Load(texture, 2, 11, 1);
-
-            
-            
 
             speed = 1f;
             jumpForce = new Vector2(0, -2f);
@@ -61,8 +58,6 @@ namespace Athyl
 
         Vector2 right = new Vector2(2, 0);
         Vector2 left = new Vector2(-2, 0);
-
-
 
         /* Idea for AI
          * 
