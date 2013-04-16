@@ -153,6 +153,25 @@ namespace Athyl
             }
         }
 
+        private bool rayCast(Player aPlayer, World world)
+        {
+            Vector2 startRay = new Vector2(torso.Position.X, torso.Position.Y);
+            Vector2 endRay = new Vector2(aPlayer.torso.Position.X, aPlayer.torso.Position.Y);
+            Vector2 direction = new Vector2(endRay.X - startRay.X, endRay.Y - startRay.Y);
+            direction.Normalize();
+
+            while ((int)startRay.X != (int)endRay.X)
+            {
+                startRay = startRay + direction * 0.01f;
+
+                Fixture fixture = world.TestPoint(startRay);
+
+                if (fixture != null && fixture.Body.UserData.ToString() != "ground")
+                    return true;
+            }
+            return false;
+        }
+
         public void UpdateEnemy(Player aPlayer)
         {
             towardsPlayer(aPlayer);
