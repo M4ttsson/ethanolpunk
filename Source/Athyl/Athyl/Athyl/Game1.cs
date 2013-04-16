@@ -53,7 +53,7 @@ namespace Athyl
         Projectile projectile;
 
         private bool paused = false;
-        Thread worker;
+        
 
         public Game1()
         {
@@ -83,9 +83,6 @@ namespace Athyl
 
 
             myFont = Content.Load<SpriteFont>("font");
-
-            worker = new Thread(UpdateThread);
-            worker.IsBackground = true;
 
             base.Initialize();
         }
@@ -130,7 +127,6 @@ namespace Athyl
             world.ContactManager.BeginContact += BeginContact;
             world.ContactManager.EndContact += EndContact;
 
-            worker.Start();
         }
 
         private bool BeginContact(Contact contact)
@@ -234,7 +230,15 @@ namespace Athyl
                 
 
                 //sound.UpdateSound(gameTime);
-                
+
+                foreach (AI ai in theAI)
+                {
+                    ai.UpdateEnemy(player);
+                }
+                player.UpdatePlayer();
+                DamageAI();
+
+                world.Step(0.033333f);
    
             }
 
@@ -274,32 +278,18 @@ namespace Athyl
             }
             if (keyboardState.IsKeyDown(Keys.Up))
             {
-                player.Direction = 2;
+                player.Direction = 3;
             }
             if (keyboardState.IsKeyDown(Keys.Down))
             {
-                player.Direction = 3;
+                player.Direction = 2;
             }
 
             prevKeyboardState = keyboardState;
+
         }
 
-        private void UpdateThread()
-        {
-            while (true)
-            {
-                foreach (AI ai in theAI)
-                {
-                    ai.UpdateEnemy(player);
-                }
-                player.UpdatePlayer();
-                DamageAI();
-
-                world.Step(0.033333f);
-
-                Thread.Sleep(16);
-            }
-        }
+       
 
 
 
