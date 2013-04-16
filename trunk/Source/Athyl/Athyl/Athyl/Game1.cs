@@ -254,7 +254,7 @@ namespace Athyl
                     timer.Start();
                 }
 
-                Console.WriteLine(runTime);
+                //Console.WriteLine(runTime);
                 KeyboardState keyboardState = Keyboard.GetState();
 
                 Input();
