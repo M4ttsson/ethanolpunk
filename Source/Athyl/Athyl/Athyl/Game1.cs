@@ -35,7 +35,6 @@ namespace Athyl
         KeyboardState prevKeyboardState;
 
         SpriteFont myFont;
-        Weapons weapon;
 
         //tests
         Map map;
@@ -75,7 +74,6 @@ namespace Athyl
             // TODO: Add your initialization logic here
             menu = new Menu(this);
             menu.gameState = Menu.GameState.Playing;
-            weapon = new Weapons(world);
             IsMouseVisible = true;
             
             projectile = new Projectile(this);
@@ -118,7 +116,6 @@ namespace Athyl
             /*floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000, "ground");
             floor.Position = new Vector2(GraphicsDevice.Viewport.Width / 2.0f, GraphicsDevice.Viewport.Height - 50);
             floor.body.BodyType = BodyType.Static;*/
-            weapon = new Weapons(world, this, weapon.weaponId, weapon.weaponTexture);
 
 
             /* wallleft = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(100.0f, 720), 1000, "wall");
@@ -235,10 +232,6 @@ namespace Athyl
                         player.useWeapon(world);
                     }
                     
-
-
-                    weapon.UpdateWeapon(gameTime);
-
                     foreach (AI ai in theAI)
                     {
                         ai.UpdateEnemy(player);
@@ -281,13 +274,9 @@ namespace Athyl
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            
-            weapon.weaponPosition.X = player.torso.Position.X-55/2;
-            weapon.weaponPosition.Y = player.torso.Position.Y;
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             spriteBatch.Draw(skyTexture, new Vector2(0, 0), Color.Wheat);
             player.Draw(spriteBatch);
-            weapon.DrawWeapon(spriteBatch);
 
             projectile.Draw(spriteBatch);
             //spriteBatch.Draw(weaponTexture, new Vector2(player.torso.Position.X - 18,player.torso.Position.Y - 10), Color.White); 
