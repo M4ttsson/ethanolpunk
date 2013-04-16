@@ -200,7 +200,7 @@ namespace Athyl
         {
             xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2)));
             //Console.WriteLine(playerLevel);
-            Console.WriteLine(totalXP);
+            //Console.WriteLine(totalXP);
             //Console.WriteLine(xpRequiredPerLevel);
             if (playerXP >= xpRequiredPerLevel && playerXP != 0)
             {

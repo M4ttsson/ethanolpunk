@@ -129,7 +129,6 @@ namespace Athyl
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
 
-
             map = new Map(world, Content.Load<Texture2D>("middleground"));
 
             debugView = new DebugViewXNA(world);
@@ -259,19 +258,16 @@ namespace Athyl
 
                 Input();
 
-                if (runTime == 2 &&  theAI.Count < 2)
+                if (runTime == 2 &&  theAI.Count < 1)
                 {
                     theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
-
                 }
-
-                
 
                 //sound.UpdateSound(gameTime);
 
                 foreach (AI ai in theAI)
                 {
-                    ai.UpdateEnemy(player);
+                    ai.UpdateEnemy(player, world);
                 }
                 player.UpdatePlayer();
                 DamageAI();
@@ -279,6 +275,9 @@ namespace Athyl
                 world.Step(0.033333f);
    
             }
+
+            //if (theAI.Count != 0)
+                //Debug.WriteLine(theAI[0].interuptRay);
 
             base.Update(gameTime);
         }

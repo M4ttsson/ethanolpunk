@@ -18,8 +18,6 @@ using FarseerPhysics.Factories;
 
 namespace Athyl
 {
-   
-
     class Map
     {
         private List<DrawableGameObject> ground = new List<DrawableGameObject>();
@@ -45,6 +43,7 @@ namespace Athyl
                 DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
                 floor.Position = new Vector2(i * 40 + 20, 700);
                 floor.body.BodyType = BodyType.Static;
+                floor.body.CollisionCategories = Category.Cat2;
                 ground.Add(floor);
                 //Debug.WriteLine(floor.Position);
             }
@@ -54,6 +53,7 @@ namespace Athyl
                 DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
                 floor.Position = new Vector2(i * 40 + 20, 500);
                 floor.body.BodyType = BodyType.Static;
+                floor.body.CollisionCategories = Category.Cat2;
                 ground.Add(floor);
             }
 
@@ -62,6 +62,7 @@ namespace Athyl
                 DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
                 floor.Position = new Vector2(i * 40 + 900, 500);
                 floor.body.BodyType = BodyType.Static;
+                floor.body.CollisionCategories = Category.Cat2;
                 ground.Add(floor);
             }
       
@@ -70,6 +71,7 @@ namespace Athyl
                 DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
                 floor.Position = new Vector2(i * 40 + 460, 300);
                 floor.body.BodyType = BodyType.Static;
+                floor.body.CollisionCategories = Category.Cat2;
                 ground.Add(floor);
             }
             
@@ -80,6 +82,7 @@ namespace Athyl
                 DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
                 floor.Position = new Vector2(i * 40 + 20, 100);
                 floor.body.BodyType = BodyType.Static;
+                floor.body.CollisionCategories = Category.Cat2;
                 ground.Add(floor);
             }
 
@@ -88,6 +91,7 @@ namespace Athyl
                 DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
                 floor.Position = new Vector2(i * 40 + 900, 100);
                 floor.body.BodyType = BodyType.Static;
+                floor.body.CollisionCategories = Category.Cat2;
                 ground.Add(floor);
             }
         }

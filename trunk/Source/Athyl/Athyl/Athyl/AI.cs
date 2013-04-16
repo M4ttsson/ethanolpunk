@@ -21,7 +21,7 @@ namespace Athyl
     {
         //For the normal enemies, the HP should be 100
         public int enemyHP = 100;
-
+        private int hej = 0;
         private int runDirection;
         private DateTime previousJump;
         private DateTime lastBullet;
@@ -31,6 +31,7 @@ namespace Athyl
         private bool hit = false;
         private bool seen = false;
         public bool dead = false;
+        public bool interuptRay;
         public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game)
             : base(world, texture, size, mass, startPosition, game, "enemy")
         {
@@ -38,24 +39,28 @@ namespace Athyl
 
             speed = 1f;
             jumpForce = new Vector2(0, -5f);
+
             //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
 
         }
 
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
-            if (contact.IsTouching())
-            {
-                if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
-                {
-                    axis.MotorSpeed = 0;
-                    hit = true;
-                    enemyHP -= 5;
-                    return true;
-                }
-            }
+            if (fixtureA.CollisionCategories == Category.Cat1)
+                return true;
 
-            return false;
+            //if (contact.IsTouching())
+            //{
+            //    if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
+            //    {
+            //        axis.MotorSpeed = 0;
+            //        hit = true;
+            //        enemyHP -= 5;
+            //        return true;
+            //    }
+            //}
+            else
+                return false;
         }
 
         Vector2 right = new Vector2(2, 0);
@@ -160,22 +165,25 @@ namespace Athyl
             Vector2 direction = new Vector2(endRay.X - startRay.X, endRay.Y - startRay.Y);
             direction.Normalize();
 
-            while ((int)startRay.X != (int)endRay.X)
+            while (new Vector2((int) startRay.X, (int) startRay.Y) != new Vector2((int) endRay.X, (int) endRay.Y))
             {
-                startRay = startRay + direction * 0.01f;
+                startRay = startRay + direction;
 
-                Fixture fixture = world.TestPoint(startRay);
+                Fixture fixture = world.TestPoint(ConvertUnits.ToSimUnits(startRay));
 
-                if (fixture != null && fixture.Body.UserData.ToString() != "ground")
+                if (fixture != null && fixture.CollisionCategories == Category.Cat2)
+                {
                     return true;
+                }
             }
             return false;
         }
 
-        public void UpdateEnemy(Player aPlayer)
+        public void UpdateEnemy(Player aPlayer, World world)
         {
             towardsPlayer(aPlayer);
-            
+
+            //interuptRay =  rayCast(aPlayer, world);
             //attackPlayer();
         }
 
