@@ -24,7 +24,7 @@ namespace Athyl
         public bool OnGround { get; set; }
         public int numFootContacts { get; set; }
 
-        public bool Direction = true;
+        public int Direction = 0;
         public int playerHP = 100;
         public int playerAthyl = 500;
         public DrawableGameObject wheel;
@@ -141,7 +141,7 @@ namespace Athyl
                         axis.MotorSpeed = -MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
                     }
-                    Direction = false;
+                    Direction = 1;
                     break;
 
                 case Movement.Right:
@@ -163,7 +163,7 @@ namespace Athyl
                         axis.MotorSpeed = MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
                     }
-                    Direction = true;
+                    Direction = 0;
                     break;
 
                 case Movement.Stop:

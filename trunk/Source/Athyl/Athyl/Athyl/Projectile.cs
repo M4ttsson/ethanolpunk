@@ -40,7 +40,7 @@ namespace Athyl
         /// <param name="position"></param>
         /// <param name="direction"></param>
         /// <param name="world"></param>
-        public void NewBullet(Vector2 position, bool direction, World world, float speed)
+        public void NewBullet(Vector2 position, int direction, World world, float speed)
         {
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"),new Vector2(10,4), 10, "shot");
             bullet.body.IsBullet = true;
@@ -48,19 +48,36 @@ namespace Athyl
             bullet.body.IgnoreGravity = true;
             
             bullet.body.IsSensor = true;
-            
-            if (direction)
+            //right
+            if (direction == 0)
             {
                 bullet.body.Rotation = MathHelper.ToRadians(180);
                 bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
                 bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, 0.0f));
             }
-            else
+            //left
+            else if(direction == 1)
             {
                 bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
                 bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1.0f, 0.0f));
+            }
+            //up
+            else if (direction == 2)
+            {
+                bullet.body.Rotation = MathHelper.ToRadians(90);
+                bullet.body.FixedRotation = true;
+                bullets.Add(bullet);
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.0f, speed));
+            }
+            //Down
+            else if (direction == 3)
+            {
+                bullet.body.Rotation = MathHelper.ToRadians(270);
+                bullet.body.FixedRotation = true;
+                bullets.Add(bullet);
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.0f, speed * -1.0f));
             }
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
