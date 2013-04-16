@@ -69,7 +69,7 @@ namespace Athyl
                 bullet.body.Rotation = MathHelper.ToRadians(90);
                 bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.0f, speed * -1.0f));
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.0f, speed ));
             }
             //Down
             else if (direction == 3)
@@ -77,7 +77,7 @@ namespace Athyl
                 bullet.body.Rotation = MathHelper.ToRadians(270);
                 bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.0f, speed));
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.0f, speed * -1.0f));
             }
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
@@ -151,7 +151,8 @@ namespace Athyl
                 if (bullets[i].body.Position.X > ConvertUnits.ToSimUnits(game.graphics.PreferredBackBufferWidth) || bullets[i].body.Position.X < 0
                     || bullets[i].body.Position.Y > ConvertUnits.ToSimUnits(game.graphics.PreferredBackBufferHeight) || bullets[i].body.Position.Y < 0)
                 {
-                    removeList.Add(bullets[i]);
+                    if (!removeList.Contains(bullets[i]))
+                        removeList.Add(bullets[i]);
                     game.world.RemoveBody(bullets[i].body);
                 }
               //  Console.WriteLine(game.world.BodyList.Count);
