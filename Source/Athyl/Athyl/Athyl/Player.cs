@@ -69,7 +69,7 @@ namespace Athyl
 
             Load(texture, 2, 11, 1);
 
-            int wheelSize = 50;
+            int wheelSize = 55;
             this.game = game;
 
             // Create the feet of the body, here implemented as high friction wheels 
