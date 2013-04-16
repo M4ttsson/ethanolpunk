@@ -21,7 +21,6 @@ namespace Athyl
     {
         //For the normal enemies, the HP should be 100
         public int enemyHP = 100;
-        private int hej = 0;
         private int runDirection;
         private DateTime previousJump;
         private DateTime lastBullet;
@@ -31,7 +30,6 @@ namespace Athyl
         private bool hit = false;
         private bool seen = false;
         public bool dead = false;
-        public bool interuptRay;
         public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game)
             : base(world, texture, size, mass, startPosition, game, "enemy")
         {
@@ -158,6 +156,12 @@ namespace Athyl
             }
         }
 
+        /// <summary>
+        /// returns false if no ground between player and AI,else return true
+        /// </summary>
+        /// <param name="aPlayer"></param>
+        /// <param name="world"></param>
+        /// <returns></returns>
         private bool rayCast(Player aPlayer, World world)
         {
             Vector2 startRay = new Vector2(torso.Position.X, torso.Position.Y);
