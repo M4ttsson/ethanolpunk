@@ -20,7 +20,6 @@ namespace Athyl
 {
     class Player
     {
-        
         public DrawableGameObject torso;
         public bool OnGround { get; set; }
         public int numFootContacts { get; set; }
@@ -35,7 +34,7 @@ namespace Athyl
         protected RevoluteJoint axis;
         protected Texture2D myTexture;
         protected Vector2 jumpForce = new Vector2(0, -3.0f);
-        protected float speed = 3.0f;
+        protected float speed = 1.5f;
         protected int ColFrame;
         protected int RowFrame;
         DateTime lastBullet;
@@ -70,26 +69,20 @@ namespace Athyl
 
             Load(texture, 2, 11, 1);
 
-            int wheelSize = 45;
-            
+            int wheelSize = 50;
             this.game = game;
 
-            //Vector2 torsoSize = new Vector2(size.X, size.Y);
-            //Vector2 torsoSize = new Vector2(myTexture.Width / framecount, myTexture.Height-wheelSize);
-            Vector2 torsoSize = new Vector2(size.X, size.Y-wheelSize+5);
-
-            //create torso
-            //torso = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f, "player");
-            torso = new DrawableGameObject(world, texture, new Vector2(55.0f,120.0f), 60, userdata);
-            torso.Position = startPosition;
-            torso.body.Restitution = 0;
-            
             // Create the feet of the body, here implemented as high friction wheels 
             wheel = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), wheelSize, mass, userdata + "wheel");
-            wheel.Position = torso.Position + new Vector2(0, torsoSize.Y/2);
+            wheel.Position = startPosition;
             wheel.body.Friction = 10000f;
             wheel.body.Restitution = 0.0f;
 
+            //create torso
+            torso = new DrawableGameObject(world, texture, new Vector2(size.X, size.Y-10), 60, userdata);
+            torso.Position = wheel.Position - new Vector2(0.0f, wheelSize-15);
+            torso.body.Restitution = 0;
+            
             // Create a joint to keep the torso upright
             JointFactory.CreateFixedAngleJoint(world, torso.body);
 
@@ -105,12 +98,6 @@ namespace Athyl
             numFootContacts = 0;
             projectile = new Projectile(game);
             skillTree = new Skilltree();
-
-            //foot = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(50), ConvertUnits.ToSimUnits(10), 1, "foot");
-            //foot.IsSensor = true;
-            //foot.Position = ConvertUnits.ToSimUnits(wheel.Position - new Vector2(0, wheelSize / 2 - 5));
-            //JointFactory.CreateWeldJoint(wheel.body, foot, wheel.Position - new Vector2(0, wheelSize / 2 - 5));
-            
         }
 
         public void Jump()
@@ -187,7 +174,6 @@ namespace Athyl
         }
         public void UpdatePlayer()
         {
-
             //check if player foot is touching the ground
             if (numFootContacts < 1)
             {
@@ -197,7 +183,6 @@ namespace Athyl
             {
                 OnGround = true;
             }
-
                 //Falldamage on player.
                 if (torso.body.LinearVelocity.Y > 10 && !OnGround)
                 {
@@ -217,12 +202,7 @@ namespace Athyl
             if (playerHP <= 0)
             {
                 playerHP = 0;
-                
             }
-
-
-
-
         }
         /// <summary>
         /// Fires the weapon
@@ -262,15 +242,14 @@ namespace Athyl
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            DrawFrame(spriteBatch, wheel.Position + new Vector2(-55/2, -110.0f+(45/2)));
+            DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
             foreach (DrawableGameObject d in shots)
             {
                 d.Draw(spriteBatch);
             }
             projectile.Draw(spriteBatch);
-            //DrawFrame(spriteBatch, new Vector2(torso.Position.X, torso.Position.Y - torso.Size.Y/2));
-            //torso.Draw(spriteBatch);//, new Vector2(torso.Size.X, torso.Size.Y));
-            wheel.Draw(spriteBatch);
+            //torso.Draw(spriteBatch);
+            //wheel.Draw(spriteBatch);
         }
 
         protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec)
@@ -307,46 +286,6 @@ namespace Athyl
             {
                 ColFrame = 0;
             }
-                        
-            //if (axis.MotorSpeed > 0)
-            //{                
-            //    if (Frame < 11)
-            //        Frame = 12;
-
-            //    TotalElapsed += elapsed;
-            //    if (TotalElapsed > TimePerFrame)
-            //    {
-            //        Frame++;
-            //        if (Frame == 22)
-            //            Frame = 12;
-            //        TotalElapsed -= TimePerFrame;
-            //    }
-            //    Direction = true;
-            //}
-
-            //else if (axis.MotorSpeed < 0)
-            //{
-            //    if (Frame > 11)
-            //        Frame = 9;
-
-            //    TotalElapsed += elapsed;
-            //    if (TotalElapsed > TimePerFrame)
-            //    {
-            //        Frame--;
-            //        if (Frame == 0)
-            //            Frame = 9;
-            //        TotalElapsed -= TimePerFrame;
-            //    }
-            //    Direction = false;
-            //}
-
-            //else if (axis.MotorSpeed == 0)
-            //{
-            //    if (Direction)
-            //        Frame = 11;
-            //    else
-            //        Frame = 10;
-            //}
         }
 
         protected void DrawFrame(SpriteBatch spriteBatch, Vector2 screenpos)
