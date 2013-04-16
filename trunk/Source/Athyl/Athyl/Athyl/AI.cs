@@ -157,7 +157,7 @@ namespace Athyl
         }
 
         /// <summary>
-        /// returns false if no ground between player and AI,else return true
+        /// returns false if there are no CollisionCategorie 2 objects between player and AI, else return true
         /// </summary>
         /// <param name="aPlayer"></param>
         /// <param name="world"></param>
