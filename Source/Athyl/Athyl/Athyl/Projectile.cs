@@ -19,7 +19,7 @@ namespace Athyl
     {
         private int projectileVelocity;
         private Vector2 projectileDirection;
-        private float damage;
+        public float damage = 34;
         public enum projectiletype { small, medium, large }
         List<DrawableGameObject> bullets = new List<DrawableGameObject>();
         Game1 game;

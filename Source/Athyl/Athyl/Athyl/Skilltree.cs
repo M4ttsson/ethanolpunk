@@ -13,8 +13,8 @@ namespace Athyl
 
         public Skilltree()
         {
-            fireRate = 0.3f;
-            projectileSpeed = 0.05f;
+            fireRate = 0.1f;
+            projectileSpeed = 0.02f;
         }
 
         #region MeleeStance
@@ -50,6 +50,7 @@ namespace Athyl
         //rate of fire
         public void increaseROF()
         {
+            fireRate -= 0.005f;
         }
 
         //reloadspeed

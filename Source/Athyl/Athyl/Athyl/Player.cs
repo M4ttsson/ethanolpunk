@@ -26,11 +26,11 @@ namespace Athyl
 
         public bool Direction = true;
         public int playerHP = 100;
-        public int playerAthyl = 200;
-
+        public int playerAthyl = 500;
+        public DrawableGameObject wheel;
         public enum stance { melee, midRange, longRange };
 
-        protected DrawableGameObject wheel;
+   
         protected RevoluteJoint axis;
         protected Texture2D myTexture;
         protected Vector2 jumpForce = new Vector2(0, -6.0f);

@@ -32,8 +32,14 @@ namespace Athyl
         private Texture2D loadingScreen;
         private Texture2D pauseMenuBackgroundFront;
         private Texture2D pauseMenuBackgroundBack;
+        private Texture2D soundSlider;
+        private Texture2D musicSlider;
+        private Texture2D soundSliderBackground;
+        private Texture2D musicSliderBackground;
 
 
+        Vector2 soundSliderPosition;
+        Vector2 musicSliderPosition;
         Vector2 startButtonPosition;
         Vector2 exitButtonPosition;
         Vector2 resumeButtonPosition;
@@ -50,6 +56,8 @@ namespace Athyl
         MouseState mouseState;
         MouseState previousMouseState;
 
+
+        private Sounds soundManager;
         public GameState gameState;
 
         public Menu(Game1 game)
@@ -65,6 +73,9 @@ namespace Athyl
             pauseMenuBackgroundFront = game.Content.Load<Texture2D>("PauseMenu");
             pauseMenuBackgroundBack = game.Content.Load<Texture2D>("PauseMenuBackground");
             loadingScreen = game.Content.Load<Texture2D>("LoadingGameButton");
+            soundSlider = game.Content.Load<Texture2D>("note");
+            musicSlider = game.Content.Load<Texture2D>("note");
+            soundManager = new Sounds(game);
         }
 
         public void StartMenu(Game1 game)
@@ -90,6 +101,9 @@ namespace Athyl
             loadButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 360);
             settingsButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - settingsButton.Width / 2), 280);
             exitButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), 330);
+            soundSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 30);
+            musicSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 80);
+
 
         }
 
@@ -185,15 +199,26 @@ namespace Athyl
                 Rectangle resumeButtonRect = new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, 120, 60);
                 Rectangle settingsButtonRect = new Rectangle((int)settingsButtonPosition.X, (int)settingsButtonPosition.Y, 160, 60);
                 Rectangle exitbuttonRect2 = new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, 120, 60);
+                Rectangle musicRect = new Rectangle((int)musicSliderPosition.X, (int)musicSliderPosition.Y, 40, 40);
+                Rectangle soundRect = new Rectangle((int)soundSliderPosition.X, (int)soundSliderPosition.Y, 40, 40);
 
                 if (mouseClickRect.Intersects(resumeButtonRect))
                 {
                     gameState = GameState.Playing;
-                    
+
                 }
                 else if (mouseClickRect.Intersects(exitbuttonRect2))
                 {
                     game.Exit();
+                }
+
+                else if (mouseClickRect.Intersects(musicRect))
+                {
+                    
+                }
+
+                else if (mouseClickRect.Intersects(soundRect))
+                {
                 }
             }
         }
@@ -223,6 +248,8 @@ namespace Athyl
                 spriteBatch.Draw(resumeButton, new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, resumeButton.Width, resumeButton.Height), Color.White);
                 spriteBatch.Draw(settingsButton, new Rectangle((int)settingsButtonPosition.X, (int)settingsButtonPosition.Y, settingsButton.Width, settingsButton.Height), Color.White);
                 spriteBatch.Draw(exitButton, new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, exitButton.Width, exitButton.Height), Color.White);
+                spriteBatch.Draw(musicSlider, new Rectangle((int)musicSliderPosition.X, (int)musicSliderPosition.Y, musicSlider.Width, musicSlider.Height), Color.White);
+                spriteBatch.Draw(soundSlider, new Rectangle((int)soundSliderPosition.X, (int)soundSliderPosition.Y, soundSlider.Width, soundSlider.Height), Color.White);
             }
             //spriteBatch.Draw(settingsButton, new Rectangle((int)settingsButtonPosition.X, (int)settingsButtonPosition.Y, settingsButton.Width, settingsButton.Height), Color.White);
 

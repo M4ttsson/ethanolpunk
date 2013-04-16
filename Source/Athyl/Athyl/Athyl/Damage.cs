@@ -8,10 +8,11 @@ namespace Athyl
     public class Damage
     {
         public int bodyId;
-        public float damage;
+        public float damage; 
 
         public Damage(int bodyId, float damage)
         {
+          
             this.bodyId = bodyId;
             this.damage = damage;
             
