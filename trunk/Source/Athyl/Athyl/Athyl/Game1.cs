@@ -34,8 +34,6 @@ namespace Athyl
         Player player;
         KeyboardState prevKeyboardState;
 
-
-
         SpriteFont myFont;
         Weapons weapon;
 
@@ -134,7 +132,7 @@ namespace Athyl
             //weapon = new Weapons(0, Content.Load<Texture2D>(currentTextureString), new Vector2(50, 50));
 
             //player = new Player(world, Content.Load<Texture2D>("megaman3"), new Vector2(42, 56), 100, 20, new Vector2(430, 0));
-            player = new Player(world, Content.Load<Texture2D>("TestGubbar"), new Vector2(55, 120), 100, 20, new Vector2(600, 600), this, "player");
+            player = new Player(world, Content.Load<Texture2D>("TestGubbar"), new Vector2(55, 120), 100, new Vector2(600, 600), this, "player");
             skyTexture = Content.Load<Texture2D>("Sky");
 
             //foot contacts
