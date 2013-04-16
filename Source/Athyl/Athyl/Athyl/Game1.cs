@@ -213,7 +213,7 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
+            Input();
             menu.UpdateMenu(gameTime, this);
             if (menu.gameState == Menu.GameState.StartMenu)
             {
@@ -223,7 +223,7 @@ namespace Athyl
             else if (menu.gameState == Menu.GameState.Playing)
             {
 
-                KeyboardState keyboardState = Keyboard.GetState();
+                
 
                 if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 10f && theAI.Count < 5)
                 {
@@ -231,32 +231,10 @@ namespace Athyl
 
                 }
 
-                if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
-                {
-                    player.Jump();
-
-                }
-
-                if (keyboardState.IsKeyDown(Keys.Left))
-                {
-                    player.Move(Player.Movement.Left);
-                }
-                else if (keyboardState.IsKeyDown(Keys.Right))
-                {
-                    player.Move(Player.Movement.Right);
-                }
-                else
-                {
-                    player.Move(Player.Movement.Stop);
-                }
-
-                if (keyboardState.IsKeyDown(Keys.Z))
-                {
-                    player.useWeapon(world);
-                }
+                
 
                 sound.UpdateSound(gameTime);
-                prevKeyboardState = keyboardState;
+                
    
             }
 
@@ -266,6 +244,44 @@ namespace Athyl
             }
 
             base.Update(gameTime);
+        }
+
+        private void Input()
+        {
+            KeyboardState keyboardState = Keyboard.GetState();
+            if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
+            {
+                player.Jump();
+
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Left))
+            {
+                player.Move(Player.Movement.Left);
+            }
+            else if (keyboardState.IsKeyDown(Keys.Right))
+            {
+                player.Move(Player.Movement.Right);
+            }
+            else
+            {
+                player.Move(Player.Movement.Stop);
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Z))
+            {
+                player.useWeapon(world);
+            }
+            if (keyboardState.IsKeyDown(Keys.Up))
+            {
+                player.Direction = 2;
+            }
+            if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                player.Direction = 3;
+            }
+
+            prevKeyboardState = keyboardState;
         }
 
         private void UpdateThread()
