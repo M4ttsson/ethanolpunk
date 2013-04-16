@@ -69,7 +69,7 @@ namespace Athyl
                 bullet.body.Rotation = MathHelper.ToRadians(90);
                 bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.0f, speed));
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.0f, speed * -1.0f));
             }
             //Down
             else if (direction == 3)
@@ -77,7 +77,7 @@ namespace Athyl
                 bullet.body.Rotation = MathHelper.ToRadians(270);
                 bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.0f, speed * -1.0f));
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.0f, speed));
             }
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
