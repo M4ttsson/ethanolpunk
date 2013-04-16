@@ -47,11 +47,19 @@ namespace Athyl
             bullet.body.Position = position;
             bullet.body.IgnoreGravity = true;
             bullet.body.FixedRotation = true;
-            bullets.Add(bullet);
+            bullet.body.IsSensor = true;
+            
             if (direction)
-                bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(speed, 0.0f));
+            {
+                bullets.Add(bullet);
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, 0.0f));
+            }
             else
-                bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(speed * 1.0f, 0.0f));
+            {
+                bullets.Add(bullet);
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1.0f, 0.0f));
+            }
+           
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
