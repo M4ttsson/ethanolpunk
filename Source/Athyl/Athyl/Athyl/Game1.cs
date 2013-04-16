@@ -55,7 +55,9 @@ namespace Athyl
         Thread listenPauseThread;
 
         private bool paused = false;
-        
+
+        System.Timers.Timer timer;
+        int runTime = 0;
 
         public Game1()
         {
@@ -90,7 +92,15 @@ namespace Athyl
             listenPauseThread.IsBackground = true;
             listenPauseThread.Start();
 
+            timer = new System.Timers.Timer(1000);
+            timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
+
             base.Initialize();
+        }
+
+        void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            runTime++;
         }
 
         //listen for pause
@@ -145,6 +155,7 @@ namespace Athyl
             world.ContactManager.BeginContact += BeginContact;
             world.ContactManager.EndContact += EndContact;
 
+            timer.Start();
         }
 
         private bool BeginContact(Contact contact)
@@ -228,22 +239,27 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            Input();
+            
             menu.UpdateMenu(gameTime, this);
-            if (menu.gameState == Menu.GameState.StartMenu)
+            if (menu.gameState == Menu.GameState.Paused)
             {
-                menu.StartMenu(this);
+                timer.Stop();
+               // menu.StartMenu(this);
             }
 
             else if (menu.gameState == Menu.GameState.Playing)
             {
+                if (!timer.Enabled)
+                {
+                    timer.Start();
+                }
 
-                // Allows the game to exit
-
-
+                Console.WriteLine(runTime);
                 KeyboardState keyboardState = Keyboard.GetState();
 
-                if (gameTime.TotalGameTime.TotalSeconds > 0.9f &&  theAI.Count < 2)
+                Input();
+
+                if (runTime == 2 &&  theAI.Count < 2)
                 {
                     theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
 
