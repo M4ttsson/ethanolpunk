@@ -31,10 +31,10 @@ namespace Athyl
         public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game)
             : base(world, texture, size, mass, wheelSize, startPosition, game, "enemy")
         {
-            Load(texture, 1, 22, 1);
+            Load(texture, 2, 11, 1);
 
-            //set frame to middle
-            ColFrame = 11;
+            
+            
 
             speed = 1f;
             jumpForce = new Vector2(0, -2f);
@@ -168,7 +168,8 @@ namespace Athyl
 
         protected override void UpdateFrame(float elapsed)
         {
-            if (axis.MotorSpeed > 0)
+            base.UpdateFrame(0.2f);
+            /*if (axis.MotorSpeed > 0)
             {
                 if (ColFrame < 11)
                     ColFrame = 12;
@@ -206,7 +207,7 @@ namespace Athyl
                     ColFrame = 12;
                 else if (runDirection < 0)
                     ColFrame = 10;
-            }
+            }*/
         }
 
         //private override Load(Texture2D texture, int FrameCount, int FramesPerSec)

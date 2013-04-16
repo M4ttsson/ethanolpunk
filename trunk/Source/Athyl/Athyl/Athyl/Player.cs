@@ -48,8 +48,8 @@ namespace Athyl
         private int frameColumn;
 
         //should be private
-        protected float TimePerFrame;
-        protected float TotalElapsed;
+        private float TimePerFrame;
+        private float TotalElapsed;
       
         private bool hasJumped = false;
         private float tempfallDamage = 0;
@@ -68,7 +68,7 @@ namespace Athyl
         public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition, Game1 game, string userdata)
         {
 
-            Load(texture, 3, 11, 1);
+            Load(texture, 2, 11, 1);
 
             this.game = game;
 
