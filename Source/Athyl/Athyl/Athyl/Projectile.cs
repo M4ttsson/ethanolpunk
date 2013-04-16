@@ -82,7 +82,7 @@ namespace Athyl
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
-        public void NewEnemyBullet(Vector2 position, bool direction, World world, float speed)
+        public void NewEnemyBullet(Vector2 position, int direction, World world, float speed)
         {
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"), new Vector2(10, 4), 10, "hostile");
             bullet.body.IsBullet = true;
@@ -90,7 +90,7 @@ namespace Athyl
             bullet.body.IgnoreGravity = true;
             bullet.body.FixedRotation = true;
             bullets.Add(bullet);
-            if (direction)
+            if (direction == 0)
                 bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.05f, 0.0f));
             else
                 bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(-0.05f, 0.0f));

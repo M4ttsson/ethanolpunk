@@ -38,6 +38,7 @@ namespace Athyl
         protected int ColFrame;
         protected int RowFrame;
         DateTime lastBullet;
+        protected World world;
 
         protected Game1 game;
         protected Projectile projectile;
@@ -71,6 +72,7 @@ namespace Athyl
 
             int wheelSize = 55;
             this.game = game;
+            this.world = world;
 
             // Create the feet of the body, here implemented as high friction wheels 
             wheel = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), wheelSize, mass, userdata + "wheel");
@@ -94,6 +96,7 @@ namespace Athyl
             axis.MotorSpeed = 0;
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
+            torso.body.OnCollision +=new OnCollisionEventHandler(body_OnCollision);
 
             numFootContacts = 0;
             projectile = new Projectile(game);
@@ -112,7 +115,13 @@ namespace Athyl
         {
             if (contact.IsTouching())
             {
+                if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
+                {
+                    playerHP -= 3;
+                    
+                }
 
+                return true;
             }
             return false;
         }
