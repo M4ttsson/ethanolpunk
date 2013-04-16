@@ -67,8 +67,8 @@ namespace Athyl
         public void StartMenu(Game1 game)
         {
             gameState = GameState.StartMenu;
-            startButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 300);
-            exitButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 355);
+            startButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - startButton.Width), 300);
+            exitButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), 355);
             loadingScreenPosition = new Vector2(800, 500); 
         }
 
@@ -101,7 +101,6 @@ namespace Athyl
 
         public void UpdateMenu(GameTime gametime, Game1 game)
         {
-
             KeyboardState kbState = Keyboard.GetState();
             mouseState = Mouse.GetState();
 
@@ -198,8 +197,6 @@ namespace Athyl
 
         public void Draw(SpriteBatch spriteBatch)
         {
-
-
 
             if (gameState == GameState.StartMenu)
             {

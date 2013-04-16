@@ -76,7 +76,7 @@ namespace Athyl
         {
             // TODO: Add your initialization logic here
             menu = new Menu(this);
-            menu.gameState = Menu.GameState.Playing;
+            menu.gameState = Menu.GameState.StartMenu;
             weapon = new Weapons(world);
             IsMouseVisible = true;
             
@@ -140,6 +140,7 @@ namespace Athyl
             //foot contacts
             world.ContactManager.BeginContact += BeginContact;
             world.ContactManager.EndContact += EndContact;
+
 
         }
 
