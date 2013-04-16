@@ -31,6 +31,7 @@ namespace Athyl
         DebugViewXNA debugView;
         public World world;
         List<AI> theAI = new List<AI>();
+        public List<Damage> damageList = new List<Damage>();
         Player player;
         KeyboardState prevKeyboardState;
 
@@ -166,6 +167,22 @@ namespace Athyl
             }
         }
 
+        private void DamageAI()
+        {
+            for (int i = 0; i < theAI.Count; i++)
+            {
+                for (int j = 0; j < damageList.Count; j++)
+                {
+                    if (theAI[i].torso.body.BodyId == damageList[j].bodyId)
+                    {
+                        theAI[i].enemyHP -= (int)damageList[j].bodyId;
+                        Console.WriteLine(theAI[i].enemyHP);
+                    }
+                }
+            }
+            damageList.Clear();
+        }
+
         public void OnBroadPhaseCollision(Contact contact)
         {
 
@@ -253,6 +270,7 @@ namespace Athyl
                 {
                     Exit();
                 }
+                DamageAI();
 
                 base.Update(gameTime);
             }

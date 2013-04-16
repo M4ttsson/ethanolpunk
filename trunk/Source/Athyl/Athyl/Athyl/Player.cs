@@ -212,7 +212,7 @@ namespace Athyl
         {
             if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
             {
-                projectile.NewBullet(torso.body.Position, Direction, world);
+                projectile.NewBullet(torso.body.Position, Direction, world, skillTree.projectileSpeed);
                 playerAthyl -= 1;
                 lastBullet = DateTime.Now;
 
