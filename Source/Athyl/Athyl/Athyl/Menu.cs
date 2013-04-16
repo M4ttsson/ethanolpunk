@@ -26,6 +26,7 @@ namespace Athyl
         private Texture2D pauseButton;
         private Texture2D resumeButton;
         private Texture2D settingsButton;
+        private Texture2D optionsButton;
         private Texture2D saveButton;
         private Texture2D LoadButon;
         private Texture2D loadingScreen;
@@ -38,6 +39,7 @@ namespace Athyl
         Vector2 resumeButtonPosition;
         Vector2 pauseButtonPosition;
         Vector2 settingsButtonPosition;
+        Vector2 optionsButtonPosition;
         Vector2 saveButtonPosition;
         Vector2 loadButtonPosition;
         Vector2 pauseMenuPosition;
@@ -57,6 +59,7 @@ namespace Athyl
             pauseButton = game.Content.Load<Texture2D>("PauseButton");
             resumeButton = game.Content.Load<Texture2D>("ResumeButton");
             settingsButton = game.Content.Load<Texture2D>("SettingsButton");
+            optionsButton = game.Content.Load<Texture2D>("OptionsButton");
             saveButton = game.Content.Load<Texture2D>("SaveButton");
             LoadButon = game.Content.Load<Texture2D>("LoadButton");
             pauseMenuBackgroundFront = game.Content.Load<Texture2D>("PauseMenu");
@@ -68,7 +71,8 @@ namespace Athyl
         {
             gameState = GameState.StartMenu;
             startButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - startButton.Width), 300);
-            exitButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), 355);
+            optionsButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - 140), 355);
+            exitButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), 410);
             loadingScreenPosition = new Vector2(800, 500); 
         }
 
@@ -202,6 +206,7 @@ namespace Athyl
             {
                 spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(0, 0, (int)1280, (int)720), Color.White);
                 spriteBatch.Draw(startButton, new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, startButton.Width, startButton.Height), Color.White);
+                spriteBatch.Draw(optionsButton, new Rectangle((int)optionsButtonPosition.X, (int)optionsButtonPosition.Y, optionsButton.Width, optionsButton.Height), Color.White);
                 spriteBatch.Draw(exitButton, new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, exitButton.Width, exitButton.Height), Color.White);
 
             }
