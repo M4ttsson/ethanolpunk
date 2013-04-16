@@ -65,11 +65,13 @@ namespace Athyl
         /// <param name="mass">Weight in kg</param>
         /// <param name="wheelSize">Diameter of wheel</param>
         /// <param name="startPosition">Startposition</param>
-        public Player(World world, Texture2D texture, Vector2 size, float mass, float wheelSize, Vector2 startPosition, Game1 game, string userdata)
+        public Player(World world, Texture2D texture, Vector2 size, float mass, Vector2 startPosition, Game1 game, string userdata)
         {
 
             Load(texture, 2, 11, 1);
 
+            int wheelSize = 45;
+            
             this.game = game;
 
             //Vector2 torsoSize = new Vector2(size.X, size.Y);
@@ -78,12 +80,12 @@ namespace Athyl
 
             //create torso
             //torso = new DrawableGameObject(world, texture, torsoSize, mass / 2.0f, "player");
-            torso = new DrawableGameObject(world, texture, 60, userdata);
+            torso = new DrawableGameObject(world, texture, new Vector2(55.0f,120.0f), 60, userdata);
             torso.Position = startPosition;
             torso.body.Restitution = 0;
             
             // Create the feet of the body, here implemented as high friction wheels 
-            wheel = new DrawableGameObject(world, texture, wheelSize, mass, userdata + "wheel");
+            wheel = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), wheelSize, mass, userdata + "wheel");
             wheel.Position = torso.Position + new Vector2(0, torsoSize.Y/2);
             wheel.body.Friction = 10000f;
             wheel.body.Restitution = 0.0f;
@@ -260,7 +262,7 @@ namespace Athyl
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            DrawFrame(spriteBatch, wheel.Position + new Vector2(-55/2, -110.0f));
+            DrawFrame(spriteBatch, wheel.Position + new Vector2(-55/2, -110.0f+(45/2)));
             foreach (DrawableGameObject d in shots)
             {
                 d.Draw(spriteBatch);
@@ -268,7 +270,7 @@ namespace Athyl
             projectile.Draw(spriteBatch);
             //DrawFrame(spriteBatch, new Vector2(torso.Position.X, torso.Position.Y - torso.Size.Y/2));
             //torso.Draw(spriteBatch);//, new Vector2(torso.Size.X, torso.Size.Y));
-            //wheel.Draw(spriteBatch);
+            wheel.Draw(spriteBatch);
         }
 
         protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec)
