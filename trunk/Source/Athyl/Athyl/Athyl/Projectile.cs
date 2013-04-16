@@ -27,10 +27,9 @@ namespace Athyl
         List<Body> removeListbody = new List<Body>();
         bool friendly;
 
-        public Projectile(Game1 game, bool friendly)
+        public Projectile(Game1 game)
         {
             this.game = game;
-            this.friendly = friendly;
         }
 
 
@@ -71,10 +70,7 @@ namespace Athyl
                         }
                     }
 
-                    if (friendly)
-                    {
-                        //Skada fiende
-                    }
+                 
                     Console.WriteLine("removed");
                     return true;
                 }
