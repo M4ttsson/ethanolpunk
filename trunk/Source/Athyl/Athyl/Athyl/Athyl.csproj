@@ -127,7 +127,6 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Skilltree.cs" />
     <Compile Include="Sounds.cs" />
-    <Compile Include="Weapons.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

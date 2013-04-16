@@ -34,7 +34,7 @@ namespace Athyl
             Load(texture, 2, 11, 1);
 
             speed = 1f;
-            jumpForce = new Vector2(0, -2f);
+            jumpForce = new Vector2(0, -3f);
             
             //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
             
