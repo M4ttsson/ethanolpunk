@@ -25,7 +25,9 @@ namespace Athyl
         private int runDirection;
         private DateTime previousJump;
         private DateTime lastBullet;
+        private float projectileSpeed = 0.02f;
         private const float jumpInterval = 1f;
+        private float fireRate = 0.1f;
         private bool hit = false;
         private bool seen = false;
         public bool dead = false;
@@ -136,7 +138,8 @@ namespace Athyl
 
         public void attackPlayer()
         {
-
+            
+            
         }
 
 
@@ -153,6 +156,7 @@ namespace Athyl
         public void UpdateEnemy(Player aPlayer)
         {
             towardsPlayer(aPlayer);
+            
             //attackPlayer();
         }
 
