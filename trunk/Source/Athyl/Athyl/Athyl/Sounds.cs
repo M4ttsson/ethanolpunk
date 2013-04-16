@@ -24,21 +24,50 @@ namespace Athyl
     {
         private Game1 game;
         private Song song;
+
+        private SoundEffect soundFX;
         private bool isPaused = false;
 
         public Sounds(Game1 game)
         {
             this.game = game;
-            
+
+
         }
 
+        public void PlaySoundFX(string sound)
+        {
+            SoundEffect.MasterVolume = 0.1f;
+            soundFX = game.Content.Load<SoundEffect>(sound);
+            soundFX.Play();
+        }
         public void Play(string sound)
         {
-            //song = game.Content.Load<Song>(sound);
-            //MediaPlayer.Play(song);
-            //MediaPlayer.IsRepeating = true;
+            song = game.Content.Load<Song>(sound);
+            MediaPlayer.Play(song);
+            MediaPlayer.IsRepeating = true;
         }
 
+        public void MuteSound()
+        {
+            if (SoundEffect.MasterVolume > 0)
+            {
+                SoundEffect.MasterVolume = 0;
+
+            }
+
+            else if (SoundEffect.MasterVolume == 0)
+            {
+                SoundEffect.MasterVolume = 0.1f;
+            }
+
+
+        }
+
+        public void MuteMusic()
+        {
+            MediaPlayer.Volume = 0.0f;
+        }
 
         public void adjustVolume()
         {

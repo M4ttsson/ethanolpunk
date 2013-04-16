@@ -32,6 +32,7 @@ namespace Athyl
         public World world;
         List<AI> theAI = new List<AI>();
         public List<Damage> damageList = new List<Damage>();
+        private List<AI> removedAIList = new List<AI>();
         Player player;
         KeyboardState prevKeyboardState;
 
@@ -46,7 +47,8 @@ namespace Athyl
         Texture2D texture;
         Texture2D skyTexture;
         Menu menu;
-        Sounds music;
+        Sounds sound;
+
         Projectile projectile;
 
         private bool paused = false;
@@ -76,7 +78,6 @@ namespace Athyl
             menu = new Menu(this);
             menu.gameState = Menu.GameState.Playing;
             IsMouseVisible = true;
-            
             projectile = new Projectile(this);
 
 
@@ -109,9 +110,11 @@ namespace Athyl
 
             //weaponTexture = Content.Load<Texture2D>(currentTextureString);
 
-            music = new Sounds(this);
+            sound = new Sounds(this);
 
-            music.Play("castlevagina");
+            sound.Play("castlevagina");
+
+
             //music.Stop();
 
             /*floor = new DrawableGameObject(world, Content.Load<Texture2D>("testat"), new Vector2(GraphicsDevice.Viewport.Width, 100.0f), 1000, "ground");
@@ -175,9 +178,25 @@ namespace Athyl
                 {
                     if (theAI[i].torso.body.BodyId == damageList[j].bodyId)
                     {
-                        theAI[i].enemyHP -= (int)damageList[j].bodyId;
+                        theAI[i].enemyHP -= (int)projectile.damage;
+                        //(int)damageList[j].bodyId;
                         Console.WriteLine(theAI[i].enemyHP);
                     }
+                }
+
+                if (theAI[i].enemyHP <= 0)
+                {
+                    removedAIList.Add(theAI[i]);
+
+                    if (removedAIList.Contains(theAI[i]))
+                    {
+                        world.RemoveBody(theAI[i].wheel.body);
+                        world.RemoveBody(theAI[i].torso.body);
+                        theAI.RemoveAt(i);
+                        
+                    }
+
+
                 }
             }
             damageList.Clear();
@@ -220,61 +239,63 @@ namespace Athyl
 
                 KeyboardState keyboardState = Keyboard.GetState();
 
-                if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 1.2f && theAI.Count == 0)
+                if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 10f && theAI.Count < 100)
                 {
                     theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
-                   
-                }
-               
-                    if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
-                    {
-                        player.Jump();
-                    }
 
-                    if (keyboardState.IsKeyDown(Keys.Left))
-                    {
-                        player.Move(Player.Movement.Left);
-                    }
-                    else if (keyboardState.IsKeyDown(Keys.Right))
-                    {
-                        player.Move(Player.Movement.Right);
-                    }
-                    else
-                    {
-                        player.Move(Player.Movement.Stop);
-                    }
-
-                    if (keyboardState.IsKeyDown(Keys.Z))
-                    {
-                        player.useWeapon(world);
-                    }
-                    
-                    foreach (AI ai in theAI)
-                    {
-                        ai.UpdateEnemy(player);
-                    }
-
-                    music.UpdateSound(gameTime);
-                    prevKeyboardState = keyboardState;
-
-                    player.UpdatePlayer();
-
-                    world.Step(0.033333f);
                 }
 
-
-                //Debug.WriteLine(box.Position);
-
-
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
                 {
-                    Exit();
-                }
-                DamageAI();
+                    player.Jump();
 
-                base.Update(gameTime);
+                }
+
+                if (keyboardState.IsKeyDown(Keys.Left))
+                {
+                    player.Move(Player.Movement.Left);
+                }
+                else if (keyboardState.IsKeyDown(Keys.Right))
+                {
+                    player.Move(Player.Movement.Right);
+                }
+                else
+                {
+                    player.Move(Player.Movement.Stop);
+                }
+
+                if (keyboardState.IsKeyDown(Keys.Z))
+                {
+                    player.useWeapon(world);
+                }
+
+
+                foreach (AI ai in theAI)
+                {
+                    ai.UpdateEnemy(player);
+                }
+
+                sound.UpdateSound(gameTime);
+                prevKeyboardState = keyboardState;
+
+                player.UpdatePlayer();
+
+                world.Step(0.033333f);
             }
-        
+
+            DamageAI();
+
+            //Debug.WriteLine(box.Position);
+
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
+
+            base.Update(gameTime);
+        }
+
 
 
 
@@ -292,6 +313,7 @@ namespace Athyl
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             spriteBatch.Draw(skyTexture, new Vector2(0, 0), Color.Wheat);
             player.Draw(spriteBatch);
@@ -302,7 +324,7 @@ namespace Athyl
                 ai.Draw(spriteBatch);
 
 
-           
+
             map.Draw(spriteBatch);
             menu.Draw(spriteBatch);
 

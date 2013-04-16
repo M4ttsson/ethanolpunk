@@ -28,7 +28,7 @@ namespace Athyl
         private const float jumpInterval = 1f;
         private bool hit = false;
         private bool seen = false;
-
+        public bool dead = false;
         public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game)
             : base(world, texture, size, mass, startPosition, game, "enemy")
         {
@@ -37,7 +37,7 @@ namespace Athyl
             speed = 1f;
             jumpForce = new Vector2(0, -5f);
             //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
-            
+
         }
 
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
@@ -108,7 +108,7 @@ namespace Athyl
 
                 if (torso.Position.X > aPlayer.torso.Position.X && torso.Position.Y > aPlayer.torso.Position.Y + 10)
                 {
-                    
+
                     if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
                     {
                         axis.MotorSpeed = -MathHelper.TwoPi * speed;
@@ -117,19 +117,19 @@ namespace Athyl
                         UpdateFrame(0.2f);
                     }
 
-                    
+
                 }
 
                 else if (torso.Position.X < aPlayer.torso.Position.X && torso.Position.Y > aPlayer.torso.Position.Y + 10 && seen)
                 {
                     if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
                     {
-                         axis.MotorSpeed = MathHelper.TwoPi * speed;
-                         torso.body.ApplyLinearImpulse(jumpForce);
-                         previousJump = DateTime.Now;
-                         UpdateFrame(0.2f);
+                        axis.MotorSpeed = MathHelper.TwoPi * speed;
+                        torso.body.ApplyLinearImpulse(jumpForce);
+                        previousJump = DateTime.Now;
+                        UpdateFrame(0.2f);
                     }
-                    
+
                 }
             }
         }
@@ -139,21 +139,34 @@ namespace Athyl
 
         }
 
-        
+
+        private void RemoveDeadAI()
+        {
+
+            if (enemyHP <= 0)
+            {
+                dead = true;
+
+            }
+        }
 
         public void UpdateEnemy(Player aPlayer)
         {
             towardsPlayer(aPlayer);
-            
             //attackPlayer();
         }
+
         /*
-        public void LowerAiHP(int damageTaken)
+        public void DamageAI(Projectile p)
         {
-            enemyHP -= damageTaken;
+            if (p.AiIsHit == true)
+            {
+                enemyHP -= 10;
+                Console.WriteLine("AIiSHiT");
+            }
         }
         */
-        
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             //DrawFrame(spriteBatch, wheel.Position + new Vector2(-55.0f/2, -110f));
@@ -215,7 +228,7 @@ namespace Athyl
         //    Frame = 11;
         //    TotalElapsed = 0;
         //}
-        
+
         /*public void UpdateFrame(float elapsed)
         {
             if (axis.MotorSpeed > 0)
