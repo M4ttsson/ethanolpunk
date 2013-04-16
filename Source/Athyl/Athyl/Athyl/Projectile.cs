@@ -25,10 +25,12 @@ namespace Athyl
         Game1 game;
         List<DrawableGameObject> removeList = new List<DrawableGameObject>();
         List<Body> removeListbody = new List<Body>();
-        public Projectile(Game1 game)
+        bool friendly;
+
+        public Projectile(Game1 game, bool friendly)
         {
             this.game = game;
-            
+            this.friendly = friendly;
         }
 
 
@@ -43,11 +45,12 @@ namespace Athyl
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
             bullet.body.IgnoreGravity = true;
+            bullet.body.FixedRotation = true;
             bullets.Add(bullet);
             if (direction)
-                bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(0.1f, 0.0f));
+                bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(0.05f, 0.0f));
             else
-                bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(-0.1f, 0.0f));
+                bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(-0.05f, 0.0f));
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
@@ -55,9 +58,29 @@ namespace Athyl
         {
             if (contact.IsTouching())
             {
-                if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy" || fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "ground")
+                if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy")
                 {
                     if(!removeListbody.Contains(fixtureA.Body))
+                        removeListbody.Add(fixtureA.Body);
+                    foreach (DrawableGameObject i in bullets)
+                    {
+                        if (i.body.BodyId == fixtureA.Body.BodyId)
+                        {
+                            if (!removeList.Contains(i))
+                                removeList.Add(i);
+                        }
+                    }
+
+                    if (friendly)
+                    {
+                        //Skada fiende
+                    }
+                    Console.WriteLine("removed");
+                    return true;
+                }
+                else if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "ground")
+                {
+                    if (!removeListbody.Contains(fixtureA.Body))
                         removeListbody.Add(fixtureA.Body);
                     foreach (DrawableGameObject i in bullets)
                     {
