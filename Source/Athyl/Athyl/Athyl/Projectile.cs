@@ -39,7 +39,8 @@ namespace Athyl
         /// <param name="position"></param>
         /// <param name="direction"></param>
         /// <param name="world"></param>
-        public void NewBullet(Vector2 position, bool direction, World world){
+        public void NewBullet(Vector2 position, bool direction, World world)
+        {
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"),new Vector2(10,4), 10, "shot");
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
@@ -50,6 +51,21 @@ namespace Athyl
                 bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(0.05f, 0.0f));
             else
                 bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(-0.05f, 0.0f));
+            bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+        }
+
+        public void NewEnemyBullet(Vector2 position, bool direction, World world)
+        {
+            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"), new Vector2(10, 4), 10, "hostile");
+            bullet.body.IsBullet = true;
+            bullet.body.Position = position;
+            bullet.body.IgnoreGravity = true;
+            bullet.body.FixedRotation = true;
+            bullets.Add(bullet);
+            if (direction)
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(0.05f, 0.0f));
+            else
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(-0.05f, 0.0f));
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
