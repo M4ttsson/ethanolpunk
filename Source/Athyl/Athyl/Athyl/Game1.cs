@@ -35,7 +35,8 @@ namespace Athyl
         public List<Damage> damageList = new List<Damage>();
         private List<AI> removedAIList = new List<AI>();
         Player player;
-        KeyboardState prevKeyboardState;
+        static KeyboardState prevKeyboardState;
+        static KeyboardState keyboardState;
 
         SpriteFont myFont;
 
@@ -51,6 +52,7 @@ namespace Athyl
         Sounds sound;
 
         Projectile projectile;
+        Thread listenPauseThread;
 
         private bool paused = false;
         
@@ -84,10 +86,26 @@ namespace Athyl
 
             myFont = Content.Load<SpriteFont>("font");
 
+            listenPauseThread = new Thread(ListenPause);
+            listenPauseThread.IsBackground = true;
+            listenPauseThread.Start();
+
             base.Initialize();
         }
 
+        //listen for pause
+        private void ListenPause()
+        {
+            while (true)
+            {
+                if (keyboardState.IsKeyDown(Keys.Escape))
+                {
+                    Exit();
+                }
 
+                Thread.Sleep(20);
+            }
+        }
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -242,17 +260,12 @@ namespace Athyl
    
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                Exit();
-            }
-
             base.Update(gameTime);
         }
 
         private void Input()
         {
-            KeyboardState keyboardState = Keyboard.GetState();
+            keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
             {
                 player.Jump();
