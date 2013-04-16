@@ -184,12 +184,13 @@ namespace Athyl
                     {
                         theAI[i].enemyHP -= (int)projectile.damage;
                         //(int)damageList[j].bodyId;
-                        Console.WriteLine(theAI[i].enemyHP);
+                        //Console.WriteLine(theAI[i].enemyHP);
                     }
                 }
 
                 if (theAI[i].enemyHP <= 0)
                 {
+                    
                     removedAIList.Add(theAI[i]);
 
                     if (removedAIList.Contains(theAI[i]))
@@ -200,7 +201,7 @@ namespace Athyl
                         
                     }
 
-
+                    player.playerXP += 1;
                 }
             }
             damageList.Clear();
@@ -237,9 +238,12 @@ namespace Athyl
             else if (menu.gameState == Menu.GameState.Playing)
             {
 
-                
+                // Allows the game to exit
 
-                if (gameTime.TotalGameTime.TotalSeconds > 0.9f && gameTime.TotalGameTime.TotalSeconds < 10f && theAI.Count < 5)
+
+                KeyboardState keyboardState = Keyboard.GetState();
+
+                if (gameTime.TotalGameTime.TotalSeconds > 0.9f &&  theAI.Count < 2)
                 {
                     theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
 
@@ -308,8 +312,10 @@ namespace Athyl
 
         private void DrawText()
         {
-            spriteBatch.DrawString(myFont, player.playerHP.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 100), Color.DarkRed);
-            spriteBatch.DrawString(myFont, player.playerAthyl.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 70), Color.MidnightBlue);
+            spriteBatch.DrawString(myFont, "Health:" + player.playerHP.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 100), Color.DarkRed);
+            spriteBatch.DrawString(myFont, "Ethanol:" +  player.playerAthyl.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 70), Color.MidnightBlue);
+            spriteBatch.DrawString(myFont, "Exp:" +  player.playerXP.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 130), Color.Green);
+            spriteBatch.DrawString(myFont, "Level:"+ player.playerLevel.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 160), Color.Wheat);
         }
         /// <summary>
         /// This is called when the game should draw itself.

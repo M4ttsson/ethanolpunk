@@ -27,10 +27,13 @@ namespace Athyl
         public int Direction = 0;
         public int playerHP = 100;
         public int playerAthyl = 500;
+        public int playerXP = 0;
+        public int playerLevel = 1;
+
         public DrawableGameObject wheel;
         public enum stance { melee, midRange, longRange };
 
-   
+
         protected RevoluteJoint axis;
         protected Texture2D myTexture;
         protected Vector2 jumpForce = new Vector2(0, -6.0f);
@@ -44,16 +47,18 @@ namespace Athyl
         protected Projectile projectile;
         private Skilltree skillTree;
 
+        private int xpRequiredPerLevel;
         private int frameRow;
         private int frameColumn;
 
         //should be private
         private float TimePerFrame;
         private float TotalElapsed;
-      
+        private int totalXP;
+        private bool hasLeveledRecently = false;
         private bool hasJumped = false;
         private float tempfallDamage = 0;
-
+        private int skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
 
         /// <summary>
@@ -98,10 +103,20 @@ namespace Athyl
             axis.MaxMotorTorque = 10;
             torso.body.OnCollision +=new OnCollisionEventHandler(body_OnCollision);
 
+
+            //xpRequiredPerLevel
             numFootContacts = 0;
             projectile = new Projectile(game);
             skillTree = new Skilltree();
+
+            playerLevel = 1;
+            playerXP = 0;
+
+            
+
         }
+
+
 
         public void Jump()
         {
@@ -138,7 +153,7 @@ namespace Athyl
                         {
                             torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
                             torso.body.ApplyForce(new Vector2(-speed, 0));
-                            
+
                         }
                         else if (torso.body.LinearVelocity.X >= -speed)
                         {
@@ -160,7 +175,7 @@ namespace Athyl
                         {
                             torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
                             torso.body.ApplyForce(new Vector2(speed, 0));
-                            
+
                         }
                         else if (torso.body.LinearVelocity.X <= speed)
                         {
@@ -178,11 +193,27 @@ namespace Athyl
                 case Movement.Stop:
                     axis.MotorSpeed = 0;
                     UpdateFrame(0.2f);
-                    break;       
+                    break;
             }
         }
         public void UpdatePlayer()
         {
+            xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2)));
+            //Console.WriteLine(playerLevel);
+            Console.WriteLine(totalXP);
+            //Console.WriteLine(xpRequiredPerLevel);
+            if (playerXP >= xpRequiredPerLevel && playerXP != 0)
+            {
+                skillPoints++;
+                playerLevel++;
+                playerXP = 0;
+
+            }
+        
+           
+            
+
+
             //check if player foot is touching the ground
             if (numFootContacts < 1)
             {
@@ -192,21 +223,21 @@ namespace Athyl
             {
                 OnGround = true;
             }
-                //Falldamage on player.
-                if (torso.body.LinearVelocity.Y > 10 && !OnGround)
-                {
-                    //playerHP -= (int)torso.body.LinearVelocity.Y * 2;
-                    hasJumped = true;
-                    tempfallDamage = torso.body.LinearVelocity.Y;
-                }
+            //Falldamage on player.
+            if (torso.body.LinearVelocity.Y > 10 && !OnGround)
+            {
+                //playerHP -= (int)torso.body.LinearVelocity.Y * 2;
+                hasJumped = true;
+                tempfallDamage = torso.body.LinearVelocity.Y;
+            }
 
 
-                if (hasJumped == true && OnGround == true)
-                {
-                    playerHP -= (int)(tempfallDamage * 1.5);
-                    hasJumped = false;
-                }
-            
+            if (hasJumped == true && OnGround == true)
+            {
+                playerHP -= (int)(tempfallDamage * 1.5);
+                hasJumped = false;
+            }
+
 
             if (playerHP <= 0)
             {
@@ -309,7 +340,7 @@ namespace Athyl
             Rectangle sourcerect = new Rectangle(FrameWidth * colFrame, FrameHeight * rowFrame,
                FrameWidth, FrameHeight);
             spriteBatch.Draw(myTexture, screenpos, sourcerect, Color.White,
-                0.0f, new Vector2(0.0f,0.0f), 1.0f, SpriteEffects.None, 1.0f);
+                0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
         }
 
         public void DrawPlayerReserves(SpriteBatch spriteBatch)
