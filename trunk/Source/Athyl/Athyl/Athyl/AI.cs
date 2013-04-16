@@ -139,6 +139,11 @@ namespace Athyl
 
         }
 
+        private void UseWeapon()
+        {
+
+        }
+
         public void UpdateEnemy(Player aPlayer)
         {
             towardsPlayer(aPlayer);
