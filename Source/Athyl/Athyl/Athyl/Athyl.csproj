@@ -114,6 +114,7 @@
     <Compile Include="AI.cs" />
     <Compile Include="ConvertUnits.cs" />
     <Compile Include="CoordinateHelper.cs" />
+    <Compile Include="Damage.cs" />
     <Compile Include="DrawableGameObject.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Map.cs" />

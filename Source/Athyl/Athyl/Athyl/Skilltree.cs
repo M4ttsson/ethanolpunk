@@ -9,10 +9,12 @@ namespace Athyl
     {
         Player playerInfo;
         public float fireRate;
+        public float projectileSpeed;
 
         public Skilltree()
         {
             fireRate = 0.3f;
+            projectileSpeed = 0.05f;
         }
 
         #region MeleeStance

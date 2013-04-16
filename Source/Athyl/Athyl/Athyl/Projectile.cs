@@ -27,6 +27,7 @@ namespace Athyl
         List<Body> removeListbody = new List<Body>();
         bool friendly;
 
+
         public Projectile(Game1 game)
         {
             this.game = game;
@@ -39,7 +40,7 @@ namespace Athyl
         /// <param name="position"></param>
         /// <param name="direction"></param>
         /// <param name="world"></param>
-        public void NewBullet(Vector2 position, bool direction, World world)
+        public void NewBullet(Vector2 position, bool direction, World world, float speed)
         {
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"),new Vector2(10,4), 10, "shot");
             bullet.body.IsBullet = true;
@@ -48,13 +49,13 @@ namespace Athyl
             bullet.body.FixedRotation = true;
             bullets.Add(bullet);
             if (direction)
-                bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(0.05f, 0.0f));
+                bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(speed, 0.0f));
             else
-                bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(-0.05f, 0.0f));
+                bullets[bullets.Count-1].body.ApplyLinearImpulse(new Vector2(speed * 1.0f, 0.0f));
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
-        public void NewEnemyBullet(Vector2 position, bool direction, World world)
+        public void NewEnemyBullet(Vector2 position, bool direction, World world, float speed)
         {
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"), new Vector2(10, 4), 10, "hostile");
             bullet.body.IsBullet = true;
@@ -86,8 +87,9 @@ namespace Athyl
                         }
                     }
 
-                 
-                    Console.WriteLine("removed");
+                    game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
+
+
                     return true;
                 }
                 else if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "ground")

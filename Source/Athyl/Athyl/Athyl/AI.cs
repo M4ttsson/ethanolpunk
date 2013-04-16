@@ -24,6 +24,7 @@ namespace Athyl
 
         private int runDirection;
         private DateTime previousJump;
+        private DateTime lastBullet;
         private const float jumpInterval = 1f;
         private bool hit = false;
         private bool seen = false;
@@ -35,7 +36,6 @@ namespace Athyl
 
             speed = 1f;
             jumpForce = new Vector2(0, -5f);
-            
             //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
             
         }
@@ -139,10 +139,7 @@ namespace Athyl
 
         }
 
-        private void UseWeapon()
-        {
-
-        }
+        
 
         public void UpdateEnemy(Player aPlayer)
         {
