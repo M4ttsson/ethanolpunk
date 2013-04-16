@@ -66,7 +66,7 @@ namespace Athyl
             exitButton = game.Content.Load<Texture2D>("ExitButton");
             pauseButton = game.Content.Load<Texture2D>("PauseButton");
             resumeButton = game.Content.Load<Texture2D>("ResumeButton");
-            settingsButton = game.Content.Load<Texture2D>("SettingsButton");
+            settingsButton = game.Content.Load<Texture2D>("OptionsButton");
             optionsButton = game.Content.Load<Texture2D>("OptionsButton");
             saveButton = game.Content.Load<Texture2D>("SaveButton");
             LoadButon = game.Content.Load<Texture2D>("LoadButton");
