@@ -76,7 +76,7 @@ namespace Athyl
         {
             // TODO: Add your initialization logic here
             menu = new Menu(this);
-            menu.gameState = Menu.GameState.StartMenu;
+            menu.gameState = Menu.GameState.Playing;
             weapon = new Weapons(world);
             IsMouseVisible = true;
             
