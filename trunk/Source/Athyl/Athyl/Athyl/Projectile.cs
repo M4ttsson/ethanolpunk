@@ -46,22 +46,22 @@ namespace Athyl
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
             bullet.body.IgnoreGravity = true;
-            bullet.body.FixedRotation = true;
+            
             bullet.body.IsSensor = true;
             
             if (direction)
             {
+                bullet.body.Rotation = MathHelper.ToRadians(180);
+                bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
                 bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, 0.0f));
             }
             else
             {
+                bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
                 bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1.0f, 0.0f));
             }
-
-            
-           
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
