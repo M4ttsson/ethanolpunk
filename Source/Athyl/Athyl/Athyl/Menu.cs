@@ -91,7 +91,6 @@ namespace Athyl
 
         public void LoadGame()
         {
-            //Load the game images into the content pipeline
             Thread.Sleep(3000);
 
             gameState = GameState.Playing;
@@ -120,7 +119,7 @@ namespace Athyl
             if (gameState == GameState.Loading && !isLoading)
             {
                 backGroundThread = new Thread(LoadGame);
-                isLoading = true;
+                isLoading = false;
 
                 backGroundThread.Start();
             }
@@ -162,14 +161,15 @@ namespace Athyl
             if (gameState == GameState.StartMenu)
             {
                 Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, 120, 60);
-                Rectangle exitButtonRect = new Rectangle((int)exitButtonPosition.X, (int)startButtonPosition.Y, 120, 60);
+                Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, 120, 60);
 
                 if (mouseClickRect.Intersects(startButtonRect))
                 {
                     gameState = GameState.Loading;
                     isLoading = true;
+                    gameState = GameState.Playing;
                 }
-                else if (mouseClickRect.Intersects(exitButtonRect))
+                else if (mouseClickRect.Intersects(exitButtonRect1))
                 {
                     game.Exit();
                 }
@@ -180,14 +180,14 @@ namespace Athyl
             {
                 Rectangle resumeButtonRect = new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, 120, 60);
                 Rectangle settingsButtonRect = new Rectangle((int)settingsButtonPosition.X, (int)settingsButtonPosition.Y, 160, 60);
-                Rectangle exitbuttonRect = new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, 120, 60);
+                Rectangle exitbuttonRect2 = new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, 120, 60);
 
                 if (mouseClickRect.Intersects(resumeButtonRect))
                 {
                     gameState = GameState.Playing;
                     
                 }
-                else if (mouseClickRect.Intersects(exitbuttonRect))
+                else if (mouseClickRect.Intersects(exitbuttonRect2))
                 {
                     game.Exit();
                 }
@@ -200,6 +200,7 @@ namespace Athyl
 
             if (gameState == GameState.StartMenu)
             {
+                spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(0, 0, (int)1280, (int)720), Color.White);
                 spriteBatch.Draw(startButton, new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, startButton.Width, startButton.Height), Color.White);
                 spriteBatch.Draw(exitButton, new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, exitButton.Width, exitButton.Height), Color.White);
 
