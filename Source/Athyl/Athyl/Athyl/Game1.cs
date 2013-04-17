@@ -372,8 +372,9 @@ namespace Athyl
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            
+
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.transform);
+            map.Draw(spriteBatch);
             //spriteBatch.Draw(skyTexture, new Vector2(0, 0), Color.Wheat);
             player.Draw(spriteBatch);
 
@@ -381,7 +382,6 @@ namespace Athyl
             //spriteBatch.Draw(weaponTexture, new Vector2(player.torso.Position.X - 18,player.torso.Position.Y - 10), Color.White); 
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
-            map.Draw(spriteBatch);
 
             menu.Draw(spriteBatch);
             //!!!!
