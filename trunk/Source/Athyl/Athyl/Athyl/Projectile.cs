@@ -156,7 +156,13 @@ namespace Athyl
                 {
                     if (!removeList.Contains(bullets[i]))
                         removeList.Add(bullets[i]);
-                    game.world.RemoveBody(bullets[i].body);
+                    try
+                    {
+                        game.world.RemoveBody(bullets[i].body);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
               //  Console.WriteLine(game.world.BodyList.Count);
             }
@@ -168,7 +174,14 @@ namespace Athyl
 
             foreach (Body i in removeListbody)
             {
-                game.world.RemoveBody(i);
+                try
+                {
+                    game.world.RemoveBody(i);
+                }
+                catch (Exception)
+                {
+                }
+                
                 
             }
             removeListbody.Clear();
