@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FarseerPhysics.Dynamics;
-using FarseerPhysics.Factories;
-using FarseerPhysics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -13,7 +10,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
-
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
+using FarseerPhysics.Dynamics.Joints;
+using FarseerPhysics.Common.PolygonManipulation;
 
 
 namespace Athyl
@@ -29,10 +29,12 @@ namespace Athyl
         public int playerAthyl = 500;
         public int playerXP = 0;
         public int playerLevel = 1;
+
         public DrawableGameObject wheel;
         public enum stance { melee, midRange, longRange };
-
-
+        public bool Dead { get; set; }
+        
+        
         protected RevoluteJoint axis;
         protected Texture2D myTexture;
         protected Vector2 jumpForce = new Vector2(0, -6.0f);
@@ -50,7 +52,6 @@ namespace Athyl
         private int frameRow;
         private int frameColumn;
 
-        //should be private
         private float TimePerFrame;
         private float TotalElapsed;
         private int totalXP;
@@ -59,6 +60,7 @@ namespace Athyl
         private float tempfallDamage = 0;
         public Int16 skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
+        
 
         /// <summary>
         /// Creates a new player
@@ -111,8 +113,7 @@ namespace Athyl
             playerLevel = 1;
             playerXP = 0;
 
-            
-
+            Dead = false;
         }
 
 
@@ -240,7 +241,14 @@ namespace Athyl
 
             if (playerHP <= 0)
             {
+                if (!Dead)
+                {
+                    Load(game.Content.Load<Texture2D>("die2"), 1, 1, 1);
+                    Dead = true;
+                } 
+                
                 playerHP = 0;
+                
             }
         }
         /// <summary>
