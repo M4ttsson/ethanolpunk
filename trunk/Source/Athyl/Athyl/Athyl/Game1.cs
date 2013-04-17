@@ -91,7 +91,7 @@ namespace Athyl
             listenPauseThread = new Thread(ListenPause);
             listenPauseThread.IsBackground = true;
             listenPauseThread.Start();
-
+            IsFixedTimeStep = false;
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
 
