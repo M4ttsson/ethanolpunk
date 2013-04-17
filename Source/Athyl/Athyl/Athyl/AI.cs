@@ -44,21 +44,17 @@ namespace Athyl
 
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
-            if (fixtureA.CollisionCategories == Category.Cat1)
-                return true;
-
-            //if (contact.IsTouching())
-            //{
-            //    if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
-            //    {
-            //        axis.MotorSpeed = 0;
-            //        hit = true;
-            //        enemyHP -= 5;
-            //        return true;
-            //    }
-            //}
-            else
-                return false;
+            if (contact.IsTouching())
+            {
+                if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
+                {
+                    axis.MotorSpeed = 0;
+                    hit = true;
+                    enemyHP -= 5;
+                    return true;
+                }
+            }
+            return false;
         }
 
         Vector2 right = new Vector2(2, 0);
