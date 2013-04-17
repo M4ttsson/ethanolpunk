@@ -38,6 +38,7 @@ namespace Athyl
 
         public void InializeMap()
         {
+
             for (int i = 0; i < 32; i++)
             {
                 DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
