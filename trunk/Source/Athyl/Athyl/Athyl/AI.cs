@@ -38,10 +38,6 @@ namespace Athyl
             speed = 1f;
             jumpForce = new Vector2(0, -5f);
 
-            
-
-            
-
             //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
 
         }
