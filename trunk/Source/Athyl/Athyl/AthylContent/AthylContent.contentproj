@@ -283,46 +283,46 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <None Include="Map 3x1.png">
+    <Compile Include="Map 3x1.png">
       <Name>Map 3x1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </None>
-    <None Include="Map 3x2.png">
+    </Compile>
+    <Compile Include="Map 3x2.png">
       <Name>Map 3x2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </None>
-    <None Include="Map 3x3.png">
+    </Compile>
+    <Compile Include="Map 3x3.png">
       <Name>Map 3x3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </None>
-    <None Include="Map 3x4.png">
+    </Compile>
+    <Compile Include="Map 3x4.png">
       <Name>Map 3x4</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </None>
-    <None Include="Map 3x5.png">
+    </Compile>
+    <Compile Include="Map 3x5.png">
       <Name>Map 3x5</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </None>
-    <None Include="Map 3x6.png">
+    </Compile>
+    <Compile Include="Map 3x6.png">
       <Name>Map 3x6</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </None>
-    <None Include="Map 3x7.png">
+    </Compile>
+    <Compile Include="Map 3x7.png">
       <Name>Map 3x7</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </None>
-    <None Include="Map 3x8.png">
+    </Compile>
+    <Compile Include="Map 3x8.png">
       <Name>Map 3x8</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </None>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="die2.png">
