@@ -347,7 +347,7 @@ namespace Athyl
 
             
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.transform);
-            spriteBatch.Draw(skyTexture, new Vector2(0, 0), Color.Wheat);
+            //spriteBatch.Draw(skyTexture, new Vector2(0, 0), Color.Wheat);
             player.Draw(spriteBatch);
 
             projectile.Draw(spriteBatch);
