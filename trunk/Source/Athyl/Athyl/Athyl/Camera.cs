@@ -22,18 +22,18 @@ namespace Athyl
 
         public void UpdateCamera(GameTime gameTime, Player player)
         {
-            if (player.torso.Position.Y > 300)
+            if (player.torso.Position.Y > 360)
             {
-                centre = new Vector2(player.torso.Position.X - 360, 0);
+                centre = new Vector2(player.torso.Position.X - 640, 0);
                 transform = Matrix.CreateScale(new Vector3(1, 1, 0)) *
-                    Matrix.CreateTranslation(new Vector3(-centre.X + 360, -centre.Y, 0));
+                    Matrix.CreateTranslation(new Vector3(-centre.X, -centre.Y, 0));
             }
 
-            else if (player.torso.Position.Y < 300)
+            else if (player.torso.Position.Y < 360)
             {
-                centre = new Vector2(player.torso.Position.X - 360, player.torso.Position.Y - 300);
+                centre = new Vector2(player.torso.Position.X - 640, player.torso.Position.Y - 360);
                 transform = Matrix.CreateScale(new Vector3(1, 1, 0)) *
-                    Matrix.CreateTranslation(new Vector3(-centre.X + 360, -centre.Y, 0));
+                    Matrix.CreateTranslation(new Vector3(-centre.X, -centre.Y, 0));
             }
         }
     }
