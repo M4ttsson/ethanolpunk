@@ -237,7 +237,12 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+<<<<<<< .mine
+            menu.UpdateMenu(gameTime, this);
+            if (menu.gameState == Menu.GameState.Paused)
+=======
             if (player.Dead)
+>>>>>>> .r234
             {
 
             }
@@ -356,6 +361,7 @@ namespace Athyl
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
             map.Draw(spriteBatch);
+
             menu.Draw(spriteBatch);
             //!!!!
             //!!!!
