@@ -43,7 +43,7 @@ namespace Athyl
 
         Camera camera;
 
-        //tests
+
         Map map;
         DrawableGameObject floor;
         DrawableGameObject wallright;
@@ -58,6 +58,7 @@ namespace Athyl
         Thread listenPauseThread;
 
         private bool paused = false;
+        private Texture2D playerTexture, enemyTexture;
 
         System.Timers.Timer timer;
         public static int runTime = 0;
@@ -114,7 +115,10 @@ namespace Athyl
                 {
                     Exit();
                 }
-
+                if (keyboardState.IsKeyDown(Keys.R))
+                {
+                    Restart();
+                }
                 Thread.Sleep(20);
             }
         }
@@ -144,7 +148,10 @@ namespace Athyl
 
             //music.Stop();
 
-            player = new Player(world, Content.Load<Texture2D>("TestGubbar"), new Vector2(55, 120), 100, new Vector2(600, 600), this, "player");
+            enemyTexture = Content.Load<Texture2D>("RunningDummyEnemy");
+            playerTexture = Content.Load<Texture2D>("TestGubbar");
+
+            player = new Player(world, playerTexture, new Vector2(55, 120), 100, new Vector2(600, 600), this, "player");
             skyTexture = Content.Load<Texture2D>("Sky");
 
             //foot contacts
@@ -229,6 +236,24 @@ namespace Athyl
 
         }
 
+        private void Restart()
+        {
+            foreach (AI ai in theAI)
+            {
+                world.RemoveBody(ai.wheel.body);
+                world.RemoveBody(ai.torso.body);
+            }
+            theAI.Clear();
+
+            world.RemoveBody(player.torso.body);
+            world.RemoveBody(player.wheel.body);
+            player = null;
+
+            player = new Player(world, playerTexture, new Vector2(55, 120), 100, new Vector2(600, 600), this, "player");
+
+            runTime = 0;
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -238,6 +263,8 @@ namespace Athyl
         {
             if (player.Dead)
             {
+                keyboardState = Keyboard.GetState();
+
 
             }
             else
@@ -264,7 +291,7 @@ namespace Athyl
 
                     if (runTime == 2 && theAI.Count < 1)
                     {
-                        theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
+                        theAI.Add(new AI(world, enemyTexture, new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
                     }
                     //sound.UpdateSound(gameTime);
 
@@ -320,7 +347,7 @@ namespace Athyl
 
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {
-                theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
+                theAI.Add(new AI(world, enemyTexture, new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
             }
 
             
