@@ -29,7 +29,6 @@ namespace Athyl
         public int playerAthyl = 500;
         public int playerXP = 0;
         public int playerLevel = 1;
-
         public DrawableGameObject wheel;
         public enum stance { melee, midRange, longRange };
 
@@ -58,7 +57,7 @@ namespace Athyl
         private bool hasLeveledRecently = false;
         private bool hasJumped = false;
         private float tempfallDamage = 0;
-        private int skillPoints = 0;
+        public Int16 skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
 
         /// <summary>
@@ -198,7 +197,7 @@ namespace Athyl
         }
         public void UpdatePlayer()
         {
-            xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2)));
+            xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2))*2);
             //Console.WriteLine(playerLevel);
             //Console.WriteLine(totalXP);
             //Console.WriteLine(xpRequiredPerLevel);

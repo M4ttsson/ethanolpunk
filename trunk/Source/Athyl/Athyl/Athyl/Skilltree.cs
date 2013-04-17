@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Athyl
 {
@@ -10,31 +11,40 @@ namespace Athyl
         Player playerInfo;
         public float fireRate;
         public float projectileSpeed;
-
+        Int16 meleefirebreath, meleeAtkSpd, meleeMoveSpd, meleeJmpHeight, midFireBurst, midFireRate, midEthanoltank, midBulletPassthrough, longShield, longEthanol, longAccuracy, longHeadshotBonus;
         public Skilltree()
         {
             fireRate = 0.1f;
             projectileSpeed = 0.02f;
         }
-
+        /*
         #region MeleeStance
 
-        public void fireBreath()
+        public void fireBreath(Int16 points)
         {
+            meleefirebreath += points;
+            
 
         }
 
-        public void increaseAtkSpd()
+        public void increaseAtkSpd(Int16 points)
         {
+            meleeAtkSpd = points;
 
+            //firerate increases by 3% per level
+            fireRate += (fireRate / 33) * meleeAtkSpd;
         }
 
-        public void increaseMovementSpd()
+        public void increaseMovementSpd(Int16 points)
         {
+            meleeMoveSpd = points;
+            playerInfo.speed = (playerInfo.speed / 33) * meleeMoveSpd;
         }
 
-        public void increaseJumpHeight()
+        public void increaseJumpHeight(Int16 points)
         {
+            meleeJmpHeight = points;
+            playerInfo.jumpForce += new Vector2(0,(playerInfo.jumpForce.Y / 20) * meleeJmpHeight); 
         }
 
 
@@ -43,68 +53,58 @@ namespace Athyl
         #endregion
 
         #region MidRange
-        public void fireBurst()
+        public void fireBurst(Int16 points)
         {
+            midFireBurst = points;
+
+
         }
 
         //rate of fire
-        public void increaseROF()
+        public void increaseROF(Int16 points)
         {
-            fireRate -= 0.005f;
+            midFireRate = points;
+            fireRate += (fireRate / 25) * midFireRate;
         }
 
-        //reloadspeed
-        public void decreaseRLDSPD()
+        public void increaseAmmoCap(Int16 points)
         {
+            midEthanoltank = points;
+            playerInfo.playerAthyl += (playerInfo.playerAthyl / 10) * midEthanoltank;
         }
 
-        public void increaseAmmoCap()
+        public void bulletPenetration(Int16 points)
         {
+            midBulletPassthrough = points;
 
-        }
-
-        public void bulletPenetration()
-        {
         }
         #endregion
 
         #region Longrange
-        public void shield()
+        public void shield(Int16 points)
+        {
+        }
+
+        public void increaseSniperAmmo(Int16 points)
+        {
+            longEthanol = points;
+
+            playerInfo.playerAthyl += (playerInfo.playerAthyl / 33) * longEthanol;
+            playerInfo.playerHP -= (playerInfo.playerHP / 50) * longEthanol;
+        }
+
+        public void sniperAccuracy(Int16 points)
         {
 
         }
 
-        public void LaserSight()
+        public void headshotBonus(Int16 points)
         {
-        }
 
-        public void increaseSniperAmmo()
-        {
         }
-
-        public void increaseSniperMovSpd()
-        {
-        }
-
-        public void shieldCdReduce()
-        {
-        }
-
-        public void sniperAccuracy()
-        {
-        }
-
-        public void headshotBonus()
-        {
-        }
-
 
 
         #endregion
-
-
-
-
-
+        */
     }
 }

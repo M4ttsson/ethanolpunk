@@ -37,8 +37,10 @@ namespace Athyl
         Player player;
         static KeyboardState prevKeyboardState;
         static KeyboardState keyboardState;
-
+        Matrix projectionMatrix;
         SpriteFont myFont;
+
+        Camera camera;
 
         //tests
         Map map;
@@ -50,7 +52,7 @@ namespace Athyl
         Texture2D skyTexture;
         Menu menu;
         Sounds sound;
-
+        Skilltree skilltree;
         Projectile projectile;
         Thread listenPauseThread;
 
@@ -63,7 +65,6 @@ namespace Athyl
         {
             graphics = new GraphicsDeviceManager(this)
                 {
-
                     PreferredBackBufferHeight = 720,
                     PreferredBackBufferWidth = 1280,
                     IsFullScreen = false
@@ -85,7 +86,7 @@ namespace Athyl
             IsMouseVisible = true;
             projectile = new Projectile(this);
 
-
+            skilltree = new Skilltree();
             myFont = Content.Load<SpriteFont>("font");
 
             listenPauseThread = new Thread(ListenPause);
@@ -94,7 +95,7 @@ namespace Athyl
             IsFixedTimeStep = false;
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
-
+            camera = new Camera(GraphicsDevice.Viewport);
             base.Initialize();
         }
 
@@ -149,6 +150,7 @@ namespace Athyl
             //foot contacts
             world.ContactManager.BeginContact += BeginContact;
             world.ContactManager.EndContact += EndContact;
+
 
             timer.Start();
         }
@@ -259,6 +261,7 @@ namespace Athyl
                     theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
                 }
 
+
                 //sound.UpdateSound(gameTime);
 
                 foreach (AI ai in theAI)
@@ -272,6 +275,7 @@ namespace Athyl
    
             }
 
+            camera.UpdateCamera(gameTime, player);
             base.Update(gameTime);
         }
 
@@ -319,10 +323,7 @@ namespace Athyl
 
         }
 
-       
-
-
-
+  
         private void DrawText()
         {
             spriteBatch.DrawString(myFont, "Health:" + player.playerHP.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 100), Color.DarkRed);
@@ -338,8 +339,8 @@ namespace Athyl
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.transform);
             spriteBatch.Draw(skyTexture, new Vector2(0, 0), Color.Wheat);
             player.Draw(spriteBatch);
 
@@ -347,14 +348,8 @@ namespace Athyl
             //spriteBatch.Draw(weaponTexture, new Vector2(player.torso.Position.X - 18,player.torso.Position.Y - 10), Color.White); 
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
-
-
-
             map.Draw(spriteBatch);
             menu.Draw(spriteBatch);
-
-
-
             //!!!!
             //!!!!
             //DON'T PUT ANY DRAWING STUFF AFTER THIS!!

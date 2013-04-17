@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI.cs" />
+    <Compile Include="Camera.cs" />
     <Compile Include="ConvertUnits.cs" />
     <Compile Include="CoordinateHelper.cs" />
     <Compile Include="Damage.cs" />
