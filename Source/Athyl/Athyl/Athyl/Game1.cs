@@ -276,9 +276,6 @@ namespace Athyl
    
             }
 
-            //if (theAI.Count != 0)
-                //Debug.WriteLine(theAI[0].interuptRay);
-
             base.Update(gameTime);
         }
 

@@ -187,7 +187,6 @@ namespace Athyl
         {
             towardsPlayer(aPlayer);
 
-            //interuptRay =  rayCast(aPlayer, world);
             //attackPlayer();
         }
 
