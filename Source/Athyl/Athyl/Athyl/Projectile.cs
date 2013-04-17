@@ -134,7 +134,7 @@ namespace Athyl
                                 removeList.Add(i);
                         }
                     }
-                    Console.WriteLine("removed");
+                    //Console.WriteLine("removed");
                     return true;
                 }
             }
