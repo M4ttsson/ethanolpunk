@@ -21,12 +21,15 @@ namespace Athyl
     class Map
     {
         private List<DrawableGameObject> ground = new List<DrawableGameObject>();
+        private List<DrawableGameObject> testmap = new List<DrawableGameObject>();
         private World world;
+        private Game1 game;
         private Texture2D texture;
-        public Map(World world, Texture2D texture)
+        public Map(World world, Game1 game)
         {
             this.world = world;
-            this.texture = texture;
+            this.game = game;
+            this.texture = game.Content.Load<Texture2D>("middleground");
             InializeMap();
         }
 
@@ -34,10 +37,22 @@ namespace Athyl
         {
             foreach (DrawableGameObject dgo in ground)
                 dgo.Draw(spriteBatch);
+
+            foreach (DrawableGameObject dgo in testmap)
+                dgo.Draw(spriteBatch);
         }
 
         public void InializeMap()
         {
+            for (int i = 0; 1 == 8; i++)
+            {
+                for (int j = 1; i == 3; i++)
+                {
+                    DrawableGameObject testBg = new DrawableGameObject(world, game.Content.Load<Texture2D>("Map " + i+ "x" +j), new Vector2(1280, 720), 0, "test");
+                    testBg.Position = new Vector2(1280*i, 720*j);
+                    ground.Add(testBg);
+                }
+            }
 
             for (int i = 0; i < 32; i++)
             {
@@ -76,8 +91,6 @@ namespace Athyl
                 ground.Add(floor);
             }
             
-             
-
             for (int i = 0; i < 10; i++)
             {
                 DrawableGameObject floor = new DrawableGameObject(world, texture, new Vector2(42, 40), 100, "ground");
