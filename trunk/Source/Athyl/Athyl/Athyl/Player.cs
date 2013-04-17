@@ -294,7 +294,7 @@ namespace Athyl
             {
                 d.Draw(spriteBatch);
             }
-            projectile.Draw(spriteBatch);
+            projectile.Draw(spriteBatch, torso.Position);
             //torso.Draw(spriteBatch);
             //wheel.Draw(spriteBatch);
         }
