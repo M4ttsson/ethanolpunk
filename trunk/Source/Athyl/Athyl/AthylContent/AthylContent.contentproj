@@ -63,13 +63,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AK47.png">
-      <Name>AK47</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="castlevagina.mp3">
       <Name>castlevagina</Name>
       <Importer>Mp3Importer</Importer>
