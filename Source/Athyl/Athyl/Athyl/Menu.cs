@@ -119,8 +119,9 @@ namespace Athyl
         public void UpdateMenu(GameTime gametime, Game1 game)
         {
             KeyboardState kbState = Keyboard.GetState();
+            KeyboardState oldKbState;
             mouseState = Mouse.GetState();
-
+      
             if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
             {
                 MouseClicked(mouseState.X, mouseState.Y, game);
@@ -132,7 +133,6 @@ namespace Athyl
                 LoadGame();
                 isLoading = false;
             }
-       
 
             if (gameState == GameState.Loading && !isLoading)
             {
@@ -160,6 +160,7 @@ namespace Athyl
             else if (gameState == GameState.Paused)
             {
                 PauseMenu(game);
+
             }
 
             else if (gameState == GameState.StartMenu)
@@ -201,11 +202,11 @@ namespace Athyl
                 Rectangle exitbuttonRect2 = new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, 120, 60);
                 Rectangle musicRect = new Rectangle((int)musicSliderPosition.X, (int)musicSliderPosition.Y, 40, 40);
                 Rectangle soundRect = new Rectangle((int)soundSliderPosition.X, (int)soundSliderPosition.Y, 40, 40);
+                
 
                 if (mouseClickRect.Intersects(resumeButtonRect))
                 {
                     gameState = GameState.Playing;
-
                 }
                 else if (mouseClickRect.Intersects(exitbuttonRect2))
                 {
@@ -214,7 +215,7 @@ namespace Athyl
 
                 else if (mouseClickRect.Intersects(musicRect))
                 {
-                    
+
                 }
 
                 else if (mouseClickRect.Intersects(soundRect))
