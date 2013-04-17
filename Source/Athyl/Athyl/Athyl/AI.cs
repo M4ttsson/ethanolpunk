@@ -153,21 +153,22 @@ namespace Athyl
         }
 
         /// <summary>
-        /// returns false if there are no CollisionCategorie 2 objects between player and AI, else return true
+        /// returns false if there are no CollisionCategorie 2 objects between startPosition and endPosition, else return true
+        /// less accuracy is more accuracy ;)
         /// </summary>
         /// <param name="aPlayer"></param>
         /// <param name="world"></param>
         /// <returns></returns>
-        private bool rayCast(Player aPlayer, World world)
+        private bool rayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, World world)
         {
-            Vector2 startRay = new Vector2(torso.Position.X, torso.Position.Y);
-            Vector2 endRay = new Vector2(aPlayer.torso.Position.X, aPlayer.torso.Position.Y);
+            Vector2 startRay = startPosition;
+            Vector2 endRay = endPosition;
             Vector2 direction = new Vector2(endRay.X - startRay.X, endRay.Y - startRay.Y);
             direction.Normalize();
 
             while (new Vector2((int) startRay.X, (int) startRay.Y) != new Vector2((int) endRay.X, (int) endRay.Y))
             {
-                startRay = startRay + direction;
+                startRay = startRay + direction * accuracy;
 
                 Fixture fixture = world.TestPoint(ConvertUnits.ToSimUnits(startRay));
 
