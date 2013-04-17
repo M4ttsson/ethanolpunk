@@ -18,6 +18,7 @@ using FarseerPhysics.Factories;
 using FarseerPhysics.DebugViews;
 using FarseerPhysics.Common;
 using FarseerPhysics.Common.Decomposition;
+using FarseerPhysics.Common.PolygonManipulation;
 
 
 namespace Athyl
@@ -236,43 +237,47 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            
-            menu.UpdateMenu(gameTime, this);
-            if (menu.gameState == Menu.GameState.Paused)
+            if (player.Dead)
             {
-                timer.Stop();
-               // menu.StartMenu(this);
+
             }
-
-            else if (menu.gameState == Menu.GameState.Playing)
+            else
             {
-                if (!timer.Enabled)
+                menu.UpdateMenu(gameTime, this);
+                if (menu.gameState == Menu.GameState.Paused)
                 {
-                    timer.Start();
+                    timer.Stop();
+                    // menu.StartMenu(this);
                 }
 
-                //Console.WriteLine(runTime);
-                KeyboardState keyboardState = Keyboard.GetState();
-
-                Input();
-
-                if (runTime == 2 &&  theAI.Count < 1)
+                else if (menu.gameState == Menu.GameState.Playing)
                 {
-                    theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
+                    if (!timer.Enabled)
+                    {
+                        timer.Start();
+                    }
+
+                    //Console.WriteLine(runTime);
+                    KeyboardState keyboardState = Keyboard.GetState();
+
+                    Input();
+
+
+                    if (runTime == 2 && theAI.Count < 1)
+                    {
+                        theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
+                    }
+                    //sound.UpdateSound(gameTime);
+
+                    foreach (AI ai in theAI)
+                    {
+                        ai.UpdateEnemy(player, world);
+                    }
+                    player.UpdatePlayer();
+                    DamageAI();
+
+                    world.Step(0.033333f);
                 }
-
-
-                //sound.UpdateSound(gameTime);
-
-                foreach (AI ai in theAI)
-                {
-                    ai.UpdateEnemy(player, world);
-                }
-                player.UpdatePlayer();
-                DamageAI();
-
-                world.Step(0.033333f);
-   
             }
 
             camera.UpdateCamera(gameTime, player);
@@ -318,6 +323,8 @@ namespace Athyl
             {
                 theAI.Add(new AI(world, Content.Load<Texture2D>("RunningDummyEnemy"), new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
             }
+
+            
 
             prevKeyboardState = keyboardState;
 
