@@ -35,21 +35,22 @@ namespace Athyl
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (DrawableGameObject dgo in ground)
-                dgo.Draw(spriteBatch);
-
             foreach (DrawableGameObject dgo in testmap)
+                dgo.Draw(spriteBatch);
+            foreach (DrawableGameObject dgo in ground)
                 dgo.Draw(spriteBatch);
         }
 
         public void InializeMap()
         {
-            for (int i = 1; i == 8; i++)
+            for (int i = 0; i < 8; i++)
             {
-                for (int j = 1; j == 3; j++)
+                for (int j = 0; j < 3; j++)
                 {
-                    DrawableGameObject testBg = new DrawableGameObject(world, game.Content.Load<Texture2D>("Map " + i+ "x" +j), new Vector2(1280, 720), 0, "test");
-                    testBg.Position = new Vector2(1280*i, 720*j);
+                    DrawableGameObject testBg = new DrawableGameObject(world, game.Content.Load<Texture2D>("Map " + (j+1) + "x" + (i+1)), 0, "test");
+                    testBg.body.BodyType = BodyType.Static;
+                    testBg.Position = new Vector2(1280 * i +(1280/2), 720 * j +(720/2));
+                    testBg.body.CollidesWith = Category.None;
                     testmap.Add(testBg);
                 }
             }
