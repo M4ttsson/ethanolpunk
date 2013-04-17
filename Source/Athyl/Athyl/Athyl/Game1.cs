@@ -289,10 +289,11 @@ namespace Athyl
                     Input();
 
 
-                    if (runTime == 2 && theAI.Count < 5)
+                    if (runTime == 2 && theAI.Count < 0)
                     {
                         theAI.Add(new AI(world, enemyTexture, new Vector2(55, 120), new Vector2(500, 200), 100, 20, this));
                         for (int i = 0; i < theAI.Count; i++)
+                        {
                             for (int j = 0; j < theAI.Count; j++)
                             {
                                 theAI[i].torso.body.IgnoreCollisionWith(theAI[j].torso.body);
@@ -300,6 +301,7 @@ namespace Athyl
                                 theAI[i].torso.body.IgnoreCollisionWith(theAI[j].wheel.body);
                                 theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].torso.body);
                             }
+                        }
 
 
                     }
@@ -358,6 +360,17 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {
                 theAI.Add(new AI(world, enemyTexture, new Vector2(55, 120), new Vector2(75, 400), 100, 20, this));
+
+                for (int i = 0; i < theAI.Count; i++)
+                {
+                    for (int j = 0; j < theAI.Count; j++)
+                    {
+                        theAI[i].torso.body.IgnoreCollisionWith(theAI[j].torso.body);
+                        theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].wheel.body);
+                        theAI[i].torso.body.IgnoreCollisionWith(theAI[j].wheel.body);
+                        theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].torso.body);
+                    }
+                }
             }
 
             
