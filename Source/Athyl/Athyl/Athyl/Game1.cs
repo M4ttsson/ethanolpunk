@@ -56,8 +56,8 @@ namespace Athyl
 
         private bool paused = false;
 
-        public static System.Timers.Timer timer;
-        int runTime = 0;
+        System.Timers.Timer timer;
+        public static int runTime = 0;
 
         public Game1()
         {
