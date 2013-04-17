@@ -131,7 +131,7 @@ namespace Athyl
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
 
-            map = new Map(world, Content.Load<Texture2D>("middleground"));
+            map = new Map(world, this);
 
             debugView = new DebugViewXNA(world);
             debugView.LoadContent(GraphicsDevice, Content);
@@ -237,12 +237,7 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-<<<<<<< .mine
-            menu.UpdateMenu(gameTime, this);
-            if (menu.gameState == Menu.GameState.Paused)
-=======
             if (player.Dead)
->>>>>>> .r234
             {
 
             }
