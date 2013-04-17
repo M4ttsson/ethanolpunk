@@ -10,31 +10,30 @@ namespace Athyl
     class Camera
     {
         public Matrix transform;
-        Viewport view;
-        Vector2 centre;
+        private Vector3 moveDirection;
+        private int x, y, z;
+        private Viewport view;
 
-
-        public Camera(Viewport newView)
+        public Camera(Viewport view)
         {
-            view = newView;
+            this.view = view;
+            this.transform = Matrix.Identity;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
         }
-
 
         public void UpdateCamera(GameTime gameTime, Player player)
         {
-            if (player.torso.Position.Y > 360)
-            {
-                centre = new Vector2(player.torso.Position.X - 640, 0);
-                transform = Matrix.CreateScale(new Vector3(1, 1, 0)) *
-                    Matrix.CreateTranslation(new Vector3(-centre.X, -centre.Y, 0));
-            }
 
-            else if (player.torso.Position.Y < 360)
-            {
-                centre = new Vector2(player.torso.Position.X - 640, player.torso.Position.Y - 360);
-                transform = Matrix.CreateScale(new Vector3(1, 1, 0)) *
-                    Matrix.CreateTranslation(new Vector3(-centre.X, -centre.Y, 0));
-            }
+            if (player.torso.Position.X < (-transform.Translation.X + 300))
+                x = (int)-player.torso.Position.X + 300;
+            if (player.torso.Position.X > (-transform.Translation.X + 1280 - 300))
+                x = (int)-player.torso.Position.X + 1280 - 300;
+            if (player.torso.Position.Y < (-transform.Translation.Y + 200))
+                y = (int)-player.torso.Position.Y + 200;
+            if (player.torso.Position.Y > (-transform.Translation.Y + 720 - 200))
+                y = (int)-player.torso.Position.Y + 720 - 200;
         }
     }
 }
