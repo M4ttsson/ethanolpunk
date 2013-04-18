@@ -165,7 +165,6 @@ namespace Athyl
                         axis.MotorSpeed = -MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
                     }
-                    Direction = 1;
                     break;
 
                 case Movement.Right:
@@ -187,7 +186,6 @@ namespace Athyl
                         axis.MotorSpeed = MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
                     }
-                    Direction = 0;
                     break;
 
                 case Movement.Stop:

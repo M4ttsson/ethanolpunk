@@ -82,6 +82,42 @@ namespace Athyl
                 bullets.Add(bullet);
                 bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed * -1.0f));
             }
+
+            //Upright
+            else if (direction == 4)
+            {
+                bullet.body.Rotation = MathHelper.ToRadians(180);
+                bullet.body.FixedRotation = true;
+                bullets.Add(bullet);
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * spread * 0.2f - 1.0f));
+                
+            }
+            //Upleft
+            else if (direction == 5)
+            {
+                bullet.body.FixedRotation = true;
+                bullets.Add(bullet);
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2 * spread * 0.2f));
+                
+            }
+            //Downright
+            else if (direction == 6)
+            {
+                bullet.body.Rotation = MathHelper.ToRadians(90);
+                bullet.body.FixedRotation = true;
+                bullets.Add(bullet);
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed/2 * spread * 0.2f, speed/2));
+            }
+            //Downleft
+            else if (direction == 7)
+            {
+                bullet.body.Rotation = MathHelper.ToRadians(270);
+                bullet.body.FixedRotation = true;
+                bullets.Add(bullet);
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed/2 * spread * 0.2f, speed/2 * -1.0f));
+            }
+
+
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
