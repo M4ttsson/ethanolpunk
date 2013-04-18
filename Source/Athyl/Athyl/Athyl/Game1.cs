@@ -331,28 +331,55 @@ namespace Athyl
 
             }
 
-            if (keyboardState.IsKeyDown(Keys.Left))
-            {
-                player.Move(Player.Movement.Left);
-            }
-            else if (keyboardState.IsKeyDown(Keys.Right))
-            {
-                player.Move(Player.Movement.Right);
-            }
-            else
-            {
-                player.Move(Player.Movement.Stop);
-            }
-
             if (keyboardState.IsKeyDown(Keys.Z))
             {
                 player.useWeapon(world);
             }
+
+            if (keyboardState.IsKeyDown(Keys.Left))
+            {
+                player.Move(Player.Movement.Left);
+                player.Direction = 1;
+            }
+            else if (keyboardState.IsKeyDown(Keys.Right))
+            {
+                player.Move(Player.Movement.Right);
+                player.Direction = 0;
+            }           
+            
+            
+            else if(keyboardState.IsKeyDown(Keys.Up) && keyboardState.IsKeyDown(Keys.Right))
+            {
+                player.Move(Player.Movement.Right);
+                player.Direction = 4;
+            }
+            else if (keyboardState.IsKeyDown(Keys.Up) && keyboardState.IsKeyDown(Keys.Left))
+            {
+                player.Move(Player.Movement.Left);
+                player.Direction = 5;
+            }
+
+            else if (keyboardState.IsKeyDown(Keys.Down) && keyboardState.IsKeyDown(Keys.Right))
+            {
+                player.Move(Player.Movement.Right);
+                player.Direction = 6;
+            }
+            else if (keyboardState.IsKeyDown(Keys.Down) && keyboardState.IsKeyDown(Keys.Left))
+            {
+                player.Move(Player.Movement.Left);
+                player.Direction = 7;
+            }
+
+            else
+            {
+                player.Move(Player.Movement.Stop);
+            } 
+
             if (keyboardState.IsKeyDown(Keys.Up))
             {
                 player.Direction = 3;
             }
-            if (keyboardState.IsKeyDown(Keys.Down))
+            else if (keyboardState.IsKeyDown(Keys.Down))
             {
                 player.Direction = 2;
             }
