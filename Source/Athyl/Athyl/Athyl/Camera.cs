@@ -55,10 +55,10 @@ namespace Athyl
             }
             else
             {
-                if (player.torso.Position.X < (-transform.Translation.X + 300))
-                    x = (int)-player.torso.Position.X + 300;
-                if (player.torso.Position.X > (-transform.Translation.X + 1280 - 300))
-                    x = (int)-player.torso.Position.X + 1280 - 300;
+                if (player.torso.Position.X < (-transform.Translation.X + 600))
+                    x = (int)-player.torso.Position.X + 600;
+                if (player.torso.Position.X > (-transform.Translation.X + 1280 - 600))
+                    x = (int)-player.torso.Position.X + 1280 - 600;
                 if (player.torso.Position.Y < (-transform.Translation.Y + 200))
                     y = (int)-player.torso.Position.Y + 200;
                 if (player.torso.Position.Y > (-transform.Translation.Y + 720 - 200))
