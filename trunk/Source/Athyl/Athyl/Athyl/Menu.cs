@@ -231,9 +231,9 @@ namespace Athyl
             //checking the pausemenu
             if (gameState == GameState.Paused)
             {
-                Rectangle resumeButtonRect = new Rectangle((int)Camera.transform.Translation.X + game.GraphicsDevice.Viewport.Width / 2 - 90, (int)Camera.transform.Translation.Y + game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
-                Rectangle settingsButtonRect = new Rectangle((int)settingsButtonPosition.X, (int)settingsButtonPosition.Y, 160, 20);
-                Rectangle exitbuttonRect2 = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30), 120, 20);
+                Rectangle resumeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width  /2 - resumeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
+                Rectangle settingsButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width  /2 - optionsButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 60, 160, 20);
+                Rectangle exitbuttonRect2 = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), (game.GraphicsDevice.Viewport.Height / 2 - 20), 120, 20);
                 Rectangle musicRect = new Rectangle((int)musicSliderPosition.X, (int)musicSliderPosition.Y, 40, 40);
                 Rectangle soundRect = new Rectangle((int)soundSliderPosition.X, (int)soundSliderPosition.Y, 40, 40);
 
@@ -275,30 +275,30 @@ namespace Athyl
 
             if (gameState == GameState.StartMenu)
             {
-                spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(0, 0, (int)1280, (int)720), Color.White);
-                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle((int)Camera.transform.Translation.X + 410, (int)Camera.transform.Translation.Y + 260, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
-                spriteBatch.Draw(startButton, new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, startButton.Width, startButton.Height), Color.White);
-                spriteBatch.Draw(optionsButton, new Rectangle((int)optionsButtonPosition.X, (int)optionsButtonPosition.Y, optionsButton.Width, optionsButton.Height), Color.White);
-                spriteBatch.Draw(storyButton, new Rectangle((int)storyButtonPosition.X, (int)storyButtonPosition.Y, storyButton.Width, storyButton.Height), Color.White);
-                spriteBatch.Draw(exitButton, new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, exitButton.Width, exitButton.Height), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 405, -(int)Camera.transform.Translation.Y + 250, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
+                spriteBatch.Draw(startButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - startButton.Width / 2, -(int)Camera.transform.Translation.Y + 310, startButton.Width, startButton.Height), Color.White);
+                spriteBatch.Draw(optionsButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - optionsButton.Width / 2, -(int)Camera.transform.Translation.Y + 350, optionsButton.Width, optionsButton.Height), Color.White);
+                spriteBatch.Draw(storyButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - storyButton.Width / 2, -(int)Camera.transform.Translation.Y + 395, storyButton.Width, storyButton.Height), Color.White);
+                spriteBatch.Draw(exitButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 435, exitButton.Width, exitButton.Height), Color.White);
 
             }
 
             if (gameState == GameState.Loading)
             {
-                spriteBatch.Draw(loadingBackground, new Rectangle(0, 0, (int)1280, (int)720), Color.White);
-                spriteBatch.Draw(loadingGameButton, new Rectangle((int)loadingScreenPosition.X, (int)loadingScreenPosition.Y, loadingGameButton.Width, loadingGameButton.Height), Color.CornflowerBlue);
+                spriteBatch.Draw(loadingBackground, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
+                spriteBatch.Draw(loadingGameButton, new Rectangle(-(int)Camera.transform.Translation.X + 580, -(int)Camera.transform.Translation.Y + 360, loadingGameButton.Width, loadingGameButton.Height), Color.CornflowerBlue);
             }
 
             if (gameState == GameState.Paused)
             {
-                spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(game.GraphicsDevice.Viewport.X, game.GraphicsDevice.Viewport.Y, (int)1280, (int)720), Color.White);
-                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle((int)pauseMenuPosition.X, (int)pauseMenuPosition.Y, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
-                spriteBatch.Draw(resumeButton, new Rectangle(-(int)Camera.transform.Translation.X + 580/*+ game.GraphicsDevice.Viewport.Width / 2 - 90*/, -(int)Camera.transform.Translation.Y + 200, resumeButton.Width, resumeButton.Height), Color.White);
-                spriteBatch.Draw(optionsButton, new Rectangle((int)settingsButtonPosition.X, (int)settingsButtonPosition.Y, settingsButton.Width, settingsButton.Height), Color.White);
-                spriteBatch.Draw(exitButton, new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, exitButton.Width, exitButton.Height), Color.White);
-                spriteBatch.Draw(musicSlider, new Rectangle((int)musicSliderPosition.X, (int)musicSliderPosition.Y, musicSlider.Width, musicSlider.Height), Color.White);
-                spriteBatch.Draw(soundSlider, new Rectangle((int)soundSliderPosition.X, (int)soundSliderPosition.Y, soundSlider.Width, soundSlider.Height), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 405, -(int)Camera.transform.Translation.Y + 150, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
+                spriteBatch.Draw(resumeButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - resumeButton.Width / 2, -(int)Camera.transform.Translation.Y + 230, resumeButton.Width, resumeButton.Height), Color.White);
+                spriteBatch.Draw(optionsButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - optionsButton.Width / 2, -(int)Camera.transform.Translation.Y + 270, settingsButton.Width, settingsButton.Height), Color.White);
+                spriteBatch.Draw(exitButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 315, exitButton.Width, exitButton.Height), Color.White);
+                spriteBatch.Draw(musicSlider, new Rectangle(-(int)Camera.transform.Translation.X + 1230, -(int)Camera.transform.Translation.Y + 10, musicSlider.Width, musicSlider.Height), Color.White);
+                spriteBatch.Draw(soundSlider, new Rectangle(-(int)Camera.transform.Translation.X + 1230, -(int)Camera.transform.Translation.Y + 60, soundSlider.Width, soundSlider.Height), Color.White);
             }
 
             if (gameState == GameState.Options)
