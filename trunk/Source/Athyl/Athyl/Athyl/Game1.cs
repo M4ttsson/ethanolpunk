@@ -443,8 +443,8 @@ namespace Athyl
 
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.transform);
+            spriteBatch.Draw(skyTexture, new Vector2(-Camera.transform.Translation.X, -Camera.transform.Translation.Y), Color.Wheat);
             map.Draw(spriteBatch);
-            //spriteBatch.Draw(skyTexture, new Vector2(0, 0), Color.Wheat);
             player.Draw(spriteBatch);
 
             projectile.Draw(spriteBatch, player.torso.Position);

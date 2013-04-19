@@ -52,8 +52,6 @@ namespace Athyl
             //foreach (DrawableGameObject dgo in testmap)
             //    dgo.Draw(spriteBatch);
 
-            //spriteBatch.Draw(game.Content.Load<Texture2D>("Sky"), new Vector2(0, 0), Color.Wheat);
-
             foreach (DrawableGameObject b in body)
             {
                 Rectangle destination = new Rectangle
@@ -79,6 +77,10 @@ namespace Athyl
                     DrawableGameObject testBg = new DrawableGameObject(world, texture, 0, "test");
                     testBg.body.BodyType = BodyType.Static;
                     testBg.Position = new Vector2(1280 * i +(1280/2), 720 * j +(720/2));
+                    for (int q = 0; q < testBg.body.FixtureList.Count; q++)
+                    {
+                        testBg.body.DestroyFixture(testBg.body.FixtureList[q]);
+                    }
                     testBg.body.CollidesWith = Category.None;
                     testmap.Add(testBg);
                 }
