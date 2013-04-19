@@ -9,7 +9,7 @@ namespace Athyl
 {
     class Camera
     {
-        public Matrix transform;
+        static Matrix transform;
         private Vector3 moveDirection;
         private int x, y, z;
         private Viewport view;
@@ -18,7 +18,7 @@ namespace Athyl
         public Camera(Viewport view)
         {
             this.view = view;
-            this.transform = Matrix.Identity;
+            transform = Matrix.Identity;
             this.x = 0;
             this.y = 0;
             this.z = 0;
