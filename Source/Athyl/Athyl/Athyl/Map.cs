@@ -25,6 +25,11 @@ namespace Athyl
         private World world;
         private Game1 game;
         private Texture2D texture;
+        private Texture2D map;
+        private Color[] colors;
+        private Color[,] colors2D;
+        List<Body> body = new List<Body>();
+
         public Map(World world, Game1 game)
         {
             this.world = world;
@@ -39,6 +44,18 @@ namespace Athyl
                 dgo.Draw(spriteBatch);
             foreach (DrawableGameObject dgo in ground)
                 dgo.Draw(spriteBatch);
+
+            foreach (Body b in body)
+            {
+                Rectangle destination = new Rectangle
+                 (
+                     (int)ConvertUnits.ToDisplayUnits(b.Position.X),
+                     (int)ConvertUnits.ToDisplayUnits(b.Position.Y),
+                     40,
+                     40
+                 );
+                spriteBatch.Draw(texture, destination, null, Color.White, b.Rotation, new Vector2(texture.Width / 2.0f, texture.Height / 2.0f), SpriteEffects.None, 0);
+            }
         }
 
         public void InializeMap()
@@ -108,6 +125,41 @@ namespace Athyl
                 floor.body.BodyType = BodyType.Static;
                 floor.body.CollisionCategories = Category.Cat2;
                 ground.Add(floor);
+            }
+            ReadMap();
+        }
+
+        private void ReadMap()
+        {
+            map = game.Content.Load<Texture2D>("Map 1x1");
+            colors = new Color[map.Width * map.Height];
+            map.GetData<Color>(colors);
+
+            colors2D = new Color[map.Width, map.Height];
+
+            for (int y = 0; y < map.Height; y++)
+            {
+                for (int x = 0; x < map.Width; x++)
+                {
+                    colors2D[x, y] = colors[x + y * map.Width];
+                }
+            }
+
+
+
+            for (int y = 1; y < 18; y++)
+            {
+                for (int x = 1; x < 32; x++)
+                {
+                    if (colors2D[x * 40, y * 40] == Color.Black)
+                    {
+                        Body b = BodyFactory.CreateRectangle(world, 0.4f, 0.4f, 1, "ground");
+                        b.Position = ConvertUnits.ToSimUnits(x * 40 +20, y * 40+20);
+                        b.BodyType = BodyType.Static;
+                        body.Add(b);
+
+                    }
+                }
             }
         }
     }
