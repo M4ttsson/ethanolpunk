@@ -40,13 +40,13 @@ namespace Athyl
 
             if (endOfMapX)
             {
-                if (transform.Translation.X < 0)
+                if (transform.Translation.X > 0)
                 {
                     Vector3 temp = transform.Translation;
                     temp.X = 0;
                     transform.Translation = temp;
                 }
-                if (transform.Translation.X < 10240 + view.Width)
+                if (transform.Translation.X < -10240 + view.Width)
                 {
                     Vector3 temp = transform.Translation;
                     temp.X = -10240 + view.Width;
@@ -68,13 +68,15 @@ namespace Athyl
                 if (transform.Translation.Y > 0)
                 {
                     Vector3 temp = transform.Translation;
-                    temp.Y = -2160 + view.Height;
+                    temp.Y = 0;
+                    //temp.Y = -2160 + view.Height;
                      transform.Translation = temp;
                 }
-                if (transform.Translation.Y > 2160 - view.Height)
+                if (transform.Translation.Y < -2160 + view.Height)
                 {
                     Vector3 temp = transform.Translation;
-                    temp.Y = 0;
+                    temp.Y = -2160 + view.Height;
+                    //temp.Y = 0;
                     transform.Translation = temp;
                 }
             }
