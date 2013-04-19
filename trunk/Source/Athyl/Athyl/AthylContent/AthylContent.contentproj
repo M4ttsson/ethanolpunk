@@ -203,11 +203,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Map 1x1.png">
-      <Name>Map 1x1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Map 1x2.png">
       <Name>Map 1x2</Name>
       <Importer>TextureImporter</Importer>
@@ -334,6 +329,13 @@
   <ItemGroup>
     <Compile Include="StoryButton.png">
       <Name>StoryButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Map 1x1.png">
+      <Name>Map 1x1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
