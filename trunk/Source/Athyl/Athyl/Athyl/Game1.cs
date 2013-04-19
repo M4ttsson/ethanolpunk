@@ -249,7 +249,7 @@ namespace Athyl
             world.RemoveBody(player.wheel.body);
             player = null;
 
-            player = new Player(world, playerTexture, new Vector2(55, 120), 100, new Vector2(600, 600), this, "player");
+            player = new Player(world, playerTexture, new Vector2(55, 120), 100, new Vector2(600, 400), this, "player");
 
             runTime = 0;
         }
