@@ -58,7 +58,8 @@ namespace Athyl
 
 
         private Thread backGroundThread;
-        private bool isLoading = false;
+        public bool isLoading = false;
+        private static bool runOnce = false;
         MouseState mouseState;
         MouseState previousMouseState;
 
@@ -125,7 +126,7 @@ namespace Athyl
 
         public void LoadGame()
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(6000);
 
             gameState = GameState.Playing;
             isLoading = true;
@@ -150,11 +151,19 @@ namespace Athyl
 
             if (gameState == GameState.Loading && !isLoading)
             {
-                backGroundThread = new Thread(LoadGame);
-                this.backGroundThread.IsBackground = true;
+               // backGroundThread = new Thread(game.Load);
+                //this.backGroundThread.IsBackground = true;
                 isLoading = false;
 
-                backGroundThread.Start();
+                
+               // backGroundThread.Start();
+                
+                
+                if (!runOnce)
+                {
+                    game.loadThread.Start();
+                    runOnce = true;
+                }
             }
 
             if (kbState.IsKeyDown(Keys.F2))
