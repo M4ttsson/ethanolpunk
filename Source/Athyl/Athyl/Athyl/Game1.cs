@@ -467,7 +467,6 @@ namespace Athyl
             player.Draw(spriteBatch);
 
             projectile.Draw(spriteBatch, player.torso.Position);
-            //spriteBatch.Draw(weaponTexture, new Vector2(player.torso.Position.X - 18,player.torso.Position.Y - 10), Color.White); 
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
             DrawText();
