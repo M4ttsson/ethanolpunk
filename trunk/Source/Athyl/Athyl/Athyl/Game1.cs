@@ -151,7 +151,7 @@ namespace Athyl
             enemyTexture = Content.Load<Texture2D>("RunningDummyEnemy");
             playerTexture = Content.Load<Texture2D>("TestGubbar");
 
-            player = new Player(world, playerTexture, new Vector2(55, 100), 100, new Vector2(600, 380), this, "player");
+            player = new Player(world, playerTexture, new Vector2(55, 100), 100, new Vector2(9500, 1200), this, "player");
             skyTexture = Content.Load<Texture2D>("Sky");
 
             //foot contacts
