@@ -339,43 +339,33 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.Left))
             {
                 player.Move(Player.Movement.Left);
-                player.Direction = 1;
+                if(keyboardState.IsKeyDown(Keys.Up)){
+                    player.Direction = 5;
+                }
+                else if (keyboardState.IsKeyDown(Keys.Down))
+                {
+                    player.Direction = 7;
+                }
+                else
+                    player.Direction = 1;
             }
+
             else if (keyboardState.IsKeyDown(Keys.Right))
             {
                 player.Move(Player.Movement.Right);
-                player.Direction = 0;
+                if (keyboardState.IsKeyDown(Keys.Up))
+                {
+                    player.Direction = 4;
+                }
+                else if (keyboardState.IsKeyDown(Keys.Down))
+                {
+                    player.Direction = 6;
+                }
+                else
+                    player.Direction = 0;
             }           
-            
-            
-            else if(keyboardState.IsKeyDown(Keys.Up) && keyboardState.IsKeyDown(Keys.Right))
-            {
-                player.Move(Player.Movement.Right);
-                player.Direction = 4;
-            }
-            else if (keyboardState.IsKeyDown(Keys.Up) && keyboardState.IsKeyDown(Keys.Left))
-            {
-                player.Move(Player.Movement.Left);
-                player.Direction = 5;
-            }
-
-            else if (keyboardState.IsKeyDown(Keys.Down) && keyboardState.IsKeyDown(Keys.Right))
-            {
-                player.Move(Player.Movement.Right);
-                player.Direction = 6;
-            }
-            else if (keyboardState.IsKeyDown(Keys.Down) && keyboardState.IsKeyDown(Keys.Left))
-            {
-                player.Move(Player.Movement.Left);
-                player.Direction = 7;
-            }
-
-            else
-            {
-                player.Move(Player.Movement.Stop);
-            } 
-
-            if (keyboardState.IsKeyDown(Keys.Up))
+           
+            else if (keyboardState.IsKeyDown(Keys.Up))
             {
                 player.Direction = 3;
             }
@@ -383,6 +373,35 @@ namespace Athyl
             {
                 player.Direction = 2;
             }
+            else if(keyboardState.IsKeyDown(Keys.X)){
+                if(player.Direction == 0){
+                    player.Direction = 4;
+                    if(keyboardState.IsKeyDown(Keys.Down)){
+                        player.Direction = 6;
+                    }
+                    else if(keyboardState.IsKeyDown(Keys.Up)){
+                        player.Direction = 4;
+                    }
+                }
+                else if(player.Direction == 1){
+                    player.Direction = 5;
+                    if(keyboardState.IsKeyDown(Keys.Down)){
+                        player.Direction = 7;
+                    }
+                    else if(keyboardState.IsKeyDown(Keys.Up)){
+                        player.Direction = 5;
+                    }
+                }
+
+            }
+
+            else
+            {
+                player.Move(Player.Movement.Stop);
+            } 
+
+     
+            
 
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {

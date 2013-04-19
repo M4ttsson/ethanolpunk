@@ -89,7 +89,7 @@ namespace Athyl
                 bullet.body.Rotation = MathHelper.ToRadians(180);
                 bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * spread * 0.2f - 1.0f));
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * -1.0f));
                 
             }
             //Upleft
@@ -97,7 +97,7 @@ namespace Athyl
             {
                 bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2 * spread * 0.2f));
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2 * -1.0f));
                 
             }
             //Downright
@@ -106,15 +106,15 @@ namespace Athyl
                 bullet.body.Rotation = MathHelper.ToRadians(90);
                 bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed/2 * spread * 0.2f, speed/2));
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed/2 , speed/2));
             }
-            //Downleft
+            //Downleft  
             else if (direction == 7)
             {
                 bullet.body.Rotation = MathHelper.ToRadians(270);
                 bullet.body.FixedRotation = true;
                 bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed/2 * spread * 0.2f, speed/2 * -1.0f));
+                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2));
             }
 
 
