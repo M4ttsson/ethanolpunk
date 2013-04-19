@@ -84,7 +84,7 @@ namespace Athyl
         {
             // TODO: Add your initialization logic here
             menu = new Menu(this);
-            menu.gameState = Menu.GameState.Playing;
+            menu.gameState = Menu.GameState.StartMenu;
             IsMouseVisible = true;
             projectile = new Projectile(this);
 
@@ -151,7 +151,7 @@ namespace Athyl
             enemyTexture = Content.Load<Texture2D>("RunningDummyEnemy");
             playerTexture = Content.Load<Texture2D>("TestGubbar");
 
-            player = new Player(world, playerTexture, new Vector2(55, 120), 100, new Vector2(600, 0), this, "player");
+            player = new Player(world, playerTexture, new Vector2(55, 100), 100, new Vector2(600, 380), this, "player");
             skyTexture = Content.Load<Texture2D>("Sky");
 
             //foot contacts
@@ -451,13 +451,13 @@ namespace Athyl
             //spriteBatch.Draw(weaponTexture, new Vector2(player.torso.Position.X - 18,player.torso.Position.Y - 10), Color.White); 
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
-
-            menu.Draw(spriteBatch);
+            DrawText();
+            menu.Draw(spriteBatch, this);
             //!!!!
             //!!!!
             //DON'T PUT ANY DRAWING STUFF AFTER THIS!!
             //Writes the players HP & Ethanol reserves into the game. 
-            DrawText();
+
             //!!!!
             //!!!!
             spriteBatch.End();
