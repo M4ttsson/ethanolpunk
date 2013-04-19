@@ -46,10 +46,10 @@ namespace Athyl
                     temp.X = 0;
                     transform.Translation = temp;
                 }
-                if (transform.Translation.X > 10240 - view.Width)
+                if (transform.Translation.X < 10240 + view.Width)
                 {
                     Vector3 temp = transform.Translation;
-                    temp.X = 10240 - view.Width;
+                    temp.X = -10240 + view.Width;
                     transform.Translation = temp;
                 }
             }
