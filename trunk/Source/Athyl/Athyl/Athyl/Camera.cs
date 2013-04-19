@@ -9,7 +9,7 @@ namespace Athyl
 {
     class Camera
     {
-        static Matrix transform;
+        public static Matrix transform;
         private Vector3 moveDirection;
         private int x, y, z;
         private Viewport view;
