@@ -44,7 +44,7 @@ namespace Athyl
         Camera camera;
 
 
-        Map map;
+        static Map map;
         DrawableGameObject floor;
         DrawableGameObject wallright;
         DrawableGameObject wallleft;
@@ -57,6 +57,7 @@ namespace Athyl
         Projectile projectile;
         Thread listenPauseThread;
 
+        public Thread loadThread;
         private bool paused = false;
         private Texture2D playerTexture, enemyTexture;
 
@@ -72,6 +73,9 @@ namespace Athyl
                     IsFullScreen = false
                 };
             Content.RootDirectory = "Content";
+
+            loadThread = new Thread(Load);
+            loadThread.IsBackground = true;
         }
 
         /// <summary>
@@ -98,12 +102,25 @@ namespace Athyl
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
             camera = new Camera(GraphicsDevice.Viewport);
+
+            
+
             base.Initialize();
         }
 
         void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             runTime++;
+        }
+
+        /// <summary>
+        /// Load all performance heavy things
+        /// </summary>
+        public void Load()
+        {
+            map = new Map(world, this);
+            menu.gameState = Menu.GameState.Playing;
+            menu.isLoading = true;
         }
 
         //listen for pause
@@ -135,7 +152,7 @@ namespace Athyl
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
 
-            map = new Map(world, this);
+            //map = new Map(world, this);
 
             debugView = new DebugViewXNA(world);
             debugView.LoadContent(GraphicsDevice, Content);
@@ -151,7 +168,7 @@ namespace Athyl
             enemyTexture = Content.Load<Texture2D>("RunningDummyEnemy");
             playerTexture = Content.Load<Texture2D>("TestGubbar");
 
-            player = new Player(world, playerTexture, new Vector2(55, 100), 100, new Vector2(9500, 1200), this, "player");
+            player = new Player(world, playerTexture, new Vector2(55, 100), 100, new Vector2(600, 0), this, "player");
             skyTexture = Content.Load<Texture2D>("Sky");
 
             //foot contacts
@@ -443,8 +460,12 @@ namespace Athyl
 
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.transform);
+
+            
             spriteBatch.Draw(skyTexture, new Vector2(-Camera.transform.Translation.X, -Camera.transform.Translation.Y), Color.Wheat);
-            map.Draw(spriteBatch);
+            if (map != null)
+                map.Draw(spriteBatch);
+
             player.Draw(spriteBatch);
 
             projectile.Draw(spriteBatch, player.torso.Position);
