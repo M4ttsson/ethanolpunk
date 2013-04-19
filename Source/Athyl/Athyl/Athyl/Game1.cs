@@ -168,12 +168,8 @@ namespace Athyl
             enemyTexture = Content.Load<Texture2D>("RunningDummyEnemy");
             playerTexture = Content.Load<Texture2D>("TestGubbar");
 
-<<<<<<< .mine
-            player = new Player(world, playerTexture, new Vector2(55, 100), 100, new Vector2(9500, 1200), this, "player");
-=======
+            skyTexture = Content.Load<Texture2D>("BackgrundTest");
             player = new Player(world, playerTexture, new Vector2(55, 100), 100, new Vector2(600, 0), this, "player");
->>>>>>> .r280
-            skyTexture = Content.Load<Texture2D>("Sky");
 
             //foot contacts
             world.ContactManager.BeginContact += BeginContact;
@@ -464,9 +460,7 @@ namespace Athyl
 
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.transform);
-
-            
-            spriteBatch.Draw(skyTexture, new Vector2(-Camera.transform.Translation.X, -Camera.transform.Translation.Y), Color.Wheat);
+            spriteBatch.Draw(skyTexture, new Vector2(-Camera.transform.Translation.X, 0), Color.Wheat);
             if (map != null)
                 map.Draw(spriteBatch);
 
