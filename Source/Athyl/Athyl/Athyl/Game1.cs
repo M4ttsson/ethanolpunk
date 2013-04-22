@@ -503,10 +503,9 @@ namespace Athyl
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
 
-            //if(player != null)
-            //    DrawText();
-
-            menu.DrawPlayerInfo(spriteBatch, GraphicsDevice, player, myFont);
+            if(player != null)
+                menu.DrawPlayerInfo(spriteBatch, GraphicsDevice, player, myFont);
+            
             menu.Draw(spriteBatch, this);
 
             if (!menu.isLoading && menu.gameState != Menu.GameState.StartMenu)
