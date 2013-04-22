@@ -32,8 +32,6 @@ namespace Athyl
         public Projectile(Game1 game)
         {
             this.game = game;
-            
-
         }
 
 
@@ -129,6 +127,14 @@ namespace Athyl
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
+
+        /// <summary>
+        /// prototyp, kulor som fienden skjuter
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="direction"></param>
+        /// <param name="world"></param>
+        /// <param name="speed"></param>
         public void NewEnemyBullet(Vector2 position, int direction, World world, float speed)
         {
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"), new Vector2(10, 4), 10, "hostile");
@@ -144,6 +150,14 @@ namespace Athyl
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
+        /// <summary>
+        /// Kollision med kulor, tar bort något träffas
+        /// olik logik beroende på om det är fiende eller spelare som krockar
+        /// </summary>
+        /// <param name="fixtureA"></param>
+        /// <param name="fixtureB"></param>
+        /// <param name="contact"></param>
+        /// <returns></returns>
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
             if (contact.IsTouching())
@@ -187,7 +201,7 @@ namespace Athyl
         }
 
         /// <summary>
-        /// Updates and draws the projectiles
+        /// Ritar projektiler. Tar bort alla kulor som träffar något eller har varit aktiva för länge
         /// </summary>
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch, Vector2 playerPos)
