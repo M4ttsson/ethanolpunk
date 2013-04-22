@@ -279,6 +279,7 @@ namespace Athyl
 
             runTime = 0;
 
+            camera = new Camera(graphics.GraphicsDevice.Viewport);
             camera.UpdateCamera(player);
         }
 
