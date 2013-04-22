@@ -91,7 +91,6 @@ namespace Athyl
             wheel = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), wheelSize, mass, userdata + "wheel");
             wheel.Position = startPosition;
             wheel.body.Friction = 10000f;
-            wheel.body.Restitution = 0.0f;
             //wheel.body.Mass = 1;
 
             //create torso
@@ -155,7 +154,7 @@ namespace Athyl
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 0;
                 torso.Size = new Vector2(40, 40);
-                torso.Position = wheel.Position - new Vector2(0.0f, torsoSize.Y);
+                torso.Position = wheel.Position;
             }
             else if (!Ducking)
             {
