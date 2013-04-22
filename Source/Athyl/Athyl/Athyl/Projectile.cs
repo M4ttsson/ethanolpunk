@@ -167,12 +167,10 @@ namespace Athyl
                                 removeList.Add(i);
                         }
                     }
-
                     game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
-
-
                     return true;
                 }
+
                 else if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "ground")
                 {
                     if (!removeListbody.Contains(fixtureA.Body))
@@ -231,8 +229,6 @@ namespace Athyl
                 catch (Exception)
                 {
                 }
-                
-                
             }
             removeListbody.Clear();
             removeList.Clear();         
