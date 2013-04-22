@@ -22,6 +22,8 @@ namespace Athyl
     {
         public static float progress;
         public static float done;
+        public static float BoundsX { get; private set; }
+        public static float BoundsY { get; private set; }
         private List<DrawableGameObject> ground = new List<DrawableGameObject>();
         private List<DrawableGameObject> testmap = new List<DrawableGameObject>();
         private World world;
@@ -47,7 +49,6 @@ namespace Athyl
             }
 
             progress = 1;
-            
 
             InializeMap();
         }
@@ -59,13 +60,6 @@ namespace Athyl
 
             foreach (DrawableGameObject b in body)
             {
-                Rectangle destination = new Rectangle
-                 (
-                     (int)ConvertUnits.ToDisplayUnits(b.Position.X),
-                     (int)ConvertUnits.ToDisplayUnits(b.Position.Y),
-                     40,
-                     40
-                 );
                 b.Draw(spriteBatch);
                 //spriteBatch.Draw(texture, destination, null, Color.White, b.body.Rotation, new Vector2(texture.Width / 2.0f, texture.Height / 2.0f), SpriteEffects.None, 0);
             }
@@ -82,7 +76,12 @@ namespace Athyl
         /// <param name="map">Texture to read from</param>
         private void ReadMap(Texture2D map)
         {
-            done = map.Height *map.Width;
+            //loading bar length
+            done = map.Height * map.Width;
+
+            //map bounds
+            BoundsX = map.Width * 32;
+            BoundsY = map.Height * 32;
 
             colors = new Color[map.Width * map.Height];
             map.GetData<Color>(colors);
