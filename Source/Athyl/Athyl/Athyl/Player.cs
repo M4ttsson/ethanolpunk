@@ -24,6 +24,15 @@ namespace Athyl
         public bool OnGround { get; set; }
         public int numFootContacts { get; set; }
 
+        //Riktningen som kulan kommer att skjutas
+        //0 = höger
+        //1 = vänster
+        //2 = ner
+        //3 = upp
+        //4 = upphöger
+        //5 = uppvänster
+        //6 = nerhöger
+        //7 = nervänster
         public int Direction = 0;
         public int playerHP = 100;
         public int playerAthyl = 500;
@@ -33,6 +42,7 @@ namespace Athyl
         public DrawableGameObject wheel;
         public enum stance { melee, midRange, longRange };
         public bool Dead { get; set; }
+        //Håller koll på åt vilket håll man stod sist, så att direction ställs rätt om man släpper upp/ner
         public bool lastDirection;
 
 
@@ -126,8 +136,6 @@ namespace Athyl
             {
                 torso.body.ApplyLinearImpulse(jumpForce);
             }
-
-
         }
 
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
@@ -138,9 +146,7 @@ namespace Athyl
                 if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
                 {
                     playerHP -= 3;
-
                 }
-
 
                 //The attempt at a wall jump
                 if ((fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "ground") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground"))
@@ -158,13 +164,8 @@ namespace Athyl
                     {
 
                         torso.body.ApplyForce(new Vector2(1.8f, -1.1f));
-
-
                     }
-
                 }
-
-
                 return true;
             }
             return false;
