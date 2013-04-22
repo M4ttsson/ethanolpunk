@@ -289,6 +289,7 @@ namespace Athyl
 
             }
 
+            //player off screen
             if (torso.Position.X > Map.BoundsX)
                 Dead = true;
             else if (torso.Position.X < -10)
