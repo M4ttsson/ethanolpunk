@@ -174,7 +174,7 @@ namespace Athyl
             playerTexture = Content.Load<Texture2D>("TestGubbar");
 
             skyTexture = Content.Load<Texture2D>("BackgrundTest");
-            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(600, 400), this, "player");
+            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(9500, 1200), this, "player");
 
             //foot contacts
             world.ContactManager.BeginContact += BeginContact;
@@ -315,7 +315,7 @@ namespace Athyl
 
                     if (runTime == 2 && theAI.Count < 0)
                     {
-                        theAI.Add(new AI(world, enemyTexture, new Vector2(55, 120), new Vector2(300, 300), 100, 20, this));
+                        theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(300, 300), 100, 20, this));
                         for (int i = 0; i < theAI.Count; i++)
                         {
                             for (int j = 0; j < theAI.Count; j++)
@@ -450,7 +450,7 @@ namespace Athyl
 
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {
-                theAI.Add(new AI(world, enemyTexture, new Vector2(55, 120), new Vector2(300, 300), 100, 20, this));
+                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(300, 300), 100, 20, this));
 
                 for (int i = 0; i < theAI.Count; i++)
                 {
