@@ -182,13 +182,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="die2.png">
-      <Name>die2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="StoryButton.png">
       <Name>StoryButton</Name>
       <Importer>TextureImporter</Importer>
@@ -292,6 +285,13 @@
     </Compile>
     <Compile Include="Asphalt\GroundAspalt3x3.png">
       <Name>GroundAspalt3x3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="die.png">
+      <Name>die</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
