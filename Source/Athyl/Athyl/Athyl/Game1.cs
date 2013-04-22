@@ -169,7 +169,7 @@ namespace Athyl
             playerTexture = Content.Load<Texture2D>("TestGubbar");
 
             skyTexture = Content.Load<Texture2D>("BackgrundTest");
-            player = new Player(world, playerTexture, new Vector2(55, 100), 100, new Vector2(300, 300), this, "player");
+            player = new Player(world, playerTexture, new Vector2(55, 100), 100, new Vector2(9500, 1200), this, "player");
 
             //foot contacts
             world.ContactManager.BeginContact += BeginContact;
@@ -266,7 +266,8 @@ namespace Athyl
             world.RemoveBody(player.wheel.body);
             player = null;
 
-            player = new Player(world, playerTexture, new Vector2(55, 120), 100, new Vector2(300, 300), this, "player");
+            player = new Player(world, playerTexture, new Vector2(55, 120), 100, new Vector2(9500, 1200), this, "player");
+
 
             runTime = 0;
         }
@@ -464,7 +465,8 @@ namespace Athyl
             if (map != null)
                 map.Draw(spriteBatch);
 
-            player.Draw(spriteBatch);
+            if(player != null)
+                player.Draw(spriteBatch);
 
             projectile.Draw(spriteBatch, player.torso.Position);
             foreach (AI ai in theAI)
