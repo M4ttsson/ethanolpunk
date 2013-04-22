@@ -72,13 +72,14 @@ namespace Athyl
                     break;
 
                 case 2:
+                    bullet.body.Rotation = MathHelper.ToRadians(270);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, spread * 0.2f));
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed));
                     break;
 
                 case 3:
-                    bullet.body.Rotation = MathHelper.ToRadians(270);
+                    bullet.body.Rotation = MathHelper.ToRadians(90);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed * -1.0f));
