@@ -62,6 +62,7 @@ namespace Athyl
         public Thread loadThread;
         private bool paused = false;
         private Texture2D playerTexture, enemyTexture;
+        private bool lastDirection;
 
         System.Timers.Timer timer;
         public static int runTime = 0;
@@ -104,6 +105,7 @@ namespace Athyl
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
             camera = new Camera(GraphicsDevice.Viewport);
+            lastDirection = false;
 
             
 
@@ -174,7 +176,7 @@ namespace Athyl
             playerTexture = Content.Load<Texture2D>("TestGubbar");
 
             skyTexture = Content.Load<Texture2D>("BackgrundTest");
-            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(20, 1300), this, "player");
+            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(600, 800), this, "player");
 
             //foot contacts
             world.ContactManager.BeginContact += BeginContact;
@@ -275,7 +277,7 @@ namespace Athyl
             player = null;
 
 
-            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(20, 1300), this, "player");
+            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(600, 400), this, "player");
 
             runTime = 0;
 
@@ -364,7 +366,10 @@ namespace Athyl
 
             }
 
-            
+            if (keyboardState.IsKeyDown(Keys.Z))
+            {
+                player.useWeapon(world);
+            }
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
@@ -378,6 +383,7 @@ namespace Athyl
                 }
                 else
                     player.Direction = 1;
+                lastDirection = true;
             }
 
             else if (keyboardState.IsKeyDown(Keys.Right))
@@ -393,21 +399,27 @@ namespace Athyl
                 }
                 else
                     player.Direction = 0;
+                lastDirection = false;
             }           
            
             else if (keyboardState.IsKeyDown(Keys.Up))
             {
-              
+                if (player.Direction == 0)
+                    lastDirection = true;
+                else
+                    lastDirection = false;
                 player.Direction = 3;
                 player.Move(Player.Movement.Stop);
             }
             else if (keyboardState.IsKeyDown(Keys.Down))
             {
-                
+                if (player.Direction == 0)
+                    lastDirection = true;
+                else
+                    lastDirection = false;
                 player.Direction = 2;
                 player.Move(Player.Movement.Stop);
             }
-            //Stå still och skjuta diagonalt, fungerar inte riktigt...
             /*else if(keyboardState.IsKeyDown(Keys.X)){
                 if(player.Direction == 0){
                     player.Direction = 4;
@@ -434,18 +446,15 @@ namespace Athyl
             else
             {
                 player.Move(Player.Movement.Stop);
-                if (player.lastDirection)
+                if (lastDirection)
                     player.Direction = 1;
                 else
                     player.Direction = 0;
 
 
-            }
+            } 
 
-            if (keyboardState.IsKeyDown(Keys.Z))
-            {
-                player.useWeapon(world);
-            }
+     
             
 
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
@@ -470,14 +479,6 @@ namespace Athyl
 
         }
 
-  
-        private void DrawText()
-        {
-            spriteBatch.DrawString(myFont, "Health:" + player.playerHP.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 100), Color.DarkRed);
-            spriteBatch.DrawString(myFont, "Ethanol:" +  player.playerAthyl.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 70), Color.MidnightBlue);
-            spriteBatch.DrawString(myFont, "Exp:" +  player.playerXP.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 130), Color.Green);
-            spriteBatch.DrawString(myFont, "Level:"+ player.playerLevel.ToString(), new Vector2(20, GraphicsDevice.Viewport.Height - 160), Color.Wheat);
-        }
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -502,9 +503,10 @@ namespace Athyl
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
 
-            if(player != null)
-                DrawText();
-            
+            //if(player != null)
+            //    DrawText();
+
+            menu.DrawPlayerInfo(spriteBatch, GraphicsDevice, player, myFont);
             menu.Draw(spriteBatch, this);
 
             if (!menu.isLoading && menu.gameState != Menu.GameState.StartMenu)
@@ -515,6 +517,7 @@ namespace Athyl
                 spriteBatch.Draw(progressBar, bar, Color.White);
                 //spriteBatch.DrawString(myFont, "Loading", new Vector2(500, GraphicsDevice.Viewport.Height - 240), Color.DarkRed);
             }
+
             //!!!!
             //!!!!
             //DON'T PUT ANY DRAWING STUFF AFTER THIS!!
