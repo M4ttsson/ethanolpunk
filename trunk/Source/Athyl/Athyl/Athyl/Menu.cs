@@ -287,7 +287,7 @@ namespace Athyl
             if (gameState == GameState.Loading)
             {
                 spriteBatch.Draw(loadingBackground, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
-                spriteBatch.Draw(loadingGameButton, new Rectangle(-(int)Camera.transform.Translation.X + 580, -(int)Camera.transform.Translation.Y + 360, loadingGameButton.Width, loadingGameButton.Height), Color.CornflowerBlue);
+                spriteBatch.Draw(loadingGameButton, new Rectangle(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 330, loadingGameButton.Width, loadingGameButton.Height), Color.CornflowerBlue);
             }
 
             if (gameState == GameState.Paused)
