@@ -26,6 +26,8 @@ namespace Athyl
         List<DrawableGameObject> removeList = new List<DrawableGameObject>();
         List<Body> removeListbody = new List<Body>();
         bool friendly;
+        int bulletLifeTime;
+        int bulletWasFired;
         Random random = new Random();
         public Projectile(Game1 game)
         {
@@ -43,14 +45,17 @@ namespace Athyl
         /// <param name="world"></param>
         public void NewBullet(Vector2 position, int direction, World world, float speed)
         {
-            float spread = random.Next(-2, 3);
-            spread /= 100;
+            float spread = random.Next(-2, 2);
+            spread /= 133;
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"),new Vector2(10,4), 10, "shot");
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
             bullet.body.IgnoreGravity = true;
-            
+            bulletLifeTime = 5;
+
+            bulletWasFired = Game1.runTime;
             bullet.body.IsSensor = true;
+            
             //right
             if (direction == 0)
             {
@@ -187,8 +192,7 @@ namespace Athyl
             
             for(int i = 0; i < bullets.Count; i++){
                 bullets[i].Draw(spriteBatch);
-                if (bullets[i].body.Position.X > playerPos.X + 1280 || bullets[i].body.Position.X < playerPos.X - 1280
-                    || bullets[i].body.Position.Y > playerPos.Y + 720 || bullets[i].body.Position.Y < playerPos.Y - 720)
+                if (bulletWasFired + bulletLifeTime == Game1.runTime)
                 {
                     if (!removeList.Contains(bullets[i]))
                         removeList.Add(bullets[i]);

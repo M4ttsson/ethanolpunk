@@ -15,7 +15,7 @@ namespace Athyl
         public Skilltree()
         {
             fireRate = 0.1f;
-            projectileSpeed = 0.02f;
+            projectileSpeed = 0.05f;
         }
         /*
         #region MeleeStance
