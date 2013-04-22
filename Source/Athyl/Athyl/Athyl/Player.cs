@@ -76,7 +76,7 @@ namespace Athyl
 
             Load(texture, 2, 11, 1);
 
-            int wheelSize = 42;
+            int wheelSize = (int)size.X + 1;
             this.game = game;
             this.world = world;
 
@@ -141,7 +141,7 @@ namespace Athyl
 
 
                 //The attempt at a wall jump
-                if ((fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground"))
+                if ((fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "ground"))
                 {
                     if (kbState.IsKeyDown(Keys.Space) && OnGround == true && kbState.IsKeyDown(Keys.Left))
                     {
