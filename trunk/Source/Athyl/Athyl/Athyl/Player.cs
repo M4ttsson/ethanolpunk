@@ -37,7 +37,7 @@ namespace Athyl
         
         protected RevoluteJoint axis;
         protected Texture2D myTexture;
-        protected Vector2 jumpForce = new Vector2(0, -6.0f);
+        protected Vector2 jumpForce = new Vector2(0, -5.5f);
         protected float speed = 1.5f;
         protected int ColFrame;
         protected int RowFrame;
@@ -112,7 +112,7 @@ namespace Athyl
 
             playerLevel = 1;
             playerXP = 0;
-
+           
             Dead = false;
         }
 
