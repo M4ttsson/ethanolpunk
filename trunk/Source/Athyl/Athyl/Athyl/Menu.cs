@@ -102,7 +102,7 @@ namespace Athyl
             gameState = GameState.Playing;
             pauseButtonPosition = new Vector2(20, 20);
         }
-
+        
         public void PauseMenu(Game1 game)
         {
             gameState = GameState.Paused;
@@ -135,6 +135,7 @@ namespace Athyl
 
         public void UpdateMenu(GameTime gametime, Game1 game)
         {
+
             KeyboardState kbState = Keyboard.GetState();
             mouseState = Mouse.GetState();
 
@@ -198,7 +199,13 @@ namespace Athyl
 
 
         }
-
+        private void DrawPlayerInfo(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Player player, SpriteFont myFont)
+        {
+            spriteBatch.DrawString(myFont, "Health:" + player.playerHP.ToString(), new Vector2(20, graphicsDevice.Viewport.Height - 100), Color.DarkRed);
+            spriteBatch.DrawString(myFont, "Ethanol:" + player.playerAthyl.ToString(), new Vector2(20, graphicsDevice.Viewport.Height - 70), Color.MidnightBlue);
+            spriteBatch.DrawString(myFont, "Exp:" + player.playerXP.ToString(), new Vector2(20, graphicsDevice.Viewport.Height - 130), Color.Green);
+            spriteBatch.DrawString(myFont, "Level:" + player.playerLevel.ToString(), new Vector2(20, graphicsDevice.Viewport.Height - 160), Color.Wheat);
+        }
         void MouseClicked(int x, int y, Game1 game)
         {
             //creates a rectangle of 10x10 around the place where the mouse was clicked
@@ -269,7 +276,7 @@ namespace Athyl
             }
         }
 
-
+        
         public void Draw(SpriteBatch spriteBatch, Game1 game)
         {
 
