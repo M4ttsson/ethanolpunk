@@ -62,7 +62,6 @@ namespace Athyl
         public Thread loadThread;
         private bool paused = false;
         private Texture2D playerTexture, enemyTexture;
-        private bool lastDirection;
 
         System.Timers.Timer timer;
         public static int runTime = 0;
@@ -105,7 +104,6 @@ namespace Athyl
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
             camera = new Camera(GraphicsDevice.Viewport);
-            lastDirection = false;
 
             
 
@@ -366,10 +364,7 @@ namespace Athyl
 
             }
 
-            if (keyboardState.IsKeyDown(Keys.Z))
-            {
-                player.useWeapon(world);
-            }
+            
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
@@ -383,7 +378,6 @@ namespace Athyl
                 }
                 else
                     player.Direction = 1;
-                lastDirection = true;
             }
 
             else if (keyboardState.IsKeyDown(Keys.Right))
@@ -399,27 +393,21 @@ namespace Athyl
                 }
                 else
                     player.Direction = 0;
-                lastDirection = false;
             }           
            
             else if (keyboardState.IsKeyDown(Keys.Up))
             {
-                if (player.Direction == 0)
-                    lastDirection = true;
-                else
-                    lastDirection = false;
+              
                 player.Direction = 3;
                 player.Move(Player.Movement.Stop);
             }
             else if (keyboardState.IsKeyDown(Keys.Down))
             {
-                if (player.Direction == 0)
-                    lastDirection = true;
-                else
-                    lastDirection = false;
+                
                 player.Direction = 2;
                 player.Move(Player.Movement.Stop);
             }
+            //Stå still och skjuta diagonalt, fungerar inte riktigt...
             /*else if(keyboardState.IsKeyDown(Keys.X)){
                 if(player.Direction == 0){
                     player.Direction = 4;
@@ -446,15 +434,18 @@ namespace Athyl
             else
             {
                 player.Move(Player.Movement.Stop);
-                if (lastDirection)
+                if (player.lastDirection)
                     player.Direction = 1;
                 else
                     player.Direction = 0;
 
 
-            } 
+            }
 
-     
+            if (keyboardState.IsKeyDown(Keys.Z))
+            {
+                player.useWeapon(world);
+            }
             
 
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))

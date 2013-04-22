@@ -33,6 +33,7 @@ namespace Athyl
         public DrawableGameObject wheel;
         public enum stance { melee, midRange, longRange };
         public bool Dead { get; set; }
+        public bool lastDirection;
 
 
         protected RevoluteJoint axis;
@@ -79,6 +80,7 @@ namespace Athyl
             int wheelSize = (int)size.X + 1;
             this.game = game;
             this.world = world;
+            lastDirection = false;
 
             // Create the feet of the body, here implemented as high friction wheels 
             wheel = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), wheelSize, mass, userdata + "wheel");
@@ -190,6 +192,7 @@ namespace Athyl
                         axis.MotorSpeed = -MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
                     }
+                    lastDirection = true;
                     break;
 
                 case Movement.Right:
@@ -211,6 +214,7 @@ namespace Athyl
                         axis.MotorSpeed = MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
                     }
+                    lastDirection = false;
                     break;
 
                 case Movement.Stop:
