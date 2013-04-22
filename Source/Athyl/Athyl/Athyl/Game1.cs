@@ -393,10 +393,12 @@ namespace Athyl
             else if (keyboardState.IsKeyDown(Keys.Up))
             {
                 player.Direction = 3;
+                player.Move(Player.Movement.Stop);
             }
             else if (keyboardState.IsKeyDown(Keys.Down))
             {
                 player.Direction = 2;
+                player.Move(Player.Movement.Stop);
             }
             else if(keyboardState.IsKeyDown(Keys.X)){
                 if(player.Direction == 0){
