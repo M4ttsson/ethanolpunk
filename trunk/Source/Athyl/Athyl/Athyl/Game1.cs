@@ -371,14 +371,14 @@ namespace Athyl
             {
                 player.Move(Player.Movement.Left);
                 if(keyboardState.IsKeyDown(Keys.Up)){
-                    player.Direction = 5;
+                    player.direction = Player.Direction.Upleft;
                 }
                 else if (keyboardState.IsKeyDown(Keys.Down))
                 {
-                    player.Direction = 7;
+                    player.direction = Player.Direction.Downleft;
                 }
                 else
-                    player.Direction = 1;
+                    player.direction = Player.Direction.Left;
             }
 
             else if (keyboardState.IsKeyDown(Keys.Right))
@@ -386,26 +386,26 @@ namespace Athyl
                 player.Move(Player.Movement.Right);
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
-                    player.Direction = 4;
+                    player.direction = Player.Direction.Upright;
                 }
                 else if (keyboardState.IsKeyDown(Keys.Down))
                 {
-                    player.Direction = 6;
+                    player.direction = Player.Direction.Downright;
                 }
                 else
-                    player.Direction = 0;
+                    player.direction = Player.Direction.Right;
             }           
            
             else if (keyboardState.IsKeyDown(Keys.Up))
             {
-                
-                player.Direction = 3;
+
+                player.direction = Player.Direction.Up;
                 player.Move(Player.Movement.Stop);
             }
             else if (keyboardState.IsKeyDown(Keys.Down))
             {
-              
-                player.Direction = 2;
+
+                player.direction = Player.Direction.Down;
                 player.Move(Player.Movement.Stop);
             }
 
@@ -437,9 +437,9 @@ namespace Athyl
                 player.Move(Player.Movement.Stop);
                 //Vänder riktningen åt rätt håll ifall man har skjutit diagonalt, upp eller ner
                 if (player.lastDirection)
-                    player.Direction = 1;
+                    player.direction = Player.Direction.Left;
                 else
-                    player.Direction = 0;
+                    player.direction = Player.Direction.Right;
 
 
             } 
