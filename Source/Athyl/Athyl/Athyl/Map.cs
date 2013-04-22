@@ -91,42 +91,42 @@ namespace Athyl
                 }
             }
 
-            for (int y = 0; y < 135; y++)
+            for (int y = 0; y < 68; y++)
             {
-                for (int x = 0; x < 640; x++)
+                for (int x = 0; x < 320; x++)
                 {
                     if (colors2D[x, y] == new Color(255, 0, 0))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[0], new Vector2(17, 17), 0, "ground");
-                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[0], new Vector2(33, 33), 0, "ground");
+                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
                     if (colors2D[x, y] == new Color(255, 255, 0))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[1], new Vector2(17, 17), 0, "ground");
-                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[1], new Vector2(33, 33), 0, "ground");
+                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
                     if (colors2D[x, y] == new Color(0, 255, 0))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[2], new Vector2(17, 17), 0, "ground");
-                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[2], new Vector2(33, 33), 0, "ground");
+                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
                     if (colors2D[x, y] == new Color(0, 0, 255))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[3], new Vector2(17, 17), 0, "ground");
-                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[3], new Vector2(33, 33), 0, "ground");
+                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
                     if (colors2D[x, y] == new Color(0, 0, 0))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[4], new Vector2(17, 17), 0, "ground");
-                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[4], new Vector2(33, 33), 0, "ground");
+                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         for (int i = 0; i < b.body.FixtureList.Count; i++)
                         {
@@ -138,29 +138,29 @@ namespace Athyl
                     }
                     if (colors2D[x, y] == new Color(0, 246, 255))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[5], new Vector2(17, 17), 0, "ground");
-                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[5], new Vector2(33, 33), 0, "ground");
+                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
                     if (colors2D[x, y] == new Color(96, 57, 19))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[6], new Vector2(17, 17), 0, "ground");
-                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[6], new Vector2(33, 33), 0, "ground");
+                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
                     if (colors2D[x, y] == new Color(83, 71, 65))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[7], new Vector2(17, 17), 0, "ground");
-                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[7], new Vector2(33, 33), 0, "ground");
+                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
                     if (colors2D[x, y] == new Color(77, 0, 68))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[8], new Vector2(17, 17), 0, "ground");
-                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[8], new Vector2(33, 33), 0, "ground");
+                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
