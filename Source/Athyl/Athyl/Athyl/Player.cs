@@ -33,12 +33,12 @@ namespace Athyl
         //5 = uppvänster
         //6 = nerhöger
         //7 = nervänster
-        public int Direction = 0;
+       
         public int playerHP = 100;
         public int playerAthyl = 500;
         public int playerXP = 0;
         public int playerLevel = 1;
-
+        public Direction direction;
         public DrawableGameObject wheel;
         public enum stance { melee, midRange, longRange };
         public bool Dead { get; set; }
@@ -128,7 +128,17 @@ namespace Athyl
             Dead = false;
         }
 
-
+        public enum Direction
+        {
+            Right,
+            Left,
+            Up,
+            Down,
+            Upright,
+            Upleft,
+            Downright,
+            Downleft
+        }
 
         public void Jump()
         {
@@ -152,7 +162,7 @@ namespace Athyl
                 if ((fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "ground") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground"))
                 {
 
-                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && Direction == 1)
+                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && direction == Direction.Left)
                     {
 
                         //torso.body.LinearVelocity = new Vector2(0, -0.0001f);
@@ -160,7 +170,7 @@ namespace Athyl
 
                     }
 
-                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && Direction == 0)
+                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && direction == Direction.Right)
                     {
 
                         torso.body.ApplyForce(new Vector2(1.8f, -1.1f));
@@ -305,7 +315,7 @@ namespace Athyl
         {
             if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
             {
-                projectile.NewBullet(torso.body.Position, Direction, world, skillTree.projectileSpeed);
+                projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed);
                 playerAthyl -= 1;
                 lastBullet = DateTime.Now;
             }

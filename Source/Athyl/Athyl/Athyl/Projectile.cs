@@ -50,7 +50,7 @@ namespace Athyl
         /// <param name="position"></param>
         /// <param name="direction"></param>
         /// <param name="world"></param>
-        public void NewBullet(Vector2 position, int direction, World world, float speed)
+        public void NewBullet(Vector2 position, Player.Direction direction , World world, float speed)
         {
             float spread = random.Next(-2, 2);
             spread /= 133;
@@ -65,7 +65,7 @@ namespace Athyl
 
             switch (direction)
             {
-                case 0:
+                case Player.Direction.Right:
                     bullet.body.Rotation = MathHelper.ToRadians(180);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
@@ -73,48 +73,48 @@ namespace Athyl
                     break;
 
 
-                case 1:
+                case Player.Direction.Left:
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, spread * 0.2f));
                     break;
 
-                case 2:
+                case Player.Direction.Down:
                     bullet.body.Rotation = MathHelper.ToRadians(270);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed));
                     break;
 
-                case 3:
+                case Player.Direction.Up:
                     bullet.body.Rotation = MathHelper.ToRadians(90);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed * -1.0f));
                     break;
 
-                case 4:
+                case Player.Direction.Upright:
                     bullet.body.Rotation = MathHelper.ToRadians(135);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * -1.0f));                
                     break;
 
-                case 5:
+                case Player.Direction.Upleft:
                     bullet.body.Rotation = MathHelper.ToRadians(45);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2 * -1.0f));
                     break;
 
-                case 6:
+                case Player.Direction.Downright:
                     bullet.body.Rotation = MathHelper.ToRadians(-135);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed/2 , speed/2));
                     break;
 
-                case 7:
+                case Player.Direction.Downleft:
                     bullet.body.Rotation = MathHelper.ToRadians(-45);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
