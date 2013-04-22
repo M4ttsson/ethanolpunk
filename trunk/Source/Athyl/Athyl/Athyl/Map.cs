@@ -20,6 +20,8 @@ namespace Athyl
 {
     class Map
     {
+        public static int progress;
+        public static int done;
         private List<DrawableGameObject> ground = new List<DrawableGameObject>();
         private List<DrawableGameObject> testmap = new List<DrawableGameObject>();
         private World world;
@@ -43,7 +45,10 @@ namespace Athyl
                     asphalt.Add(game.Content.Load<Texture2D>("Asphalt/GroundAspalt" + (i + 1) + "x" + (j + 1)));
                 }
             }
-            
+
+            progress = 0;
+            done = 432;
+
             InializeMap();
         }
 
@@ -68,23 +73,6 @@ namespace Athyl
 
         public void InializeMap()
         {
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    this.texture = game.Content.Load<Texture2D>("BW_Bg/Map " + (j + 1) + "x" + (i + 1));
-                    BW_bg.Add(texture);
-                    DrawableGameObject testBg = new DrawableGameObject(world, texture, 0, "test");
-                    testBg.body.BodyType = BodyType.Static;
-                    testBg.Position = new Vector2(1280 * i +(1280/2), 720 * j +(720/2));
-                    for (int q = 0; q < testBg.body.FixtureList.Count; q++)
-                    {
-                        testBg.body.DestroyFixture(testBg.body.FixtureList[q]);
-                    }
-                    testBg.body.CollidesWith = Category.None;
-                    testmap.Add(testBg);
-                }
-            }
 
             for (int q = 0; q < 3; q++)
             {
@@ -184,6 +172,7 @@ namespace Athyl
                         body.Add(b);
                     }
                 }
+                progress++;
             }
         }
     }
