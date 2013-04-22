@@ -20,8 +20,8 @@ namespace Athyl
 {
     class Map
     {
-        public static int progress;
-        public static int done;
+        public static float progress;
+        public static float done;
         private List<DrawableGameObject> ground = new List<DrawableGameObject>();
         private List<DrawableGameObject> testmap = new List<DrawableGameObject>();
         private World world;
@@ -46,7 +46,7 @@ namespace Athyl
                 }
             }
 
-            progress = 0;
+            progress = 1;
             done = 432;
 
             InializeMap();

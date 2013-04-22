@@ -51,6 +51,8 @@ namespace Athyl
         DrawableGameObject box;
         Texture2D texture;
         Texture2D skyTexture;
+        Texture2D progressBar;
+        Texture2D progressBarBorder;
         Menu menu;
         Sounds sound;
         Skilltree skilltree;
@@ -161,7 +163,8 @@ namespace Athyl
             //sound = new Sounds(this);
 
             //sound.Play("castlevagina");
-
+            progressBar = Content.Load<Texture2D>("ProgressBar");
+            progressBarBorder = Content.Load<Texture2D>("ProgressBarBorder");
 
             //music.Stop();
 
@@ -484,8 +487,14 @@ namespace Athyl
             
             menu.Draw(spriteBatch, this);
 
-            if(!menu.isLoading && menu.gameState != Menu.GameState.StartMenu)
-                spriteBatch.DrawString(myFont, Map.progress + "/ " + Map.done, new Vector2(500, GraphicsDevice.Viewport.Height - 200), Color.DarkRed);
+            if (!menu.isLoading && menu.gameState != Menu.GameState.StartMenu)
+            {
+                Rectangle rect = new Rectangle(425, GraphicsDevice.Viewport.Height - 200, (int)((Map.progress / Map.done) * 400), 40);
+                Rectangle rect2 = new Rectangle(425, GraphicsDevice.Viewport.Height - 200, 400, 40);
+                spriteBatch.Draw(progressBarBorder, rect2, Color.White);
+                spriteBatch.Draw(progressBar, rect, Color.White);
+                spriteBatch.DrawString(myFont, Map.progress + "/ " + Map.done, new Vector2(500, GraphicsDevice.Viewport.Height - 240), Color.DarkRed);
+            }
             //!!!!
             //!!!!
             //DON'T PUT ANY DRAWING STUFF AFTER THIS!!
