@@ -47,7 +47,7 @@ namespace Athyl
             }
 
             progress = 1;
-            done = 432;
+            
 
             InializeMap();
         }
@@ -78,6 +78,8 @@ namespace Athyl
 
         private void ReadMap(Texture2D map)
         {
+            done = map.Height;
+
             colors = new Color[map.Width * map.Height];
             map.GetData<Color>(colors);
 
