@@ -55,74 +55,67 @@ namespace Athyl
 
             bulletWasFired = Game1.runTime;
             bullet.body.IsSensor = true;
-            
-            //right
-            if (direction == 0)
-            {
-                bullet.body.Rotation = MathHelper.ToRadians(180);
-                bullet.body.FixedRotation = true;
-                bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, spread * 0.2f));
-            }
-            //left
-            else if(direction == 1)
-            {
-                bullet.body.FixedRotation = true;
-                bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, spread * 0.2f));
-            }
-            //up
-            else if (direction == 2)
-            {
-                bullet.body.Rotation = MathHelper.ToRadians(90);
-                bullet.body.FixedRotation = true;
-                bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed));
-            }
-            //Down
-            else if (direction == 3)
-            {
-                bullet.body.Rotation = MathHelper.ToRadians(270);
-                bullet.body.FixedRotation = true;
-                bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed * -1.0f));
-            }
 
-            //Upright
-            else if (direction == 4)
+            switch (direction)
             {
-                bullet.body.Rotation = MathHelper.ToRadians(180);
-                bullet.body.FixedRotation = true;
-                bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * -1.0f));
-                
-            }
-            //Upleft
-            else if (direction == 5)
-            {
-                bullet.body.FixedRotation = true;
-                bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2 * -1.0f));
-                
-            }
-            //Downright
-            else if (direction == 6)
-            {
-                bullet.body.Rotation = MathHelper.ToRadians(90);
-                bullet.body.FixedRotation = true;
-                bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed/2 , speed/2));
-            }
-            //Downleft  
-            else if (direction == 7)
-            {
-                bullet.body.Rotation = MathHelper.ToRadians(270);
-                bullet.body.FixedRotation = true;
-                bullets.Add(bullet);
-                bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2));
-            }
+                case 0:
+                    bullet.body.Rotation = MathHelper.ToRadians(180);
+                    bullet.body.FixedRotation = true;
+                    bullets.Add(bullet);
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, spread * 0.2f));
+                    break;
 
+                case 1:
+                    bullet.body.FixedRotation = true;
+                    bullets.Add(bullet);
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, spread * 0.2f));
+                    break;
 
+                case 2:
+                    bullet.body.FixedRotation = true;
+                    bullets.Add(bullet);
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, spread * 0.2f));
+                    break;
+
+                case 3:
+                    bullet.body.Rotation = MathHelper.ToRadians(270);
+                    bullet.body.FixedRotation = true;
+                    bullets.Add(bullet);
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed * -1.0f));
+                    break;
+
+                case 4:
+                    bullet.body.Rotation = MathHelper.ToRadians(135);
+                    bullet.body.FixedRotation = true;
+                    bullets.Add(bullet);
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * -1.0f));                
+                    break;
+
+                case 5:
+                    bullet.body.Rotation = MathHelper.ToRadians(45);
+                    bullet.body.FixedRotation = true;
+                    bullets.Add(bullet);
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2 * -1.0f));
+                    break;
+
+                case 6:
+                    bullet.body.Rotation = MathHelper.ToRadians(-135);
+                    bullet.body.FixedRotation = true;
+                    bullets.Add(bullet);
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed/2 , speed/2));
+                    break;
+
+                case 7:
+                    bullet.body.Rotation = MathHelper.ToRadians(-45);
+                    bullet.body.FixedRotation = true;
+                    bullets.Add(bullet);
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2));
+                    break;
+
+                default:
+                    break;
+
+            }
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
