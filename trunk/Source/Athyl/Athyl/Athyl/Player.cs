@@ -22,6 +22,7 @@ namespace Athyl
     {
         public DrawableGameObject torso;
         public bool OnGround { get; set; }
+        public bool Ducking { get; set; }
         public int numFootContacts { get; set; }
 
         
@@ -40,6 +41,7 @@ namespace Athyl
 
         protected RevoluteJoint axis;
         protected Texture2D myTexture;
+        protected Vector2 torsoSize;
         protected Vector2 jumpForce = new Vector2(0, -2.8f);
         protected float speed = 1.5f;
         protected int ColFrame;
@@ -54,6 +56,7 @@ namespace Athyl
         private int xpRequiredPerLevel;
         private int frameRow;
         private int frameColumn;
+        private int RestartFrame;
 
         private float TimePerFrame;
         private float TotalElapsed;
@@ -76,10 +79,10 @@ namespace Athyl
         /// <param name="startPosition">Startposition</param>
         public Player(World world, Texture2D texture, Vector2 size, float mass, Vector2 startPosition, Game1 game, string userdata)
         {
+            Load(texture, 2, 11, 1, 1);
 
-            Load(texture, 2, 11, 1);
-
-            int wheelSize = (int)size.X + 1;
+            int wheelSize = (int)size.X-2;
+            this.torsoSize = size - new Vector2(0, (wheelSize / 2));
             this.game = game;
             this.world = world;
             lastDirection = false;
@@ -89,11 +92,13 @@ namespace Athyl
             wheel.Position = startPosition;
             wheel.body.Friction = 10000f;
             wheel.body.Restitution = 0.0f;
+            //wheel.body.Mass = 1;
 
             //create torso
-            torso = new DrawableGameObject(world, texture, new Vector2(size.X, size.Y - 10), 60, userdata);
-            torso.Position = wheel.Position - new Vector2(0.0f, wheelSize - 15);
+            torso = new DrawableGameObject(world, texture, torsoSize, 60, userdata);
+            torso.Position = wheel.Position -new Vector2(0.0f, torsoSize.Y/2-5);
             torso.body.Restitution = 0;
+            //torso.body.Mass = 0;
 
             // Create a joint to keep the torso upright
             JointFactory.CreateFixedAngleJoint(world, torso.body);
@@ -134,9 +139,33 @@ namespace Athyl
 
         public void Jump()
         {
-            if (OnGround)
+            if (OnGround && !Ducking)
             {
                 torso.body.ApplyLinearImpulse(jumpForce);
+            }
+        }
+
+        public void Duck()
+        {
+            if (Ducking)
+            {
+                this.frameRow = 2;
+                this.frameColumn = 2;
+                this.myTexture = game.Content.Load<Texture2D>("Ducking");
+                this.TimePerFrame = (float)1 / 1f;
+                this.RestartFrame = 0;
+                torso.Size = new Vector2(40, 40);
+                torso.Position = wheel.Position - new Vector2(0.0f, torsoSize.Y);
+            }
+            else if (!Ducking)
+            {
+                this.frameRow = 2;
+                this.frameColumn = 11;
+                this.myTexture = game.Content.Load<Texture2D>("TestGubbar");
+                this.TimePerFrame = (float)1 / 1f;
+                this.RestartFrame = 1;
+                torso.Size = torsoSize;
+                torso.Position = wheel.Position - new Vector2(0.0f, torsoSize.Y / 2 - 5);
             }
         }
 
@@ -227,8 +256,6 @@ namespace Athyl
                     axis.MotorSpeed = 0;
                     UpdateFrame(0.2f);
                     break;
-
-
             }
         }
         public void UpdatePlayer()
@@ -237,6 +264,7 @@ namespace Athyl
             //Console.WriteLine(playerLevel);
             //Console.WriteLine(totalXP);
             //Console.WriteLine(xpRequiredPerLevel);
+            Duck();
             if (playerXP >= xpRequiredPerLevel && playerXP != 0)
             {
                 skillPoints++;
@@ -280,7 +308,7 @@ namespace Athyl
             {
                 if (!Dead)
                 {
-                    Load(game.Content.Load<Texture2D>("die"), 2, 3, 1);
+                    Load(game.Content.Load<Texture2D>("die"), 2, 3, 1,0);
                     torso.body.CollisionCategories = Category.Cat2;
                     Dead = true;
                 }
@@ -333,12 +361,13 @@ namespace Athyl
             //wheel.Draw(spriteBatch);
         }
 
-        protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec)
+        protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec, int RestartFrame)
         {
             this.frameRow = FrameRow;
             this.frameColumn = FrameColumn;
             this.myTexture = texture;
             this.TimePerFrame = (float)1 / FramesPerSec;
+            this.RestartFrame = RestartFrame;
             this.ColFrame = 0;
             this.RowFrame = 0;
             this.TotalElapsed = 0;
@@ -351,7 +380,7 @@ namespace Athyl
             {
                 ColFrame++;
                 if (ColFrame == frameColumn)
-                    ColFrame = 1;
+                    ColFrame = RestartFrame;
                 TotalElapsed -= TimePerFrame;
             }
 
