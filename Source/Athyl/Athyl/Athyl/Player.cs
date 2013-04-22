@@ -143,22 +143,25 @@ namespace Athyl
 
 
                 //The attempt at a wall jump
-                if ((fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "ground"))
+                if ((fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "ground") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground"))
                 {
-                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && kbState.IsKeyDown(Keys.Left))
+
+                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && Direction == 1)
                     {
 
-                            torso.body.ApplyLinearImpulse(new Vector2(1.4f, -1.4f));
- 
+                        //torso.body.LinearVelocity = new Vector2(0, -0.0001f);
+                        torso.body.ApplyForce(new Vector2(-1.8f, -1.1f));
+
                     }
 
-                        
-                    else if(kbState.IsKeyDown(Keys.Space) && OnGround == true && kbState.IsKeyDown(Keys.Right))
+                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && Direction == 0)
                     {
-                         torso.body.ApplyLinearImpulse(new Vector2(-1.4f, -1.4f));
+
+                        torso.body.ApplyForce(new Vector2(1.8f, -1.1f));
+
+
                     }
-                    
-                  
+
                 }
 
 
