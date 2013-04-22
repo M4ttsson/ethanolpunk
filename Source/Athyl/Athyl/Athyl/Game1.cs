@@ -266,10 +266,12 @@ namespace Athyl
             world.RemoveBody(player.wheel.body);
             player = null;
 
-            player = new Player(world, playerTexture, new Vector2(55, 120), 100, new Vector2(9500, 1200), this, "player");
+            player = new Player(world, playerTexture, new Vector2(55, 120), 100, new Vector2(600, 400), this, "player");
 
 
             runTime = 0;
+
+            camera.UpdateCamera(player);
         }
 
         /// <summary>
@@ -285,7 +287,7 @@ namespace Athyl
 
 
             }
-            else
+            else if (player != null)
             {
                 menu.UpdateMenu(gameTime, this);
                 if (menu.gameState == Menu.GameState.Paused)
@@ -300,9 +302,6 @@ namespace Athyl
                     {
                         timer.Start();
                     }
-
-                    //Console.WriteLine(runTime);
-                    KeyboardState keyboardState = Keyboard.GetState();
 
                     Input();
 
@@ -332,11 +331,13 @@ namespace Athyl
                     player.UpdatePlayer();
                     DamageAI();
 
+                    camera.UpdateCamera(player);
+
                     world.Step(0.033333f);
                 }
             }
 
-            camera.UpdateCamera(gameTime, player);
+            
             base.Update(gameTime);
         }
 
@@ -465,13 +466,19 @@ namespace Athyl
             if (map != null)
                 map.Draw(spriteBatch);
 
-            if(player != null)
+            if (player != null)
+            {
                 player.Draw(spriteBatch);
 
-            projectile.Draw(spriteBatch, player.torso.Position);
+                projectile.Draw(spriteBatch, player.torso.Position);
+            }
+
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
-            DrawText();
+
+            if(player != null)
+                DrawText();
+            
             menu.Draw(spriteBatch, this);
             //!!!!
             //!!!!
