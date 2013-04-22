@@ -61,7 +61,7 @@ namespace Athyl
 
         public Thread loadThread;
         private bool paused = false;
-        private Texture2D playerTexture, enemyTexture;
+        private Texture2D playerTexture, enemyTexture;  
 
         System.Timers.Timer timer;
         public static int runTime = 0;
@@ -365,6 +365,7 @@ namespace Athyl
             {
                 player.useWeapon(world);
             }
+
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {

@@ -299,22 +299,7 @@ namespace Athyl
                 projectile.NewBullet(torso.body.Position, Direction, world, skillTree.projectileSpeed);
                 playerAthyl -= 1;
                 lastBullet = DateTime.Now;
-
             }
-            /*shot = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"), 10, 1, "shot");
-
-            shot = new DrawableGameObject(world, projectile, 10, 40, "shot");
-
-            shot.body.IsBullet = true;
-            //shot.body.IsSensor = true;
-            shot.body.Position = torso.body.Position;
-            shot.body.IgnoreGravity = true;
-            if(Direction)
-                shot.body.ApplyLinearImpulse(new Vector2(0.1f, 0.0f));
-            else
-                shot.body.ApplyLinearImpulse(new Vector2(-0.1f, 0.0f));
-            shots.Add(shot);*/
-
         }
 
         public enum Movement
