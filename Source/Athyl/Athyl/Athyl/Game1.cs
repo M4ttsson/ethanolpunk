@@ -344,6 +344,7 @@ namespace Athyl
         private void Input()
         {
             keyboardState = Keyboard.GetState();
+
             if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
             {
                 player.Jump();
@@ -480,6 +481,9 @@ namespace Athyl
                 DrawText();
             
             menu.Draw(spriteBatch, this);
+
+            if(!menu.isLoading && menu.gameState != Menu.GameState.StartMenu)
+                spriteBatch.DrawString(myFont, Map.progress + "/ " + Map.done, new Vector2(500, GraphicsDevice.Viewport.Height - 200), Color.DarkRed);
             //!!!!
             //!!!!
             //DON'T PUT ANY DRAWING STUFF AFTER THIS!!
