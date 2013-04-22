@@ -278,9 +278,12 @@ namespace Athyl
             {
                 if (!Dead)
                 {
-                    Load(game.Content.Load<Texture2D>("die2"), 1, 1, 1);
+                    Load(game.Content.Load<Texture2D>("die"), 2, 3, 1);
+                    torso.body.CollisionCategories = Category.Cat2;
                     Dead = true;
                 }
+                else if (Dead && ColFrame < 2)
+                    UpdateFrame(0.05f);
 
                 playerHP = 0;
 
@@ -337,13 +340,13 @@ namespace Athyl
 
         protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec)
         {
-            frameRow = FrameRow;
-            frameColumn = FrameColumn;
-            myTexture = texture;
-            TimePerFrame = (float)1 / FramesPerSec;
-            ColFrame = 0;
-            RowFrame = 0;
-            TotalElapsed = 0;
+            this.frameRow = FrameRow;
+            this.frameColumn = FrameColumn;
+            this.myTexture = texture;
+            this.TimePerFrame = (float)1 / FramesPerSec;
+            this.ColFrame = 0;
+            this.RowFrame = 0;
+            this.TotalElapsed = 0;
         }
 
         protected virtual void UpdateFrame(float elapsed)
@@ -352,20 +355,20 @@ namespace Athyl
             if (TotalElapsed > TimePerFrame)
             {
                 ColFrame++;
-                if (ColFrame == 11)
+                if (ColFrame == frameColumn)
                     ColFrame = 1;
                 TotalElapsed -= TimePerFrame;
             }
 
-            if (axis.MotorSpeed > 0)
+            if (axis.MotorSpeed > 0 && !Dead)
             {
                 RowFrame = 0;
             }
-            else if (axis.MotorSpeed < 0)
+            else if (axis.MotorSpeed < 0 && !Dead)
             {
                 RowFrame = 1;
             }
-            else if (axis.MotorSpeed == 0)
+            else if (axis.MotorSpeed == 0 && !Dead)
             {
                 ColFrame = 0;
             }

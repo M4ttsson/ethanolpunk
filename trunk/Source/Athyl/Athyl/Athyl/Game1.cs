@@ -292,8 +292,7 @@ namespace Athyl
             if (player != null && player.Dead)
             {
                 keyboardState = Keyboard.GetState();
-
-
+                player.UpdatePlayer();
             }
             else if (player != null)
             {
@@ -345,9 +344,6 @@ namespace Athyl
                 }
             }
 
-
-
-            
             base.Update(gameTime);
         }
 
@@ -451,7 +447,7 @@ namespace Athyl
 
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {
-                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(300, 300), 100, 20, this));
+                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(20, 1300), 100, 20, this));
 
                 for (int i = 0; i < theAI.Count; i++)
                 {
