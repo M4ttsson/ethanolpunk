@@ -373,7 +373,15 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
             {
                 player.Jump();
+            }
 
+            if (keyboardState.IsKeyDown(Keys.Down) && prevKeyboardState != keyboardState)
+            {
+                player.Ducking = true;
+            }
+            else if (keyboardState.IsKeyUp(Keys.Down) && prevKeyboardState != keyboardState)
+            {
+                player.Ducking = false;
             }
 
             if (keyboardState.IsKeyDown(Keys.Z))

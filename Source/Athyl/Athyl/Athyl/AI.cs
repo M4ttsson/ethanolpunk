@@ -33,7 +33,7 @@ namespace Athyl
         public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game)
             : base(world, texture, size, mass, startPosition, game, "enemy")
         {
-            Load(texture, 2, 11, 1);
+            Load(texture, 2, 11, 1,0);
 
             speed = 1f;
             jumpForce = new Vector2(0, -5f);
