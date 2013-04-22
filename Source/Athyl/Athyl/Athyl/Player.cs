@@ -241,7 +241,6 @@ namespace Athyl
                 playerXP = 0;
 
             }
-            Console.WriteLine(OnGround);
             /*
             if (torso.body.Position.X > 40 || torso.body.Position.Y > 10)
             {
