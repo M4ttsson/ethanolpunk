@@ -37,7 +37,7 @@ namespace Athyl
         
         protected RevoluteJoint axis;
         protected Texture2D myTexture;
-        protected Vector2 jumpForce = new Vector2(0, -5.5f);
+        protected Vector2 jumpForce = new Vector2(0, -2.8f);
         protected float speed = 1.5f;
         protected int ColFrame;
         protected int RowFrame;
@@ -76,7 +76,7 @@ namespace Athyl
 
             Load(texture, 2, 11, 1);
 
-            int wheelSize = 55;
+            int wheelSize = 42;
             this.game = game;
             this.world = world;
 

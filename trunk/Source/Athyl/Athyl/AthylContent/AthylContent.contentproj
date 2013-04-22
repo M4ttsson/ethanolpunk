@@ -140,13 +140,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestGubbar.png">
-      <Name>TestGubbar</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="wheel1.png">
       <Name>wheel1</Name>
       <Importer>TextureImporter</Importer>
@@ -292,6 +285,13 @@
   <ItemGroup>
     <Compile Include="Small_World.png">
       <Name>Small_World</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TestGubbar.png">
+      <Name>TestGubbar</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

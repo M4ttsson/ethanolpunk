@@ -174,7 +174,7 @@ namespace Athyl
             playerTexture = Content.Load<Texture2D>("TestGubbar");
 
             skyTexture = Content.Load<Texture2D>("BackgrundTest");
-            player = new Player(world, playerTexture, new Vector2(55, 100), 100, new Vector2(600, 400), this, "player");
+            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(600, 400), this, "player");
 
             //foot contacts
             world.ContactManager.BeginContact += BeginContact;
@@ -272,7 +272,7 @@ namespace Athyl
             player = null;
 
 
-            player = new Player(world, playerTexture, new Vector2(55, 120), 100, new Vector2(600, 400), this, "player");
+            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(600, 400), this, "player");
 
 
 
