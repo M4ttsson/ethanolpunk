@@ -33,8 +33,8 @@ namespace Athyl
         public DrawableGameObject wheel;
         public enum stance { melee, midRange, longRange };
         public bool Dead { get; set; }
-        
-        
+
+
         protected RevoluteJoint axis;
         protected Texture2D myTexture;
         protected Vector2 jumpForce = new Vector2(0, -2.8f);
@@ -60,7 +60,7 @@ namespace Athyl
         private float tempfallDamage = 0;
         public Int16 skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
-        
+
 
         /// <summary>
         /// Creates a new player
@@ -87,10 +87,10 @@ namespace Athyl
             wheel.body.Restitution = 0.0f;
 
             //create torso
-            torso = new DrawableGameObject(world, texture, new Vector2(size.X, size.Y-10), 60, userdata);
-            torso.Position = wheel.Position - new Vector2(0.0f, wheelSize-15);
+            torso = new DrawableGameObject(world, texture, new Vector2(size.X, size.Y - 10), 60, userdata);
+            torso.Position = wheel.Position - new Vector2(0.0f, wheelSize - 15);
             torso.body.Restitution = 0;
-            
+
             // Create a joint to keep the torso upright
             JointFactory.CreateFixedAngleJoint(world, torso.body);
 
@@ -102,7 +102,7 @@ namespace Athyl
             axis.MotorSpeed = 0;
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
-            torso.body.OnCollision +=new OnCollisionEventHandler(body_OnCollision);
+            torso.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
 
 
             //xpRequiredPerLevel
@@ -112,7 +112,7 @@ namespace Athyl
 
             playerLevel = 1;
             playerXP = 0;
-           
+
             Dead = false;
         }
 
@@ -124,22 +124,47 @@ namespace Athyl
             {
                 torso.body.ApplyLinearImpulse(jumpForce);
             }
+
+
         }
 
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
+            KeyboardState kbState = Keyboard.GetState();
             if (contact.IsTouching())
             {
                 if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
                 {
                     playerHP -= 3;
-                    
+
                 }
+
+
+                //The attempt at a wall jump
+                if ((fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground"))
+                {
+                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && kbState.IsKeyDown(Keys.Left))
+                    {
+
+                            torso.body.ApplyLinearImpulse(new Vector2(1.4f, -1.4f));
+ 
+                    }
+
+                        
+                    else if(kbState.IsKeyDown(Keys.Space) && OnGround == true && kbState.IsKeyDown(Keys.Right))
+                    {
+                         torso.body.ApplyLinearImpulse(new Vector2(-1.4f, -1.4f));
+                    }
+                    
+                  
+                }
+
 
                 return true;
             }
             return false;
         }
+
 
         public void Move(Movement movement)
         {
@@ -192,11 +217,13 @@ namespace Athyl
                     axis.MotorSpeed = 0;
                     UpdateFrame(0.2f);
                     break;
+
+
             }
         }
         public void UpdatePlayer()
         {
-            xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2))*2);
+            xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2)) * 2);
             //Console.WriteLine(playerLevel);
             //Console.WriteLine(totalXP);
             //Console.WriteLine(xpRequiredPerLevel);
@@ -207,10 +234,14 @@ namespace Athyl
                 playerXP = 0;
 
             }
-        
-           
-            
+            Console.WriteLine(OnGround);
+            /*
+            if (torso.body.Position.X > 40 || torso.body.Position.Y > 10)
+            {
+                game.Restart();
+            }
 
+            */
 
             //check if player foot is touching the ground
             if (numFootContacts < 1)
@@ -222,11 +253,11 @@ namespace Athyl
                 OnGround = true;
             }
             //Falldamage on player.
-            if (torso.body.LinearVelocity.Y > 10 && !OnGround)
+            if (torso.body.LinearVelocity.Y > 11 && !OnGround)
             {
                 //playerHP -= (int)torso.body.LinearVelocity.Y * 2;
                 hasJumped = true;
-                tempfallDamage = torso.body.LinearVelocity.Y;
+                tempfallDamage = torso.body.LinearVelocity.Y * 2;
             }
 
 
@@ -236,17 +267,16 @@ namespace Athyl
                 hasJumped = false;
             }
 
-
             if (playerHP <= 0)
             {
                 if (!Dead)
                 {
                     Load(game.Content.Load<Texture2D>("die2"), 1, 1, 1);
                     Dead = true;
-                } 
-                
+                }
+
                 playerHP = 0;
-                
+
             }
         }
         /// <summary>
@@ -283,6 +313,7 @@ namespace Athyl
             Left,
             Right,
             Stop
+
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

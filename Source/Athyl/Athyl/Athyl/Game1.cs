@@ -347,6 +347,8 @@ namespace Athyl
                 }
             }
 
+
+
             
             base.Update(gameTime);
         }
@@ -439,6 +441,7 @@ namespace Athyl
                 }
 
             }*/
+
 
             else
             {
