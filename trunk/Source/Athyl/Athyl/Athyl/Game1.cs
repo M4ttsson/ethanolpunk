@@ -165,6 +165,8 @@ namespace Athyl
             //sound = new Sounds(this);
 
             //sound.Play("castlevagina");
+
+            //progressbar
             progressBar = Content.Load<Texture2D>("ProgressBar");
             progressBarBorder = Content.Load<Texture2D>("ProgressBarBorder");
 
@@ -348,6 +350,9 @@ namespace Athyl
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Handle all input
+        /// </summary>
         private void Input()
         {
             keyboardState = Keyboard.GetState();
