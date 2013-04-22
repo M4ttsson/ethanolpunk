@@ -199,12 +199,12 @@ namespace Athyl
 
 
         }
-        private void DrawPlayerInfo(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Player player, SpriteFont myFont)
+        public void DrawPlayerInfo(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Player player, SpriteFont myFont)
         {
-            spriteBatch.DrawString(myFont, "Health:" + player.playerHP.ToString(), new Vector2(20, graphicsDevice.Viewport.Height - 100), Color.DarkRed);
-            spriteBatch.DrawString(myFont, "Ethanol:" + player.playerAthyl.ToString(), new Vector2(20, graphicsDevice.Viewport.Height - 70), Color.MidnightBlue);
-            spriteBatch.DrawString(myFont, "Exp:" + player.playerXP.ToString(), new Vector2(20, graphicsDevice.Viewport.Height - 130), Color.Green);
-            spriteBatch.DrawString(myFont, "Level:" + player.playerLevel.ToString(), new Vector2(20, graphicsDevice.Viewport.Height - 160), Color.Wheat);
+            spriteBatch.DrawString(myFont, "Health:" + player.playerHP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 600), Color.DarkRed);
+            spriteBatch.DrawString(myFont, "Ethanol:" + player.playerAthyl.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 630), Color.MidnightBlue);
+            spriteBatch.DrawString(myFont, "Exp:" + player.playerXP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 660), Color.Green);
+            spriteBatch.DrawString(myFont, "Level:" + player.playerLevel.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 690), Color.Wheat);
         }
         void MouseClicked(int x, int y, Game1 game)
         {
@@ -214,10 +214,10 @@ namespace Athyl
             //checking the startmenu
             if (gameState == GameState.StartMenu)
             {
-                Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y + 28, 120, 20);
-                Rectangle optionsButtonRect = new Rectangle((int)optionsButtonPosition.X, (int)optionsButtonPosition.Y, 120, 20);
-                Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X, (int)storyButtonPosition.Y, 120, 20);
-                Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y + 23, 120, 20);
+                Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X + 20, (int)startButtonPosition.Y + 28, 120, 20);
+                Rectangle optionsButtonRect = new Rectangle((int)optionsButtonPosition.X + 20, (int)optionsButtonPosition.Y, 120, 20);
+                Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X + 20, (int)storyButtonPosition.Y, 120, 20);
+                Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPosition.X + 20, (int)exitButtonPosition.Y, 120, 20);
 
                 if (mouseClickRect.Intersects(startButtonRect))
                 {
@@ -283,11 +283,11 @@ namespace Athyl
             if (gameState == GameState.StartMenu)
             {
                 spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
-                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 405, -(int)Camera.transform.Translation.Y + 250, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
-                spriteBatch.Draw(startButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - startButton.Width / 2, -(int)Camera.transform.Translation.Y + 310, startButton.Width, startButton.Height), Color.White);
-                spriteBatch.Draw(optionsButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - optionsButton.Width / 2, -(int)Camera.transform.Translation.Y + 350, optionsButton.Width, optionsButton.Height), Color.White);
-                spriteBatch.Draw(storyButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - storyButton.Width / 2, -(int)Camera.transform.Translation.Y + 395, storyButton.Width, storyButton.Height), Color.White);
-                spriteBatch.Draw(exitButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 435, exitButton.Width, exitButton.Height), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y + 250, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
+                spriteBatch.Draw(startButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - startButton.Width / 2, -(int)Camera.transform.Translation.Y + 310, startButton.Width, startButton.Height), Color.White);
+                spriteBatch.Draw(optionsButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - optionsButton.Width / 2, -(int)Camera.transform.Translation.Y + 350, optionsButton.Width, optionsButton.Height), Color.White);
+                spriteBatch.Draw(storyButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - storyButton.Width / 2, -(int)Camera.transform.Translation.Y + 395, storyButton.Width, storyButton.Height), Color.White);
+                spriteBatch.Draw(exitButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 435, exitButton.Width, exitButton.Height), Color.White);
 
             }
 
@@ -313,11 +313,6 @@ namespace Athyl
                 spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(0, 0, (int)1280, (int)720), Color.White);
                 spriteBatch.Draw(resumeButton, new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, resumeButton.Width, resumeButton.Height), Color.White);
             }
-
-
         }
-
-
-
     }
 }
