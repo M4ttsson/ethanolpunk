@@ -283,15 +283,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Small_World.png">
-      <Name>Small_World</Name>
+    <Compile Include="TestGubbar.png">
+      <Name>TestGubbar</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestGubbar.png">
-      <Name>TestGubbar</Name>
+    <Compile Include="Small_World.png">
+      <Name>Small_World</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
