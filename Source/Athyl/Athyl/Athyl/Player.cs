@@ -24,15 +24,7 @@ namespace Athyl
         public bool OnGround { get; set; }
         public int numFootContacts { get; set; }
 
-        //Riktningen som kulan kommer att skjutas
-        //0 = höger
-        //1 = vänster
-        //2 = ner
-        //3 = upp
-        //4 = upphöger
-        //5 = uppvänster
-        //6 = nerhöger
-        //7 = nervänster
+        
        
         public int playerHP = 100;
         public int playerAthyl = 500;

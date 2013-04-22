@@ -38,14 +38,6 @@ namespace Athyl
 
         /// <summary>
         /// Adds a new bullet to the list
-        /// direction 0 = right
-        /// direction 1 = left
-        /// direction 2 = down
-        /// direction 3 = up
-        /// direction 4 = upright
-        /// direction 5 = upleft
-        /// direction 6 = downright
-        /// direction 7 = downleft
         /// </summary>
         /// <param name="position"></param>
         /// <param name="direction"></param>
