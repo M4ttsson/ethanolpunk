@@ -236,6 +236,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestGubbar.png">
+      <Name>TestGubbar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Small_World.png">
+      <Name>Small_World</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Asphalt\GroundAspalt1x1.png">
       <Name>GroundAspalt1x1</Name>
       <Importer>TextureImporter</Importer>
@@ -278,20 +292,6 @@
     </Compile>
     <Compile Include="Asphalt\GroundAspalt3x3.png">
       <Name>GroundAspalt3x3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="TestGubbar.png">
-      <Name>TestGubbar</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Small_World.png">
-      <Name>Small_World</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
