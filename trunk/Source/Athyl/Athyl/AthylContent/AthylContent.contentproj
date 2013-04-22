@@ -203,6 +203,46 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LoadingBackground.png">
+      <Name>LoadingBackground</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LoadingScreenTest.png">
+      <Name>LoadingScreenTest</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LoadingBackgroundAlt.png">
+      <Name>LoadingBackgroundAlt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BackgrundTest.png">
+      <Name>BackgrundTest</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ProgressBar.png">
+      <Name>ProgressBar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="ProgressBarBorder.png">
+      <Name>ProgressBarBorder</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Asphalt\GroundAspalt1x1.png">
       <Name>GroundAspalt1x1</Name>
       <Importer>TextureImporter</Importer>
@@ -250,163 +290,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BW_Bg\Map 1x1.png">
-      <Name>Map 1x1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 1x2.png">
-      <Name>Map 1x2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 1x3.png">
-      <Name>Map 1x3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 1x4.png">
-      <Name>Map 1x4</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 1x5.png">
-      <Name>Map 1x5</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 1x6.png">
-      <Name>Map 1x6</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 1x7.png">
-      <Name>Map 1x7</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 1x8.png">
-      <Name>Map 1x8</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 2x1.png">
-      <Name>Map 2x1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 2x2.png">
-      <Name>Map 2x2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 2x3.png">
-      <Name>Map 2x3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 2x4.png">
-      <Name>Map 2x4</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 2x5.png">
-      <Name>Map 2x5</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 2x6.png">
-      <Name>Map 2x6</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 2x7.png">
-      <Name>Map 2x7</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 2x8.png">
-      <Name>Map 2x8</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 3x1.png">
-      <Name>Map 3x1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 3x2.png">
-      <Name>Map 3x2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 3x3.png">
-      <Name>Map 3x3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 3x4.png">
-      <Name>Map 3x4</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 3x5.png">
-      <Name>Map 3x5</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 3x6.png">
-      <Name>Map 3x6</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 3x7.png">
-      <Name>Map 3x7</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="BW_Bg\Map 3x8.png">
-      <Name>Map 3x8</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="LoadingBackground.png">
-      <Name>LoadingBackground</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="LoadingScreenTest.png">
-      <Name>LoadingScreenTest</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="LoadingBackgroundAlt.png">
-      <Name>LoadingBackgroundAlt</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BackgrundTest.png">
-      <Name>BackgrundTest</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ProgressBar.png">
-      <Name>ProgressBar</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="ProgressBarBorder.png">
-      <Name>ProgressBarBorder</Name>
+    <Compile Include="Small_World.png">
+      <Name>Small_World</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

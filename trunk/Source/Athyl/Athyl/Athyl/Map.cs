@@ -73,17 +73,10 @@ namespace Athyl
 
         public void InializeMap()
         {
-
-            for (int q = 0; q < 3; q++)
-            {
-                for (int w = 0; w < 8; w++)
-                {
-                    ReadMap(game.Content.Load<Texture2D>("BW_Bg/Map " + (q + 1) + "x" + (w + 1)), w, q);
-                }
-            }
+            ReadMap(game.Content.Load<Texture2D>("Small_World"));
         }
 
-        private void ReadMap(Texture2D map, int q, int w)
+        private void ReadMap(Texture2D map)
         {
             colors = new Color[map.Width * map.Height];
             map.GetData<Color>(colors);
@@ -98,76 +91,76 @@ namespace Athyl
                 }
             }
 
-            for (int y = 0; y < 18; y++)
+            for (int y = 0; y < 135; y++)
             {
-                for (int x = 0; x < 32; x++)
+                for (int x = 0; x < 640; x++)
                 {
-                    if (colors2D[x * 40, y * 40] == new Color(255, 0, 0))
+                    if (colors2D[x, y] == new Color(255, 0, 0))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[0], new Vector2(42, 42), 0, "ground");
-                        b.Position = new Vector2(x * 40 + 20 + (q*1280), y * 40 + 20 + (w *720));
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[0], new Vector2(17, 17), 0, "ground");
+                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x * 40, y * 40] == new Color(255, 255, 0))
+                    if (colors2D[x, y] == new Color(255, 255, 0))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[1], new Vector2(42, 42), 0, "ground");
-                        b.Position = new Vector2(x * 40 + 20 + (q * 1280), y * 40 + 20 + (w * 720));
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[1], new Vector2(17, 17), 0, "ground");
+                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x * 40, y * 40] == new Color(0, 255, 0))
+                    if (colors2D[x, y] == new Color(0, 255, 0))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[2], new Vector2(42, 42), 0, "ground");
-                        b.Position = new Vector2(x * 40 + 20 + (q * 1280), y * 40 + 20 + (w * 720));
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[2], new Vector2(17, 17), 0, "ground");
+                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x * 40, y * 40] == new Color(0, 0, 255))
+                    if (colors2D[x, y] == new Color(0, 0, 255))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[3], new Vector2(42, 42), 0, "ground");
-                        b.Position = new Vector2(x * 40 + 20 + (q * 1280), y * 40 + 20 + (w * 720));
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[3], new Vector2(17, 17), 0, "ground");
+                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x * 40, y * 40] == new Color(0, 0, 0))
+                    if (colors2D[x, y] == new Color(0, 0, 0))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[4], new Vector2(42, 42), 0, "ground");
-                        b.Position = new Vector2(x * 40 + 20 + (q * 1280), y * 40 + 20 + (w * 720));
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[4], new Vector2(17, 17), 0, "ground");
+                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
                         b.body.BodyType = BodyType.Static;
                         for (int i = 0; i < b.body.FixtureList.Count; i++)
                         {
                             b.body.DestroyFixture(b.body.FixtureList[i]);
                         }
 
-                        //b.body.CollisionCategories = Category.None;
+                        b.body.CollisionCategories = Category.None;
                         body.Add(b);
                     }
-                    if (colors2D[x * 40, y * 40] == new Color(0, 246, 255))
+                    if (colors2D[x, y] == new Color(0, 246, 255))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[5], new Vector2(42, 42), 0, "ground");
-                        b.Position = new Vector2(x * 40 + 20 + (q * 1280), y * 40 + 20 + (w * 720));
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[5], new Vector2(17, 17), 0, "ground");
+                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x * 40, y * 40] == new Color(96, 57, 19))
+                    if (colors2D[x, y] == new Color(96, 57, 19))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[6], new Vector2(42, 42), 0, "ground");
-                        b.Position = new Vector2(x * 40 + 20 + (q * 1280), y * 40 + 20 + (w * 720));
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[6], new Vector2(17, 17), 0, "ground");
+                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x * 40, y * 40] == new Color(83, 71, 65))
+                    if (colors2D[x, y] == new Color(83, 71, 65))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[7], new Vector2(42, 42), 0, "ground");
-                        b.Position = new Vector2(x * 40 + 20 + (q * 1280), y * 40 + 20 + (w * 720));
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[7], new Vector2(17, 17), 0, "ground");
+                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x * 40, y * 40] == new Color(75, 0, 73))
+                    if (colors2D[x, y] == new Color(77, 0, 68))
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[8], new Vector2(42, 42), 0, "ground");
-                        b.Position = new Vector2(x * 40 + 20 + (q * 1280), y * 40 + 20 + (w * 720));
+                        DrawableGameObject b = new DrawableGameObject(world, asphalt[8], new Vector2(17, 17), 0, "ground");
+                        b.Position = new Vector2(x * 16 + 8, y * 16 + 8);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
