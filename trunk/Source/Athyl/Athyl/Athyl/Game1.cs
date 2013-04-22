@@ -61,7 +61,9 @@ namespace Athyl
 
         public Thread loadThread;
         private bool paused = false;
-        private Texture2D playerTexture, enemyTexture;  
+        private Texture2D playerTexture, enemyTexture;
+
+        List<Rectangle> spawnpoints = new List<Rectangle>(10);
 
         System.Timers.Timer timer;
         public static int runTime = 0;
@@ -78,6 +80,13 @@ namespace Athyl
 
             loadThread = new Thread(Load);
             loadThread.IsBackground = true;
+
+            CreateSpawns();
+        }
+
+        private void CreateSpawns()
+        {
+            spawnpoints.Add(new Rectangle(825, 921, 50, 100));
         }
 
         /// <summary>
@@ -244,10 +253,6 @@ namespace Athyl
             damageList.Clear();
         }
 
-        public void OnBroadPhaseCollision(Contact contact)
-        {
-
-        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -313,6 +318,7 @@ namespace Athyl
 
                     Input();
 
+                    SpawnEnemies();
 
                     if (runTime == 2 && theAI.Count < 0)
                     {
@@ -346,6 +352,15 @@ namespace Athyl
             }
 
             base.Update(gameTime);
+        }
+
+        private void SpawnEnemies()
+        {
+            if (spawnpoints[0].Contains(new Point((int)player.torso.Position.X, (int)player.torso.Position.Y)) && theAI.Count <= 2)
+            {
+                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(25, 550), 100, 20, this));
+                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(835, 300), 100, 20, this));
+            }
         }
 
         /// <summary>
@@ -444,9 +459,6 @@ namespace Athyl
 
             } 
 
-     
-            
-
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {
                 theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(20, 1300), 100, 20, this));
@@ -462,8 +474,6 @@ namespace Athyl
                     }
                 }
             }
-
-            
 
             prevKeyboardState = keyboardState;
 
