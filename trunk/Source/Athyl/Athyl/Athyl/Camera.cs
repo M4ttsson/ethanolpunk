@@ -25,7 +25,7 @@ namespace Athyl
             this.z = 0;
         }
 
-        public void UpdateCamera(GameTime gameTime, Player player)
+        public void UpdateCamera(Player player)
         {
             if (player != null)
             {
