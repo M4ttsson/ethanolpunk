@@ -260,6 +260,9 @@ namespace Athyl
 
         }
 
+        /// <summary>
+        /// Restart the game
+        /// </summary>
         private void Restart()
         {
             foreach (AI ai in theAI)
@@ -275,8 +278,6 @@ namespace Athyl
 
 
             player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(600, 400), this, "player");
-
-
 
             runTime = 0;
 
