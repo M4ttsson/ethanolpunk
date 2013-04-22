@@ -377,7 +377,7 @@ namespace Athyl
 
             if (keyboardState.IsKeyDown(Keys.Down) && prevKeyboardState != keyboardState)
             {
-                player.Ducking = true;
+                player.Ducking = false;
             }
             else if (keyboardState.IsKeyUp(Keys.Down) && prevKeyboardState != keyboardState)
             {
