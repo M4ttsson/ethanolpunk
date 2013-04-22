@@ -76,9 +76,13 @@ namespace Athyl
             ReadMap(game.Content.Load<Texture2D>("Small_World"));
         }
 
+        /// <summary>
+        /// Reads a color coded map from a texture 2d.
+        /// </summary>
+        /// <param name="map">Texture to read from</param>
         private void ReadMap(Texture2D map)
         {
-            done = map.Height;
+            done = map.Height *map.Width;
 
             colors = new Color[map.Width * map.Height];
             map.GetData<Color>(colors);
@@ -166,6 +170,7 @@ namespace Athyl
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
+                    progress++;
                 }
                 progress++;
             }
