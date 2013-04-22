@@ -23,7 +23,9 @@ namespace Athyl
         public enum projectiletype { small, medium, large }
         List<DrawableGameObject> bullets = new List<DrawableGameObject>();
         Game1 game;
+        //Lista av saker som ska tas bort i "bullets"
         List<DrawableGameObject> removeList = new List<DrawableGameObject>();
+        //Lista av saker som ska tas bort i world
         List<Body> removeListbody = new List<Body>();
         bool friendly;
         int bulletLifeTime;
@@ -33,7 +35,6 @@ namespace Athyl
         {
             this.game = game;
         }
-
 
         /// <summary>
         /// Adds a new bullet to the list
