@@ -84,8 +84,6 @@ namespace Athyl
         {
             Load(texture, 2, 11, 1, 1);
 
-            torso.body.CollisionCategories = Category.Cat1;
-
             int wheelSize = (int)size.X-2;
             this.torsoSize = size - new Vector2(0, (wheelSize / 2));
             this.game = game;
@@ -103,6 +101,7 @@ namespace Athyl
             torso = new DrawableGameObject(world, texture, torsoSize, 60, userdata);
             torso.Position = wheel.Position -new Vector2(0.0f, torsoSize.Y/2-5);
             torso.body.Restitution = 0;
+            torso.body.CollisionCategories = Category.Cat1;
             //torso.body.Mass = 0;
 
             // Create a joint to keep the torso upright

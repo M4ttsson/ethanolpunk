@@ -179,5 +179,25 @@ namespace Athyl
             }
             body.Add(b);
         }
+
+        private void SetCollideCategory(DrawableGameObject b, int tileNumber)
+        {
+            if(tileNumber == 0)
+                b.body.CollisionCategories = Category.Cat4;
+            else if(tileNumber == 1)
+                b.body.CollisionCategories = Category.Cat5;
+            else if (tileNumber == 2)
+                b.body.CollisionCategories = Category.Cat6;
+            else if (tileNumber == 3)
+                b.body.CollisionCategories = Category.Cat7;
+            else if (tileNumber == 4)
+                b.body.CollisionCategories = Category.Cat8;
+            else if (tileNumber == 5)
+                b.body.CollisionCategories = Category.Cat9;
+            else if (tileNumber == 6)
+                b.body.CollisionCategories = Category.Cat10;
+            else if (tileNumber == 7)
+                b.body.CollisionCategories = Category.Cat11;
+        }
     }
 }
