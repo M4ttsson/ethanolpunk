@@ -84,6 +84,8 @@ namespace Athyl
         {
             Load(texture, 2, 11, 1, 1);
 
+            torso.body.CollisionCategories = Category.Cat1;
+
             int wheelSize = (int)size.X-2;
             this.torsoSize = size - new Vector2(0, (wheelSize / 2));
             this.game = game;
