@@ -116,6 +116,7 @@ namespace Athyl
             axis.MaxMotorTorque = 10;
             torso.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
             
+            
 
             //xpRequiredPerLevel
             numFootContacts = 0;
@@ -370,7 +371,7 @@ namespace Athyl
         {
             if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
             {
-                projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed);
+                projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body);
                 playerAthyl -= 1;
                 lastBullet = DateTime.Now;
             }
