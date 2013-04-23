@@ -43,6 +43,7 @@ namespace Athyl
 
 
         protected RevoluteJoint axis;
+        protected AngleJoint angleJoint;
         protected Texture2D myTexture;
         protected Vector2 torsoSize;
         protected Vector2 jumpForce = new Vector2(0, -2.8f);
@@ -65,7 +66,7 @@ namespace Athyl
         private float TotalElapsed;
         private int totalXP;
         private bool hasLeveledRecently = false;
-        private bool hasJumped = false;
+        private bool isFalling = false;
         private float tempfallDamage = 0;
         public Int16 skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
@@ -107,10 +108,14 @@ namespace Athyl
             // Create a joint to keep the torso upright
             JointFactory.CreateFixedAngleJoint(world, torso.body);
 
+            //angleJoint = JointFactory.CreateAngleJoint(world, wheel.body, wheel.body);
+
             // Connect the feet to the torso
             axis = JointFactory.CreateRevoluteJoint(world, torso.body, wheel.body, Vector2.Zero);
             axis.CollideConnected = false;
 
+
+           
             axis.MotorEnabled = true;
             axis.MotorSpeed = 0;
             axis.MotorTorque = 3;
@@ -333,6 +338,8 @@ namespace Athyl
                 WallJumped = false;
             }
 
+
+            Console.WriteLine(OnGround);
             //check if player is touching a wall
             if (numSideContacts < 1)
             {
@@ -347,14 +354,14 @@ namespace Athyl
             if (torso.body.LinearVelocity.Y > 11 && !OnGround)
             {
                 //playerHP -= (int)torso.body.LinearVelocity.Y * 2;
-                hasJumped = true;
+                isFalling = true;
                 tempfallDamage = torso.body.LinearVelocity.Y * 2;
             }
 
-            if (hasJumped == true && OnGround == true)
+            if (isFalling == true && OnGround == true)
             {
                 playerHP -= (int)(tempfallDamage * 1.5);
-                hasJumped = false;
+                isFalling = false;
             }
 
             

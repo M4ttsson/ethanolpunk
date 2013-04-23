@@ -40,7 +40,7 @@ namespace Athyl
         static KeyboardState keyboardState;
         Matrix projectionMatrix;
         SpriteFont myFont;
-
+        //Quests quest;
         Camera camera;
 
 
@@ -49,6 +49,7 @@ namespace Athyl
         DrawableGameObject wallright;
         DrawableGameObject wallleft;
         DrawableGameObject box;
+        
         Texture2D texture;
         Texture2D skyTexture;
         Texture2D progressBar;
@@ -134,7 +135,7 @@ namespace Athyl
             listenPauseThread = new Thread(ListenPause);
             listenPauseThread.IsBackground = true;
             listenPauseThread.Start();
-
+            //quest = new Quests(world, this);
             IsFixedTimeStep = false;
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
@@ -388,10 +389,10 @@ namespace Athyl
                     }
                     //sound.UpdateSound(gameTime);
 
-                    /*foreach (AI ai in theAI)
+                    foreach (AI ai in theAI)
                     {
                         ai.UpdateEnemy(player, world);
-                    }*/
+                    }
 
                     player.UpdatePlayer();
                     DamageAI();
@@ -577,8 +578,11 @@ namespace Athyl
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
 
-            if(player != null)
-                menu.DrawPlayerInfo(spriteBatch, GraphicsDevice, player, myFont);
+            //quest.DrawQuest(spriteBatch);
+            
+            
+            if(player != null && menu.gameState == Menu.GameState.Playing)
+                menu.DrawPlayerInfo(spriteBatch, GraphicsDevice, player, myFont, gameTime);
             
             menu.Draw(spriteBatch, this);
 
