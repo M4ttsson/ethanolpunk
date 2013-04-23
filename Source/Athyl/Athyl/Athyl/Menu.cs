@@ -38,20 +38,34 @@ namespace Athyl
         private Texture2D musicSlider;
         private Texture2D soundSliderBackground;
         private Texture2D musicSliderBackground;
+        private Texture2D originalResumeButton;
+        private Texture2D originalOptionsButton;
+        private Texture2D originalStartButton;
+        private Texture2D originalExitButton;
+        private Texture2D originalPauseButton;
+        private Texture2D originalStoryButton;
+        private Texture2D resumeButton2;
+        private Texture2D startButton2;
+        private Texture2D exitButton2;
+        private Texture2D optionsButton2;
+        private Texture2D storyButton2;
+        
 
 
         Vector2 soundSliderPosition;
         Vector2 musicSliderPosition;
         Vector2 startButtonPosition;
-        Vector2 exitButtonPosition;
+        Vector2 exitButtonPositionPauseMenu;
         Vector2 resumeButtonPosition;
         Vector2 pauseButtonPosition;
-        Vector2 optionsButtonPosition;
+        Vector2 optionsButtonPositionPauseMenu;
+        Vector2 optionsButtonPositionStartMenu;
         Vector2 storyButtonPosition;
         Vector2 saveButtonPosition;
         Vector2 loadButtonPosition;
         Vector2 pauseMenuPosition;
         Vector2 loadingScreenPosition;
+        Vector2 exitButtonPositionStartMenu;
 
 
 
@@ -67,14 +81,7 @@ namespace Athyl
 
         public Menu(Game1 game)
         {
-            startButton = game.Content.Load<Texture2D>("StartButton");
-            exitButton = game.Content.Load<Texture2D>("ExitButton");
-            pauseButton = game.Content.Load<Texture2D>("PauseButton");
-            resumeButton = game.Content.Load<Texture2D>("ResumeButton");
-            optionsButton = game.Content.Load<Texture2D>("OptionsButton");
-            storyButton = game.Content.Load<Texture2D>("StoryButton");
-            saveButton = game.Content.Load<Texture2D>("SaveButton");
-            LoadButon = game.Content.Load<Texture2D>("LoadButton");
+
             pauseMenuBackgroundFront = game.Content.Load<Texture2D>("PauseMenu");
             pauseMenuBackgroundBack = game.Content.Load<Texture2D>("PauseMenuBackground");
             loadingGameButton = game.Content.Load<Texture2D>("LoadingGameButton");
@@ -82,6 +89,27 @@ namespace Athyl
             soundSlider = game.Content.Load<Texture2D>("note");
             musicSlider = game.Content.Load<Texture2D>("note");
             soundManager = new Sounds(game);
+
+            startButton = game.Content.Load<Texture2D>("StartButtonHighlight");
+            exitButton = game.Content.Load<Texture2D>("ExitButtonHighlight");
+            pauseButton = game.Content.Load<Texture2D>("PauseButton");
+            resumeButton = game.Content.Load<Texture2D>("ResumeButtonHighlight");
+            optionsButton = game.Content.Load<Texture2D>("OptionsButtonHighlight");
+            storyButton = game.Content.Load<Texture2D>("StoryButtonHighlight");
+            saveButton = game.Content.Load<Texture2D>("SaveButton");
+            LoadButon = game.Content.Load<Texture2D>("LoadButton");
+
+            originalResumeButton = game.Content.Load<Texture2D>("ResumeButton");
+            originalOptionsButton = game.Content.Load<Texture2D>("OptionsButton");
+            originalStartButton = game.Content.Load<Texture2D>("StartButton");
+            originalExitButton = game.Content.Load<Texture2D>("ExitButton");
+            originalStoryButton = game.Content.Load<Texture2D>("StoryButton");
+
+            resumeButton2 = game.Content.Load<Texture2D>("ResumeButton");
+            optionsButton2 = game.Content.Load<Texture2D>("OptionsButton");
+            startButton2 = game.Content.Load<Texture2D>("StartButton");
+            exitButton2 = game.Content.Load<Texture2D>("ExitButton");
+            storyButton2 = game.Content.Load<Texture2D>("StoryButton");
         }
 
         /// <summary>
@@ -92,9 +120,9 @@ namespace Athyl
         {
             gameState = GameState.StartMenu;
             startButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - startButton.Width), 300);
-            optionsButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - 140), 355);
+            optionsButtonPositionStartMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - 140), 355);
             storyButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - storyButton.Width), 410);
-            exitButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), 465);
+            exitButtonPositionStartMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), 465);
             loadingScreenPosition = new Vector2(550, 335);
         }
 
@@ -119,8 +147,8 @@ namespace Athyl
             resumeButtonPosition = new Vector2((int)Camera.transform.Translation.X + game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width / 2, (int)Camera.transform.Translation.Y + game.GraphicsDevice.Viewport.Height / 2 - 130);
             saveButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 330);
             loadButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 360);
-            optionsButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - optionsButton.Width / 2), 280);
-            exitButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30));
+            optionsButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - optionsButton.Width / 2), 280);
+            exitButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30));
             soundSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 30);
             musicSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 80);
 
@@ -217,7 +245,7 @@ namespace Athyl
             {
                 OptionsMenu(game);
             }
-
+            MouseOver(mouseState.X, mouseState.Y, game);
 
         }
 
@@ -252,9 +280,9 @@ namespace Athyl
             if (gameState == GameState.StartMenu)
             {
                 Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X + 20, (int)startButtonPosition.Y + 28, 120, 20);
-                Rectangle optionsButtonRect = new Rectangle((int)optionsButtonPosition.X + 20, (int)optionsButtonPosition.Y, 120, 20);
+                Rectangle optionsButtonRect = new Rectangle((int)optionsButtonPositionStartMenu.X + 20, (int)optionsButtonPositionStartMenu.Y, 120, 20);
                 Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X + 20, (int)storyButtonPosition.Y, 120, 20);
-                Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPosition.X + 20, (int)exitButtonPosition.Y, 120, 20);
+                Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPositionStartMenu.X + 20, (int)exitButtonPositionStartMenu.Y, 120, 20);
 
                 if (mouseClickRect.Intersects(startButtonRect))
                 {
@@ -306,6 +334,7 @@ namespace Athyl
             if (gameState == GameState.Options)
             {
                 Rectangle resumeButtonRect = new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, 120, 60);
+
                 //gameState = GameState.Paused;
                 if (mouseClickRect.Intersects(resumeButtonRect))
                 {
@@ -313,6 +342,78 @@ namespace Athyl
                 }
             }
         }
+
+        /// <summary>
+        /// Function that Highlights a button when the mouse pointer intesects with button.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="game"></param>
+        public void MouseOver(int x, int y, Game1 game)
+        {
+            Rectangle mouseClickRect = new Rectangle(x, y, 10, 10);
+            Rectangle resumeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
+            Rectangle optionsButtonRect1 = new Rectangle((int)optionsButtonPositionStartMenu.X + 20, (int)optionsButtonPositionStartMenu.Y + 20, 120, 20);
+            Rectangle optionsButtonRect2 = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - optionsButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 65, 160, 20);
+            Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPositionStartMenu.X + 20, (int)exitButtonPositionStartMenu.Y - 5, 120, 20);
+            Rectangle exitButtonRect2 = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 20, 120, 20);
+            Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X + 20, (int)startButtonPosition.Y + 28, 120, 30);
+            Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X + 20, (int)storyButtonPosition.Y, 120, 30);
+
+
+            if (mouseClickRect.Intersects(resumeButtonRect))
+            {
+                originalResumeButton = resumeButton;
+            }
+            else
+            {
+                originalResumeButton = resumeButton2;
+            }
+            if (mouseClickRect.Intersects(optionsButtonRect1) && gameState == GameState.StartMenu)
+            {
+                originalOptionsButton = optionsButton;
+            }
+            else if (mouseClickRect.Intersects(optionsButtonRect2) && gameState == GameState.Paused)
+            {
+                originalOptionsButton = optionsButton;
+            }
+            else
+            {
+                originalOptionsButton = optionsButton2;
+            }
+            if (mouseClickRect.Intersects(startButtonRect))
+            {
+                originalStartButton = startButton;
+            }
+            else
+            {
+                originalStartButton = startButton2;
+            }
+            if (mouseClickRect.Intersects(exitButtonRect1) && gameState == GameState.StartMenu)
+            {
+                originalExitButton = exitButton;
+            }
+            else if (mouseClickRect.Intersects(exitButtonRect2) && gameState == GameState.Paused)
+            {
+                originalExitButton = exitButton;
+            }
+            else
+            {
+                originalExitButton = exitButton2;
+            }
+            if (mouseClickRect.Intersects(storyButtonRect))
+            {
+                originalStoryButton = storyButton;
+            }
+            else
+            {
+                originalStoryButton = storyButton2;
+            }
+
+        }
+                
+
+            
 
         /// <summary>
         /// Drawing the graphics for the menus for the different game states.
@@ -326,10 +427,10 @@ namespace Athyl
             {
                 spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
                 spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y + 250, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
-                spriteBatch.Draw(startButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - startButton.Width / 2, -(int)Camera.transform.Translation.Y + 310, startButton.Width, startButton.Height), Color.White);
-                spriteBatch.Draw(optionsButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - optionsButton.Width / 2, -(int)Camera.transform.Translation.Y + 350, optionsButton.Width, optionsButton.Height), Color.White);
-                spriteBatch.Draw(storyButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - storyButton.Width / 2, -(int)Camera.transform.Translation.Y + 395, storyButton.Width, storyButton.Height), Color.White);
-                spriteBatch.Draw(exitButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 435, exitButton.Width, exitButton.Height), Color.White);
+                spriteBatch.Draw(originalStartButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - startButton.Width / 2, -(int)Camera.transform.Translation.Y + 310, startButton.Width, startButton.Height), Color.White);
+                spriteBatch.Draw(originalOptionsButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - optionsButton.Width / 2, -(int)Camera.transform.Translation.Y + 350, optionsButton.Width, optionsButton.Height), Color.White);
+                spriteBatch.Draw(originalStoryButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - storyButton.Width / 2, -(int)Camera.transform.Translation.Y + 395, storyButton.Width, storyButton.Height), Color.White);
+                spriteBatch.Draw(originalExitButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 435, exitButton.Width, exitButton.Height), Color.White);
 
             }
 
@@ -343,9 +444,9 @@ namespace Athyl
             {
                 spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
                 spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 405, -(int)Camera.transform.Translation.Y + 150, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
-                spriteBatch.Draw(resumeButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - resumeButton.Width / 2, -(int)Camera.transform.Translation.Y + 230, resumeButton.Width, resumeButton.Height), Color.White);
-                spriteBatch.Draw(optionsButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - optionsButton.Width / 2, -(int)Camera.transform.Translation.Y + 270, optionsButton.Width, optionsButton.Height), Color.White);
-                spriteBatch.Draw(exitButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 315, exitButton.Width, exitButton.Height), Color.White);
+                spriteBatch.Draw(originalResumeButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - resumeButton.Width / 2, -(int)Camera.transform.Translation.Y + 230, resumeButton.Width, resumeButton.Height), Color.White);
+                spriteBatch.Draw(originalOptionsButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - optionsButton.Width / 2, -(int)Camera.transform.Translation.Y + 270, optionsButton.Width, optionsButton.Height), Color.White);
+                spriteBatch.Draw(originalExitButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 315, exitButton.Width, exitButton.Height), Color.White);
                 //spriteBatch.Draw(musicSlider, new Rectangle(-(int)Camera.transform.Translation.X + 1230, -(int)Camera.transform.Translation.Y + 10, musicSlider.Width, musicSlider.Height), Color.White);
                 //spriteBatch.Draw(soundSlider, new Rectangle(-(int)Camera.transform.Translation.X + 1230, -(int)Camera.transform.Translation.Y + 60, soundSlider.Width, soundSlider.Height), Color.White);
             }
