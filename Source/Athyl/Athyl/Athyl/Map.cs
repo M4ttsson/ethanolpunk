@@ -150,6 +150,7 @@ namespace Athyl
                         b = new DrawableGameObject(world, lvl3[0], bodySize, 0, "ground");
                         b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
+                        b.body.CollisionCategories = Category.Cat12;
                     }
                     progress++;
                 }
@@ -174,9 +175,8 @@ namespace Athyl
                 {
                     b.body.DestroyFixture(b.body.FixtureList[i]);
                 }
-
-                b.body.CollisionCategories = Category.None;
             }
+            SetCollideCategory(b, tileNumber);
             body.Add(b);
         }
 
