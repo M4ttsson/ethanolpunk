@@ -82,6 +82,7 @@ namespace Athyl
             BoundsX = map.Width * 32;
             BoundsY = map.Height * 32;
 
+            //This Reads the map layout
             colors = new Color[map.Width * map.Height];
             map.GetData<Color>(colors);
 
@@ -98,84 +99,68 @@ namespace Athyl
 
         private void DrawTilesOnPlace()
         {
+            Vector2 bodySize = new Vector2(33f, 33f);
             for (int y = 0; y < 68; y++)
             {
                 for (int x = 0; x < 320; x++)
                 {
                     if (colors2D[x, y] == new Color(255, 0, 0))             //Red  LeftUpperCorner
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[0], new Vector2(33, 33), 0, "ground");
-                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
-                        b.body.BodyType = BodyType.Static;
-                        b.body.CollisionCategories = Category.Cat2;
-                        body.Add(b);
+                        CreateDrawableGameObject(x, y, 0, bodySize, true);
                     }
                     if (colors2D[x, y] == new Color(255, 255, 0))           //Yellow    Ground
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[1], new Vector2(33, 33), 0, "ground");
-                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
-                        b.body.BodyType = BodyType.Static;
-                        body.Add(b);
+                        CreateDrawableGameObject(x, y, 1, bodySize, true);
                     }
                     if (colors2D[x, y] == new Color(0, 255, 0))             //Green     RightUpperCorner
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[2], new Vector2(33, 33), 0, "ground");
-                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
-                        b.body.BodyType = BodyType.Static;
-                        body.Add(b);
+                        CreateDrawableGameObject(x, y, 2, bodySize, true);
                     }
                     if (colors2D[x, y] == new Color(0, 0, 255))             //DarkBlue  LeftWall
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[3], new Vector2(33, 33), 0, "ground");
-                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
-                        b.body.BodyType = BodyType.Static;
-                        body.Add(b);
+                        CreateDrawableGameObject(x, y, 3, bodySize, true);
                     }
                     if (colors2D[x, y] == new Color(0, 0, 0))               //Black     Middle
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[4], new Vector2(33, 33), 0, "ground");
-                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
-                        b.body.BodyType = BodyType.Static;
-                        for (int i = 0; i < b.body.FixtureList.Count; i++)
-                        {
-                            b.body.DestroyFixture(b.body.FixtureList[i]);
-                        }
-
-                        b.body.CollisionCategories = Category.None;
-                        body.Add(b);
+                        CreateDrawableGameObject(x, y, 4, bodySize, false);
                     }
                     if (colors2D[x, y] == new Color(0, 246, 255))           //LightBlue     RightWall
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[5], new Vector2(33, 33), 0, "ground");
-                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
-                        b.body.BodyType = BodyType.Static;
-                        body.Add(b);
+                        CreateDrawableGameObject(x, y, 5, bodySize, true);
                     }
                     if (colors2D[x, y] == new Color(96, 57, 19))            //Brown     LeftDownCorner
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[6], new Vector2(33, 33), 0, "ground");
-                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
-                        b.body.BodyType = BodyType.Static;
-                        body.Add(b);
+                        CreateDrawableGameObject(x, y, 6, bodySize, true);
                     }
                     if (colors2D[x, y] == new Color(83, 71, 65))            //Gray      Ceiling
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[7], new Vector2(33, 33), 0, "ground");
-                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
-                        b.body.BodyType = BodyType.Static;
-                        body.Add(b);
+                        CreateDrawableGameObject(x, y, 7, bodySize, true);
                     }
                     if (colors2D[x, y] == new Color(77, 0, 68))             //Purple    RightDownCorner
                     {
-                        DrawableGameObject b = new DrawableGameObject(world, asphalt[8], new Vector2(33, 33), 0, "ground");
-                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
-                        b.body.BodyType = BodyType.Static;
-                        body.Add(b);
+                        CreateDrawableGameObject(x, y, 8, bodySize, true);
                     }
                     progress++;
                 }
                 progress++;
             }
+        }
+
+        private void CreateDrawableGameObject(int x, int y, int tileNumber, Vector2 BodySize, bool Collidable)
+        {
+            DrawableGameObject b = new DrawableGameObject(world, asphalt[tileNumber], BodySize, 0, "ground");
+            b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
+            b.body.BodyType = BodyType.Static;
+            if (!Collidable)
+            {
+                for (int i = 0; i < b.body.FixtureList.Count; i++)
+                {
+                    b.body.DestroyFixture(b.body.FixtureList[i]);
+                }
+
+                b.body.CollisionCategories = Category.None;
+            }
+            body.Add(b);
         }
     }
 }
