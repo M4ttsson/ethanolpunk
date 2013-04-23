@@ -318,7 +318,7 @@ namespace Athyl
 
                     Input();
 
-                    SpawnEnemies();
+                    //SpawnEnemies();
 
                     if (runTime == 2 && theAI.Count < 0)
                     {
