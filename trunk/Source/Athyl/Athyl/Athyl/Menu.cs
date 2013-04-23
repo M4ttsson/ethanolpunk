@@ -38,6 +38,8 @@ namespace Athyl
         private Texture2D musicSlider;
         private Texture2D soundSliderBackground;
         private Texture2D musicSliderBackground;
+
+        public float totalTime = 0;
         private Texture2D originalResumeButton;
         private Texture2D originalOptionsButton;
         private Texture2D originalStartButton;
@@ -50,7 +52,6 @@ namespace Athyl
         private Texture2D optionsButton2;
         private Texture2D storyButton2;
         
-
 
         Vector2 soundSliderPosition;
         Vector2 musicSliderPosition;
@@ -182,7 +183,7 @@ namespace Athyl
         /// </summary>
         /// <param name="gametime"></param>
         /// <param name="game"></param>
-        public void UpdateMenu(GameTime gametime, Game1 game)
+        public void UpdateMenu(GameTime gametime, Game1 game, Player player)
         {
 
             KeyboardState kbState = Keyboard.GetState();
@@ -258,11 +259,16 @@ namespace Athyl
         /// <param name="myFont"></param>
         public void DrawPlayerInfo(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Player player, SpriteFont myFont, GameTime gameTime)
         {
+            if (!player.Dead)
+            {
+                totalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
             spriteBatch.DrawString(myFont, "Health:" + player.playerHP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 600), Color.DarkRed);
             spriteBatch.DrawString(myFont, "Ethanol:" + player.playerAthyl.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 630), Color.MidnightBlue);
             spriteBatch.DrawString(myFont, "Exp:" + player.playerXP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 660), Color.Green);
             spriteBatch.DrawString(myFont, "Level:" + player.playerLevel.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 690), Color.Wheat);
-            spriteBatch.DrawString(myFont, "Time:" + (gameTime.TotalGameTime.TotalMilliseconds / 1000).ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10,-(int)Camera.transform.Translation.Y + 570), Color.Violet);
+            
+            spriteBatch.DrawString(myFont, "Time:" + totalTime.ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10,-(int)Camera.transform.Translation.Y + 570), Color.Violet);
         }
 
         /// <summary>
