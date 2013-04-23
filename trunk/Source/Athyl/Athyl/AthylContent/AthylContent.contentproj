@@ -147,8 +147,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="jump.wav">
-      <Name>jump</Name>
+    <Compile Include="jumpsound.wav">
+      <Name>jumpsound</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
@@ -215,21 +215,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestGubbar.png">
+    <Compile Include="Player\TestGubbar.png">
       <Name>TestGubbar</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ducking.png">
+    <Compile Include="Player\Ducking.png">
       <Name>Ducking</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="die.png">
+    <Compile Include="Player\die.png">
       <Name>die</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -386,6 +386,13 @@
     </Compile>
     <Compile Include="Lvl3Tiles\Lvl33x3.png">
       <Name>Lvl33x3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Player\jump.png">
+      <Name>jump</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
