@@ -195,7 +195,7 @@ namespace Athyl
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 0;
                 torso.Size = new Vector2(40, 40);
-                torso.Position = wheel.Position;
+                torso.Position = wheel.Position + new Vector2(0, 20);
         }
 
         public void AnimateJump()
@@ -230,10 +230,17 @@ namespace Athyl
                 if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
                 {
                     playerHP -= 3;
-                }
 
-               
-                return true;
+                    if (direction == Direction.Right)
+                    {
+                        torso.body.ApplyLinearImpulse(new Vector2(-0.8f, -0.9f));
+                    }
+                    else if (direction == Direction.Left)
+                    {
+                        torso.body.ApplyLinearImpulse(new Vector2(0.8f, -0.9f));
+                    }
+                    return true;
+                }
             }
             return false;
         }
@@ -406,8 +413,8 @@ namespace Athyl
                 d.Draw(spriteBatch);
             }
             projectile.Draw(spriteBatch, torso.Position);
-            //torso.Draw(spriteBatch);
-            //wheel.Draw(spriteBatch);
+            torso.Draw(spriteBatch);
+            wheel.Draw(spriteBatch);
         }
 
         protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec, int RestartFrame)
