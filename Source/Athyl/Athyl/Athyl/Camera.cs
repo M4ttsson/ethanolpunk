@@ -27,7 +27,7 @@ namespace Athyl
 
         public void UpdateCamera(Player player)
         {
-            if (player != null)
+            if (player != null)                     //this decides if your at the end of world or not.
             {
                 if (player.torso.Position.X < 600 || player.torso.Position.X > 10240 - 600)
                     endOfMapX = true;
@@ -40,7 +40,7 @@ namespace Athyl
                     endOfMapY = false;
 
 
-                if (endOfMapX)
+                if (endOfMapX)          //this is the cameracalculations if the end of map in x-axis
                 {
                     if (transform.Translation.X > 0)
                     {
@@ -55,7 +55,7 @@ namespace Athyl
                         transform.Translation = temp;
                     }
                 }
-                else
+                else                           //this is the cameracalculations if not at the end of map in x-axis
                 {
                     if (player.torso.Position.X < (-transform.Translation.X + 600))
                         x = (int)-player.torso.Position.X + 600;
@@ -65,7 +65,7 @@ namespace Athyl
                     transform = Matrix.CreateTranslation(moveDirection);
                 }
 
-                if (endOfMapY)
+                if (endOfMapY)                  //this is the cameracalculations if the end of map in y-axis
                 {
                     if (transform.Translation.Y > 0)
                     {
@@ -83,7 +83,7 @@ namespace Athyl
                     }
                    
                 }
-                else
+                else                                //this is the cameracalculations if not at the end of map in y-axis
                 {
                     if (player.torso.Position.Y < (-transform.Translation.Y + 200))
                         y = (int)-player.torso.Position.Y + 200;

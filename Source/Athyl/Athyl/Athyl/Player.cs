@@ -22,10 +22,8 @@ namespace Athyl
     {
         public DrawableGameObject torso;
         public bool OnGround { get; set; }
-        public bool OnWall { get; set; }
-        public bool Ducking { get; set; }
+        public bool Crouching { get; set; }
         public int numFootContacts { get; set; }
-        public int numSideContacts { get; set; }
 
         
        
@@ -81,6 +79,7 @@ namespace Athyl
         /// <param name="startPosition">Startposition</param>
         public Player(World world, Texture2D texture, Vector2 size, float mass, Vector2 startPosition, Game1 game, string userdata)
         {
+            //Load run/stand animation setup
             Load(texture, 2, 11, 1, 1);
 
             int wheelSize = (int)size.X-2;
@@ -113,7 +112,7 @@ namespace Athyl
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
             torso.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
-            
+
 
             //xpRequiredPerLevel
             numFootContacts = 0;
@@ -140,28 +139,18 @@ namespace Athyl
 
         public void Jump()
         {
-            if (OnGround && !Ducking)
+            if (OnGround && !Crouching)
             {
                 torso.body.ApplyLinearImpulse(jumpForce);
             }
-            else if (OnWall && !OnGround)
-            {
-                if (direction == Direction.Right)
-                {
-                    torso.body.ApplyLinearImpulse(new Vector2(-1.8f, -3.1f));
-                    direction = Direction.Left;
-                }
-                else if (direction == Direction.Left)
-                {
-                    torso.body.ApplyLinearImpulse(new Vector2(1.8f, -3.1f));
-                    direction = Direction.Right;
-                }
-            }
         }
 
-        public void Duck()
+        /// <summary>
+        /// Sets the sprite and frames for the crouch animation
+        /// </summary>
+        public void crouch()
         {
-            if (Ducking && !Dead)
+            if (Crouching)
             {
                 this.frameRow = 2;
                 this.frameColumn = 2;
@@ -171,7 +160,7 @@ namespace Athyl
                 torso.Size = new Vector2(40, 40);
                 torso.Position = wheel.Position;
             }
-            else if (!Ducking && !Dead)
+            else if (!Crouching)
             {
                 this.frameRow = 2;
                 this.frameColumn = 11;
@@ -193,13 +182,29 @@ namespace Athyl
                     playerHP -= 3;
                 }
 
-               
+                //The attempt at a wall jump
+                if ((fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "ground") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground"))
+                {
+
+                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && direction == Direction.Left)
+                    {
+
+                        //torso.body.LinearVelocity = new Vector2(0, -0.0001f);
+                        torso.body.ApplyForce(new Vector2(-1.8f, -1.1f));
+
+                    }
+
+                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && direction == Direction.Right)
+                    {
+
+                        torso.body.ApplyForce(new Vector2(1.8f, -1.1f));
+                    }
+                }
                 return true;
             }
             return false;
         }
 
-        
 
         public void Move(Movement movement)
         {
@@ -262,7 +267,7 @@ namespace Athyl
             //Console.WriteLine(playerLevel);
             //Console.WriteLine(totalXP);
             //Console.WriteLine(xpRequiredPerLevel);
-            Duck();
+            crouch();
             if (playerXP >= xpRequiredPerLevel && playerXP != 0)
             {
                 skillPoints++;
@@ -287,17 +292,6 @@ namespace Athyl
             {
                 OnGround = true;
             }
-
-            //check if player is touching a wall
-            if (numSideContacts < 1)
-            {
-                OnWall = false;
-            }
-            else
-            {
-                OnWall = true;
-            }
-
             //Falldamage on player.
             if (torso.body.LinearVelocity.Y > 11 && !OnGround)
             {
@@ -316,7 +310,6 @@ namespace Athyl
             //player off screen
             if (torso.Position.X > Map.BoundsX)
             {
-               
                 playerHP = 0;
             }
             else if (torso.Position.X < -10)
@@ -376,6 +369,7 @@ namespace Athyl
             //wheel.Draw(spriteBatch);
         }
 
+        //Sets the current animation to default
         protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec, int RestartFrame)
         {
             this.frameRow = FrameRow;
@@ -388,13 +382,14 @@ namespace Athyl
             this.TotalElapsed = 0;
         }
 
+        //Updates the frame which makes the animation move
         protected virtual void UpdateFrame(float elapsed)
         {
             TotalElapsed += elapsed;
             if (TotalElapsed > TimePerFrame)
             {
                 ColFrame++;
-                if (ColFrame == frameColumn)
+                if (ColFrame == frameColumn) //If end of animation jump to start
                     ColFrame = RestartFrame;
                 TotalElapsed -= TimePerFrame;
             }
@@ -413,11 +408,17 @@ namespace Athyl
             }
         }
 
+        /// <summary>
+        /// Draw an object with animation
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="screenpos"></param>
         protected void DrawFrame(SpriteBatch spriteBatch, Vector2 screenpos)
         {
             DrawFrame(spriteBatch, ColFrame, RowFrame, screenpos);
         }
 
+        //Draws and sets the viewrectangle
         private void DrawFrame(SpriteBatch spriteBatch, int colFrame, int rowFrame, Vector2 screenpos)
         {
             int FrameWidth = myTexture.Width / frameColumn;
