@@ -261,7 +261,7 @@ namespace Athyl
                         
                     }
 
-                    player.playerXP += 1;
+                    player.playerXP += 10;
                 }
             }
             damageList.Clear();
