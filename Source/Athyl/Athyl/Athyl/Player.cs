@@ -167,7 +167,7 @@ namespace Athyl
         /// <summary>
         /// Sets sprite and frames for crouching animation
         /// </summary>
-        public void crouch()
+        public void AnimateCrouch()
         {
             if (Crouching && !Dead)
             {
@@ -190,6 +190,43 @@ namespace Athyl
                 torso.Position = wheel.Position - new Vector2(0.0f, torsoSize.Y / 2 - 5);
             }
         }
+
+        public void AnimateJump()
+        {
+            if (!OnGround && !OnWall)
+            {
+                this.frameRow = 2;
+                this.ColFrame = 0;
+                this.frameColumn = 1;
+                this.myTexture = game.Content.Load<Texture2D>("Player/Jump");
+                this.TimePerFrame = (float)1 / 1f;
+                this.RestartFrame = 0;
+            }
+            else
+            {
+                this.frameRow = 2;
+                this.frameColumn = 11;
+                this.myTexture = game.Content.Load<Texture2D>("Player/TestGubbar");
+                this.TimePerFrame = (float)1 / 1f;
+                this.RestartFrame = 1;
+                torso.Size = torsoSize;
+                torso.Position = wheel.Position - new Vector2(0.0f, torsoSize.Y / 2 - 5);
+            }
+        }
+
+        public void AnimateWallJump()
+        {
+            if (OnWall && !OnGround)
+            {
+                this.frameRow = 2;
+                this.ColFrame = 0;
+                this.frameColumn = 1;
+                this.myTexture = game.Content.Load<Texture2D>("Player/walljump");
+                this.TimePerFrame = (float)1 / 1f;
+                this.RestartFrame = 0;
+            }
+        }
+
 
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
@@ -268,7 +305,9 @@ namespace Athyl
             //Console.WriteLine(playerLevel);
             //Console.WriteLine(totalXP);
             //Console.WriteLine(xpRequiredPerLevel);
-            crouch();
+            AnimateCrouch();
+            AnimateJump();
+            AnimateWallJump();
             if (playerXP >= xpRequiredPerLevel && playerXP != 0)
             {
                 skillPoints++;
@@ -319,25 +358,7 @@ namespace Athyl
                 hasJumped = false;
             }
 
-            if (!OnGround)
-            {
-                this.frameRow = 2;
-                this.ColFrame = 0;
-                this.frameColumn = 1;
-                this.myTexture = game.Content.Load<Texture2D>("Player/Jump");
-                this.TimePerFrame = (float)1 / 1f;
-                this.RestartFrame = 0;
-            }
-            else
-            {
-                this.frameRow = 2;
-                this.frameColumn = 11;
-                this.myTexture = game.Content.Load<Texture2D>("Player/TestGubbar");
-                this.TimePerFrame = (float)1 / 1f;
-                this.RestartFrame = 1;
-                torso.Size = torsoSize;
-                torso.Position = wheel.Position - new Vector2(0.0f, torsoSize.Y / 2 - 5);
-            }
+            
 
             //player off screen
             if (torso.Position.X > Map.BoundsX)
