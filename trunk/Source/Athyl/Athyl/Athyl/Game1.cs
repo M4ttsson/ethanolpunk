@@ -391,11 +391,11 @@ namespace Athyl
 
             if (keyboardState.IsKeyDown(Keys.Down) && prevKeyboardState != keyboardState)
             {
-                player.Ducking = false;
+                player.Crouching = false;
             }
             else if (keyboardState.IsKeyUp(Keys.Down) && prevKeyboardState != keyboardState)
             {
-                player.Ducking = false;
+                player.Crouching = false;
             }
 
             if (keyboardState.IsKeyDown(Keys.Z))
