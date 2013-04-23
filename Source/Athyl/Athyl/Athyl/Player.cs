@@ -172,7 +172,7 @@ namespace Athyl
             {
                 this.frameRow = 2;
                 this.frameColumn = 2;
-                this.myTexture = game.Content.Load<Texture2D>("Ducking");
+                this.myTexture = game.Content.Load<Texture2D>("Player/Ducking");
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 0;
                 torso.Size = new Vector2(40, 40);
@@ -182,7 +182,7 @@ namespace Athyl
             {
                 this.frameRow = 2;
                 this.frameColumn = 11;
-                this.myTexture = game.Content.Load<Texture2D>("TestGubbar");
+                this.myTexture = game.Content.Load<Texture2D>("Player/TestGubbar");
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 1;
                 torso.Size = torsoSize;
@@ -318,6 +318,26 @@ namespace Athyl
                 hasJumped = false;
             }
 
+            if (!OnGround)
+            {
+                this.frameRow = 2;
+                this.ColFrame = 0;
+                this.frameColumn = 1;
+                this.myTexture = game.Content.Load<Texture2D>("Player/Jump");
+                this.TimePerFrame = (float)1 / 1f;
+                this.RestartFrame = 0;
+            }
+            else
+            {
+                this.frameRow = 2;
+                this.frameColumn = 11;
+                this.myTexture = game.Content.Load<Texture2D>("Player/TestGubbar");
+                this.TimePerFrame = (float)1 / 1f;
+                this.RestartFrame = 1;
+                torso.Size = torsoSize;
+                torso.Position = wheel.Position - new Vector2(0.0f, torsoSize.Y / 2 - 5);
+            }
+
             //player off screen
             if (torso.Position.X > Map.BoundsX)
             {
@@ -333,7 +353,7 @@ namespace Athyl
             {
                 if (!Dead)
                 {
-                    Load(game.Content.Load<Texture2D>("die"), 2, 3, 1,0);  
+                    Load(game.Content.Load<Texture2D>("Player/die"), 2, 3, 1,0);  
                     Dead = true;
                 }
                 else if (Dead && ColFrame < 2)

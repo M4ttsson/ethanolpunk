@@ -179,7 +179,7 @@ namespace Athyl
             //music.Stop();
 
             enemyTexture = Content.Load<Texture2D>("RunningDummyEnemy");
-            playerTexture = Content.Load<Texture2D>("TestGubbar");
+            playerTexture = Content.Load<Texture2D>("Player/TestGubbar");
 
             skyTexture = Content.Load<Texture2D>("Background");
             player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(60, 1300), this, "player");
