@@ -29,7 +29,10 @@ namespace Athyl
         private Color[] colors;
         private Color[,] colors2D;
         private List<DrawableGameObject> body = new List<DrawableGameObject>();
-        private List<Texture2D> asphalt = new List<Texture2D>();
+        private List<Texture2D> lvl1 = new List<Texture2D>();
+        private List<Texture2D> lvl2 = new List<Texture2D>();
+        private List<Texture2D> lvl3 = new List<Texture2D>();
+        private DrawableGameObject b;
 
         public Map(World world, Game1 game)
         {
@@ -64,7 +67,9 @@ namespace Athyl
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    asphalt.Add(game.Content.Load<Texture2D>("Asphalt/GroundAspalt" + (i + 1) + "x" + (j + 1)));
+                    lvl1.Add(game.Content.Load<Texture2D>("Lvl1Tiles/Lvl1" + (i + 1) + "x" + (j + 1)));
+                    lvl2.Add(game.Content.Load<Texture2D>("Lvl2Tiles/Lvl2" + (i + 1) + "x" + (j + 1)));
+                    lvl3.Add(game.Content.Load<Texture2D>("Lvl3Tiles/Lvl3" + (i + 1) + "x" + (j + 1)));
                 }
             }
         }
@@ -148,7 +153,13 @@ namespace Athyl
 
         private void CreateDrawableGameObject(int x, int y, int tileNumber, Vector2 BodySize, bool Collidable)
         {
-            DrawableGameObject b = new DrawableGameObject(world, asphalt[tileNumber], BodySize, 0, "ground");
+            if(y <= 22)
+                b = new DrawableGameObject(world, lvl1[tileNumber], BodySize, 0, "ground");
+            else if (y>22 && y <=45)
+                b = new DrawableGameObject(world, lvl2[tileNumber], BodySize, 0, "ground");
+            else
+                b = new DrawableGameObject(world, lvl3[tileNumber], BodySize, 0, "ground");
+
             b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
             b.body.BodyType = BodyType.Static;
             if (!Collidable)
