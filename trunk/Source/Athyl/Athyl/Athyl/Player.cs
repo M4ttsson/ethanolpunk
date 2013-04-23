@@ -146,6 +146,7 @@ namespace Athyl
             {
                 torso.body.ApplyLinearImpulse(jumpForce);
             }
+            //Walljump
             else if (OnWall && !OnGround && !WallJumped)
             {
                 if (direction == Direction.Right)
@@ -204,8 +205,6 @@ namespace Athyl
             }
             return false;
         }
-
-        
 
         public void Move(Movement movement)
         {
@@ -313,7 +312,6 @@ namespace Athyl
                 tempfallDamage = torso.body.LinearVelocity.Y * 2;
             }
 
-
             if (hasJumped == true && OnGround == true)
             {
                 playerHP -= (int)(tempfallDamage * 1.5);
@@ -342,11 +340,7 @@ namespace Athyl
                     UpdateFrame(0.05f);
 
                 playerHP = 0;
-
             }
-
-            
-
         }
         /// <summary>
         /// Fires the weapon
