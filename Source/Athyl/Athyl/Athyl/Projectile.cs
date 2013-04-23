@@ -44,7 +44,12 @@ namespace Athyl
         /// <param name="world"></param>
         public void NewBullet(Vector2 position, Player.Direction direction , World world, float speed)
         {
+
+            //Allows the linear bullets to have some spread!
             float spread = random.Next(-2, 2);
+
+            //Allows diagonal bullets to have some spread!
+            float spreadDiagonal = random.Next(1, 5);
             spread /= 133;
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"),new Vector2(10,4), 10, "shot");
             bullet.body.IsBullet = true;
@@ -89,28 +94,28 @@ namespace Athyl
                     bullet.body.Rotation = MathHelper.ToRadians(135);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * -1.0f));                
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * -1.0f) * spreadDiagonal);                
                     break;
 
                 case Player.Direction.Upleft:
                     bullet.body.Rotation = MathHelper.ToRadians(45);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2 * -1.0f));
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2 * -1.0f) * spreadDiagonal);
                     break;
 
                 case Player.Direction.Downright:
                     bullet.body.Rotation = MathHelper.ToRadians(-135);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed/2 , speed/2));
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2) * spreadDiagonal);
                     break;
 
                 case Player.Direction.Downleft:
                     bullet.body.Rotation = MathHelper.ToRadians(-45);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2));
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2) * spreadDiagonal);
                     break;
 
                 default:

@@ -598,7 +598,7 @@ namespace FarseerPhysics.Dynamics
                     if (BodyAdded != null)
                         BodyAdded(body);
                 }
-
+                
                 _bodyAddList.Clear();
             }
         }
