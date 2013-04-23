@@ -26,7 +26,6 @@ namespace Athyl
         private Texture2D exitButton;
         private Texture2D pauseButton;
         private Texture2D resumeButton;
-        private Texture2D settingsButton;
         private Texture2D optionsButton;
         private Texture2D storyButton;
         private Texture2D saveButton;
@@ -47,7 +46,6 @@ namespace Athyl
         Vector2 exitButtonPosition;
         Vector2 resumeButtonPosition;
         Vector2 pauseButtonPosition;
-        Vector2 settingsButtonPosition;
         Vector2 optionsButtonPosition;
         Vector2 storyButtonPosition;
         Vector2 saveButtonPosition;
@@ -73,7 +71,6 @@ namespace Athyl
             exitButton = game.Content.Load<Texture2D>("ExitButton");
             pauseButton = game.Content.Load<Texture2D>("PauseButton");
             resumeButton = game.Content.Load<Texture2D>("ResumeButton");
-            settingsButton = game.Content.Load<Texture2D>("OptionsButton");
             optionsButton = game.Content.Load<Texture2D>("OptionsButton");
             storyButton = game.Content.Load<Texture2D>("StoryButton");
             saveButton = game.Content.Load<Texture2D>("SaveButton");
@@ -87,6 +84,10 @@ namespace Athyl
             soundManager = new Sounds(game);
         }
 
+        /// <summary>
+        /// Positioning buttons and background for the start menu
+        /// </summary>
+        /// <param name="game"></param>
         public void StartMenu(Game1 game)
         {
             gameState = GameState.StartMenu;
@@ -97,33 +98,48 @@ namespace Athyl
             loadingScreenPosition = new Vector2(550, 335);
         }
 
+        /// <summary>
+        /// Not currently in use. Option to have a pause icon which can be mouseclicked.
+        /// </summary>
+        /// <param name="game"></param>
         public void PauseIcon(Game1 game)
         {
             gameState = GameState.Playing;
             pauseButtonPosition = new Vector2(20, 20);
         }
         
+        /// <summary>
+        /// Positioning buttons and backgrounds for the pause menu
+        /// </summary>
+        /// <param name="game"></param>
         public void PauseMenu(Game1 game)
         {
             gameState = GameState.Paused;
             pauseMenuPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - pauseMenuBackgroundFront.Width / 2), 160);
-            //Rectangle resumeButtonRect = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 130), 120, 20);
             resumeButtonPosition = new Vector2((int)Camera.transform.Translation.X + game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width / 2, (int)Camera.transform.Translation.Y + game.GraphicsDevice.Viewport.Height / 2 - 130);
             saveButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 330);
             loadButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 360);
-            settingsButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - settingsButton.Width / 2), 280);
+            optionsButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - optionsButton.Width / 2), 280);
             exitButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30));
             soundSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 30);
             musicSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 80);
 
 
         }
+
+        /// <summary>
+        /// Positioning buttons for the options menu
+        /// </summary>
+        /// <param name="game"></param>
         public void OptionsMenu(Game1 game)
         {
             gameState = GameState.Options;
             resumeButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width), 230);
         }
 
+        /// <summary>
+        /// Starting the game after that the thread has been inactive for 6 sec.
+        /// </summary>
         public void LoadGame()
         {
             Thread.Sleep(6000);
@@ -133,6 +149,11 @@ namespace Athyl
 
         }
 
+        /// <summary>
+        /// UpdateMenu used to handle different states. Pausing the game and keeping track on if the mouse is clicked on buttons.
+        /// </summary>
+        /// <param name="gametime"></param>
+        /// <param name="game"></param>
         public void UpdateMenu(GameTime gametime, Game1 game)
         {
 
@@ -199,6 +220,14 @@ namespace Athyl
 
 
         }
+
+        /// <summary>
+        /// Drawing the UI
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="graphicsDevice"></param>
+        /// <param name="player"></param>
+        /// <param name="myFont"></param>
         public void DrawPlayerInfo(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Player player, SpriteFont myFont)
         {
             spriteBatch.DrawString(myFont, "Health:" + player.playerHP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 600), Color.DarkRed);
@@ -206,6 +235,13 @@ namespace Athyl
             spriteBatch.DrawString(myFont, "Exp:" + player.playerXP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 660), Color.Green);
             spriteBatch.DrawString(myFont, "Level:" + player.playerLevel.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 690), Color.Wheat);
         }
+
+        /// <summary>
+        /// MouseClicked is function used to create rectangles for the buttons that when intersecting with the mouse pointer and clicked will trigger a game state. Used for the menus.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="game"></param>
         void MouseClicked(int x, int y, Game1 game)
         {
             //creates a rectangle of 10x10 around the place where the mouse was clicked
@@ -239,11 +275,11 @@ namespace Athyl
             if (gameState == GameState.Paused)
             {
                 Rectangle resumeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width  /2 - resumeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
-                Rectangle settingsButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width  /2 - optionsButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 60, 160, 20);
+                Rectangle optionsButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width  /2 - optionsButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 60, 160, 20);
                 Rectangle exitbuttonRect2 = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), (game.GraphicsDevice.Viewport.Height / 2 - 20), 120, 20);
                 Rectangle musicRect = new Rectangle((int)musicSliderPosition.X, (int)musicSliderPosition.Y, 40, 40);
                 Rectangle soundRect = new Rectangle((int)soundSliderPosition.X, (int)soundSliderPosition.Y, 40, 40);
-
+                
 
                 if (mouseClickRect.Intersects(resumeButtonRect))
                 {
@@ -262,6 +298,7 @@ namespace Athyl
                 else if (mouseClickRect.Intersects(soundRect))
                 {
                 }
+                
             }
 
             //checking the options menu
@@ -276,7 +313,11 @@ namespace Athyl
             }
         }
 
-        
+        /// <summary>
+        /// Drawing the graphics for the menus for the different game states.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="game"></param>
         public void Draw(SpriteBatch spriteBatch, Game1 game)
         {
 
@@ -302,10 +343,10 @@ namespace Athyl
                 spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
                 spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 405, -(int)Camera.transform.Translation.Y + 150, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
                 spriteBatch.Draw(resumeButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - resumeButton.Width / 2, -(int)Camera.transform.Translation.Y + 230, resumeButton.Width, resumeButton.Height), Color.White);
-                spriteBatch.Draw(optionsButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - optionsButton.Width / 2, -(int)Camera.transform.Translation.Y + 270, settingsButton.Width, settingsButton.Height), Color.White);
+                spriteBatch.Draw(optionsButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - optionsButton.Width / 2, -(int)Camera.transform.Translation.Y + 270, optionsButton.Width, optionsButton.Height), Color.White);
                 spriteBatch.Draw(exitButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 315, exitButton.Width, exitButton.Height), Color.White);
-                spriteBatch.Draw(musicSlider, new Rectangle(-(int)Camera.transform.Translation.X + 1230, -(int)Camera.transform.Translation.Y + 10, musicSlider.Width, musicSlider.Height), Color.White);
-                spriteBatch.Draw(soundSlider, new Rectangle(-(int)Camera.transform.Translation.X + 1230, -(int)Camera.transform.Translation.Y + 60, soundSlider.Width, soundSlider.Height), Color.White);
+                //spriteBatch.Draw(musicSlider, new Rectangle(-(int)Camera.transform.Translation.X + 1230, -(int)Camera.transform.Translation.Y + 10, musicSlider.Width, musicSlider.Height), Color.White);
+                //spriteBatch.Draw(soundSlider, new Rectangle(-(int)Camera.transform.Translation.X + 1230, -(int)Camera.transform.Translation.Y + 60, soundSlider.Width, soundSlider.Height), Color.White);
             }
 
             if (gameState == GameState.Options)
