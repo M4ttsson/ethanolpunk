@@ -145,7 +145,7 @@ namespace Athyl
                     {
                         CreateDrawableGameObject(x, y, 8, bodySize, true);
                     }
-                    else if (colors2D[x, y] == new Color(255, 102, 0))
+                    else if (colors2D[x, y] == new Color(255, 102, 0))           //Invicible walls
                     {
                         b = new DrawableGameObject(world, lvl3[0], bodySize, 0, "ground");
                         b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
@@ -176,11 +176,11 @@ namespace Athyl
                     b.body.DestroyFixture(b.body.FixtureList[i]);
                 }
             }
-            SetCollideCategory(b, tileNumber);
+            SetCollisionCategories(b, tileNumber);
             body.Add(b);
         }
 
-        private void SetCollideCategory(DrawableGameObject b, int tileNumber)
+        private void SetCollisionCategories(DrawableGameObject b, int tileNumber)
         {
             if(tileNumber == 0)
                 b.body.CollisionCategories = Category.Cat4;
