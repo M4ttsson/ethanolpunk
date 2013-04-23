@@ -270,7 +270,7 @@ namespace Athyl
             {
                 skillPoints++;
                 playerLevel++;
-                playerXP = 0;
+                playerXP = playerXP - xpRequiredPerLevel;
 
             }
             /*
