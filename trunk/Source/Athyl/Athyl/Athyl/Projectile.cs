@@ -42,7 +42,7 @@ namespace Athyl
         /// <param name="position"></param>
         /// <param name="direction"></param>
         /// <param name="world"></param>
-        public void NewBullet(Vector2 position, Player.Direction direction , World world, float speed)
+        public void NewBullet(Vector2 position, Player.Direction direction , World world, float speed, Body wheel)
         {
 
             //Allows the linear bullets to have some spread!
@@ -56,9 +56,9 @@ namespace Athyl
             bullet.body.Position = position;
             bullet.body.IgnoreGravity = true;
             bulletLifeTime = 5;
-
             bulletWasFired = Game1.runTime;
             bullet.body.IsSensor = true;
+            bullet.body.IgnoreCollisionWith(wheel);
 
             switch (direction)
             {

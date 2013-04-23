@@ -391,14 +391,7 @@ namespace Athyl
                 player.Jump();
             }
 
-            if (keyboardState.IsKeyDown(Keys.Down) && prevKeyboardState != keyboardState)
-            {
-                player.Crouching = false;
-            }
-            else if (keyboardState.IsKeyUp(Keys.Down) && prevKeyboardState != keyboardState)
-            {
-                player.Crouching = false;
-            }
+            
 
             if (keyboardState.IsKeyDown(Keys.Z))
             {
@@ -412,7 +405,7 @@ namespace Athyl
                 if(keyboardState.IsKeyDown(Keys.Up)){
                     player.direction = Player.Direction.Upleft;
                 }
-                else if (keyboardState.IsKeyDown(Keys.Down))
+                else if (keyboardState.IsKeyDown(Keys.Down) && !player.Crouching)
                 {
                     player.direction = Player.Direction.Downleft;
                 }
@@ -427,7 +420,7 @@ namespace Athyl
                 {
                     player.direction = Player.Direction.Upright;
                 }
-                else if (keyboardState.IsKeyDown(Keys.Down))
+                else if (keyboardState.IsKeyDown(Keys.Down) && !player.Crouching)
                 {
                     player.direction = Player.Direction.Downright;
                 }
@@ -443,10 +436,18 @@ namespace Athyl
             }
             else if (keyboardState.IsKeyDown(Keys.Down))
             {
-
-                player.direction = Player.Direction.Down;
-                player.Move(Player.Movement.Stop);
+                if (!player.OnGround)
+                {
+                    player.direction = Player.Direction.Down;
+                    player.Move(Player.Movement.Stop);
+                }
+                else
+                {
+                    player.Crouching = true;
+                }
             }
+            
+            
 
             //Logik för att kunna skjuta diagonalt när man står still, men det funkar dåligt
             /*else if(keyboardState.IsKeyDown(Keys.X)){
@@ -474,6 +475,7 @@ namespace Athyl
             else
             {
                 player.Move(Player.Movement.Stop);
+                player.Crouching = false;
                 //Vänder riktningen åt rätt håll ifall man har skjutit diagonalt, upp eller ner
                 if (player.lastDirection)
                     player.direction = Player.Direction.Left;
