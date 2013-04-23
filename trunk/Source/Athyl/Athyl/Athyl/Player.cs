@@ -164,22 +164,17 @@ namespace Athyl
             }
         }
 
-        /// <summary>
-        /// Sets sprite and frames for crouching animation
-        /// </summary>
-        public void AnimateCrouch()
+        //Animates player in right order depending on which state he/she is
+        public void AnimatePlayer()
         {
-            if (Crouching && !Dead)
-            {
-                this.frameRow = 2;
-                this.frameColumn = 2;
-                this.myTexture = game.Content.Load<Texture2D>("Player/Ducking");
-                this.TimePerFrame = (float)1 / 1f;
-                this.RestartFrame = 0;
-                torso.Size = new Vector2(40, 40);
-                torso.Position = wheel.Position;
-            }
-            else if (!Crouching && !Dead)
+            if (OnGround && Crouching && !Dead)
+                AnimateCrouch();
+            else if (!OnGround && !OnWall)
+                AnimateJump();
+            else if (OnWall && !OnGround)
+                AnimateWallJump();
+
+            else
             {
                 this.frameRow = 2;
                 this.frameColumn = 11;
@@ -191,27 +186,25 @@ namespace Athyl
             }
         }
 
+        public void AnimateCrouch()
+        {
+                this.frameRow = 2;
+                this.frameColumn = 2;
+                this.myTexture = game.Content.Load<Texture2D>("Player/Ducking");
+                this.TimePerFrame = (float)1 / 1f;
+                this.RestartFrame = 0;
+                torso.Size = new Vector2(40, 40);
+                torso.Position = wheel.Position;
+        }
+
         public void AnimateJump()
         {
-            if (!OnGround && !OnWall)
-            {
                 this.frameRow = 2;
                 this.ColFrame = 0;
                 this.frameColumn = 1;
                 this.myTexture = game.Content.Load<Texture2D>("Player/Jump");
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 0;
-            }
-            else
-            {
-                this.frameRow = 2;
-                this.frameColumn = 11;
-                this.myTexture = game.Content.Load<Texture2D>("Player/TestGubbar");
-                this.TimePerFrame = (float)1 / 1f;
-                this.RestartFrame = 1;
-                torso.Size = torsoSize;
-                torso.Position = wheel.Position - new Vector2(0.0f, torsoSize.Y / 2 - 5);
-            }
         }
 
         public void AnimateWallJump()
@@ -305,9 +298,7 @@ namespace Athyl
             //Console.WriteLine(playerLevel);
             //Console.WriteLine(totalXP);
             //Console.WriteLine(xpRequiredPerLevel);
-            AnimateCrouch();
-            AnimateJump();
-            AnimateWallJump();
+            AnimatePlayer();
             if (playerXP >= xpRequiredPerLevel && playerXP != 0)
             {
                 skillPoints++;
