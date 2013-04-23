@@ -229,53 +229,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Asphalt\GroundAspalt1x1.png">
-      <Name>GroundAspalt1x1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Asphalt\GroundAspalt1x2.png">
-      <Name>GroundAspalt1x2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Asphalt\GroundAspalt1x3.png">
-      <Name>GroundAspalt1x3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Asphalt\GroundAspalt2x1.png">
-      <Name>GroundAspalt2x1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Asphalt\GroundAspalt2x2.png">
-      <Name>GroundAspalt2x2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Asphalt\GroundAspalt2x3.png">
-      <Name>GroundAspalt2x3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Asphalt\GroundAspalt3x1.png">
-      <Name>GroundAspalt3x1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Asphalt\GroundAspalt3x2.png">
-      <Name>GroundAspalt3x2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Asphalt\GroundAspalt3x3.png">
-      <Name>GroundAspalt3x3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Ducking.png">
       <Name>Ducking</Name>
       <Importer>TextureImporter</Importer>
@@ -292,6 +245,148 @@
   <ItemGroup>
     <Compile Include="Small_World.png">
       <Name>Small_World</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Lvl1Tiles\Lvl11x1.png">
+      <Name>Lvl11x1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl1Tiles\Lvl11x2.png">
+      <Name>Lvl11x2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl1Tiles\Lvl11x3.png">
+      <Name>Lvl11x3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl1Tiles\Lvl12x1.png">
+      <Name>Lvl12x1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl1Tiles\Lvl12x2.png">
+      <Name>Lvl12x2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl1Tiles\Lvl12x3.png">
+      <Name>Lvl12x3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl1Tiles\Lvl13x1.png">
+      <Name>Lvl13x1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl1Tiles\Lvl13x2.png">
+      <Name>Lvl13x2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl1Tiles\Lvl13x3.png">
+      <Name>Lvl13x3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Lvl2Tiles\Lvl21x1.png">
+      <Name>Lvl21x1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl2Tiles\Lvl21x2.png">
+      <Name>Lvl21x2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl2Tiles\Lvl21x3.png">
+      <Name>Lvl21x3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl2Tiles\Lvl22x1.png">
+      <Name>Lvl22x1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl2Tiles\Lvl22x2.png">
+      <Name>Lvl22x2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl2Tiles\Lvl22x3.png">
+      <Name>Lvl22x3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl2Tiles\Lvl23x1.png">
+      <Name>Lvl23x1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl2Tiles\Lvl23x2.png">
+      <Name>Lvl23x2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl2Tiles\Lvl23x3.png">
+      <Name>Lvl23x3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Lvl3Tiles\Lvl31x1.png">
+      <Name>Lvl31x1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl3Tiles\Lvl31x2.png">
+      <Name>Lvl31x2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl3Tiles\Lvl31x3.png">
+      <Name>Lvl31x3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl3Tiles\Lvl32x1.png">
+      <Name>Lvl32x1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl3Tiles\Lvl32x2.png">
+      <Name>Lvl32x2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl3Tiles\Lvl32x3.png">
+      <Name>Lvl32x3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl3Tiles\Lvl33x1.png">
+      <Name>Lvl33x1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl3Tiles\Lvl33x2.png">
+      <Name>Lvl33x2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl3Tiles\Lvl33x3.png">
+      <Name>Lvl33x3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
