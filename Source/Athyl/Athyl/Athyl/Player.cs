@@ -22,8 +22,10 @@ namespace Athyl
     {
         public DrawableGameObject torso;
         public bool OnGround { get; set; }
+        public bool OnWall { get; set; }
         public bool Ducking { get; set; }
         public int numFootContacts { get; set; }
+        public int numSideContacts { get; set; }
 
         
        
@@ -111,7 +113,7 @@ namespace Athyl
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
             torso.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
-
+            
 
             //xpRequiredPerLevel
             numFootContacts = 0;
@@ -141,6 +143,19 @@ namespace Athyl
             if (OnGround && !Ducking)
             {
                 torso.body.ApplyLinearImpulse(jumpForce);
+            }
+            else if (OnWall && !OnGround)
+            {
+                if (direction == Direction.Right)
+                {
+                    torso.body.ApplyLinearImpulse(new Vector2(-1.8f, -3.1f));
+                    direction = Direction.Left;
+                }
+                else if (direction == Direction.Left)
+                {
+                    torso.body.ApplyLinearImpulse(new Vector2(1.8f, -3.1f));
+                    direction = Direction.Right;
+                }
             }
         }
 
@@ -178,29 +193,13 @@ namespace Athyl
                     playerHP -= 3;
                 }
 
-                //The attempt at a wall jump
-                if ((fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "ground") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "ground"))
-                {
-
-                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && direction == Direction.Left)
-                    {
-
-                        //torso.body.LinearVelocity = new Vector2(0, -0.0001f);
-                        torso.body.ApplyForce(new Vector2(-1.8f, -1.1f));
-
-                    }
-
-                    if (kbState.IsKeyDown(Keys.Space) && OnGround == true && direction == Direction.Right)
-                    {
-
-                        torso.body.ApplyForce(new Vector2(1.8f, -1.1f));
-                    }
-                }
+               
                 return true;
             }
             return false;
         }
 
+        
 
         public void Move(Movement movement)
         {
@@ -288,6 +287,17 @@ namespace Athyl
             {
                 OnGround = true;
             }
+
+            //check if player is touching a wall
+            if (numSideContacts < 1)
+            {
+                OnWall = false;
+            }
+            else
+            {
+                OnWall = true;
+            }
+
             //Falldamage on player.
             if (torso.body.LinearVelocity.Y > 11 && !OnGround)
             {

@@ -113,9 +113,8 @@ namespace Athyl
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
             camera = new Camera(GraphicsDevice.Viewport);
-
             
-
+           
             base.Initialize();
         }
 
@@ -189,7 +188,6 @@ namespace Athyl
             world.ContactManager.BeginContact += BeginContact;
             world.ContactManager.EndContact += EndContact;
 
-
             timer.Start();
         }
 
@@ -204,6 +202,14 @@ namespace Athyl
             {
                 player.numFootContacts++;
             }
+            if (contact.FixtureA.UserData.ToString() == "player")
+            {
+                player.numSideContacts++;
+            }
+            if (contact.FixtureB.UserData.ToString() == "player")
+            {
+                player.numSideContacts++;
+            }
 
             return true;
         }
@@ -217,6 +223,14 @@ namespace Athyl
             if (contact.FixtureB.UserData.ToString() == "playerwheel")
             {
                 player.numFootContacts--;
+            }
+            if (contact.FixtureA.UserData.ToString() == "player")
+            {
+                player.numSideContacts--;
+            }
+            if (contact.FixtureB.UserData.ToString() == "player")
+            {
+                player.numSideContacts--;
             }
         }
 
