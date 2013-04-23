@@ -40,6 +40,7 @@ namespace Athyl
         public bool Dead { get; set; }
         //Håller koll på åt vilket håll man stod sist, så att direction ställs rätt om man släpper upp/ner
         public bool lastDirection;
+        public int Difficulty { get; set; }
 
 
         protected RevoluteJoint axis;
@@ -133,6 +134,8 @@ namespace Athyl
             playerXP = 0;
 
             Dead = false;
+
+            Difficulty = 5;
         }
 
         public enum Direction
@@ -394,7 +397,7 @@ namespace Athyl
         /// Fires the weapon
         /// </summary>
         /// <param name="world"></param>
-        public void useWeapon(World world)
+        public virtual void useWeapon(World world)
         {
             if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
             {

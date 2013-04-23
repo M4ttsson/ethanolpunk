@@ -26,18 +26,24 @@ namespace Athyl
         private DateTime lastBullet;
         private float projectileSpeed = 0.02f;
         private const float jumpInterval = 1f;
-        private float fireRate = 0.1f;
+        private float fireRate = 0.5f;
         private bool hit = false;
         private bool seen = false;
         public bool dead = false;
+
+
+
         public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game)
             : base(world, texture, size, mass, startPosition, game, "enemy")
         {
             Load(texture, 2, 11, 1,0);
             torso.body.CollisionCategories = Category.Cat2;
             speed = 1f;
-            jumpForce = new Vector2(0, -2.8f);
+            //jumpForce = new Vector2(0, -5f);
 
+
+
+  
             //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
 
         }
@@ -96,6 +102,7 @@ namespace Athyl
                 else if (torso.Position.X < aPlayer.torso.Position.X)
                 {
                     axis.MotorSpeed = MathHelper.TwoPi * speed;
+                    direction = Direction.Right;
                     UpdateFrame(0.2f);
                     seen = true;
                 }
@@ -103,6 +110,7 @@ namespace Athyl
                 else if (torso.Position.X > aPlayer.torso.Position.X)
                 {
                     axis.MotorSpeed = -MathHelper.TwoPi * speed;
+                    direction = Direction.Left;
                     UpdateFrame(0.2f);
                     seen = true;
                 }
@@ -137,8 +145,17 @@ namespace Athyl
 
         public void attackPlayer()
         {
-            
-            
+            useWeapon(world);
+        }
+
+        public override void useWeapon(World world)
+        {
+            if ((DateTime.Now - lastBullet).TotalSeconds >= fireRate)
+            {
+                //projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed);
+                projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed, wheel.body);
+                lastBullet = DateTime.Now;
+            }
         }
 
 
@@ -184,7 +201,8 @@ namespace Athyl
         {
             towardsPlayer(aPlayer);
 
-            //attackPlayer();
+            if(seen)
+                attackPlayer();
         }
 
         /*
