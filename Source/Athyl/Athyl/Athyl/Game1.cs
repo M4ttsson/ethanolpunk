@@ -90,7 +90,7 @@ namespace Athyl
                 {
                     PreferredBackBufferHeight = 720,
                     PreferredBackBufferWidth = 1280,
-                    IsFullScreen = false
+                    IsFullScreen = true
                 };
             Content.RootDirectory = "Content";
 
