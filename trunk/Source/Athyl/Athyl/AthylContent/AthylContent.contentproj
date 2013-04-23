@@ -203,13 +203,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackgrundTest.png">
-      <Name>BackgrundTest</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="ProgressBar.png">
       <Name>ProgressBar</Name>
       <Importer>TextureImporter</Importer>
@@ -296,7 +289,13 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Background.png">
+      <Name>Background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Lvl2Tiles\Lvl21x1.png">
       <Name>Lvl21x1</Name>
