@@ -24,29 +24,17 @@ namespace Athyl
         public static float done;
         public static float BoundsX { get; private set; }
         public static float BoundsY { get; private set; }
-        private List<DrawableGameObject> ground = new List<DrawableGameObject>();
-        private List<DrawableGameObject> testmap = new List<DrawableGameObject>();
         private World world;
         private Game1 game;
-        private Texture2D texture;
         private Color[] colors;
         private Color[,] colors2D;
-        List<DrawableGameObject> body = new List<DrawableGameObject>();
-        List<Texture2D> asphalt = new List<Texture2D>();
-        List<Texture2D> BW_bg = new List<Texture2D>();
+        private List<DrawableGameObject> body = new List<DrawableGameObject>();
+        private List<Texture2D> asphalt = new List<Texture2D>();
 
         public Map(World world, Game1 game)
         {
             this.world = world;
             this.game = game;
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    asphalt.Add(game.Content.Load<Texture2D>("Asphalt/GroundAspalt" + (i + 1) + "x" + (j + 1)));
-                }
-            }
 
             progress = 1;
 
@@ -55,26 +43,37 @@ namespace Athyl
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //foreach (DrawableGameObject dgo in testmap)
-            //    dgo.Draw(spriteBatch);
-
             foreach (DrawableGameObject b in body)
             {
                 b.Draw(spriteBatch);
-                //spriteBatch.Draw(texture, destination, null, Color.White, b.body.Rotation, new Vector2(texture.Width / 2.0f, texture.Height / 2.0f), SpriteEffects.None, 0);
             }
         }
 
         public void InializeMap()
         {
-            ReadMap(game.Content.Load<Texture2D>("Small_World"));
+            ReadingTilesTextureToList();
+
+            ReadMapLayout(game.Content.Load<Texture2D>("Small_World"));
+
+            DrawTilesOnPlace();
+        }
+
+        private void ReadingTilesTextureToList()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    asphalt.Add(game.Content.Load<Texture2D>("Asphalt/GroundAspalt" + (i + 1) + "x" + (j + 1)));
+                }
+            }
         }
 
         /// <summary>
         /// Reads a color coded map from a texture 2d.
         /// </summary>
         /// <param name="map">Texture to read from</param>
-        private void ReadMap(Texture2D map)
+        private void ReadMapLayout(Texture2D map)
         {
             //loading bar length
             done = map.Height * map.Width;
@@ -95,40 +94,44 @@ namespace Athyl
                     colors2D[x, y] = colors[x + y * map.Width];
                 }
             }
+        }
 
+        private void DrawTilesOnPlace()
+        {
             for (int y = 0; y < 68; y++)
             {
                 for (int x = 0; x < 320; x++)
                 {
-                    if (colors2D[x, y] == new Color(255, 0, 0))
+                    if (colors2D[x, y] == new Color(255, 0, 0))             //Red  LeftUpperCorner
                     {
                         DrawableGameObject b = new DrawableGameObject(world, asphalt[0], new Vector2(33, 33), 0, "ground");
                         b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
+                        b.body.CollisionCategories = Category.Cat2;
                         body.Add(b);
                     }
-                    if (colors2D[x, y] == new Color(255, 255, 0))
+                    if (colors2D[x, y] == new Color(255, 255, 0))           //Yellow    Ground
                     {
                         DrawableGameObject b = new DrawableGameObject(world, asphalt[1], new Vector2(33, 33), 0, "ground");
                         b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x, y] == new Color(0, 255, 0))
+                    if (colors2D[x, y] == new Color(0, 255, 0))             //Green     RightUpperCorner
                     {
                         DrawableGameObject b = new DrawableGameObject(world, asphalt[2], new Vector2(33, 33), 0, "ground");
                         b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x, y] == new Color(0, 0, 255))
+                    if (colors2D[x, y] == new Color(0, 0, 255))             //DarkBlue  LeftWall
                     {
                         DrawableGameObject b = new DrawableGameObject(world, asphalt[3], new Vector2(33, 33), 0, "ground");
                         b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x, y] == new Color(0, 0, 0))
+                    if (colors2D[x, y] == new Color(0, 0, 0))               //Black     Middle
                     {
                         DrawableGameObject b = new DrawableGameObject(world, asphalt[4], new Vector2(33, 33), 0, "ground");
                         b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
@@ -141,28 +144,28 @@ namespace Athyl
                         b.body.CollisionCategories = Category.None;
                         body.Add(b);
                     }
-                    if (colors2D[x, y] == new Color(0, 246, 255))
+                    if (colors2D[x, y] == new Color(0, 246, 255))           //LightBlue     RightWall
                     {
                         DrawableGameObject b = new DrawableGameObject(world, asphalt[5], new Vector2(33, 33), 0, "ground");
                         b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x, y] == new Color(96, 57, 19))
+                    if (colors2D[x, y] == new Color(96, 57, 19))            //Brown     LeftDownCorner
                     {
                         DrawableGameObject b = new DrawableGameObject(world, asphalt[6], new Vector2(33, 33), 0, "ground");
                         b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x, y] == new Color(83, 71, 65))
+                    if (colors2D[x, y] == new Color(83, 71, 65))            //Gray      Ceiling
                     {
                         DrawableGameObject b = new DrawableGameObject(world, asphalt[7], new Vector2(33, 33), 0, "ground");
                         b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         body.Add(b);
                     }
-                    if (colors2D[x, y] == new Color(77, 0, 68))
+                    if (colors2D[x, y] == new Color(77, 0, 68))             //Purple    RightDownCorner
                     {
                         DrawableGameObject b = new DrawableGameObject(world, asphalt[8], new Vector2(33, 33), 0, "ground");
                         b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
