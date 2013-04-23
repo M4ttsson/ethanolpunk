@@ -153,9 +153,9 @@ namespace Athyl
 
         private void CreateDrawableGameObject(int x, int y, int tileNumber, Vector2 BodySize, bool Collidable)
         {
-            if(y <= 22)
+            if(y <= 22)                     //Sets the borders between the different levels in our game.
                 b = new DrawableGameObject(world, lvl1[tileNumber], BodySize, 0, "ground");
-            else if (y>22 && y <=45)
+            else if (y>22 && y <45)
                 b = new DrawableGameObject(world, lvl2[tileNumber], BodySize, 0, "ground");
             else
                 b = new DrawableGameObject(world, lvl3[tileNumber], BodySize, 0, "ground");
