@@ -146,7 +146,7 @@ namespace Athyl
 
         public void Duck()
         {
-            if (Ducking)
+            if (Ducking && !Dead)
             {
                 this.frameRow = 2;
                 this.frameColumn = 2;
@@ -156,7 +156,7 @@ namespace Athyl
                 torso.Size = new Vector2(40, 40);
                 torso.Position = wheel.Position;
             }
-            else if (!Ducking)
+            else if (!Ducking && !Dead)
             {
                 this.frameRow = 2;
                 this.frameColumn = 11;
