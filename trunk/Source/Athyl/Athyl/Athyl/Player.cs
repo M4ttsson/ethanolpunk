@@ -303,12 +303,23 @@ namespace Athyl
                 hasJumped = false;
             }
 
+            //player off screen
+            if (torso.Position.X > Map.BoundsX)
+            {
+               
+                playerHP = 0;
+            }
+            else if (torso.Position.X < -10)
+                playerHP = 0;
+            if (torso.Position.Y > Map.BoundsY)
+                playerHP = 0;
+            
             if (playerHP <= 0)
             {
                 if (!Dead)
                 {
                     Load(game.Content.Load<Texture2D>("die"), 2, 3, 1,0);
-                    torso.body.CollisionCategories = Category.Cat2;
+                    torso.body.CollisionCategories = Category.Cat2;   
                     Dead = true;
                 }
                 else if (Dead && ColFrame < 2)
@@ -318,13 +329,8 @@ namespace Athyl
 
             }
 
-            //player off screen
-            if (torso.Position.X > Map.BoundsX)
-                Dead = true;
-            else if (torso.Position.X < -10)
-                Dead = true;
-            if (torso.Position.Y > Map.BoundsY)
-                Dead = true;
+            
+
         }
         /// <summary>
         /// Fires the weapon

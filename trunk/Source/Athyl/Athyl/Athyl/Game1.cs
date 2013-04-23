@@ -525,6 +525,12 @@ namespace Athyl
                 //spriteBatch.DrawString(myFont, "Loading", new Vector2(500, GraphicsDevice.Viewport.Height - 240), Color.DarkRed);
             }
 
+            //Writes out Game Over when the player dies
+            if (player.Dead == true)
+            {
+                spriteBatch.DrawString(myFont, "Game Over", new Vector2(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 360), Color.Red);
+            }
+
             //!!!!
             //!!!!
             //DON'T PUT ANY DRAWING STUFF AFTER THIS!!
