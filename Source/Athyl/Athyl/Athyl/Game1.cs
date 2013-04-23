@@ -63,7 +63,7 @@ namespace Athyl
         public Thread loadThread;
         private bool paused = false;
         private Texture2D playerTexture, enemyTexture;
-
+        private float tempTime;
         List<Spawn> spawnpoints = new List<Spawn>(10);
 
         System.Timers.Timer timer;
@@ -295,7 +295,7 @@ namespace Athyl
             {
                 if (player.torso.body.BodyId == damage.bodyId)
                 {
-                    player.playerHP -= (int)projectile.damage / player.Difficulty;
+                    player.playerHP -= (int)(projectile.damage / player.Difficulty);
                 }
             }
 
@@ -341,6 +341,8 @@ namespace Athyl
                     sp.Visited = false;
             }
 
+            menu.totalTime = 0f; 
+            
             runTime = 0;
 
             camera = new Camera(graphics.GraphicsDevice.Viewport);
@@ -358,11 +360,12 @@ namespace Athyl
             {
                 keyboardState = Keyboard.GetState();
                 player.UpdatePlayer();
+
             }
             else if (player != null)
             {
 
-                menu.UpdateMenu(gameTime, this);
+                menu.UpdateMenu(gameTime, this, player);
                 if (menu.gameState == Menu.GameState.Paused)
                 {
                     timer.Stop();
@@ -409,6 +412,9 @@ namespace Athyl
                     world.Step(0.033333f);
                 }
             }
+
+
+
 
             base.Update(gameTime);
         }
@@ -579,10 +585,14 @@ namespace Athyl
                 ai.Draw(spriteBatch);
 
             //quest.DrawQuest(spriteBatch);
-            
-            
-            if(player != null && menu.gameState == Menu.GameState.Playing)
+
+
+            if (player != null && menu.gameState == Menu.GameState.Playing)
+            {
                 menu.DrawPlayerInfo(spriteBatch, GraphicsDevice, player, myFont, gameTime);
+
+
+            }
             
             menu.Draw(spriteBatch, this);
 
@@ -599,6 +609,8 @@ namespace Athyl
             if (player != null && player.Dead == true)
             {
                 spriteBatch.DrawString(myFont, "Game Over", new Vector2(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 360), Color.DarkRed);
+
+
             }
 
             //!!!!
