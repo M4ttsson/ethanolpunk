@@ -106,7 +106,7 @@ namespace Athyl
         {
             //visited, spawnrectangle and enemyspawn position.
             spawnpoints.Add(new Spawn(false, new Rectangle(825, 890, 50, 120), new Vector2[] { new Vector2(40, 550), new Vector2(835, 300)}));
-            spawnpoints.Add(new Spawn(false, new Rectangle(500, 325, 170, 250), new Vector2[] { new Vector2(1950, 425), new Vector2(2270, 290)}));
+            spawnpoints.Add(new Spawn(false, new Rectangle(500, 25, 170, 550), new Vector2[] { new Vector2(1950, 425), new Vector2(2270, 290)}));
             spawnpoints.Add(new Spawn(false, new Rectangle(1440, 410, 320, 120), new Vector2[] { new Vector2(1650, 1225)}));
             spawnpoints.Add(new Spawn(false, new Rectangle(2235, 1180, 50, 120), new Vector2[] { new Vector2(3025, 1480), new Vector2(3200, 1545)}));
             spawnpoints.Add(new Spawn(false, new Rectangle(4205, 1980, 50, 120), new Vector2[] { new Vector2(4880, 2055), new Vector2(5050, 2055), new Vector2(5100, 1832), new Vector2(5050, 1610)}));
@@ -613,7 +613,12 @@ namespace Athyl
 
             }
 
-            
+
+            //Uncomment if you want to check where the spawnpoints are visually
+            /*foreach(Spawn sp in spawnpoints)
+            {
+                spriteBatch.Draw(progressBar, sp.SpawnTriggerRect, Color.White);
+            }*/
 
             //!!!!
             //!!!!
