@@ -103,6 +103,7 @@ namespace Athyl
         
         private void CreateSpawns()
         {
+            //visited, spawnrectangle and enemyspawn position.
             spawnpoints.Add(new Spawn(false, new Rectangle(825, 890, 50, 120), new Vector2[] { new Vector2(40, 550), new Vector2(835, 300)}));
             spawnpoints.Add(new Spawn(false, new Rectangle(500, 425, 170, 150), new Vector2[] { new Vector2(1950, 425), new Vector2(2270, 290)}));
             spawnpoints.Add(new Spawn(false, new Rectangle(1440, 410, 320, 120), new Vector2[] { new Vector2(1650, 1225)}));
@@ -187,12 +188,6 @@ namespace Athyl
 
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
-
-            //map = new Map(world, this);
-
-            debugView = new DebugViewXNA(world);
-            debugView.LoadContent(GraphicsDevice, Content);
-            //texture = Content.Load<Texture2D>("testat");
             
             //sound = new Sounds(this);
 
