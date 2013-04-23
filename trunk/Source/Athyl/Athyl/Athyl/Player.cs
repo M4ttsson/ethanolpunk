@@ -162,6 +162,9 @@ namespace Athyl
             }
         }
 
+        /// <summary>
+        /// Sets sprite and frames for crouching animation
+        /// </summary>
         public void crouch()
         {
             if (Crouching && !Dead)
@@ -332,8 +335,7 @@ namespace Athyl
             {
                 if (!Dead)
                 {
-                    Load(game.Content.Load<Texture2D>("die"), 2, 3, 1,0);
-                    torso.body.CollisionCategories = Category.Cat2;   
+                    Load(game.Content.Load<Texture2D>("die"), 2, 3, 1,0);  
                     Dead = true;
                 }
                 else if (Dead && ColFrame < 2)
