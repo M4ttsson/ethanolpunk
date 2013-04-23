@@ -442,13 +442,10 @@ namespace Athyl
                 player.Jump();
             }
 
-            
-
             if (keyboardState.IsKeyDown(Keys.Z))
             {
                 player.useWeapon(world);
             }
-
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
