@@ -90,7 +90,7 @@ namespace Athyl
                 {
                     PreferredBackBufferHeight = 720,
                     PreferredBackBufferWidth = 1280,
-                    IsFullScreen = true
+                    IsFullScreen = false
                 };
             Content.RootDirectory = "Content";
 
@@ -203,7 +203,7 @@ namespace Athyl
             enemyTexture = Content.Load<Texture2D>("RunningDummyEnemy");
             playerTexture = Content.Load<Texture2D>("Player/TestGubbar");
 
-            skyTexture = Content.Load<Texture2D>("Background");
+            skyTexture = Content.Load<Texture2D>("Menu items/Background");
 
 
 
@@ -612,6 +612,8 @@ namespace Athyl
 
 
             }
+
+            
 
             //!!!!
             //!!!!

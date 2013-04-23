@@ -83,34 +83,34 @@ namespace Athyl
         public Menu(Game1 game)
         {
 
-            pauseMenuBackgroundFront = game.Content.Load<Texture2D>("PauseMenu");
-            pauseMenuBackgroundBack = game.Content.Load<Texture2D>("PauseMenuBackground");
-            loadingGameButton = game.Content.Load<Texture2D>("LoadingGameButton");
-            loadingBackground = game.Content.Load<Texture2D>("LoadingBackgroundAlt");
+            pauseMenuBackgroundFront = game.Content.Load<Texture2D>("Menu items/PauseMenu");
+            pauseMenuBackgroundBack = game.Content.Load<Texture2D>("Menu items/PauseMenuBackground");
+            loadingGameButton = game.Content.Load<Texture2D>("Menu items/LoadingGameButton");
+            loadingBackground = game.Content.Load<Texture2D>("Menu items/LoadingBackgroundAlt");
             soundSlider = game.Content.Load<Texture2D>("note");
             musicSlider = game.Content.Load<Texture2D>("note");
             soundManager = new Sounds(game);
 
-            startButton = game.Content.Load<Texture2D>("StartButtonHighlight");
-            exitButton = game.Content.Load<Texture2D>("ExitButtonHighlight");
-            pauseButton = game.Content.Load<Texture2D>("PauseButton");
-            resumeButton = game.Content.Load<Texture2D>("ResumeButtonHighlight");
-            optionsButton = game.Content.Load<Texture2D>("OptionsButtonHighlight");
-            storyButton = game.Content.Load<Texture2D>("StoryButtonHighlight");
-            saveButton = game.Content.Load<Texture2D>("SaveButton");
-            LoadButon = game.Content.Load<Texture2D>("LoadButton");
+            startButton = game.Content.Load<Texture2D>("Menu items/StartButtonHighlight");
+            exitButton = game.Content.Load<Texture2D>("Menu items/ExitButtonHighlight");
+            pauseButton = game.Content.Load<Texture2D>("Menu items/PauseButton");
+            resumeButton = game.Content.Load<Texture2D>("Menu items/ResumeButtonHighlight");
+            optionsButton = game.Content.Load<Texture2D>("Menu items/OptionsButtonHighlight");
+            storyButton = game.Content.Load<Texture2D>("Menu items/StoryButtonHighlight");
+            saveButton = game.Content.Load<Texture2D>("Menu items/SaveButton");
+            LoadButon = game.Content.Load<Texture2D>("Menu items/LoadButton");
 
-            originalResumeButton = game.Content.Load<Texture2D>("ResumeButton");
-            originalOptionsButton = game.Content.Load<Texture2D>("OptionsButton");
-            originalStartButton = game.Content.Load<Texture2D>("StartButton");
-            originalExitButton = game.Content.Load<Texture2D>("ExitButton");
-            originalStoryButton = game.Content.Load<Texture2D>("StoryButton");
+            originalResumeButton = game.Content.Load<Texture2D>("Menu items/ResumeButton");
+            originalOptionsButton = game.Content.Load<Texture2D>("Menu items/OptionsButton");
+            originalStartButton = game.Content.Load<Texture2D>("Menu items/StartButton");
+            originalExitButton = game.Content.Load<Texture2D>("Menu items/ExitButton");
+            originalStoryButton = game.Content.Load<Texture2D>("Menu items/StoryButton");
 
-            resumeButton2 = game.Content.Load<Texture2D>("ResumeButton");
-            optionsButton2 = game.Content.Load<Texture2D>("OptionsButton");
-            startButton2 = game.Content.Load<Texture2D>("StartButton");
-            exitButton2 = game.Content.Load<Texture2D>("ExitButton");
-            storyButton2 = game.Content.Load<Texture2D>("StoryButton");
+            resumeButton2 = game.Content.Load<Texture2D>("Menu items/ResumeButton");
+            optionsButton2 = game.Content.Load<Texture2D>("Menu items/OptionsButton");
+            startButton2 = game.Content.Load<Texture2D>("Menu items/StartButton");
+            exitButton2 = game.Content.Load<Texture2D>("Menu items/ExitButton");
+            storyButton2 = game.Content.Load<Texture2D>("Menu items/StoryButton");
         }
 
         /// <summary>
