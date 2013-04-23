@@ -23,7 +23,7 @@ namespace Athyl
         public DrawableGameObject torso;
         public bool OnGround { get; set; }
         public bool OnWall { get; set; }
-        public bool Ducking { get; set; }
+        public bool Crouching { get; set; }
         public bool WallJumped { get; set; }
         public int numFootContacts { get; set; }
         public int numSideContacts { get; set; }
@@ -142,7 +142,7 @@ namespace Athyl
 
         public void Jump()
         {
-            if (OnGround && !Ducking)
+            if (OnGround && !Crouching)
             {
                 torso.body.ApplyLinearImpulse(jumpForce);
             }
@@ -162,9 +162,9 @@ namespace Athyl
             }
         }
 
-        public void Duck()
+        public void crouch()
         {
-            if (Ducking && !Dead)
+            if (Crouching && !Dead)
             {
                 this.frameRow = 2;
                 this.frameColumn = 2;
@@ -174,7 +174,7 @@ namespace Athyl
                 torso.Size = new Vector2(40, 40);
                 torso.Position = wheel.Position;
             }
-            else if (!Ducking && !Dead)
+            else if (!Crouching && !Dead)
             {
                 this.frameRow = 2;
                 this.frameColumn = 11;
@@ -265,7 +265,7 @@ namespace Athyl
             //Console.WriteLine(playerLevel);
             //Console.WriteLine(totalXP);
             //Console.WriteLine(xpRequiredPerLevel);
-            Duck();
+            crouch();
             if (playerXP >= xpRequiredPerLevel && playerXP != 0)
             {
                 skillPoints++;
