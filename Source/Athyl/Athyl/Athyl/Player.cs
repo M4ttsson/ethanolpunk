@@ -150,12 +150,12 @@ namespace Athyl
             {
                 if (direction == Direction.Right)
                 {
-                    torso.body.ApplyLinearImpulse(new Vector2(-1.8f, -3.1f));
+                    torso.body.ApplyLinearImpulse(new Vector2(-0.8f, -3.1f));
                     direction = Direction.Left;
                 }
                 else if (direction == Direction.Left)
                 {
-                    torso.body.ApplyLinearImpulse(new Vector2(1.8f, -3.1f));
+                    torso.body.ApplyLinearImpulse(new Vector2(0.8f, -3.1f));
                     direction = Direction.Right;
                 }
                 WallJumped = true;
