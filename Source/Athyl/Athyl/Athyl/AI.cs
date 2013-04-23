@@ -35,6 +35,8 @@ namespace Athyl
         {
             Load(texture, 2, 11, 1,0);
 
+            torso.body.CollisionCategories = Category.Cat2;
+
             speed = 1f;
             jumpForce = new Vector2(0, -5f);
 
