@@ -342,7 +342,7 @@ namespace Athyl
             }
 
 
-            Console.WriteLine(OnGround);
+            //Console.WriteLine(OnGround);
             //check if player is touching a wall
             if (numSideContacts < 1)
             {
@@ -418,13 +418,10 @@ namespace Athyl
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
-            foreach (DrawableGameObject d in shots)
-            {
-                d.Draw(spriteBatch);
-            }
+
             projectile.Draw(spriteBatch, torso.Position);
-            torso.Draw(spriteBatch);
-            wheel.Draw(spriteBatch);
+            //torso.Draw(spriteBatch);
+            //wheel.Draw(spriteBatch);
         }
 
         protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec, int RestartFrame)
