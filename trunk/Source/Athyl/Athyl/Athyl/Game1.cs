@@ -260,7 +260,7 @@ namespace Athyl
             }
         }
 
-        private void DamageAI()
+        private void Damage()
         {
             for (int i = 0; i < theAI.Count; i++)
             {
@@ -287,11 +287,18 @@ namespace Athyl
                         
                     }
 
-
                     player.playerXP += 3;
-
                 }
             }
+
+            foreach (var damage in damageList)
+            {
+                if (player.torso.body.BodyId == damage.bodyId)
+                {
+                    player.playerHP -= (int)projectile.damage / player.Difficulty;
+                }
+            }
+
             damageList.Clear();
         }
 
@@ -395,7 +402,7 @@ namespace Athyl
                     }
 
                     player.UpdatePlayer();
-                    DamageAI();
+                    Damage();
 
                     camera.UpdateCamera(player);
                     
@@ -422,13 +429,6 @@ namespace Athyl
                     }
                 }
             }
-
-            /*if (spawnpoints[0].SpawnRect.Contains(new Point((int)player.torso.Position.X, (int)player.torso.Position.Y)))
-            {
-                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(25, 550), 100, 20, this));
-                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(835, 300), 100, 20, this));
-                spawnpoints[0].Visited = true;
-            }*/
         }
 
         /// <summary>
