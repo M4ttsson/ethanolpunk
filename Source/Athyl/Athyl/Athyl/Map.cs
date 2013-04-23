@@ -113,37 +113,43 @@ namespace Athyl
                     {
                         CreateDrawableGameObject(x, y, 0, bodySize, true);
                     }
-                    if (colors2D[x, y] == new Color(255, 255, 0))           //Yellow    Ground
+                    else if (colors2D[x, y] == new Color(255, 255, 0))           //Yellow    Ground
                     {
                         CreateDrawableGameObject(x, y, 1, bodySize, true);
                     }
-                    if (colors2D[x, y] == new Color(0, 255, 0))             //Green     RightUpperCorner
+                    else if (colors2D[x, y] == new Color(0, 255, 0))             //Green     RightUpperCorner
                     {
                         CreateDrawableGameObject(x, y, 2, bodySize, true);
                     }
-                    if (colors2D[x, y] == new Color(0, 0, 255))             //DarkBlue  LeftWall
+                    else if (colors2D[x, y] == new Color(0, 0, 255))             //DarkBlue  LeftWall
                     {
                         CreateDrawableGameObject(x, y, 3, bodySize, true);
                     }
-                    if (colors2D[x, y] == new Color(0, 0, 0))               //Black     Middle
+                    else if (colors2D[x, y] == new Color(0, 0, 0))               //Black     Middle
                     {
                         CreateDrawableGameObject(x, y, 4, bodySize, false);
                     }
-                    if (colors2D[x, y] == new Color(0, 246, 255))           //LightBlue     RightWall
+                    else if (colors2D[x, y] == new Color(0, 246, 255))           //LightBlue     RightWall
                     {
                         CreateDrawableGameObject(x, y, 5, bodySize, true);
                     }
-                    if (colors2D[x, y] == new Color(96, 57, 19))            //Brown     LeftDownCorner
+                    else if (colors2D[x, y] == new Color(96, 57, 19))            //Brown     LeftDownCorner
                     {
                         CreateDrawableGameObject(x, y, 6, bodySize, true);
                     }
-                    if (colors2D[x, y] == new Color(83, 71, 65))            //Gray      Ceiling
+                    else if (colors2D[x, y] == new Color(83, 71, 65))            //Gray      Ceiling
                     {
                         CreateDrawableGameObject(x, y, 7, bodySize, true);
                     }
-                    if (colors2D[x, y] == new Color(77, 0, 68))             //Purple    RightDownCorner
+                    else if (colors2D[x, y] == new Color(77, 0, 68))             //Purple    RightDownCorner
                     {
                         CreateDrawableGameObject(x, y, 8, bodySize, true);
+                    }
+                    else if (colors2D[x, y] == new Color(255, 102, 0))
+                    {
+                        b = new DrawableGameObject(world, lvl3[0], bodySize, 0, "ground");
+                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
+                        b.body.BodyType = BodyType.Static;
                     }
                     progress++;
                 }
