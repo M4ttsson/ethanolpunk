@@ -56,56 +56,56 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExitButton.png">
+    <Compile Include="Menu items\ExitButton.png">
       <Name>ExitButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LoadButton.png">
+    <Compile Include="Menu items\LoadButton.png">
       <Name>LoadButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="PauseButton.png">
+    <Compile Include="Menu items\PauseButton.png">
       <Name>PauseButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="ResumeButton.png">
+    <Compile Include="Menu items\ResumeButton.png">
       <Name>ResumeButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="SaveButton.png">
+    <Compile Include="Menu items\SaveButton.png">
       <Name>SaveButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="SettingsButton.png">
+    <Compile Include="Menu items\SettingsButton.png">
       <Name>SettingsButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="StartButton.png">
+    <Compile Include="Menu items\StartButton.png">
       <Name>StartButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LoadingGameButton.png">
+    <Compile Include="Menu items\LoadingGameButton.png">
       <Name>LoadingGameButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LoadingScreen.png">
+    <Compile Include="Menu items\LoadingScreen.png">
       <Name>LoadingScreen</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PauseMenuBackground.png">
+    <Compile Include="Menu items\PauseMenuBackground.png">
       <Name>PauseMenuBackground</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -119,7 +119,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PauseMenu.png">
+    <Compile Include="Menu items\PauseMenu.png">
       <Name>PauseMenu</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -168,35 +168,28 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OptionsButton.png">
+    <Compile Include="Menu items\OptionsButton.png">
       <Name>OptionsButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StoryButton.png">
+    <Compile Include="Menu items\StoryButton.png">
       <Name>StoryButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LoadingBackground.png">
+    <Compile Include="Menu items\LoadingBackground.png">
       <Name>LoadingBackground</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LoadingScreenTest.png">
-      <Name>LoadingScreenTest</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="LoadingBackgroundAlt.png">
+    <Compile Include="Menu items\LoadingBackgroundAlt.png">
       <Name>LoadingBackgroundAlt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -290,7 +283,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Background.png">
+    <Compile Include="Menu items\Background.png">
       <Name>Background</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -412,32 +405,32 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExitButtonHighlight.png">
+    <Compile Include="Menu items\ExitButtonHighlight.png">
       <Name>ExitButtonHighlight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="OptionsButtonHighlight.png">
+    <Compile Include="Menu items\OptionsButtonHighlight.png">
       <Name>OptionsButtonHighlight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="ResumeButtonHighlight.png">
+    <Compile Include="Menu items\ResumeButtonHighlight.png">
       <Name>ResumeButtonHighlight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="SettingsButtonHighlight.png">
+    <Compile Include="Menu items\SettingsButtonHighlight.png">
       <Name>SettingsButtonHighlight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="StartButtonHighlight.png">
+    <Compile Include="Menu items\StartButtonHighlight.png">
       <Name>StartButtonHighlight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="StoryButtonHighlight.png">
+    <Compile Include="Menu items\StoryButtonHighlight.png">
       <Name>StoryButtonHighlight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
