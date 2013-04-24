@@ -208,7 +208,7 @@ namespace Athyl
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 0;
                 torso.Size = new Vector2(40, 40);
-                torso.Position = wheel.Position;
+                torso.Position = wheel.Position + new Vector2(0, 18);
                 //  wheel.body.Enabled = false;
         }
 

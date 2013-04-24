@@ -555,10 +555,11 @@ namespace Athyl
                     player.direction = Player.Direction.Down;
                     player.Move(Player.Movement.Stop);
                 }
-                else
+                //Vi lämnar duckningen till nästa iteration
+                /*else
                 {
                     player.Crouching = true;
-                }
+                }*/
             }
 
 
