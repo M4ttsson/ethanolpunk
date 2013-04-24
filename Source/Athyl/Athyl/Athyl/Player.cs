@@ -422,8 +422,8 @@ namespace Athyl
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
 
             projectile.Draw(spriteBatch, torso.Position);
-            torso.Draw(spriteBatch);
-            wheel.Draw(spriteBatch);
+            //torso.Draw(spriteBatch);
+            //wheel.Draw(spriteBatch);
         }
 
         protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec, int RestartFrame)
