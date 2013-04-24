@@ -246,6 +246,7 @@ namespace Athyl
             {
                 OptionsMenu(game);
             }
+
             MouseOver(mouseState.X, mouseState.Y, game);
 
         }
@@ -339,7 +340,7 @@ namespace Athyl
             //checking the options menu
             if (gameState == GameState.Options)
             {
-                Rectangle resumeButtonRect = new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, 120, 60);
+                Rectangle resumeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
 
                 //gameState = GameState.Paused;
                 if (mouseClickRect.Intersects(resumeButtonRect))
@@ -359,7 +360,7 @@ namespace Athyl
         {
             Rectangle mouseClickRect = new Rectangle(x, y, 10, 10);
             Rectangle resumeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
-            Rectangle optionsButtonRect1 = new Rectangle((int)optionsButtonPositionStartMenu.X + 20, (int)optionsButtonPositionStartMenu.Y + 20, 120, 20);
+            Rectangle optionsButtonRect1 = new Rectangle((int)optionsButtonPositionStartMenu.X + 20, (int)optionsButtonPositionStartMenu.Y + 20, 160, 20);
             Rectangle optionsButtonRect2 = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - optionsButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 65, 160, 20);
             Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPositionStartMenu.X + 20, (int)exitButtonPositionStartMenu.Y - 5, 120, 20);
             Rectangle exitButtonRect2 = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 20, 120, 20);
@@ -459,8 +460,9 @@ namespace Athyl
 
             if (gameState == GameState.Options)
             {
-                spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(0, 0, (int)1280, (int)720), Color.White);
-                spriteBatch.Draw(resumeButton, new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, resumeButton.Width, resumeButton.Height), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 405, -(int)Camera.transform.Translation.Y + 150, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
+                spriteBatch.Draw(originalResumeButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - resumeButton.Width / 2, -(int)Camera.transform.Translation.Y + 230, resumeButton.Width, resumeButton.Height), Color.White);
             }
         }
     }
