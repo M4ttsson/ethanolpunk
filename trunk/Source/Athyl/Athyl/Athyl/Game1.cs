@@ -276,6 +276,11 @@ namespace Athyl
                     }
                 }
 
+
+                ///<summary>
+                ///Awards the player more exp depending on how fast he/she completed the level
+                ///</summary>
+                ///
                 if (theAI[i].torso.body.FixtureList[0].UserData.ToString() == "boss" && theAI[i].enemyHP <= 0)
                 {
 
@@ -382,6 +387,9 @@ namespace Athyl
             {
                 if (!sp.Visited)
                 {
+
+
+                    //Places the boss AI in the last part of the map, needs tweaking in both behaviour and HP
                     if (spawnpoints[spawnpoints.Count - 1] == sp && sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
                     {
                         AI bossAI = new AI(world, enemyTexture, new Vector2(84, 180), sp.SpawnPositions[0], 100, 20, this, "boss");
@@ -665,18 +673,11 @@ namespace Athyl
 
 
             //Uncomment if you want to check where the spawnpoints are visually
-            foreach (Spawn sp in spawnpoints)
+           /* foreach (Spawn sp in spawnpoints)
             {
                 spriteBatch.Draw(progressBar, sp.SpawnTriggerRect, Color.White);
-            }
+            }*/
 
-            //!!!!
-            //!!!!
-            //DON'T PUT ANY DRAWING STUFF AFTER THIS!!
-            //Writes the players HP & Ethanol reserves into the game. 
-
-            //!!!!
-            //!!!!
             spriteBatch.End();
 
             base.Draw(gameTime);
