@@ -404,7 +404,7 @@ namespace Athyl
                     {
                         foreach (Vector2 pos in sp.SpawnPositions)
                         {
-                            theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), pos, 100, 20, this, AI.Behavior.None, "enemy"));
+                            theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), pos, 100, 20, this, AI.Behavior.Patrol, "enemy"));
                         }
                         sp.Visited = true;
                     }
