@@ -410,6 +410,7 @@ namespace Athyl
                     camera.UpdateCamera(player);
                     
                     world.Step(0.033333f);
+                    
                 }
             }
 
@@ -464,8 +465,8 @@ namespace Athyl
                 {
                     player.direction = Player.Direction.Downleft;
                 }
-                else
-                    player.direction = Player.Direction.Left;
+                /*else
+                    player.direction = Player.Direction.Left;*/
             }
 
             else if (keyboardState.IsKeyDown(Keys.Right))
@@ -479,8 +480,8 @@ namespace Athyl
                 {
                     player.direction = Player.Direction.Downright;
                 }
-                else
-                    player.direction = Player.Direction.Right;
+                /*else
+                    player.direction = Player.Direction.Right;*/
             }           
            
             else if (keyboardState.IsKeyDown(Keys.Up))
@@ -609,7 +610,6 @@ namespace Athyl
             if (player != null && player.Dead == true)
             {
                 spriteBatch.DrawString(myFont, "Game Over", new Vector2(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 360), Color.DarkRed);
-
 
             }
 

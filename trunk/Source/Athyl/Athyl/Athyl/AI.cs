@@ -31,7 +31,9 @@ namespace Athyl
         private bool seen = false;
         public bool dead = false;
 
-
+        private DateTime lastCheck;
+        private delegate void BehaviorDel();
+        private BehaviorDel behavior;
 
         public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game)
             : base(world, texture, size, mass, startPosition, game, "enemy")
@@ -42,10 +44,15 @@ namespace Athyl
             //jumpForce = new Vector2(0, -5f);
 
 
-
-  
+            direction = Direction.Right;
+            lastCheck = DateTime.Now;
             //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
 
+            //not used yet
+            OnGround = true;
+
+            //sets behavior for this AI
+            behavior = Patrol;
         }
 
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
@@ -148,6 +155,16 @@ namespace Athyl
             useWeapon(world);
         }
 
+        public override void Jump()
+        {
+            if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
+            {
+                torso.body.ApplyLinearImpulse(jumpForce);
+                previousJump = DateTime.Now;
+                UpdateFrame(0.2f);
+            }
+        }
+
         public override void useWeapon(World world)
         {
             if ((DateTime.Now - lastBullet).TotalSeconds >= fireRate)
@@ -199,10 +216,12 @@ namespace Athyl
 
         public void UpdateEnemy(Player aPlayer, World world)
         {
-            towardsPlayer(aPlayer);
+            //towardsPlayer(aPlayer);
 
-            if(seen)
-                attackPlayer();
+            /*if(seen)
+                attackPlayer();*/
+
+            //behavior();
         }
 
         /*
@@ -228,110 +247,129 @@ namespace Athyl
         protected override void UpdateFrame(float elapsed)
         {
             base.UpdateFrame(0.2f);
-            /*if (axis.MotorSpeed > 0)
-            {
-                if (ColFrame < 11)
-                    ColFrame = 12;
-
-                TotalElapsed += elapsed;
-                if (TotalElapsed > TimePerFrame)
-                {
-                    ColFrame++;
-                    if (ColFrame == 22)
-                        ColFrame = 12;
-                    TotalElapsed -= TimePerFrame;
-                    runDirection = (int)axis.MotorSpeed;
-                }
-            }
-
-            else if (axis.MotorSpeed < 0)
-            {
-                if (ColFrame > 11)
-                    ColFrame = 9;
-
-                TotalElapsed += elapsed;
-                if (TotalElapsed > TimePerFrame)
-                {
-                    ColFrame--;
-                    if (ColFrame == 0)
-                        ColFrame = 9;
-                    TotalElapsed -= TimePerFrame;
-                    runDirection = (int)axis.MotorSpeed;
-                }
-            }
-
-            else if (axis.MotorSpeed == 0)
-            {
-                if (runDirection > 0)
-                    ColFrame = 12;
-                else if (runDirection < 0)
-                    ColFrame = 10;
-            }*/
         }
 
-        //private override Load(Texture2D texture, int FrameCount, int FramesPerSec)
-        //{
-        //    framecount = FrameCount;
-        //    myTexture = texture;
-        //    TimePerFrame = (float)1 / FramesPerSec;
-        //    Frame = 11;
-        //    TotalElapsed = 0;
-        //}
+        #region Behavior
 
-        /*public void UpdateFrame(float elapsed)
+        public override void  Move(Player.Movement movement)
         {
-            if (axis.MotorSpeed > 0)
-            {
-                if (Frame < 11)
-                    Frame = 12;
 
-                TotalElapsed += elapsed;
-                if (TotalElapsed > TimePerFrame)
+            base.Move(movement);
+        }
+
+        /// <summary>
+        /// Enemy patrols back and forth between two walls and stops and shoot if the player is in its direction
+        /// </summary>
+        private void Patrol()
+        {
+
+            if ((DateTime.Now - lastCheck).TotalSeconds >= 1)
+            {
+                int distance = 0;
+                switch(CheckDirection(direction, 500, out distance))
                 {
-                    Frame++;
-                    if (Frame == 22)
-                        Frame = 12;
-                    TotalElapsed -= TimePerFrame;
-                    runDirection = (int)axis.MotorSpeed;
+                    case 0:
+                        if (direction == Direction.Left)
+                            Move(Movement.Left);
+                        else
+                            Move(Movement.Right);
+                        break;
+                        
+                    case 1:
+                        Move(Movement.Stop);
+                        attackPlayer();
+                        break;
+
+                    case 2:
+                        if (distance >= 50)
+                        {
+                            if (direction == Direction.Left)
+                                Move(Movement.Left);
+                            else
+                                Move(Movement.Right);
+                        }
+                        else
+                        {
+                            direction = lastDirection ? Direction.Right : Direction.Left;
+                        }
+                        break;
                 }
-            }
-
-            else if (axis.MotorSpeed < 0)
-            {
-                if (Frame > 11)
-                    Frame = 9;
-
-                TotalElapsed += elapsed;
-                if (TotalElapsed > TimePerFrame)
-                {
-                    Frame--;
-                    if (Frame == 0)
-                        Frame = 9;
-                    TotalElapsed -= TimePerFrame;
-                    runDirection = (int)axis.MotorSpeed;
-                }
-            }
-
-            else if (axis.MotorSpeed == 0)
-            {
-                if (runDirection > 0)
-                    Frame = 11;
-                else if (runDirection < 0)
-                    Frame = 10;
             }
         }
 
-        public void DrawFrame(SpriteBatch Batch, Vector2 screenpos)
+        /// <summary>
+        /// Check for obstacles in given direction
+        /// </summary>
+        /// <param name="direction">Direction to search in</param>
+        /// <param name="lenght">Lenght of the search</param>
+        /// <returns>Returns 0 if nothing is found.
+        /// Returns 1 if the player is found.
+        /// Returns 2 if ground is found.</returns>
+        private int CheckDirection(Direction direction, int lenght, out int distance)
         {
-            DrawFrame(Batch, Frame, screenpos);
+            switch (direction)
+            {
+                case Direction.Left:
+                    for (int i = 1; i <= lenght; i++)
+                    {
+                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(torso.Position.X - i, torso.Position.Y)));
+
+                        if (fix != null)
+                        {
+                            try
+                            {
+                                if (fix.UserData.ToString() == "player")
+                                {
+                                    distance = i;
+                                    return 1;
+                                }
+                                if (fix.UserData.ToString() == "ground")
+                                {
+                                    distance = i;
+                                    return 2;
+                                }
+                            }
+                            catch (Exception)
+                            { Console.WriteLine("No user data"); }
+                        }
+                    }
+                    distance = lenght;
+                    return 0;
+                    
+                case Direction.Right:
+                    for (int i = 1; i <= lenght; i++)
+                    {
+                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(torso.Position.X + i, torso.Position.Y)));
+
+                        if (fix != null)
+                        {
+                            try
+                            {
+                                if (fix.UserData.ToString() == "player")
+                                {
+                                    distance = i;
+                                    return 1;
+                                }
+                                if (fix.UserData.ToString() == "ground")
+                                {
+                                    distance = i;
+                                    return 2;
+                                }
+                            }
+                            catch (Exception)
+                            { Console.WriteLine("No user data"); }
+                        }
+                    }
+                    distance = lenght;
+                    return 0;
+
+                default:
+                    distance = lenght;
+                    return 0;
+            }
         }
-        public void DrawFrame(SpriteBatch Batch, int Frame, Vector2 screenpos)
-        {
-            int FrameWidth = myTexture.Width / framecount;
-            Rectangle sourcerect = new Rectangle(FrameWidth * Frame, 0,
-                FrameWidth, myTexture.Height);
-            Batch.Draw(myTexture, screenpos, sourcerect, Color.White,
-                0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
-        }*/
+
+        #endregion
+
     }
 }
