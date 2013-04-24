@@ -104,6 +104,7 @@ namespace Athyl
             torso.Position = wheel.Position -new Vector2(0.0f, torsoSize.Y/2-5);
             torso.body.Restitution = 0;
             torso.body.CollisionCategories = Category.Cat1;
+            //torso.body.FixedRotation = true;
             //torso.body.Mass = 0;
 
             // Create a joint to keep the torso upright
