@@ -35,7 +35,8 @@ namespace Athyl
         private delegate void BehaviorDel();
         private BehaviorDel behavior;
 
-        public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game, string userdata)
+
+        public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game, Behavior behaviors, string userdata)
             : base(world, texture, size, mass, startPosition, game, userdata)
         {
             Load(texture, 2, 11, 1,0);
@@ -52,7 +53,16 @@ namespace Athyl
             OnGround = true;
 
             //sets behavior for this AI
-            behavior = Patrol;
+            switch (behaviors)
+            {
+                case Behavior.Patrol:
+                    behavior = Patrol;
+                    break;
+                    
+                case Behavior.None:
+                    behavior = None;
+                    break;
+            }
         }
 
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
@@ -222,8 +232,9 @@ namespace Athyl
                 attackPlayer();*/
 
 
-            //Adds patrol to the AI
-            //behavior();
+            //Adds behavior to the AI
+            behavior();
+
         }
 
   
@@ -244,10 +255,21 @@ namespace Athyl
 
         #region Behavior
 
+        //enum to store all behavior functions to use for the delegate
+        public enum Behavior
+        {
+            Patrol,
+            None
+        }
+
         public override void  Move(Player.Movement movement)
         {
 
             base.Move(movement);
+        }
+
+        private void None()
+        {
         }
 
         /// <summary>
@@ -305,7 +327,7 @@ namespace Athyl
                 case Direction.Left:
                     for (int i = 1; i <= lenght; i++)
                     {
-                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(torso.Position.X - i, torso.Position.Y)));
+                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(torso.Position.X - (i + 10), torso.Position.Y)));
 
                         if (fix != null)
                         {
@@ -332,7 +354,8 @@ namespace Athyl
                 case Direction.Right:
                     for (int i = 1; i <= lenght; i++)
                     {
-                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(torso.Position.X + i, torso.Position.Y)));
+                        
+                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(torso.Position.X + (i + 10), torso.Position.Y)));
 
                         if (fix != null)
                         {

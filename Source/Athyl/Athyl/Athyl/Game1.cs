@@ -392,7 +392,7 @@ namespace Athyl
                     //Places the boss AI in the last part of the map, needs tweaking in both behaviour and HP
                     if (spawnpoints[spawnpoints.Count - 1] == sp && sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
                     {
-                        AI bossAI = new AI(world, enemyTexture, new Vector2(84, 180), sp.SpawnPositions[0], 100, 20, this, "boss");
+                        AI bossAI = new AI(world, enemyTexture, new Vector2(84, 180), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.None, "boss");
 
                         bossAI.enemyHP = 1510;
 
@@ -404,7 +404,7 @@ namespace Athyl
                     {
                         foreach (Vector2 pos in sp.SpawnPositions)
                         {
-                            theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), pos, 100, 20, this, "enemy"));
+                            theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), pos, 100, 20, this, AI.Behavior.None, "enemy"));
                         }
                         sp.Visited = true;
                     }
@@ -450,7 +450,10 @@ namespace Athyl
 
                     if (runTime == 2 && theAI.Count < 0)
                     {
-                        theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(300, 300), 100, 20, this, "enemy"));
+
+                        theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(300, 300), 100, 20, this, AI.Behavior.None, "enemy"));
+
+
                         for (int i = 0; i < theAI.Count; i++)
                         {
                             for (int j = 0; j < theAI.Count; j++)
@@ -485,13 +488,11 @@ namespace Athyl
                 }
             }
 
-
-
-
-            Console.WriteLine(timedBonusXP);
-
             base.Update(gameTime);
         }
+
+
+        
 
 
 
@@ -602,7 +603,8 @@ namespace Athyl
 
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {
-                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(20, 1300), 100, 20, this, "enemy"));
+
+                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(20, 1300), 100, 20, this, AI.Behavior.Patrol, "enemy"));
 
                 for (int i = 0; i < theAI.Count; i++)
                 {
