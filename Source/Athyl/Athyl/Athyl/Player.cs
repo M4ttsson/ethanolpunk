@@ -204,7 +204,8 @@ namespace Athyl
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 0;
                 torso.Size = new Vector2(40, 40);
-                torso.Position = wheel.Position + new Vector2(0, 20);
+                torso.Position = wheel.Position;
+                //  wheel.body.Enabled = false;
         }
 
         public void AnimateJump()
@@ -421,8 +422,8 @@ namespace Athyl
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
 
             projectile.Draw(spriteBatch, torso.Position);
-            //torso.Draw(spriteBatch);
-            //wheel.Draw(spriteBatch);
+            torso.Draw(spriteBatch);
+            wheel.Draw(spriteBatch);
         }
 
         protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec, int RestartFrame)
