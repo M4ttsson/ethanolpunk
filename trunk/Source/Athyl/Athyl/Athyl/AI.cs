@@ -34,7 +34,7 @@ namespace Athyl
         private DateTime lastCheck;
         private delegate void BehaviorDel();
         private BehaviorDel behavior;
-
+        static int print = 0;
 
         public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game, Behavior behaviors, string userdata)
             : base(world, texture, size, mass, startPosition, game, userdata)
@@ -281,6 +281,7 @@ namespace Athyl
             if ((DateTime.Now - lastCheck).TotalSeconds >= 1)
             {
                 int distance = 0;
+                Console.WriteLine(print++);
                 switch(CheckDirection(direction, 500, out distance))
                 {
                     case 0:
@@ -309,6 +310,7 @@ namespace Athyl
                         }
                         break;
                 }
+                lastCheck = DateTime.Now;
             }
         }
 
