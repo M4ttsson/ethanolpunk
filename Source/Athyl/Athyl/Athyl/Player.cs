@@ -72,6 +72,8 @@ namespace Athyl
         public Int16 skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
 
+        
+
 
         /// <summary>
         /// Creates a new player
@@ -136,7 +138,7 @@ namespace Athyl
 
             Dead = false;
 
-            Difficulty = 0.8f;
+            Difficulty = 100f;
         }
 
         public enum Direction
@@ -151,7 +153,7 @@ namespace Athyl
             Downleft
         }
 
-        public void Jump()
+        public virtual void Jump()
         {
             if (OnGround && !Crouching)
             {
@@ -255,7 +257,7 @@ namespace Athyl
             return false;
         }
 
-        public void Move(Movement movement)
+        public virtual void Move(Movement movement)
         {
 
             switch (movement)
@@ -279,6 +281,7 @@ namespace Athyl
                         axis.MotorSpeed = -MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
                     }
+                    direction = Direction.Left;
                     lastDirection = true;
                     break;
 
@@ -301,6 +304,7 @@ namespace Athyl
                         axis.MotorSpeed = MathHelper.TwoPi * speed;
                         UpdateFrame(0.2f);
                     }
+                    direction = Direction.Right;
                     lastDirection = false;
                     break;
 
