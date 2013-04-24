@@ -35,8 +35,8 @@ namespace Athyl
         private delegate void BehaviorDel();
         private BehaviorDel behavior;
 
-        public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game)
-            : base(world, texture, size, mass, startPosition, game, "enemy")
+        public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game, string userdata)
+            : base(world, texture, size, mass, startPosition, game, userdata)
         {
             Load(texture, 2, 11, 1,0);
             torso.body.CollisionCategories = Category.Cat2;
@@ -221,19 +221,12 @@ namespace Athyl
             /*if(seen)
                 attackPlayer();*/
 
+
+            //Adds patrol to the AI
             //behavior();
         }
 
-        /*
-        public void DamageAI(Projectile p)
-        {
-            if (p.AiIsHit == true)
-            {
-                enemyHP -= 10;
-                Console.WriteLine("AIiSHiT");
-            }
-        }
-        */
+  
 
         public override void Draw(SpriteBatch spriteBatch)
         {

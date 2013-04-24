@@ -192,7 +192,7 @@ namespace Athyl
         {
             if (contact.IsTouching())
             {
-                if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy")
+                if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy" || fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "boss")
                 {
                     if(!removeListbody.Contains(fixtureA.Body))
                         removeListbody.Add(fixtureA.Body);
