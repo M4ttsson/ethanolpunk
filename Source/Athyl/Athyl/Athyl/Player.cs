@@ -30,7 +30,7 @@ namespace Athyl
 
         
        
-        public int playerHP = 100;
+        public int playerHP = 150;
         public int playerAthyl = 500;
         public int playerXP = 0;
         public int playerLevel = 1;
@@ -138,7 +138,9 @@ namespace Athyl
 
             Dead = false;
 
-            Difficulty = 100f;
+
+            Difficulty = 5;
+
         }
 
         public enum Direction

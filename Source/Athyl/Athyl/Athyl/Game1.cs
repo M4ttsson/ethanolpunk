@@ -49,7 +49,7 @@ namespace Athyl
         DrawableGameObject wallright;
         DrawableGameObject wallleft;
         DrawableGameObject box;
-        
+
         Texture2D texture;
         Texture2D skyTexture;
         Texture2D progressBar;
@@ -60,12 +60,13 @@ namespace Athyl
         Projectile projectile;
         Thread listenPauseThread;
 
+        private bool timedXPisApplied = false;
         public Thread loadThread;
         private bool paused = false;
         private Texture2D playerTexture, enemyTexture;
         private float tempTime;
         List<Spawn> spawnpoints = new List<Spawn>(10);
-
+        private int timedBonusXP;
         System.Timers.Timer timer;
         public static int runTime = 0;
 
@@ -101,18 +102,19 @@ namespace Athyl
             CreateSpawns();
         }
 
-        
+
         private void CreateSpawns()
         {
             //visited, spawnrectangle and enemyspawn position.
-            spawnpoints.Add(new Spawn(false, new Rectangle(825, 890, 50, 120), new Vector2[] { new Vector2(40, 550), new Vector2(835, 300)}));
-            spawnpoints.Add(new Spawn(false, new Rectangle(500, 25, 170, 550), new Vector2[] { new Vector2(1950, 425), new Vector2(2270, 290)}));
-            spawnpoints.Add(new Spawn(false, new Rectangle(1440, 410, 320, 120), new Vector2[] { new Vector2(1650, 1225)}));
-            spawnpoints.Add(new Spawn(false, new Rectangle(2235, 1180, 50, 120), new Vector2[] { new Vector2(3025, 1480), new Vector2(3200, 1545)}));
-            spawnpoints.Add(new Spawn(false, new Rectangle(4205, 1980, 50, 120), new Vector2[] { new Vector2(4880, 2055), new Vector2(5050, 2055), new Vector2(5100, 1832), new Vector2(5050, 1610)}));
-            spawnpoints.Add(new Spawn(false, new Rectangle(5500, 1480, 50, 450), new Vector2[] { new Vector2(6290, 1800), new Vector2(6630, 1765)}));
-            spawnpoints.Add(new Spawn(false, new Rectangle(6190, 1550, 50, 330), new Vector2[] { new Vector2(7440, 1833), new Vector2(7825, 1800)}));
-            spawnpoints.Add(new Spawn(false, new Rectangle(7865, 1480, 50, 240), new Vector2[] { new Vector2(8900, 1350), new Vector2(8900, 1065)}));
+            spawnpoints.Add(new Spawn(false, new Rectangle(825, 890, 50, 120), new Vector2[] { new Vector2(40, 550), new Vector2(835, 300) }));
+            spawnpoints.Add(new Spawn(false, new Rectangle(500, 25, 170, 550), new Vector2[] { new Vector2(1950, 425), new Vector2(2270, 290) }));
+            spawnpoints.Add(new Spawn(false, new Rectangle(1440, 410, 320, 120), new Vector2[] { new Vector2(1650, 1225) }));
+            spawnpoints.Add(new Spawn(false, new Rectangle(2235, 1180, 50, 120), new Vector2[] { new Vector2(3025, 1480), new Vector2(3200, 1545) }));
+            spawnpoints.Add(new Spawn(false, new Rectangle(4205, 1980, 50, 120), new Vector2[] { new Vector2(4880, 2055), new Vector2(5050, 2055), new Vector2(5100, 1832), new Vector2(5050, 1610) }));
+            spawnpoints.Add(new Spawn(false, new Rectangle(5500, 1480, 50, 450), new Vector2[] { new Vector2(6290, 1800), new Vector2(6630, 1765) }));
+            spawnpoints.Add(new Spawn(false, new Rectangle(6190, 1550, 50, 330), new Vector2[] { new Vector2(7440, 1833), new Vector2(7825, 1800) }));
+            spawnpoints.Add(new Spawn(false, new Rectangle(7865, 1480, 50, 240), new Vector2[] { new Vector2(8900, 1350), new Vector2(8900, 1065) }));
+            spawnpoints.Add(new Spawn(false, new Rectangle(8785, 500, 50, 1000), new Vector2[] { new Vector2(9723, 1320) }));
         }
 
         /// <summary>
@@ -141,8 +143,8 @@ namespace Athyl
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
 
             camera = new Camera(GraphicsDevice.Viewport);
-            
-           
+
+
             base.Initialize();
         }
 
@@ -189,7 +191,7 @@ namespace Athyl
 
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
-            
+
             //sound = new Sounds(this);
 
             //sound.Play("castlevagina");
@@ -212,7 +214,7 @@ namespace Athyl
             //foot contacts
             world.ContactManager.BeginContact += BeginContact;
             world.ContactManager.EndContact += EndContact;
-            
+
 
             timer.Start();
         }
@@ -274,9 +276,28 @@ namespace Athyl
                     }
                 }
 
-                if (theAI[i].enemyHP <= 0)
+                if (theAI[i].torso.body.FixtureList[0].UserData.ToString() == "boss" && theAI[i].enemyHP <= 0)
                 {
+
+
+                            player.playerXP += 30;
+                            player.playerXP += (timedBonusXP * 50 / (int)menu.totalTime);
+
+                            removedAIList.Add(theAI[i]);
+
+                            if (removedAIList.Contains(theAI[i]))
+                            {
+                                world.RemoveBody(theAI[i].wheel.body);
+                                world.RemoveBody(theAI[i].torso.body);
+                                theAI.RemoveAt(i);
+
+                            }
                     
+                }
+
+                else if (theAI[i].enemyHP <= 0 && theAI[i].torso.body.FixtureList[0].UserData.ToString() != "boss")
+                {
+
                     removedAIList.Add(theAI[i]);
 
                     if (removedAIList.Contains(theAI[i]))
@@ -284,11 +305,15 @@ namespace Athyl
                         world.RemoveBody(theAI[i].wheel.body);
                         world.RemoveBody(theAI[i].torso.body);
                         theAI.RemoveAt(i);
-                        
+
                     }
 
+
                     player.playerXP += 3;
+                    timedBonusXP += 3;
                 }
+
+                
             }
 
             foreach (var damage in damageList)
@@ -341,12 +366,42 @@ namespace Athyl
                     sp.Visited = false;
             }
 
-            menu.totalTime = 0f; 
-            
+            menu.totalTime = 0f;
+
             runTime = 0;
 
             camera = new Camera(graphics.GraphicsDevice.Viewport);
             camera.UpdateCamera(player);
+        }
+
+
+
+        private void SpawnEnemies()
+        {
+            foreach (Spawn sp in spawnpoints)
+            {
+                if (!sp.Visited)
+                {
+                    if (spawnpoints[spawnpoints.Count - 1] == sp && sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
+                    {
+                        AI bossAI = new AI(world, enemyTexture, new Vector2(84, 180), sp.SpawnPositions[0], 100, 20, this, "boss");
+
+                        bossAI.enemyHP = 1510;
+
+                        theAI.Add(bossAI);
+                        sp.Visited = true;
+
+                    }
+                    else if (sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
+                    {
+                        foreach (Vector2 pos in sp.SpawnPositions)
+                        {
+                            theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), pos, 100, 20, this, "enemy"));
+                        }
+                        sp.Visited = true;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -356,6 +411,8 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
+
             if (player != null && player.Dead)
             {
                 keyboardState = Keyboard.GetState();
@@ -385,7 +442,7 @@ namespace Athyl
 
                     if (runTime == 2 && theAI.Count < 0)
                     {
-                        theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(300, 300), 100, 20, this));
+                        theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(300, 300), 100, 20, this, "enemy"));
                         for (int i = 0; i < theAI.Count; i++)
                         {
                             for (int j = 0; j < theAI.Count; j++)
@@ -402,13 +459,19 @@ namespace Athyl
                     foreach (AI ai in theAI)
                     {
                         ai.UpdateEnemy(player, world);
+
+
+                       
+                         
+
+                        
                     }
 
                     player.UpdatePlayer();
                     Damage();
 
                     camera.UpdateCamera(player);
-                    
+
                     world.Step(0.033333f);
                     
                 }
@@ -417,26 +480,12 @@ namespace Athyl
 
 
 
+            Console.WriteLine(timedBonusXP);
+
             base.Update(gameTime);
         }
 
-        private void SpawnEnemies()
-        {
-            foreach (Spawn sp in spawnpoints)
-            {
-                if (!sp.Visited)
-                {
-                    if (sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
-                    {
-                        foreach (Vector2 pos in sp.SpawnPositions)
-                        {
-                            theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), pos, 100, 20, this));
-                        }
-                        sp.Visited = true;
-                    }
-                }
-            }
-        }
+
 
         /// <summary>
         /// Handle all input
@@ -458,7 +507,8 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.Left))
             {
                 player.Move(Player.Movement.Left);
-                if(keyboardState.IsKeyDown(Keys.Up)){
+                if (keyboardState.IsKeyDown(Keys.Up))
+                {
                     player.direction = Player.Direction.Upleft;
                 }
                 else if (keyboardState.IsKeyDown(Keys.Down) && !player.Crouching)
@@ -482,8 +532,8 @@ namespace Athyl
                 }
                 /*else
                     player.direction = Player.Direction.Right;*/
-            }           
-           
+            }
+
             else if (keyboardState.IsKeyDown(Keys.Up))
             {
 
@@ -502,8 +552,8 @@ namespace Athyl
                     player.Crouching = true;
                 }
             }
-            
-            
+
+
 
             //Logik för att kunna skjuta diagonalt när man står still, men det funkar dåligt
             /*else if(keyboardState.IsKeyDown(Keys.X)){
@@ -539,11 +589,11 @@ namespace Athyl
                     player.direction = Player.Direction.Right;
 
 
-            } 
+            }
 
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {
-                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(20, 1300), 100, 20, this));
+                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(20, 1300), 100, 20, this, "enemy"));
 
                 for (int i = 0; i < theAI.Count; i++)
                 {
@@ -594,7 +644,7 @@ namespace Athyl
 
 
             }
-            
+
             menu.Draw(spriteBatch, this);
 
             if (!menu.isLoading && menu.gameState != Menu.GameState.StartMenu)
@@ -615,10 +665,10 @@ namespace Athyl
 
 
             //Uncomment if you want to check where the spawnpoints are visually
-            /*foreach(Spawn sp in spawnpoints)
+            foreach (Spawn sp in spawnpoints)
             {
                 spriteBatch.Draw(progressBar, sp.SpawnTriggerRect, Color.White);
-            }*/
+            }
 
             //!!!!
             //!!!!
