@@ -327,7 +327,7 @@ namespace Athyl
                 case Direction.Left:
                     for (int i = 1; i <= lenght; i++)
                     {
-                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(torso.Position.X - (i + 10), torso.Position.Y)));
+                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(wheel.Position.X - (i + 10), wheel.Position.Y)));
 
                         if (fix != null)
                         {
@@ -355,7 +355,7 @@ namespace Athyl
                     for (int i = 1; i <= lenght; i++)
                     {
                         
-                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(torso.Position.X + (i + 10), torso.Position.Y)));
+                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(wheel.Position.X + (i + 10), wheel.Position.Y)));
 
                         if (fix != null)
                         {
