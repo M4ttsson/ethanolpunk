@@ -96,6 +96,7 @@ namespace Athyl
                     return true;
                 }
             }
+
             return false;
         }
 

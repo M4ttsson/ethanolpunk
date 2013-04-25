@@ -36,11 +36,11 @@ namespace Athyl
         public List<Damage> damageList = new List<Damage>();
         private List<AI> removedAIList = new List<AI>();
         Player player;
-        static KeyboardState prevKeyboardState;
+        public static KeyboardState prevKeyboardState;
         static KeyboardState keyboardState;
         Matrix projectionMatrix;
         SpriteFont myFont;
-        //Quests quest;
+        Quests quest;
         Camera camera;
 
 
@@ -144,6 +144,9 @@ namespace Athyl
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
 
+
+
+            
             camera = new Camera(GraphicsDevice.Viewport);
 
 
@@ -213,7 +216,7 @@ namespace Athyl
             skyTexture = Content.Load<Texture2D>("Menu items/Background");
 
 
-
+            
             Restart();
 
             //foot contacts
@@ -382,6 +385,7 @@ namespace Athyl
 
             camera = new Camera(graphics.GraphicsDevice.Viewport);
             camera.UpdateCamera(player);
+            quest = new Quests(world, this);
         }
 
 
@@ -545,6 +549,8 @@ namespace Athyl
                 player.useWeapon(world);
             }
 
+
+   
             if (keyboardState.IsKeyDown(Keys.Left))
             {
                 player.Move(Player.Movement.Left);
@@ -593,6 +599,7 @@ namespace Athyl
                 //    player.Crouching = true;
                 //}
             }
+                
 
             //Logik för att kunna skjuta diagonalt när man står still, men det funkar dåligt
             /*else if(keyboardState.IsKeyDown(Keys.X)){
@@ -675,8 +682,9 @@ namespace Athyl
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
 
-            //quest.DrawQuest(spriteBatch);
+            quest.DrawQuest(spriteBatch);
 
+            
 
             if (player != null && menu.gameState == Menu.GameState.Playing)
             {
