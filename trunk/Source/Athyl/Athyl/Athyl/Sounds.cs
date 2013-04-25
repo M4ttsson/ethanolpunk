@@ -22,19 +22,21 @@ namespace Athyl
 {
     class Sounds
     {
+        #region Properties
         private Game1 game;
         private Song song;
-
         private SoundEffect soundFX;
         private bool isPaused = false;
-
+        #endregion
+        #region Constructor
         public Sounds(Game1 game)
         {
             this.game = game;
 
 
         }
-
+        #endregion
+        #region Play
         public void PlaySoundFX(string sound)
         {
             SoundEffect.MasterVolume = 0.1f;
@@ -47,7 +49,8 @@ namespace Athyl
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
         }
-
+        #endregion
+        #region MuteAndVolume
         public void MuteSound()
         {
             if (SoundEffect.MasterVolume > 0)
@@ -107,10 +110,12 @@ namespace Athyl
             }
 
         }
-
+        #endregion
+        #region Update
         public void UpdateSound(GameTime gameTime)
         {
             adjustVolume();
         }
+        #endregion
     }
 }
