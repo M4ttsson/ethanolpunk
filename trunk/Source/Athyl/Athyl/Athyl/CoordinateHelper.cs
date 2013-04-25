@@ -13,10 +13,11 @@ namespace Athyl
         // I've chosen to use the rule that 100 pixels is one meter.
         // We have to take care to convert between these two 
         // coordinate-sets wherever we mix them!
-
+        #region Properties
         public const float unitToPixel = 100.0f;
         public const float pixelToUnit = 1 / unitToPixel;
-
+        #endregion
+        #region Convertions
         public static Vector2 ToScreen(Vector2 worldCoordinates)
         {
             return worldCoordinates * unitToPixel;
@@ -26,6 +27,6 @@ namespace Athyl
         {
             return screenCoordinates * pixelToUnit;
         }
-
+        #endregion
     }
 }
