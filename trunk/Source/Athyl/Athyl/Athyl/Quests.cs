@@ -20,14 +20,39 @@ namespace Athyl
     class Quests
     {
         DrawableGameObject boulder;
-
+        World world;
         public Quests(World world, Game1 game)
         {
 
             boulder = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), 30, 10, "boulder");
             boulder.body.BodyType = BodyType.Dynamic;
-            boulder.Position = new Vector2(110, 1300);
-            
+            boulder.Position = new Vector2(160, 1300);
+
+
+        }
+
+
+        public bool InteractWithQuestItems(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+        {
+
+            if (contact.IsTouching())
+            {
+                if (fixtureA.UserData.ToString() == "button" && fixtureB.UserData.ToString() == "boulder")
+                {
+                    fixtureA.Body.BodyType = BodyType.Static;
+                    fixtureB.Body.BodyType = BodyType.Static;
+
+                }
+
+
+
+
+
+
+                return true;
+            }
+
+            return false;
         }
 
 
