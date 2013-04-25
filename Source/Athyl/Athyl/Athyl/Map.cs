@@ -20,6 +20,7 @@ namespace Athyl
 {
     class Map
     {
+        #region Properties
         public static float progress;
         public static float done;
         public static float BoundsX { get; private set; }
@@ -33,7 +34,8 @@ namespace Athyl
         private List<Texture2D> lvl2 = new List<Texture2D>();
         private List<Texture2D> lvl3 = new List<Texture2D>();
         private DrawableGameObject b;
-
+        #endregion
+        #region Constructor
         public Map(World world, Game1 game)
         {
             this.world = world;
@@ -43,15 +45,8 @@ namespace Athyl
 
             InializeMap();
         }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            foreach (DrawableGameObject b in body)
-            {
-                b.Draw(spriteBatch);
-            }
-        }
-
+        #endregion
+        #region Initialization
         public void InializeMap()
         {
             ReadingTilesTextureToList();
@@ -61,6 +56,51 @@ namespace Athyl
             DrawTilesOnPlace();
         }
 
+        private void CreateDrawableGameObject(int x, int y, int tileNumber, Vector2 BodySize, bool Collidable)
+        {
+            if (y <= 22)                     //Sets the borders between the different levels in our game.
+                b = new DrawableGameObject(world, lvl1[tileNumber], BodySize, 0, "ground");
+            else if (y > 22 && y < 45)
+                b = new DrawableGameObject(world, lvl2[tileNumber], BodySize, 0, "ground");
+            else
+                b = new DrawableGameObject(world, lvl3[tileNumber], BodySize, 0, "ground");
+
+            b.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
+            b.body.BodyType = BodyType.Static;
+            if (!Collidable)
+            {
+                for (int i = 0; i < b.body.FixtureList.Count; i++)
+                {
+                    b.body.DestroyFixture(b.body.FixtureList[i]);
+                }
+            }
+            SetCollisionCategories(b, tileNumber);
+            body.Add(b);
+        }
+
+        private void SetCollisionCategories(DrawableGameObject b, int tileNumber)
+        {
+            if (tileNumber == 0)
+                b.body.CollisionCategories = Category.Cat5;         //LeftUpperCorner
+            else if (tileNumber == 1)
+                b.body.CollisionCategories = Category.Cat5;         //Ground
+            else if (tileNumber == 2)
+                b.body.CollisionCategories = Category.Cat5;         //RightUpperCorner
+            else if (tileNumber == 3)
+                b.body.CollisionCategories = Category.Cat6;         //LeftWall
+            else if (tileNumber == 4)
+                b.body.CollisionCategories = Category.Cat6;         //Middle
+            else if (tileNumber == 5)
+                b.body.CollisionCategories = Category.Cat6;         //RightWall
+            else if (tileNumber == 6)
+                b.body.CollisionCategories = Category.Cat7;         //LeftDownCorner
+            else if (tileNumber == 7)
+                b.body.CollisionCategories = Category.Cat7;         //Ceiling
+            else if (tileNumber == 8)
+                b.body.CollisionCategories = Category.Cat7;         //RightDownCorner
+        }
+        #endregion
+        #region Readings
         private void ReadingTilesTextureToList()
         {
             for (int i = 0; i < 3; i++)
@@ -101,7 +141,8 @@ namespace Athyl
                 }
             }
         }
-
+        #endregion
+        #region Draw
         private void DrawTilesOnPlace()
         {
             Vector2 bodySize = new Vector2(33f, 33f);
@@ -148,7 +189,7 @@ namespace Athyl
                     else if (colors2D[x, y] == new Color(255, 102, 0))           //Invicible walls
                     {
                         b = new DrawableGameObject(world, lvl3[0], bodySize, 0, "ground");
-                        b.Position = new Vector2((x-1) * 32 + 16, y * 32 + 16);
+                        b.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         b.body.CollisionCategories = Category.Cat12;
                     }
@@ -158,48 +199,13 @@ namespace Athyl
             }
         }
 
-        private void CreateDrawableGameObject(int x, int y, int tileNumber, Vector2 BodySize, bool Collidable)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            if(y <= 22)                     //Sets the borders between the different levels in our game.
-                b = new DrawableGameObject(world, lvl1[tileNumber], BodySize, 0, "ground");
-            else if (y>22 && y <45)
-                b = new DrawableGameObject(world, lvl2[tileNumber], BodySize, 0, "ground");
-            else
-                b = new DrawableGameObject(world, lvl3[tileNumber], BodySize, 0, "ground");
-
-            b.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
-            b.body.BodyType = BodyType.Static;
-            if (!Collidable)
+            foreach (DrawableGameObject b in body)
             {
-                for (int i = 0; i < b.body.FixtureList.Count; i++)
-                {
-                    b.body.DestroyFixture(b.body.FixtureList[i]);
-                }
+                b.Draw(spriteBatch);
             }
-            SetCollisionCategories(b, tileNumber);
-            body.Add(b);
         }
-
-        private void SetCollisionCategories(DrawableGameObject b, int tileNumber)
-        {
-            if(tileNumber == 0)
-                b.body.CollisionCategories = Category.Cat5;         //LeftUpperCorner
-            else if(tileNumber == 1)
-                b.body.CollisionCategories = Category.Cat5;         //Ground
-            else if (tileNumber == 2)
-                b.body.CollisionCategories = Category.Cat5;         //RightUpperCorner
-            else if (tileNumber == 3)
-                b.body.CollisionCategories = Category.Cat6;         //LeftWall
-            else if (tileNumber == 4)
-                b.body.CollisionCategories = Category.Cat6;         //Middle
-            else if (tileNumber == 5)
-                b.body.CollisionCategories = Category.Cat6;         //RightWall
-            else if (tileNumber == 6)
-                b.body.CollisionCategories = Category.Cat7;         //LeftDownCorner
-            else if (tileNumber == 7)
-                b.body.CollisionCategories = Category.Cat7;         //Ceiling
-            else if (tileNumber == 8)
-                b.body.CollisionCategories = Category.Cat7;         //RightDownCorner
-        }
+        #endregion
     }
 }
