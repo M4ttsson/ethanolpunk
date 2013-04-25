@@ -193,6 +193,9 @@ namespace Athyl
 
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
+            
+            //zero gravity
+            //world = new World(Vector2.Zero);
 
             //sound = new Sounds(this);
 
@@ -390,9 +393,9 @@ namespace Athyl
                 if (!sp.Visited)
                 {
 
-
+                    
                     //Places the boss AI in the last part of the map, needs tweaking in both behaviour and HP
-                    if (sp.Id == 9 && sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
+                   /* if (sp.Id == 9 && sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
                     {
                         AI bossAI = new AI(world, enemyTexture, new Vector2(84, 180), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.None, "boss");
 
@@ -401,13 +404,31 @@ namespace Athyl
                         theAI.Add(bossAI);
                         sp.Visited = true;
 
-                    }
-                    else if (sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
+                    }*/
+    
+                    if (sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
                     {
-                        foreach (Vector2 pos in sp.SpawnPositions)
+                        switch (sp.Id)
                         {
-                            theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), pos, 100, 20, this, AI.Behavior.Patrol, "enemy"));
+                            case 7:
+                                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.None, "enemy"));
+                                 theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Patrol, "enemy"));
+                                break;
+
+                            case 9:
+                                AI bossAI = new AI(world, enemyTexture, new Vector2(84, 180), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.None, "boss");
+                                bossAI.enemyHP = 1510;
+                                theAI.Add(bossAI);
+                                break;
+                                
+                            default:
+                                foreach (Vector2 pos in sp.SpawnPositions)
+                                {
+                                    theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), pos, 100, 20, this, AI.Behavior.None, "enemy"));
+                                }
+                                break;     
                         }
+                        
                         sp.Visited = true;
                     }
                 }
@@ -422,7 +443,7 @@ namespace Athyl
         protected override void Update(GameTime gameTime)
         {
 
-
+            
             if (player != null && player.Dead)
             {
                 keyboardState = Keyboard.GetState();
@@ -500,6 +521,15 @@ namespace Athyl
         private void Input()
         {
             keyboardState = Keyboard.GetState();
+
+            /*
+             * FLYING DEBUG
+             * 
+            if(keyboardState.IsKeyDown(Keys.Up))
+                player.torso.body.ApplyForce(new Vector2(0, -3.0f));
+            if (keyboardState.IsKeyDown(Keys.Down))
+                player.torso.body.ApplyForce(new Vector2(0, 3));
+             * */
 
             if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
             {
