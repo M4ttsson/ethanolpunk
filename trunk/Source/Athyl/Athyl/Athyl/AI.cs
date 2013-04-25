@@ -260,10 +260,10 @@ namespace Athyl
             base.Draw(spriteBatch);
         }
 
-        protected override void UpdateFrame(float elapsed)
+       /* protected override void UpdateFrame(float elapsed)
         {
             base.UpdateFrame(0.2f);
-        }
+        }*/
 
         #region Behavior
 
@@ -276,8 +276,9 @@ namespace Athyl
 
         public override void  Move(Player.Movement movement)
         {
-
+            
             base.Move(movement);
+            
         }
 
         private void None()
@@ -290,7 +291,7 @@ namespace Athyl
         private void Patrol()
         {
 
-            if ((DateTime.Now - lastCheck).TotalSeconds >= 1)
+            if ((DateTime.Now - lastCheck).TotalSeconds >= 0.5)
             {
                 int distance = 0;
                 switch(CheckDirection(direction, 500, out distance))
@@ -323,6 +324,7 @@ namespace Athyl
                 }
                 lastCheck = DateTime.Now;
             }
+            UpdateFrame(0.2f);
         }
 
         /// <summary>

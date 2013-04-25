@@ -73,12 +73,14 @@ namespace Athyl
         //class for spawnpoints
         public class Spawn
         {
+            public int Id { get; set; }
             public bool Visited { get; set; }
             public Rectangle SpawnTriggerRect { get; private set; }
             public Vector2[] SpawnPositions;
 
-            public Spawn(bool visit, Rectangle rect, Vector2[] positions)
+            public Spawn(int id, bool visit, Rectangle rect, Vector2[] positions)
             {
+                Id = id;
                 Visited = visit;
                 SpawnTriggerRect = rect;
                 SpawnPositions = positions;
@@ -106,15 +108,15 @@ namespace Athyl
         private void CreateSpawns()
         {
             //visited, spawnrectangle and enemyspawn position.
-            spawnpoints.Add(new Spawn(false, new Rectangle(825, 890, 50, 120), new Vector2[] { new Vector2(40, 550), new Vector2(835, 300) }));
-            spawnpoints.Add(new Spawn(false, new Rectangle(500, 25, 170, 550), new Vector2[] { new Vector2(1950, 425), new Vector2(2270, 290) }));
-            spawnpoints.Add(new Spawn(false, new Rectangle(1440, 410, 320, 120), new Vector2[] { new Vector2(1650, 1225) }));
-            spawnpoints.Add(new Spawn(false, new Rectangle(2235, 1180, 50, 120), new Vector2[] { new Vector2(3025, 1480), new Vector2(3200, 1545) }));
-            spawnpoints.Add(new Spawn(false, new Rectangle(4205, 1980, 50, 120), new Vector2[] { new Vector2(4880, 2055), new Vector2(5050, 2055), new Vector2(5100, 1832), new Vector2(5050, 1610) }));
-            spawnpoints.Add(new Spawn(false, new Rectangle(5500, 1480, 50, 450), new Vector2[] { new Vector2(6290, 1800), new Vector2(6630, 1765) }));
-            spawnpoints.Add(new Spawn(false, new Rectangle(6190, 1550, 50, 330), new Vector2[] { new Vector2(7440, 1833), new Vector2(7825, 1800) }));
-            spawnpoints.Add(new Spawn(false, new Rectangle(7865, 1480, 50, 240), new Vector2[] { new Vector2(8900, 1350), new Vector2(8900, 1065) }));
-            spawnpoints.Add(new Spawn(false, new Rectangle(8785, 500, 50, 1000), new Vector2[] { new Vector2(9723, 1320) }));
+            spawnpoints.Add(new Spawn(1, false, new Rectangle(825, 890, 50, 120), new Vector2[] { new Vector2(40, 550), new Vector2(835, 300) }));
+            spawnpoints.Add(new Spawn(2, false, new Rectangle(500, 25, 170, 550), new Vector2[] { new Vector2(1950, 425), new Vector2(2270, 290) }));
+            spawnpoints.Add(new Spawn(3, false, new Rectangle(1440, 410, 320, 120), new Vector2[] { new Vector2(1650, 1225) }));
+            spawnpoints.Add(new Spawn(4, false, new Rectangle(2235, 1180, 50, 120), new Vector2[] { new Vector2(3025, 1480), new Vector2(3200, 1545) }));
+            spawnpoints.Add(new Spawn(5, false, new Rectangle(4205, 1980, 50, 120), new Vector2[] { new Vector2(4880, 2055), new Vector2(5050, 2055), new Vector2(5100, 1832), new Vector2(5050, 1610) }));
+            spawnpoints.Add(new Spawn(6, false, new Rectangle(5500, 1480, 50, 450), new Vector2[] { new Vector2(6290, 1800), new Vector2(6630, 1765) }));
+            spawnpoints.Add(new Spawn(7, false, new Rectangle(6190, 1550, 50, 330), new Vector2[] { new Vector2(7440, 1833), new Vector2(7825, 1800) }));
+            spawnpoints.Add(new Spawn(8, false, new Rectangle(7865, 1480, 50, 240), new Vector2[] { new Vector2(8900, 1350), new Vector2(8900, 1065) }));
+            spawnpoints.Add(new Spawn(9, false, new Rectangle(8785, 500, 50, 1000), new Vector2[] { new Vector2(9723, 1320) }));
         }
 
         /// <summary>
@@ -390,7 +392,7 @@ namespace Athyl
 
 
                     //Places the boss AI in the last part of the map, needs tweaking in both behaviour and HP
-                    if (spawnpoints[spawnpoints.Count - 1] == sp && sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
+                    if (sp.Id == 9 && sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
                     {
                         AI bossAI = new AI(world, enemyTexture, new Vector2(84, 180), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.None, "boss");
 
@@ -451,7 +453,7 @@ namespace Athyl
                     if (runTime == 2 && theAI.Count < 0)
                     {
 
-                        theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(300, 300), 100, 20, this, AI.Behavior.None, "enemy"));
+                        theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(300, 300), 100, 20, this, AI.Behavior.Patrol, "enemy"));
 
 
                         for (int i = 0; i < theAI.Count; i++)
@@ -597,7 +599,7 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {
 
-                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(20, 1300), 100, 20, this, AI.Behavior.Patrol, "enemy"));
+                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(50, 1300), 100, 20, this, AI.Behavior.Patrol, "enemy"));
 
                 for (int i = 0; i < theAI.Count; i++)
                 {
