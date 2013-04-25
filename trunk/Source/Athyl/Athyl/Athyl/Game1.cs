@@ -369,9 +369,9 @@ namespace Athyl
             }
             player = null;
 
-
-            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(60, 1300), this, "player");
-
+            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(8385, 1000), this, "player");
+            //player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(60, 1300), this, "player");
+            
             //reset spawnpoints
             foreach (Spawn sp in spawnpoints)
             {
@@ -396,21 +396,7 @@ namespace Athyl
             {
                 if (!sp.Visited)
                 {
-
-                    
-                    //Places the boss AI in the last part of the map, needs tweaking in both behaviour and HP
-                   /* if (sp.Id == 9 && sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
-                    {
-                        AI bossAI = new AI(world, enemyTexture, new Vector2(84, 180), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.None, "boss");
-
-                        bossAI.enemyHP = 1510;
-
-                        theAI.Add(bossAI);
-                        sp.Visited = true;
-
-                    }*/
-    
-                    if (sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
+                     if (sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
                     {
                         switch (sp.Id)
                         {
@@ -424,9 +410,7 @@ namespace Athyl
                                 break;
 
                             case 9:
-                                AI bossAI = new AI(world, enemyTexture, new Vector2(84, 180), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.None, "boss");
-                                bossAI.enemyHP = 1510;
-                                theAI.Add(bossAI);
+                                theAI.Add(new AI(world, enemyTexture, new Vector2(84, 120), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Boss, "boss"));
                                 break;
                                 
                             default:
@@ -530,14 +514,12 @@ namespace Athyl
         {
             keyboardState = Keyboard.GetState();
 
-            /*
-             * FLYING DEBUG
-             * 
-            if(keyboardState.IsKeyDown(Keys.Up))
+            //flying debug!
+            /*if(keyboardState.IsKeyDown(Keys.Up))
                 player.torso.body.ApplyForce(new Vector2(0, -3.0f));
             if (keyboardState.IsKeyDown(Keys.Down))
-                player.torso.body.ApplyForce(new Vector2(0, 3));
-             * */
+                player.torso.body.ApplyForce(new Vector2(0, 3));*/
+
 
             if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
             {

@@ -26,7 +26,7 @@ namespace Athyl
         private DateTime previousJump;
         private DateTime lastBullet;
         private float projectileSpeed = 0.02f;
-        private const float jumpInterval = 1f;
+        private float jumpInterval = 1f;
         private float fireRate = 0.5f;
         private bool hit = false;
         private bool seen = false;
@@ -74,8 +74,17 @@ namespace Athyl
 
                 case Behavior.Turret:
                     fireRate = 0.2f;
-                    enemyHP += 50;
+                    enemyHP += 100;
                     behavior = Turret;
+                    break;
+
+                case Behavior.Boss:
+                    fireRate = 0.05f;
+                    enemyHP = 1510;
+                    jumpForce = new Vector2(0, -12);
+                    behavior = Boss;
+                    jumpInterval = 2f;
+                    direction = Direction.Left;
                     break;
                     
                 case Behavior.None:
@@ -124,13 +133,13 @@ namespace Athyl
         {
             if (!hit)
             {
-                if (((int)torso.Position.X - (int)aPlayer.torso.Position.X) < -250 && !seen)
+                if (((int)torso.Position.X - (int)aPlayer.torso.Position.X) < -1000 && !seen)
                 {
                     axis.MotorSpeed = 0;
                     UpdateFrame(0.2f);
                 }
 
-                else if (((int)torso.Position.X - (int)aPlayer.torso.Position.X) > 250 && !seen)
+                else if (((int)torso.Position.X - (int)aPlayer.torso.Position.X) > 1000 && !seen)
                 {
                     axis.MotorSpeed = 0;
                     UpdateFrame(0.2f);
@@ -251,7 +260,8 @@ namespace Athyl
             /*if(seen)
                 attackPlayer();*/
 
-
+            if (torso.body.FixtureList[0].UserData.ToString() == "boss")
+                towardsPlayer(aPlayer);
 
             //Adds patrol to the AI
             behavior();
@@ -279,6 +289,7 @@ namespace Athyl
         {
             Patrol,
             Turret,
+            Boss,
             None
         }
 
@@ -334,15 +345,42 @@ namespace Athyl
             UpdateFrame(0.2f);
         }
 
+        /// <summary>
+        /// Enemy stands still and shoot in both directions
+        /// </summary>
         private void Turret()
         {
             attackPlayer();
 
-            if ((DateTime.Now - lastCheck).TotalSeconds >= 0.4)
+            if ((DateTime.Now - lastCheck).TotalSeconds >= 0.8)
             {
                 direction = (direction == Direction.Left) ? Direction.Right : Direction.Left;
                 lastCheck = DateTime.Now;
             }
+        }
+
+        private void Boss()
+        {
+            if ((DateTime.Now - lastCheck).TotalSeconds >= 1)
+            {
+                int distance = 0;
+                if (CheckDirection(direction, 72, out distance) == 2)
+                {
+                    if (distance >= 50)
+                    {
+                        if (direction == Direction.Left)
+                            Move(Movement.Left);
+                        else
+                            Move(Movement.Right);
+                    }
+                    else
+                    {
+                        direction = lastDirection ? Direction.Right : Direction.Left;
+                    }
+                }
+                lastCheck = DateTime.Now;
+            }
+            attackPlayer();
         }
 
         /// <summary>
