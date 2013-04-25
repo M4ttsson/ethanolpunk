@@ -35,6 +35,7 @@ namespace Athyl
         private List<Texture2D> lvl3 = new List<Texture2D>();
         private Texture2D buttonTexture;
         private DrawableGameObject b;
+        public DrawableGameObject button;
         #endregion
         #region Constructor
         public Map(World world, Game1 game)
@@ -190,7 +191,7 @@ namespace Athyl
                     }
                     else if (colors2D[x, y] == new Color(150, 150, 150))         //Quest Button
                     {
-                        DrawableGameObject button = new DrawableGameObject(world, buttonTexture, 0, "button");
+                        button = new DrawableGameObject(world, buttonTexture, 0, "button");
                         button.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
                         button.body.BodyType = BodyType.Static;
                         body.Add(button);
