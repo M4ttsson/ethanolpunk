@@ -21,6 +21,7 @@ namespace Athyl
 {
     class Player
     {
+        #region Properties
         public DrawableGameObject torso;
         public bool OnGround { get; set; }
         public bool OnWall { get; set; }
@@ -71,10 +72,8 @@ namespace Athyl
 
         public Int16 skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
-
-        
-
-
+        #endregion
+        #region ConstructorAndLoad
         /// <summary>
         /// Creates a new player
         /// </summary>
@@ -139,6 +138,19 @@ namespace Athyl
 
         }
 
+        protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec, int RestartFrame)
+        {
+            this.frameRow = FrameRow;
+            this.frameColumn = FrameColumn;
+            this.myTexture = texture;
+            this.TimePerFrame = (float)1 / FramesPerSec;
+            this.RestartFrame = RestartFrame;
+            this.ColFrame = 0;
+            this.RowFrame = 0;
+            this.TotalElapsed = 0;
+        }
+        #endregion
+        #region enums
         public enum Direction
         {
             Right,
@@ -150,30 +162,15 @@ namespace Athyl
             Downright,
             Downleft
         }
-
-        public virtual void Jump()
+        public enum Movement
         {
-            if (OnGround && !Crouching)
-            {
-                torso.body.ApplyLinearImpulse(jumpForce);
-            }
-            //Walljump
-            else if (OnWall && !OnGround && !WallJumped)
-            {
-                if (direction == Direction.Right)
-                {
-                    torso.body.ApplyLinearImpulse(new Vector2(-0.8f, -3.1f));
-                    direction = Direction.Left;
-                }
-                else if (direction == Direction.Left)
-                {
-                    torso.body.ApplyLinearImpulse(new Vector2(0.8f, -3.1f));
-                    direction = Direction.Right;
-                }
-                WallJumped =  true;
-            }
-        }
+            Left,
+            Right,
+            Stop
 
+        }
+        #endregion
+        #region Animation
         //Animates player in right order depending on which state he/she is
         public void AnimatePlayer()
         {
@@ -240,7 +237,41 @@ namespace Athyl
                 this.RestartFrame = 0;
             }
         }
-        
+        #endregion
+        #region CollisionAndRaycast
+        //Skickar en ray från startPosition i riktning mot endPosition med steg av "accuracy" som ger true om kollision med ett object av given kategori, annars false
+        private bool rayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, Category collisionCategory)
+        {
+            Vector2 startRayPoint = new Vector2((int)startPosition.X, (int)startPosition.Y);
+            Vector2 endRayPoint = new Vector2((int)endPosition.X, (int)endPosition.Y);
+            Vector2 direction = endRayPoint - startRayPoint;
+            direction.Normalize();
+
+            if (startRayPoint != endRayPoint )
+            {
+                startRayPoint = startRayPoint + (direction * accuracy);
+
+                Fixture fixture = world.TestPoint(ConvertUnits.ToSimUnits(startRayPoint));
+
+                if (fixture != null && fixture.CollisionCategories == collisionCategory)
+                    return true;
+            }
+            return false;
+        }
+
+        //Skickar två parallella rays från startPosition i riktning mot endPosition med steg av "accuracy" som ger true om kollision med ett object av given kategori, annars false
+        //distanceBetweenRays ger avståndet mellan de parallella raysen.
+        private bool doubleRayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, Category collisionCategory, int distanceBetweenRays)
+        {
+            int dist = distanceBetweenRays/2;
+
+            if (rayCast(startPosition - new Vector2(dist, 0), endPosition - new Vector2(dist, 0), accuracy, collisionCategory))
+                return rayCast(startPosition - new Vector2(dist, 0), endPosition - new Vector2(dist, 0), accuracy, collisionCategory);
+            else if (rayCast(startPosition + new Vector2(dist, 0), endPosition + new Vector2(dist, 0), accuracy, collisionCategory))
+                return rayCast(startPosition + new Vector2(dist, 0), endPosition + new Vector2(dist, 0), accuracy, collisionCategory);
+            else
+                return false;
+        }
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
             KeyboardState kbState = Keyboard.GetState();
@@ -263,7 +294,43 @@ namespace Athyl
             }
             return false;
         }
-
+        #endregion
+        #region Actions
+        /// <summary>
+        /// Fires the weapon
+        /// </summary>
+        /// <param name="world"></param>
+        public virtual void useWeapon(World world)
+        {
+            if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
+            {
+                projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body);
+                playerAthyl -= 1;
+                lastBullet = DateTime.Now;
+            }
+        }
+        public virtual void Jump()
+        {
+            if (OnGround && !Crouching)
+            {
+                torso.body.ApplyLinearImpulse(jumpForce);
+            }
+            //Walljump
+            else if (OnWall && !OnGround && !WallJumped)
+            {
+                if (direction == Direction.Right)
+                {
+                    torso.body.ApplyLinearImpulse(new Vector2(-0.8f, -3.1f));
+                    direction = Direction.Left;
+                }
+                else if (direction == Direction.Left)
+                {
+                    torso.body.ApplyLinearImpulse(new Vector2(0.8f, -3.1f));
+                    direction = Direction.Right;
+                }
+                WallJumped = true;
+            }
+        }
         public virtual void Move(Movement movement)
         {
 
@@ -321,44 +388,58 @@ namespace Athyl
                     break;
             }
         }
-
-        //Skickar en ray från startPosition i riktning mot endPosition med steg av "accuracy" som ger true om kollision med ett object av given kategori, annars false
-        private bool rayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, Category collisionCategory)
+        #endregion
+        #region DrawsAndUpdate
+        /// <summary>
+        /// Uppdaterar rörelsen i animeringen
+        /// </summary>
+        /// <param name="elapsed"></param>
+        protected virtual void UpdateFrame(float elapsed)
         {
-            Vector2 startRayPoint = new Vector2((int)startPosition.X, (int)startPosition.Y);
-            Vector2 endRayPoint = new Vector2((int)endPosition.X, (int)endPosition.Y);
-            Vector2 direction = endRayPoint - startRayPoint;
-            direction.Normalize();
-
-            if (startRayPoint != endRayPoint )
+            TotalElapsed += elapsed;
+            if (TotalElapsed > TimePerFrame)
             {
-                startRayPoint = startRayPoint + (direction * accuracy);
-
-                Fixture fixture = world.TestPoint(ConvertUnits.ToSimUnits(startRayPoint));
-
-                if (fixture != null && fixture.CollisionCategories == collisionCategory)
-                    return true;
+                ColFrame++;
+                if (ColFrame == frameColumn)
+                    ColFrame = RestartFrame;
+                TotalElapsed -= TimePerFrame;
             }
-            return false;
-        }
 
-        //Skickar två parallella rays från startPosition i riktning mot endPosition med steg av "accuracy" som ger true om kollision med ett object av given kategori, annars false
-        //distanceBetweenRays ger avståndet mellan de parallella raysen.
-        private bool doubleRayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, Category collisionCategory, int distanceBetweenRays)
+            if (axis.MotorSpeed > 0 && !Dead)
+            {
+                RowFrame = 0;
+            }
+            else if (axis.MotorSpeed < 0 && !Dead)
+            {
+                RowFrame = 1;
+            }
+            else if (axis.MotorSpeed == 0 && !Dead)
+            {
+                ColFrame = 0;
+            }
+        }
+        protected void DrawFrame(SpriteBatch spriteBatch, Vector2 screenpos)
         {
-            int dist = distanceBetweenRays/2;
-
-            if (rayCast(startPosition - new Vector2(dist, 0), endPosition - new Vector2(dist, 0), accuracy, collisionCategory))
-                return rayCast(startPosition - new Vector2(dist, 0), endPosition - new Vector2(dist, 0), accuracy, collisionCategory);
-            else if (rayCast(startPosition + new Vector2(dist, 0), endPosition + new Vector2(dist, 0), accuracy, collisionCategory))
-                return rayCast(startPosition + new Vector2(dist, 0), endPosition + new Vector2(dist, 0), accuracy, collisionCategory);
-            else
-                return false;
+            DrawFrame(spriteBatch, ColFrame, RowFrame, screenpos);
         }
 
+        private void DrawFrame(SpriteBatch spriteBatch, int colFrame, int rowFrame, Vector2 screenpos)
+        {
+            int FrameWidth = myTexture.Width / frameColumn;
+            int FrameHeight = myTexture.Height / frameRow;
+            Rectangle sourcerect = new Rectangle(FrameWidth * colFrame, FrameHeight * rowFrame,
+               FrameWidth, FrameHeight);
+            spriteBatch.Draw(myTexture, screenpos, sourcerect, Color.White,
+                0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
+        }
+
+        public void DrawPlayerReserves(SpriteBatch spriteBatch)
+        {
+
+        }
         public void UpdatePlayer()
         {
-            if(doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 30, Category.Cat5, 38))  //Kollar om player står på backen.
+            if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 30, Category.Cat5, 38))  //Kollar om player står på backen.
             {
                 OnGround = true;
                 WallJumped = false;
@@ -385,7 +466,7 @@ namespace Athyl
                 else if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, -1), 80, Category.Cat7, 40)) //Kollar om player slår i taket.
                     OnWall = false;
             }
-            
+
             xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2)) * 2);
             //Console.WriteLine(playerLevel);
             //Console.WriteLine(totalXP);
@@ -443,50 +524,28 @@ namespace Athyl
                 isFalling = false;
             }
 
-            
+
 
             //player off screen
             if (torso.Position.X > Map.BoundsX)
             {
-               
+
                 playerHP = 0;
             }
             else if (torso.Position.X < -10)
                 playerHP = 0;
             if (torso.Position.Y > Map.BoundsY)
                 playerHP = 0;
-            
+
             if (playerHP <= 0)
             {
                 if (!Dead)
                     Dead = true;
-                else if (Dead && ColFrame != frameColumn-1)
+                else if (Dead && ColFrame != frameColumn - 1)
                     UpdateFrame(0.2f);
                 playerHP = 0;
             }
         }
-        /// <summary>
-        /// Fires the weapon
-        /// </summary>
-        /// <param name="world"></param>
-        public virtual void useWeapon(World world)
-        {
-            if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
-            {
-                projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body);
-                playerAthyl -= 1;
-                lastBullet = DateTime.Now;
-            }
-        }
-
-        public enum Movement
-        {
-            Left,
-            Right,
-            Stop
-
-        }
-
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
@@ -495,66 +554,6 @@ namespace Athyl
             //torso.Draw(spriteBatch);
             //wheel.Draw(spriteBatch);
         }
-
-        protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec, int RestartFrame)
-        {
-            this.frameRow = FrameRow;
-            this.frameColumn = FrameColumn;
-            this.myTexture = texture;
-            this.TimePerFrame = (float)1 / FramesPerSec;
-            this.RestartFrame = RestartFrame;
-            this.ColFrame = 0;
-            this.RowFrame = 0;
-            this.TotalElapsed = 0;
-        }
-
-        /// <summary>
-        /// Uppdaterar rörelsen i animeringen
-        /// </summary>
-        /// <param name="elapsed"></param>
-        protected virtual void UpdateFrame(float elapsed)
-        {
-            TotalElapsed += elapsed;
-            if (TotalElapsed > TimePerFrame)
-            {
-                ColFrame++;
-                if (ColFrame == frameColumn)
-                    ColFrame = RestartFrame;
-                TotalElapsed -= TimePerFrame;
-            }
-
-            if (axis.MotorSpeed > 0 && !Dead)
-            {
-                RowFrame = 0;
-            }
-            else if (axis.MotorSpeed < 0 && !Dead)
-            {
-                RowFrame = 1;
-            }
-            else if (axis.MotorSpeed == 0 && !Dead)
-            {
-                ColFrame = 0;
-            }
-        }
-
-        protected void DrawFrame(SpriteBatch spriteBatch, Vector2 screenpos)
-        {
-            DrawFrame(spriteBatch, ColFrame, RowFrame, screenpos);
-        }
-
-        private void DrawFrame(SpriteBatch spriteBatch, int colFrame, int rowFrame, Vector2 screenpos)
-        {
-            int FrameWidth = myTexture.Width / frameColumn;
-            int FrameHeight = myTexture.Height / frameRow;
-            Rectangle sourcerect = new Rectangle(FrameWidth * colFrame, FrameHeight * rowFrame,
-               FrameWidth, FrameHeight);
-            spriteBatch.Draw(myTexture, screenpos, sourcerect, Color.White,
-                0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
-        }
-
-        public void DrawPlayerReserves(SpriteBatch spriteBatch)
-        {
-
-        }
+        #endregion
     }
 }
