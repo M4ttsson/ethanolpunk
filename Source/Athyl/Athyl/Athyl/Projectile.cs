@@ -17,6 +17,7 @@ namespace Athyl
 {
     class Projectile
     {
+        #region Properties
         private int projectileVelocity;
         private Vector2 projectileDirection;
         public float damage = 34;
@@ -31,11 +32,14 @@ namespace Athyl
         int bulletLifeTime;
         int bulletWasFired;
         Random random = new Random();
+        #endregion
+        #region Constructor
         public Projectile(Game1 game)
         {
             this.game = game;
         }
-
+        #endregion
+        #region AddBullet
         /// <summary>
         /// Adds a new bullet to the list
         /// </summary>
@@ -179,7 +183,8 @@ namespace Athyl
             //    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, 0.0f));
             //bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
-
+        #endregion
+        #region Collisionanddraw
         /// <summary>
         /// Kollision med kulor, tar bort något träffas
         /// olik logik beroende på om det är fiende eller spelare som krockar
@@ -297,7 +302,8 @@ namespace Athyl
                 }
             }
             removeListbody.Clear();
-            removeList.Clear();         
+            removeList.Clear();
         }
+        #endregion
     }
 }

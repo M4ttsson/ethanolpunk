@@ -19,6 +19,7 @@ namespace Athyl
 {
     class AI : Player
     {
+        #region Properties
         //For the normal enemies, the HP should be 100
         public int enemyHP = 100;
         private int runDirection;
@@ -34,7 +35,20 @@ namespace Athyl
         private DateTime lastCheck;
         private delegate void BehaviorDel();
         private BehaviorDel behavior;
-
+        #endregion
+        #region Constructor
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="texture"></param>
+        /// <param name="size"></param>
+        /// <param name="startPosition"></param>
+        /// <param name="mass"></param>
+        /// <param name="wheelSize"></param>
+        /// <param name="game"></param>
+        /// <param name="behaviors"></param>
+        /// <param name="userdata"></param>
         public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game, Behavior behaviors, string userdata)
             : base(world, texture, size, mass, startPosition, game, userdata)
         {
@@ -63,7 +77,7 @@ namespace Athyl
                     break;
             }
         }
-
+        #endregion
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
             if (contact.IsTouching())
@@ -231,13 +245,12 @@ namespace Athyl
                 attackPlayer();*/
 
 
-            //Adds behavior to the AI
+
+            //Adds patrol to the AI
             behavior();
 
+
         }
-
-  
-
         public override void Draw(SpriteBatch spriteBatch)
         {
             //DrawFrame(spriteBatch, wheel.Position + new Vector2(-55.0f/2, -110f));
