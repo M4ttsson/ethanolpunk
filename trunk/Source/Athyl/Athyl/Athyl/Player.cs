@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
+using FarseerPhysics.Collision;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics.Joints;
@@ -28,8 +29,6 @@ namespace Athyl
         public int numFootContacts { get; set; }
         public int numSideContacts { get; set; }
 
-        
-       
         public int playerHP = 150;
         public int playerAthyl = 500;
         public int playerXP = 0;
@@ -69,6 +68,7 @@ namespace Athyl
         private bool hasLeveledRecently = false;
         private bool isFalling = false;
         private float tempfallDamage = 0;
+
         public Int16 skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
 
@@ -88,7 +88,7 @@ namespace Athyl
         {
             Load(texture, 2, 11, 1, 1);
 
-            int wheelSize = (int)size.X-2;
+            int wheelSize = (int)size.X-4;
             this.torsoSize = size - new Vector2(0, (wheelSize / 2));
             this.game = game;
             this.world = world;
@@ -100,7 +100,7 @@ namespace Athyl
             wheel.Position = startPosition;
             wheel.body.Friction = 10000f;
             //wheel.body.Mass = 1;
-
+            
             //create torso
             torso = new DrawableGameObject(world, texture, torsoSize, 60, userdata);
             torso.Position = wheel.Position -new Vector2(0.0f, torsoSize.Y/2-5);
@@ -118,15 +118,11 @@ namespace Athyl
             axis = JointFactory.CreateRevoluteJoint(world, torso.body, wheel.body, Vector2.Zero);
             axis.CollideConnected = false;
 
-
-           
             axis.MotorEnabled = true;
             axis.MotorSpeed = 0;
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
             torso.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
-            
-            
 
             //xpRequiredPerLevel
             numFootContacts = 0;
@@ -174,7 +170,7 @@ namespace Athyl
                     torso.body.ApplyLinearImpulse(new Vector2(0.8f, -3.1f));
                     direction = Direction.Right;
                 }
-                WallJumped = true;
+                WallJumped =  true;
             }
         }
 
@@ -183,11 +179,12 @@ namespace Athyl
         {
             if (OnGround && Crouching && !Dead)
                 AnimateCrouch();
-            else if (!OnGround && !OnWall)
+            else if (!OnGround && !OnWall && !Dead)
                 AnimateJump();
-            else if (OnWall && !OnGround)
+            else if (OnWall && !OnGround && !Dead)
                 AnimateWallJump();
-
+            else if (Dead)
+                AnimateDeath();
             else
             {
                 this.frameRow = 2;
@@ -200,16 +197,25 @@ namespace Athyl
             }
         }
 
+        public void AnimateDeath()
+        {
+            this.frameRow = 2;
+            this.frameColumn = 3;
+            this.myTexture = game.Content.Load<Texture2D>("Player/die");
+            this.TimePerFrame = (float)1 / 1f;
+            this.RestartFrame = 0;
+        }
+
         public void AnimateCrouch()
         {
                 this.frameRow = 2;
                 this.frameColumn = 2;
+                this.ColFrame = 0;
                 this.myTexture = game.Content.Load<Texture2D>("Player/Ducking");
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 0;
-                torso.Size = new Vector2(40, 40);
-                torso.Position = wheel.Position + new Vector2(0, 18);
-                //  wheel.body.Enabled = false;
+                torso.Size = wheel.Size - new Vector2(10, 10);
+                torso.Position = wheel.Position;
         }
 
         public void AnimateJump()
@@ -234,8 +240,7 @@ namespace Athyl
                 this.RestartFrame = 0;
             }
         }
-
-
+        
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
             KeyboardState kbState = Keyboard.GetState();
@@ -316,8 +321,71 @@ namespace Athyl
                     break;
             }
         }
+
+        //Skickar en ray från startPosition i riktning mot endPosition med steg av "accuracy" som ger true om kollision med ett object av given kategori, annars false
+        private bool rayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, Category collisionCategory)
+        {
+            Vector2 startRayPoint = new Vector2((int)startPosition.X, (int)startPosition.Y);
+            Vector2 endRayPoint = new Vector2((int)endPosition.X, (int)endPosition.Y);
+            Vector2 direction = endRayPoint - startRayPoint;
+            direction.Normalize();
+
+            if (startRayPoint != endRayPoint )
+            {
+                startRayPoint = startRayPoint + (direction * accuracy);
+
+                Fixture fixture = world.TestPoint(ConvertUnits.ToSimUnits(startRayPoint));
+
+                if (fixture != null && fixture.CollisionCategories == collisionCategory)
+                    return true;
+            }
+            return false;
+        }
+
+        //Skickar två parallella rays från startPosition i riktning mot endPosition med steg av "accuracy" som ger true om kollision med ett object av given kategori, annars false
+        //distanceBetweenRays ger avståndet mellan de parallella raysen.
+        private bool doubleRayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, Category collisionCategory, int distanceBetweenRays)
+        {
+            int dist = distanceBetweenRays/2;
+
+            if (rayCast(startPosition - new Vector2(dist, 0), endPosition - new Vector2(dist, 0), accuracy, collisionCategory))
+                return rayCast(startPosition - new Vector2(dist, 0), endPosition - new Vector2(dist, 0), accuracy, collisionCategory);
+            else if (rayCast(startPosition + new Vector2(dist, 0), endPosition + new Vector2(dist, 0), accuracy, collisionCategory))
+                return rayCast(startPosition + new Vector2(dist, 0), endPosition + new Vector2(dist, 0), accuracy, collisionCategory);
+            else
+                return false;
+        }
+
         public void UpdatePlayer()
         {
+            if(doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 30, Category.Cat5, 38))  //Kollar om player står på backen.
+            {
+                OnGround = true;
+                WallJumped = false;
+            }
+
+            if (!OnGround)
+            {
+                if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), 40, Category.Cat5))         //Kollar om spelare kolliderar med höger vägg
+                    OnWall = true;
+                else if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), 40, Category.Cat6))    //Kollar om spelare kolliderar med höger vägg
+                    OnWall = true;
+                else if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), 40, Category.Cat7))    //Kollar om spelare kolliderar med höger vägg
+                    OnWall = true;
+                else if (rayCast(wheel.Position, wheel.Position + new Vector2(-1, 0), 40, Category.Cat5))   //Kollar om spelare kolliderar med vänster vägg
+                    OnWall = true;
+                else if (rayCast(wheel.Position, wheel.Position + new Vector2(-1, 0), 40, Category.Cat6))   //Kollar om spelare kolliderar med vänster vägg
+                    OnWall = true;
+                else if (rayCast(wheel.Position, wheel.Position + new Vector2(-1, 0), 40, Category.Cat7))   //Kollar om spelare kolliderar med vänster vägg
+                    OnWall = true;
+                else if (rayCast(wheel.Position, wheel.Position + new Vector2(-1, 0), 40, Category.Cat12))  //Kollar om spelare kolliderar med Osynlig vägg
+                    OnWall = false;
+                else if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), 40, Category.Cat12))   //Kollar om spelare kolliderar med Osynlig vägg
+                    OnWall = false;
+                else if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, -1), 80, Category.Cat7, 40)) //Kollar om player slår i taket.
+                    OnWall = false;
+            }
+            
             xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2)) * 2);
             //Console.WriteLine(playerLevel);
             //Console.WriteLine(totalXP);
@@ -346,7 +414,7 @@ namespace Athyl
             else
             {
                 OnGround = true;
-                WallJumped = false;
+                //WallJumped = false;
             }
 
 
@@ -391,13 +459,9 @@ namespace Athyl
             if (playerHP <= 0)
             {
                 if (!Dead)
-                {
-                    Load(game.Content.Load<Texture2D>("Player/die"), 2, 3, 1,0);  
                     Dead = true;
-                }
-                else if (Dead && ColFrame < 2)
-                    UpdateFrame(0.05f);
-
+                else if (Dead && ColFrame != frameColumn-1)
+                    UpdateFrame(0.2f);
                 playerHP = 0;
             }
         }
@@ -444,6 +508,10 @@ namespace Athyl
             this.TotalElapsed = 0;
         }
 
+        /// <summary>
+        /// Uppdaterar rörelsen i animeringen
+        /// </summary>
+        /// <param name="elapsed"></param>
         protected virtual void UpdateFrame(float elapsed)
         {
             TotalElapsed += elapsed;

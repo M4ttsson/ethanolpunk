@@ -471,11 +471,7 @@ namespace Athyl
                     {
                         ai.UpdateEnemy(player, world);
 
-
-                       
-                         
-
-                        
+                                                
                     }
 
                     player.UpdatePlayer();
@@ -545,7 +541,6 @@ namespace Athyl
 
             else if (keyboardState.IsKeyDown(Keys.Up))
             {
-
                 player.direction = Player.Direction.Up;
                 player.Move(Player.Movement.Stop);
             }
@@ -557,13 +552,11 @@ namespace Athyl
                     player.Move(Player.Movement.Stop);
                 }
                 //Vi lämnar duckningen till nästa iteration
-                /*else
-                {
-                    player.Crouching = true;
-                }*/
+                //else
+                //{
+                //    player.Crouching = true;
+                //}
             }
-
-
 
             //Logik för att kunna skjuta diagonalt när man står still, men det funkar dåligt
             /*else if(keyboardState.IsKeyDown(Keys.X)){

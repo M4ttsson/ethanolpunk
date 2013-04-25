@@ -107,7 +107,7 @@ namespace Athyl
             Vector2 bodySize = new Vector2(33f, 33f);
             for (int y = 0; y < 68; y++)
             {
-                for (int x = 0; x < 320; x++)
+                for (int x = 0; x < 322; x++)
                 {
                     if (colors2D[x, y] == new Color(255, 0, 0))             //Red  LeftUpperCorner
                     {
@@ -148,7 +148,7 @@ namespace Athyl
                     else if (colors2D[x, y] == new Color(255, 102, 0))           //Invicible walls
                     {
                         b = new DrawableGameObject(world, lvl3[0], bodySize, 0, "ground");
-                        b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
+                        b.Position = new Vector2((x-1) * 32 + 16, y * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         b.body.CollisionCategories = Category.Cat12;
                     }
@@ -167,7 +167,7 @@ namespace Athyl
             else
                 b = new DrawableGameObject(world, lvl3[tileNumber], BodySize, 0, "ground");
 
-            b.Position = new Vector2(x * 32 + 16, y * 32 + 16);
+            b.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
             b.body.BodyType = BodyType.Static;
             if (!Collidable)
             {
@@ -183,21 +183,23 @@ namespace Athyl
         private void SetCollisionCategories(DrawableGameObject b, int tileNumber)
         {
             if(tileNumber == 0)
-                b.body.CollisionCategories = Category.Cat4;
+                b.body.CollisionCategories = Category.Cat5;         //LeftUpperCorner
             else if(tileNumber == 1)
-                b.body.CollisionCategories = Category.Cat5;
+                b.body.CollisionCategories = Category.Cat5;         //Ground
             else if (tileNumber == 2)
-                b.body.CollisionCategories = Category.Cat6;
+                b.body.CollisionCategories = Category.Cat5;         //RightUpperCorner
             else if (tileNumber == 3)
-                b.body.CollisionCategories = Category.Cat7;
+                b.body.CollisionCategories = Category.Cat6;         //LeftWall
             else if (tileNumber == 4)
-                b.body.CollisionCategories = Category.Cat8;
+                b.body.CollisionCategories = Category.Cat6;         //Middle
             else if (tileNumber == 5)
-                b.body.CollisionCategories = Category.Cat9;
+                b.body.CollisionCategories = Category.Cat6;         //RightWall
             else if (tileNumber == 6)
-                b.body.CollisionCategories = Category.Cat10;
+                b.body.CollisionCategories = Category.Cat7;         //LeftDownCorner
             else if (tileNumber == 7)
-                b.body.CollisionCategories = Category.Cat11;
+                b.body.CollisionCategories = Category.Cat7;         //Ceiling
+            else if (tileNumber == 8)
+                b.body.CollisionCategories = Category.Cat7;         //RightDownCorner
         }
     }
 }
