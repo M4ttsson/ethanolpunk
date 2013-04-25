@@ -144,14 +144,14 @@ namespace Athyl
         public void PauseMenu(Game1 game)
         {
             gameState = GameState.Paused;
-            pauseMenuPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - pauseMenuBackgroundFront.Width / 2), 160);
-            resumeButtonPosition = new Vector2((int)Camera.transform.Translation.X + game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width / 2, (int)Camera.transform.Translation.Y + game.GraphicsDevice.Viewport.Height / 2 - 130);
-            saveButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 330);
-            loadButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 360);
-            optionsButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - optionsButton.Width / 2), 280);
-            exitButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30));
-            soundSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 30);
-            musicSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 80);
+            //pauseMenuPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - pauseMenuBackgroundFront.Width / 2), 160);
+            //resumeButtonPosition = new Vector2((int)Camera.transform.Translation.X + game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width / 2, (int)Camera.transform.Translation.Y + game.GraphicsDevice.Viewport.Height / 2 - 130);
+            //saveButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 330);
+            //loadButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 360);
+            //optionsButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - optionsButton.Width / 2), 280);
+            //exitButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30));
+            //soundSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 30);
+            //musicSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 80);
 
 
         }
@@ -163,14 +163,6 @@ namespace Athyl
         public void OptionsMenu(Game1 game)
         {
             gameState = GameState.Options;
-            if (gameState == GameState.StartMenu)
-            {
-                exitButtonPositionStartMenu =  new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), 465);
-            }
-            if (gameState == GameState.Paused)
-            {
-                exitButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30));
-            }
         }
 
         public void StoryMenu(Game1 game)
@@ -373,15 +365,22 @@ namespace Athyl
                 {
                     gameState = GameState.Playing;
                 }
-                if (mouseClickRect.Intersects(exitButtonRect1))
-                {
-                    game.Exit();
-                }
+
                 else if (mouseClickRect.Intersects(exitbuttonRect2))
                 {
                     game.Exit();
                 }
             }
+            //checking the story menu
+            if (gameState == GameState.Story)
+            {
+                Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPositionStartMenu.X + 20, (int)exitButtonPositionStartMenu.Y - 120, 120, 20);
+                if (mouseClickRect.Intersects(exitButtonRect1))
+                {
+                    gameState = GameState.StartMenu;
+                }
+            }
+
         }
 
         /// <summary>
@@ -506,6 +505,9 @@ namespace Athyl
             if(gameState == GameState.Story)
             {
                 spriteBatch.Draw(loadingBackground, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
+                //Only used to show where the exit button is
+                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 400, -(int)Camera.transform.Translation.Y + 175, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
+                spriteBatch.Draw(originalExitButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 315, exitButton.Width, exitButton.Height), Color.White);
             }
         }
     }
