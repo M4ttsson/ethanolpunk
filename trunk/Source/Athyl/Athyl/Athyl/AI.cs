@@ -260,10 +260,10 @@ namespace Athyl
             base.Draw(spriteBatch);
         }
 
-       /* protected override void UpdateFrame(float elapsed)
+        protected override void UpdateFrame(float elapsed)
         {
             base.UpdateFrame(0.2f);
-        }*/
+        }
 
         #region Behavior
 
@@ -324,6 +324,7 @@ namespace Athyl
                 }
                 lastCheck = DateTime.Now;
             }
+            
             UpdateFrame(0.2f);
         }
 
