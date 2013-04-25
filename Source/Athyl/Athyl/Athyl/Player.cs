@@ -450,20 +450,21 @@ namespace Athyl
             {
                 if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "boulder")
                 {
-
-                    if (kbState.IsKeyDown(Keys.F) && !liftObject)
+                    if (fixtureB.Body.BodyType != BodyType.Static)
                     {
-                        fixtureB.Body.IgnoreGravity = true;
-                        fixtureB.Body.Position = new Vector2(fixtureA.Body.Position.X, fixtureA.Body.Position.Y);
-                        j = JointFactory.CreateWeldJoint(world, fixtureA.Body, fixtureB.Body, Vector2.Zero);
-                        fixtureB.Body.IgnoreCollisionWith(torso.body);
-                        fixtureB.Body.IgnoreCollisionWith(wheel.body);
-                        
-                        liftObject = true;
+                        if (kbState.IsKeyDown(Keys.F) && !liftObject)
+                        {
+                            fixtureB.Body.IgnoreGravity = true;
+                            fixtureB.Body.Position = new Vector2(fixtureA.Body.Position.X, fixtureA.Body.Position.Y);
+                            j = JointFactory.CreateWeldJoint(world, fixtureA.Body, fixtureB.Body, Vector2.Zero);
+                            fixtureB.Body.IgnoreCollisionWith(torso.body);
+                            fixtureB.Body.IgnoreCollisionWith(wheel.body);
+
+                            liftObject = true;
+
+                        }
 
                     }
-
-
 
 
 
@@ -496,7 +497,20 @@ namespace Athyl
 
                 world.BodyList[index].RestoreCollisionWith(torso.body);
                 world.BodyList[index].IgnoreGravity = false;
+
+
                 world.RemoveJoint(j);
+
+
+                if (direction == Direction.Right)
+                {
+                    world.BodyList[index].ApplyForce(new Vector2(8, -15));
+                }
+                if (direction == Direction.Left)
+                {
+                    world.BodyList[index].ApplyForce(new Vector2(-8, -15));
+                }
+
                 liftObject = false;
                 
             }

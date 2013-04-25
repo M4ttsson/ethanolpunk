@@ -69,6 +69,8 @@ namespace Athyl
         private int timedBonusXP;
         System.Timers.Timer timer;
         public static int runTime = 0;
+        private DrawableGameObject button;
+
 
         //class for spawnpoints
         public class Spawn
@@ -200,10 +202,10 @@ namespace Athyl
             //zero gravity
             //world = new World(Vector2.Zero);
 
-            //sound = new Sounds(this);
+            sound = new Sounds(this);
 
-            //sound.Play("castlevagina");
-
+            sound.Play("Music/song1");
+            MediaPlayer.IsRepeating = true;
             //progressbar
             progressBar = Content.Load<Texture2D>("ProgressBar");
             progressBarBorder = Content.Load<Texture2D>("ProgressBarBorder");
@@ -215,8 +217,8 @@ namespace Athyl
 
             skyTexture = Content.Load<Texture2D>("Menu items/Background");
 
-
-            
+            button = new DrawableGameObject(world, Content.Load<Texture2D>("buttons/button"), 0, "button");
+            button.Position = new Vector2(2743, 1390); 
             Restart();
 
             //foot contacts
@@ -386,6 +388,7 @@ namespace Athyl
             camera = new Camera(graphics.GraphicsDevice.Viewport);
             camera.UpdateCamera(player);
             quest = new Quests(world, this);
+            button.body.OnCollision += quest.InteractWithQuestItems;
         }
 
 
@@ -434,7 +437,7 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
+            
             
             if (player != null && player.Dead)
             {
@@ -666,8 +669,8 @@ namespace Athyl
 
             quest.DrawQuest(spriteBatch);
 
-            
 
+            button.Draw(spriteBatch);
             if (player != null && menu.gameState == Menu.GameState.Playing)
             {
                 menu.DrawPlayerInfo(spriteBatch, GraphicsDevice, player, myFont, gameTime);
