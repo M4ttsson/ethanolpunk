@@ -69,7 +69,8 @@ namespace Athyl
         private bool hasLeveledRecently = false;
         private bool isFalling = false;
         private float tempfallDamage = 0;
-
+        private Joint j;
+        private bool liftObject = false;
         public Int16 skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
         #endregion
@@ -135,6 +136,8 @@ namespace Athyl
 
 
             Difficulty = 5;
+
+            torso.body.OnCollision += InteractWithQuestItems;
 
         }
 
@@ -389,6 +392,7 @@ namespace Athyl
             }
         }
         #endregion
+
         #region DrawsAndUpdate
         /// <summary>
         /// Uppdaterar rörelsen i animeringen
@@ -437,8 +441,66 @@ namespace Athyl
         {
 
         }
+
+        bool InteractWithQuestItems(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+        {
+            KeyboardState kbState = Keyboard.GetState();
+
+            if (contact.IsTouching())
+            {
+                if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "boulder")
+                {
+
+                    if (kbState.IsKeyDown(Keys.F) && !liftObject)
+                    {
+                        fixtureB.Body.IgnoreGravity = true;
+                        fixtureB.Body.Position = new Vector2(fixtureA.Body.Position.X, fixtureA.Body.Position.Y);
+                        j = JointFactory.CreateWeldJoint(world, fixtureA.Body, fixtureB.Body, Vector2.Zero);
+                        fixtureB.Body.IgnoreCollisionWith(torso.body);
+                        fixtureB.Body.IgnoreCollisionWith(wheel.body);
+                        
+                        liftObject = true;
+
+                    }
+
+
+
+
+
+                   
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static bool FindQuestItem(Body b)
+        {
+            foreach (Fixture fix in b.FixtureList)
+            {
+                if (fix.UserData.ToString() == "boulder")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void UpdatePlayer()
         {
+            KeyboardState kbState = Keyboard.GetState();
+            if (kbState.IsKeyUp(Keys.F) && liftObject)
+            {
+
+                int index = world.BodyList.FindIndex(FindQuestItem);
+
+                world.BodyList[index].RestoreCollisionWith(torso.body);
+                world.BodyList[index].IgnoreGravity = false;
+                world.RemoveJoint(j);
+                liftObject = false;
+                
+            }
+
             if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 30, Category.Cat5, 38))  //Kollar om player står på backen.
             {
                 OnGround = true;
@@ -467,7 +529,7 @@ namespace Athyl
                     OnWall = false;
             }
 
-            xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2)) * 2);
+            xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2)) * 15);
             //Console.WriteLine(playerLevel);
             //Console.WriteLine(totalXP);
             //Console.WriteLine(xpRequiredPerLevel);
