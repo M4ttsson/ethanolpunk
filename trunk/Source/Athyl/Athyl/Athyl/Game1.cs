@@ -388,7 +388,8 @@ namespace Athyl
             camera = new Camera(graphics.GraphicsDevice.Viewport);
             camera.UpdateCamera(player);
             quest = new Quests(world, this);
-            //button.body.OnCollision += quest.InteractWithQuestItems;
+            if(map != null)
+                map.button.body.OnCollision += quest.InteractWithQuestItems;
         }
 
 
