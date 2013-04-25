@@ -202,8 +202,8 @@ namespace Athyl
             //zero gravity
             //world = new World(Vector2.Zero);
 
-           // sound = new Sounds(this);
-
+            //sound = new Sounds(this);
+         
             //sound.Play("Music/song1");
            // MediaPlayer.IsRepeating = true;
             //progressbar

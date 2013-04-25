@@ -24,7 +24,7 @@ namespace Athyl
         public Quests(World world, Game1 game)
         {
 
-            boulder = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), 30, 10, "boulder");
+            boulder = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), 28, 10, "boulder");
             boulder.body.BodyType = BodyType.Dynamic;
             boulder.Position = new Vector2(160, 1300);
 
