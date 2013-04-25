@@ -33,6 +33,7 @@ namespace Athyl
         private List<Texture2D> lvl1 = new List<Texture2D>();
         private List<Texture2D> lvl2 = new List<Texture2D>();
         private List<Texture2D> lvl3 = new List<Texture2D>();
+        private Texture2D buttonTexture;
         private DrawableGameObject b;
         #endregion
         #region Constructor
@@ -52,6 +53,7 @@ namespace Athyl
             ReadingTilesTextureToList();
 
             ReadMapLayout(game.Content.Load<Texture2D>("Small_World"));
+            buttonTexture = game.Content.Load<Texture2D>("buttons/button");
 
             DrawTilesOnPlace();
         }
@@ -186,6 +188,13 @@ namespace Athyl
                     {
                         CreateDrawableGameObject(x, y, 8, bodySize, true);
                     }
+                    else if (colors2D[x, y] == new Color(150, 150, 150))         //Quest Button
+                    {
+                        DrawableGameObject button = new DrawableGameObject(world, buttonTexture, 0, "button");
+                        button.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
+                        button.body.BodyType = BodyType.Static;
+                        body.Add(button);
+                    }
                     else if (colors2D[x, y] == new Color(255, 102, 0))           //Invicible walls
                     {
                         b = new DrawableGameObject(world, lvl3[0], bodySize, 0, "ground");
@@ -193,6 +202,7 @@ namespace Athyl
                         b.body.BodyType = BodyType.Static;
                         b.body.CollisionCategories = Category.Cat12;
                     }
+
                     progress++;
                 }
                 progress++;

@@ -69,7 +69,7 @@ namespace Athyl
         private int timedBonusXP;
         System.Timers.Timer timer;
         public static int runTime = 0;
-        private DrawableGameObject button;
+        //private DrawableGameObject button;
 
 
         //class for spawnpoints
@@ -217,8 +217,8 @@ namespace Athyl
 
             skyTexture = Content.Load<Texture2D>("Menu items/Background");
 
-            button = new DrawableGameObject(world, Content.Load<Texture2D>("buttons/button"), 0, "button");
-            button.Position = new Vector2(2743, 1390); 
+            //button = new DrawableGameObject(world, Content.Load<Texture2D>("buttons/button"), 0, "button");
+            //button.Position = new Vector2(2743, 1390); 
             Restart();
 
             //foot contacts
@@ -388,7 +388,7 @@ namespace Athyl
             camera = new Camera(graphics.GraphicsDevice.Viewport);
             camera.UpdateCamera(player);
             quest = new Quests(world, this);
-            button.body.OnCollision += quest.InteractWithQuestItems;
+            //button.body.OnCollision += quest.InteractWithQuestItems;
         }
 
 
@@ -670,7 +670,7 @@ namespace Athyl
             quest.DrawQuest(spriteBatch);
 
 
-            button.Draw(spriteBatch);
+            //button.Draw(spriteBatch);
             if (player != null && menu.gameState == Menu.GameState.Playing)
             {
                 menu.DrawPlayerInfo(spriteBatch, GraphicsDevice, player, myFont, gameTime);
