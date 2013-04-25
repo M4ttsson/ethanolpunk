@@ -20,7 +20,6 @@ namespace Athyl
 {
     class Menu
     {
-        #region Properties
         public enum GameState { StartMenu, Loading, Playing, Paused, Options, Story }
 
         private Texture2D startButton;
@@ -80,8 +79,7 @@ namespace Athyl
 
         private Sounds soundManager;
         public GameState gameState;
-        #endregion
-        #region ContructorAndLoad
+
         public Menu(Game1 game)
         {
 
@@ -114,19 +112,21 @@ namespace Athyl
             exitButton2 = game.Content.Load<Texture2D>("Menu items/ExitButton");
             storyButton2 = game.Content.Load<Texture2D>("Menu items/StoryButton");
         }
+
         /// <summary>
-        /// Starting the game after that the thread has been inactive for 6 sec.
+        /// Positioning buttons and background for the start menu
         /// </summary>
-        public void LoadGame()
+        /// <param name="game"></param>
+        public void StartMenu(Game1 game)
         {
-            Thread.Sleep(6000);
-
-            gameState = GameState.Playing;
-            isLoading = true;
-
+            gameState = GameState.StartMenu;
+            startButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - startButton.Width), 300);
+            optionsButtonPositionStartMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - 140), 375);
+            storyButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - storyButton.Width), 410);
+            exitButtonPositionStartMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), 465);
+            loadingScreenPosition = new Vector2(550, 335);
         }
-        #endregion
-        #region Unused
+
         /// <summary>
         /// Not currently in use. Option to have a pause icon which can be mouseclicked.
         /// </summary>
@@ -136,8 +136,7 @@ namespace Athyl
             gameState = GameState.Playing;
             pauseButtonPosition = new Vector2(20, 20);
         }
-        #endregion
-        #region Buttonpositioning
+        
         /// <summary>
         /// Positioning buttons and backgrounds for the pause menu
         /// </summary>
@@ -164,24 +163,132 @@ namespace Athyl
         public void OptionsMenu(Game1 game)
         {
             gameState = GameState.Options;
-            resumeButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width), 230);
+            if (gameState == GameState.StartMenu)
+            {
+                exitButtonPositionStartMenu =  new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), 465);
+            }
+            if (gameState == GameState.Paused)
+            {
+                exitButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30));
+            }
+        }
+
+        public void StoryMenu(Game1 game)
+        {
+            gameState = GameState.Story;
         }
 
         /// <summary>
-        /// Positioning buttons and background for the start menu
+        /// Starting the game after that the thread has been inactive for 6 sec.
         /// </summary>
-        /// <param name="game"></param>
-        public void StartMenu(Game1 game)
+        public void LoadGame()
         {
-            gameState = GameState.StartMenu;
-            startButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - startButton.Width), 300);
-            optionsButtonPositionStartMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - 140), 355);
-            storyButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - storyButton.Width), 410);
-            exitButtonPositionStartMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), 465);
-            loadingScreenPosition = new Vector2(550, 335);
+            Thread.Sleep(6000);
+
+            gameState = GameState.Playing;
+            isLoading = true;
+
         }
-        #endregion
-        #region MouseActions
+
+        /// <summary>
+        /// UpdateMenu used to handle different states. Pausing the game and keeping track on if the mouse is clicked on buttons.
+        /// </summary>
+        /// <param name="gametime"></param>
+        /// <param name="game"></param>
+        public void UpdateMenu(GameTime gametime, Game1 game, Player player)
+        {
+
+            KeyboardState kbState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
+
+            if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
+            {
+                MouseClicked(mouseState.X, mouseState.Y, game);
+            }
+            previousMouseState = mouseState;
+
+            if (gameState == GameState.Loading)
+            {
+                isLoading = false;
+            }
+
+
+            if (gameState == GameState.Loading && !isLoading)
+            {
+               // backGroundThread = new Thread(game.Load);
+                //this.backGroundThread.IsBackground = true;
+                isLoading = false;
+
+                
+               // backGroundThread.Start();
+                
+                
+                if (!runOnce)
+                {
+                    game.loadThread.Start();
+                    runOnce = true;
+                }
+            }
+
+            if (kbState.IsKeyDown(Keys.F2))
+            {
+                gameState = GameState.Paused;
+            }
+
+            else if (kbState.IsKeyDown(Keys.F3))
+            {
+                gameState = GameState.Playing;
+            }
+
+            if (gameState == GameState.Playing)
+            {
+                PauseIcon(game);
+
+            }
+            else if (gameState == GameState.Paused)
+            {
+                PauseMenu(game);
+
+            }
+
+            else if (gameState == GameState.StartMenu)
+            {
+                StartMenu(game);
+            }
+            else if (gameState == GameState.Options)
+            {
+                OptionsMenu(game);
+            }
+            else if (gameState == GameState.Story)
+            {
+                StoryMenu(game);
+            }
+
+            MouseOver(mouseState.X, mouseState.Y, game);
+
+        }
+
+        /// <summary>
+        /// Drawing the UI
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="graphicsDevice"></param>
+        /// <param name="player"></param>
+        /// <param name="myFont"></param>
+        public void DrawPlayerInfo(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Player player, SpriteFont myFont, GameTime gameTime)
+        {
+            if (!player.Dead)
+            {
+                totalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            spriteBatch.DrawString(myFont, "Health:" + player.playerHP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 600), Color.DarkRed);
+            spriteBatch.DrawString(myFont, "Ethanol:" + player.playerAthyl.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 630), Color.MidnightBlue);
+            spriteBatch.DrawString(myFont, "Exp:" + player.playerXP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 660), Color.Green);
+            spriteBatch.DrawString(myFont, "Level:" + player.playerLevel.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 690), Color.Wheat);
+            
+            spriteBatch.DrawString(myFont, "Time:" + totalTime.ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10,-(int)Camera.transform.Translation.Y + 570), Color.Violet);
+        }
+
         /// <summary>
         /// MouseClicked is function used to create rectangles for the buttons that when intersecting with the mouse pointer and clicked will trigger a game state. Used for the menus.
         /// </summary>
@@ -198,7 +305,7 @@ namespace Athyl
             {
                 Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X + 20, (int)startButtonPosition.Y + 28, 120, 20);
                 Rectangle optionsButtonRect = new Rectangle((int)optionsButtonPositionStartMenu.X + 20, (int)optionsButtonPositionStartMenu.Y, 120, 20);
-                Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X + 20, (int)storyButtonPosition.Y, 120, 20);
+                Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X + 20, (int)storyButtonPosition.Y + 10, 120, 20);
                 Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPositionStartMenu.X + 20, (int)exitButtonPositionStartMenu.Y, 120, 20);
 
                 if (mouseClickRect.Intersects(startButtonRect))
@@ -213,7 +320,11 @@ namespace Athyl
                 }
                 else if (mouseClickRect.Intersects(optionsButtonRect))
                 {
-
+                    gameState = GameState.Options;
+                }
+                else if (mouseClickRect.Intersects(storyButtonRect))
+                {
+                    gameState = GameState.Story;
                 }
             }
 
@@ -235,6 +346,10 @@ namespace Athyl
                 {
                     game.Exit();
                 }
+                else if (mouseClickRect.Intersects(optionsButtonRect))
+                {
+                    gameState = GameState.Options;
+                }
 
                 else if (mouseClickRect.Intersects(musicRect))
                 {
@@ -251,11 +366,20 @@ namespace Athyl
             if (gameState == GameState.Options)
             {
                 Rectangle resumeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
+                Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPositionStartMenu.X + 20, (int)exitButtonPositionStartMenu.Y, 120, 20);
+                Rectangle exitbuttonRect2 = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), (game.GraphicsDevice.Viewport.Height / 2 - 20), 120, 20);
 
-                //gameState = GameState.Paused;
                 if (mouseClickRect.Intersects(resumeButtonRect))
                 {
                     gameState = GameState.Playing;
+                }
+                if (mouseClickRect.Intersects(exitButtonRect1))
+                {
+                    game.Exit();
+                }
+                else if (mouseClickRect.Intersects(exitbuttonRect2))
+                {
+                    game.Exit();
                 }
             }
         }
@@ -270,12 +394,12 @@ namespace Athyl
         {
             Rectangle mouseClickRect = new Rectangle(x, y, 10, 10);
             Rectangle resumeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
-            Rectangle optionsButtonRect1 = new Rectangle((int)optionsButtonPositionStartMenu.X + 20, (int)optionsButtonPositionStartMenu.Y + 20, 160, 20);
+            Rectangle optionsButtonRect1 = new Rectangle((int)optionsButtonPositionStartMenu.X + 20, (int)optionsButtonPositionStartMenu.Y, 160, 20);
             Rectangle optionsButtonRect2 = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - optionsButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 65, 160, 20);
             Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPositionStartMenu.X + 20, (int)exitButtonPositionStartMenu.Y - 5, 120, 20);
             Rectangle exitButtonRect2 = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 20, 120, 20);
             Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X + 20, (int)startButtonPosition.Y + 28, 120, 30);
-            Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X + 20, (int)storyButtonPosition.Y, 120, 30);
+            Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X + 20, (int)storyButtonPosition.Y + 10, 120, 30);
 
 
             if (mouseClickRect.Intersects(resumeButtonRect))
@@ -314,6 +438,10 @@ namespace Athyl
             {
                 originalExitButton = exitButton;
             }
+            else if (mouseClickRect.Intersects(exitButtonRect2) && gameState == GameState.Options)
+            {
+                originalExitButton = exitButton;
+            }
             else
             {
                 originalExitButton = exitButton2;
@@ -328,102 +456,10 @@ namespace Athyl
             }
 
         }
-        #endregion
-        #region DrawAndUpdate
+                
 
-        /// <summary>
-        /// UpdateMenu used to handle different states. Pausing the game and keeping track on if the mouse is clicked on buttons.
-        /// </summary>
-        /// <param name="gametime"></param>
-        /// <param name="game"></param>
-        public void UpdateMenu(GameTime gametime, Game1 game, Player player)
-        {
+            
 
-            KeyboardState kbState = Keyboard.GetState();
-            mouseState = Mouse.GetState();
-
-            if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
-            {
-                MouseClicked(mouseState.X, mouseState.Y, game);
-            }
-            previousMouseState = mouseState;
-
-            if (gameState == GameState.Loading)
-            {
-                isLoading = false;
-            }
-
-            if (gameState == GameState.Loading && !isLoading)
-            {
-                // backGroundThread = new Thread(game.Load);
-                //this.backGroundThread.IsBackground = true;
-                isLoading = false;
-
-
-                // backGroundThread.Start();
-
-
-                if (!runOnce)
-                {
-                    game.loadThread.Start();
-                    runOnce = true;
-                }
-            }
-
-            if (kbState.IsKeyDown(Keys.F2))
-            {
-                gameState = GameState.Paused;
-            }
-
-            else if (kbState.IsKeyDown(Keys.F3))
-            {
-                gameState = GameState.Playing;
-            }
-
-            if (gameState == GameState.Playing)
-            {
-                PauseIcon(game);
-
-            }
-            else if (gameState == GameState.Paused)
-            {
-                PauseMenu(game);
-
-            }
-
-            else if (gameState == GameState.StartMenu)
-            {
-                StartMenu(game);
-            }
-            else if (gameState == GameState.Options)
-            {
-                OptionsMenu(game);
-            }
-
-            MouseOver(mouseState.X, mouseState.Y, game);
-
-        }
-
-        /// <summary>
-        /// Drawing the UI
-        /// </summary>
-        /// <param name="spriteBatch"></param>
-        /// <param name="graphicsDevice"></param>
-        /// <param name="player"></param>
-        /// <param name="myFont"></param>
-        public void DrawPlayerInfo(SpriteBatch spriteBatch, GraphicsDevice graphicsDevice, Player player, SpriteFont myFont, GameTime gameTime)
-        {
-            if (!player.Dead)
-            {
-                totalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            }
-            spriteBatch.DrawString(myFont, "Health:" + player.playerHP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 600), Color.DarkRed);
-            spriteBatch.DrawString(myFont, "Ethanol:" + player.playerAthyl.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 630), Color.MidnightBlue);
-            spriteBatch.DrawString(myFont, "Exp:" + player.playerXP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 660), Color.Green);
-            spriteBatch.DrawString(myFont, "Level:" + player.playerLevel.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 690), Color.Wheat);
-
-            spriteBatch.DrawString(myFont, "Time:" + totalTime.ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 570), Color.Violet);
-        }
         /// <summary>
         /// Drawing the graphics for the menus for the different game states.
         /// </summary>
@@ -465,8 +501,12 @@ namespace Athyl
                 spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
                 spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 405, -(int)Camera.transform.Translation.Y + 150, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
                 spriteBatch.Draw(originalResumeButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - resumeButton.Width / 2, -(int)Camera.transform.Translation.Y + 230, resumeButton.Width, resumeButton.Height), Color.White);
+                spriteBatch.Draw(originalExitButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 315, exitButton.Width, exitButton.Height), Color.White);
+            }
+            if(gameState == GameState.Story)
+            {
+                spriteBatch.Draw(loadingBackground, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
             }
         }
-        #endregion
     }
 }
