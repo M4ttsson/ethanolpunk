@@ -202,10 +202,10 @@ namespace Athyl
             //zero gravity
             //world = new World(Vector2.Zero);
 
-            sound = new Sounds(this);
+           // sound = new Sounds(this);
 
-            sound.Play("Music/song1");
-            MediaPlayer.IsRepeating = true;
+            //sound.Play("Music/song1");
+           // MediaPlayer.IsRepeating = true;
             //progressbar
             progressBar = Content.Load<Texture2D>("ProgressBar");
             progressBarBorder = Content.Load<Texture2D>("ProgressBarBorder");
