@@ -71,6 +71,12 @@ namespace Athyl
                 case Behavior.Patrol:
                     behavior = Patrol;
                     break;
+
+                case Behavior.Turret:
+                    fireRate = 0.2f;
+                    enemyHP += 50;
+                    behavior = Turret;
+                    break;
                     
                 case Behavior.None:
                     behavior = None;
@@ -271,6 +277,7 @@ namespace Athyl
         public enum Behavior
         {
             Patrol,
+            Turret,
             None
         }
 
@@ -281,9 +288,7 @@ namespace Athyl
             
         }
 
-        private void None()
-        {
-        }
+        
 
         /// <summary>
         /// Enemy patrols back and forth between two walls and stops and shoot if the player is in its direction
@@ -326,6 +331,24 @@ namespace Athyl
             }
             
             UpdateFrame(0.2f);
+        }
+
+        private void Turret()
+        {
+            attackPlayer();
+
+            if ((DateTime.Now - lastCheck).TotalSeconds >= 0.4)
+            {
+                direction = (direction == Direction.Left) ? Direction.Right : Direction.Left;
+                lastCheck = DateTime.Now;
+            }
+        }
+
+        /// <summary>
+        /// No actions
+        /// </summary>
+        private void None()
+        {
         }
 
         /// <summary>
