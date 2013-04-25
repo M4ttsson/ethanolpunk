@@ -221,8 +221,8 @@ namespace Athyl
         public void AnimateJump()
         {
                 this.frameRow = 2;
-                this.ColFrame = 0;
                 this.frameColumn = 1;
+                this.ColFrame = 0;
                 this.myTexture = game.Content.Load<Texture2D>("Player/Jump");
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 0;
@@ -233,8 +233,8 @@ namespace Athyl
             if (OnWall && !OnGround)
             {
                 this.frameRow = 2;
-                this.ColFrame = 0;
                 this.frameColumn = 1;
+                this.ColFrame = 0;
                 this.myTexture = game.Content.Load<Texture2D>("Player/walljump");
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 0;
