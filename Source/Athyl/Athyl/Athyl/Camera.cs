@@ -9,13 +9,15 @@ namespace Athyl
 {
     class Camera
     {
+        #region Properties
         public static Matrix transform;
         private Vector3 moveDirection;
         private int x, y, z;
         private Viewport view;
         private bool endOfMapX = false;
         private bool endOfMapY = false;
-
+        #endregion
+        #region Constructor
         public Camera(Viewport view)
         {
             this.view = view;
@@ -24,7 +26,12 @@ namespace Athyl
             this.y = 0;
             this.z = 0;
         }
-
+        #endregion
+        #region Update
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="player"></param>
         public void UpdateCamera(Player player)
         {
             if (player != null)                     //this decides if your at the end of world or not.
@@ -94,5 +101,6 @@ namespace Athyl
                 }
             }
         }
+        #endregion
     }
 }
