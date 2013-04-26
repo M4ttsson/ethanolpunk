@@ -31,7 +31,6 @@ namespace Athyl
         #region Properties
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
-        DebugViewXNA debugView;
         public World world;
         List<AI> theAI = new List<AI>();
         public List<Damage> damageList = new List<Damage>();
@@ -45,12 +44,7 @@ namespace Athyl
         Camera camera;
 
         static Map map;
-        DrawableGameObject floor;
-        DrawableGameObject wallright;
-        DrawableGameObject wallleft;
-        DrawableGameObject box;
 
-        Texture2D texture;
         Texture2D skyTexture;
         Texture2D progressBar;
         Texture2D progressBarBorder;
@@ -62,7 +56,6 @@ namespace Athyl
 
         private bool timedXPisApplied = false;
         public Thread loadThread;
-        private bool paused = false;
         private Texture2D playerTexture, enemyTexture;
         private float tempTime;
         List<Spawn> spawnpoints = new List<Spawn>(10);
@@ -274,6 +267,7 @@ namespace Athyl
                                 theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Patrol, "enemy"));
                                 theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Turret, "enemy"));
                                 break;
+
                             case 7:
                                 theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.None, "enemy"));
                                 theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Patrol, "enemy"));
@@ -350,8 +344,7 @@ namespace Athyl
                 {
                     player.direction = Player.Direction.Downleft;
                 }
-                /*else
-                    player.direction = Player.Direction.Left;*/
+
             }
 
             else if (keyboardState.IsKeyDown(Keys.Right))
@@ -365,8 +358,7 @@ namespace Athyl
                 {
                     player.direction = Player.Direction.Downright;
                 }
-                /*else
-                    player.direction = Player.Direction.Right;*/
+
             }
 
             else if (keyboardState.IsKeyDown(Keys.Up))
