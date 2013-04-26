@@ -215,7 +215,8 @@ namespace Athyl
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 0;
                 torso.Size = wheel.Size - new Vector2(10, 10);
-                torso.Position = wheel.Position;
+                torso.Position = wheel.Position + new Vector2(0,10);
+                //axis = JointFactory.CreateRevoluteJoint(world, torso.body, wheel.body, Vector2.Zero);
         }
 
         public void AnimateJump()
@@ -392,7 +393,6 @@ namespace Athyl
             }
         }
         #endregion
-
         #region DrawsAndUpdate
         /// <summary>
         /// Uppdaterar rörelsen i animeringen
@@ -627,8 +627,8 @@ namespace Athyl
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
 
             projectile.Draw(spriteBatch, torso.Position);
-            //torso.Draw(spriteBatch);
-            //wheel.Draw(spriteBatch);
+            torso.Draw(spriteBatch);
+            wheel.Draw(spriteBatch);
         }
         #endregion
     }
