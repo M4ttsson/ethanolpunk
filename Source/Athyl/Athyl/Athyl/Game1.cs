@@ -28,6 +28,7 @@ namespace Athyl
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        #region Properties
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         DebugViewXNA debugView;
@@ -42,7 +43,6 @@ namespace Athyl
         SpriteFont myFont;
         Quests quest;
         Camera camera;
-
 
         static Map map;
         DrawableGameObject floor;
@@ -69,26 +69,11 @@ namespace Athyl
         private int timedBonusXP;
         System.Timers.Timer timer;
         public static int runTime = 0;
+
         //private DrawableGameObject button;
+        #endregion
 
-
-        //class for spawnpoints
-        public class Spawn
-        {
-            public int Id { get; set; }
-            public bool Visited { get; set; }
-            public Rectangle SpawnTriggerRect { get; private set; }
-            public Vector2[] SpawnPositions;
-
-            public Spawn(int id, bool visit, Rectangle rect, Vector2[] positions)
-            {
-                Id = id;
-                Visited = visit;
-                SpawnTriggerRect = rect;
-                SpawnPositions = positions;
-            }
-        }
-
+        #region Constructor
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this)
@@ -105,22 +90,9 @@ namespace Athyl
             //create spawnpoints
             CreateSpawns();
         }
+        #endregion
 
-
-        private void CreateSpawns()
-        {
-            //visited, spawnrectangle and enemyspawn position.
-            spawnpoints.Add(new Spawn(1, false, new Rectangle(825, 890, 50, 120), new Vector2[] { new Vector2(40, 550), new Vector2(835, 300) }));
-            spawnpoints.Add(new Spawn(2, false, new Rectangle(500, 25, 170, 550), new Vector2[] { new Vector2(1950, 425), new Vector2(2270, 290) }));
-            spawnpoints.Add(new Spawn(3, false, new Rectangle(1440, 410, 320, 120), new Vector2[] { new Vector2(1650, 1225) }));
-            spawnpoints.Add(new Spawn(4, false, new Rectangle(2235, 1180, 50, 120), new Vector2[] { new Vector2(3025, 1480), new Vector2(3200, 1545) }));
-            spawnpoints.Add(new Spawn(5, false, new Rectangle(4205, 1980, 50, 120), new Vector2[] { new Vector2(4880, 2055), new Vector2(5050, 2055), new Vector2(5100, 1832), new Vector2(5050, 1610) }));
-            spawnpoints.Add(new Spawn(6, false, new Rectangle(5500, 1480, 50, 450), new Vector2[] { new Vector2(6290, 1800), new Vector2(6630, 1765) }));
-            spawnpoints.Add(new Spawn(7, false, new Rectangle(6190, 1550, 50, 330), new Vector2[] { new Vector2(7440, 1833), new Vector2(7825, 1800) }));
-            spawnpoints.Add(new Spawn(8, false, new Rectangle(7865, 1480, 50, 240), new Vector2[] { new Vector2(8900, 1350), new Vector2(8900, 1065) }));
-            spawnpoints.Add(new Spawn(9, false, new Rectangle(8785, 500, 50, 1000), new Vector2[] { new Vector2(9723, 1320) }));
-        }
-
+        #region InitializationRestartAndLoad
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -146,20 +118,10 @@ namespace Athyl
             timer = new System.Timers.Timer(1000);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
 
-
-
-            
             camera = new Camera(GraphicsDevice.Viewport);
-
 
             base.Initialize();
         }
-
-        void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            runTime++;
-        }
-
         /// <summary>
         /// Load all performance heavy things
         /// </summary>
@@ -169,24 +131,6 @@ namespace Athyl
             menu.gameState = Menu.GameState.Playing;
             menu.isLoading = true;
         }
-
-        //listen for pause
-        private void ListenPause()
-        {
-            while (true)
-            {
-                if (keyboardState.IsKeyDown(Keys.Escape))
-                {
-                    Exit();
-                }
-                if (keyboardState.IsKeyDown(Keys.R))
-                {
-                    Restart();
-                }
-                Thread.Sleep(20);
-            }
-        }
-
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -198,14 +142,14 @@ namespace Athyl
 
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
-            
+
             //zero gravity
             //world = new World(Vector2.Zero);
 
             //sound = new Sounds(this);
-         
+
             //sound.Play("Music/song1");
-           // MediaPlayer.IsRepeating = true;
+            // MediaPlayer.IsRepeating = true;
             //progressbar
             progressBar = Content.Load<Texture2D>("ProgressBar");
             progressBarBorder = Content.Load<Texture2D>("ProgressBarBorder");
@@ -229,6 +173,281 @@ namespace Athyl
             timer.Start();
         }
 
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// all content.
+        /// </summary>
+        protected override void UnloadContent()
+        {
+
+        }
+        /// <summary>
+        /// Restart the game
+        /// </summary>
+        private void Restart()
+        {
+            foreach (AI ai in theAI)
+            {
+                world.RemoveBody(ai.wheel.body);
+                world.RemoveBody(ai.torso.body);
+            }
+            theAI.Clear();
+
+            if (player != null)
+            {
+                world.RemoveBody(player.torso.body);
+                world.RemoveBody(player.wheel.body);
+            }
+            player = null;
+
+            //player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(8385, 1000), this, "player");
+            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(60, 1300), this, "player");
+
+            //reset spawnpoints
+            foreach (Spawn sp in spawnpoints)
+            {
+                if (sp.Visited)
+                    sp.Visited = false;
+            }
+
+            menu.totalTime = 0f;
+
+            runTime = 0;
+
+            camera = new Camera(graphics.GraphicsDevice.Viewport);
+            camera.UpdateCamera(player);
+
+            if (quest != null)
+            {
+                world.RemoveBody(quest.boulder.body);
+            }
+
+            quest = new Quests(world, this);
+            if (map != null)
+                map.button.body.OnCollision += quest.InteractWithQuestItems;
+        }
+        #endregion
+
+        #region Spawn
+        //class for spawnpoints
+        public class Spawn
+        {
+            public int Id { get; set; }
+            public bool Visited { get; set; }
+            public Rectangle SpawnTriggerRect { get; private set; }
+            public Vector2[] SpawnPositions;
+
+            public Spawn(int id, bool visit, Rectangle rect, Vector2[] positions)
+            {
+                Id = id;
+                Visited = visit;
+                SpawnTriggerRect = rect;
+                SpawnPositions = positions;
+            }
+        }
+
+        private void CreateSpawns()
+        {
+            //visited, spawnrectangle and enemyspawn position.
+            spawnpoints.Add(new Spawn(1, false, new Rectangle(825, 890, 50, 120), new Vector2[] { new Vector2(40, 550), new Vector2(835, 300) }));
+            spawnpoints.Add(new Spawn(2, false, new Rectangle(500, 25, 170, 550), new Vector2[] { new Vector2(1950, 425), new Vector2(2270, 290) }));
+            spawnpoints.Add(new Spawn(3, false, new Rectangle(1440, 410, 320, 120), new Vector2[] { new Vector2(1650, 1225) }));
+            spawnpoints.Add(new Spawn(4, false, new Rectangle(2235, 1180, 50, 120), new Vector2[] { new Vector2(3025, 1480), new Vector2(3200, 1545) }));
+            spawnpoints.Add(new Spawn(5, false, new Rectangle(4205, 1980, 50, 120), new Vector2[] { new Vector2(4880, 2055), new Vector2(5050, 2055), new Vector2(5100, 1832), new Vector2(5050, 1610) }));
+            spawnpoints.Add(new Spawn(6, false, new Rectangle(5500, 1480, 50, 450), new Vector2[] { new Vector2(6290, 1800), new Vector2(6630, 1765) }));
+            spawnpoints.Add(new Spawn(7, false, new Rectangle(6190, 1550, 50, 330), new Vector2[] { new Vector2(7440, 1833), new Vector2(7825, 1800) }));
+            spawnpoints.Add(new Spawn(8, false, new Rectangle(7865, 1480, 50, 240), new Vector2[] { new Vector2(8900, 1350), new Vector2(8900, 1065) }));
+            spawnpoints.Add(new Spawn(9, false, new Rectangle(8785, 500, 50, 1000), new Vector2[] { new Vector2(9723, 1320) }));
+        }
+
+        private void SpawnEnemies()
+        {
+            foreach (Spawn sp in spawnpoints)
+            {
+                if (!sp.Visited)
+                {
+                    if (sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
+                    {
+                        switch (sp.Id)
+                        {
+                            case 1:
+                                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Patrol, "enemy"));
+                                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Turret, "enemy"));
+                                break;
+                            case 7:
+                                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.None, "enemy"));
+                                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Patrol, "enemy"));
+                                break;
+
+                            case 9:
+                                theAI.Add(new AI(world, enemyTexture, new Vector2(84, 120), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Boss, "boss"));
+                                break;
+
+                            default:
+                                foreach (Vector2 pos in sp.SpawnPositions)
+                                {
+                                    theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), pos, 100, 20, this, AI.Behavior.None, "enemy"));
+                                }
+                                break;
+                        }
+
+                        sp.Visited = true;
+                    }
+                }
+            }
+        }
+        #endregion
+            
+        #region Input
+        //listen for pause
+        private void ListenPause()
+        {
+            while (true)
+            {
+                if (keyboardState.IsKeyDown(Keys.Escape))
+                {
+                    Exit();
+                }
+                if (keyboardState.IsKeyDown(Keys.R))
+                {
+                    Restart();
+                }
+                Thread.Sleep(20);
+            }
+        }
+
+        private void Input()
+        {
+            keyboardState = Keyboard.GetState();
+
+            //flying debug!
+            /*if(keyboardState.IsKeyDown(Keys.Up))
+                player.torso.body.ApplyForce(new Vector2(0, -3.0f));
+            if (keyboardState.IsKeyDown(Keys.Down))
+                player.torso.body.ApplyForce(new Vector2(0, 3));*/
+
+
+            if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
+            {
+                player.Jump();
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Z))
+            {
+                player.useWeapon(world);
+            }
+
+
+
+            if (keyboardState.IsKeyDown(Keys.Left))
+            {
+                player.Move(Player.Movement.Left);
+                if (keyboardState.IsKeyDown(Keys.Up))
+                {
+                    player.direction = Player.Direction.Upleft;
+                }
+                else if (keyboardState.IsKeyDown(Keys.Down) && !player.Crouching)
+                {
+                    player.direction = Player.Direction.Downleft;
+                }
+                /*else
+                    player.direction = Player.Direction.Left;*/
+            }
+
+            else if (keyboardState.IsKeyDown(Keys.Right))
+            {
+                player.Move(Player.Movement.Right);
+                if (keyboardState.IsKeyDown(Keys.Up))
+                {
+                    player.direction = Player.Direction.Upright;
+                }
+                else if (keyboardState.IsKeyDown(Keys.Down) && !player.Crouching)
+                {
+                    player.direction = Player.Direction.Downright;
+                }
+                /*else
+                    player.direction = Player.Direction.Right;*/
+            }
+
+            else if (keyboardState.IsKeyDown(Keys.Up))
+            {
+                player.direction = Player.Direction.Up;
+                player.Move(Player.Movement.Stop);
+            }
+            else if (keyboardState.IsKeyDown(Keys.Down))
+            {
+                if (!player.OnGround)
+                {
+                    player.direction = Player.Direction.Down;
+                    player.Move(Player.Movement.Stop);
+                }
+                // vi lämnar duckningen till nästa iteration
+                else
+                {
+                    player.Crouching = true;
+                }
+            }
+
+
+            //Logik för att kunna skjuta diagonalt när man står still, men det funkar dåligt
+            /*else if(keyboardState.IsKeyDown(Keys.X)){
+                if(player.Direction == 0){
+                    player.Direction = 4;
+                    if(keyboardState.IsKeyDown(Keys.Down)){
+                        player.Direction = 6;
+                    }
+                    else if(keyboardState.IsKeyDown(Keys.Up)){
+                        player.Direction = 4;
+                    }
+                }
+                else if(player.Direction == 1){
+                    player.Direction = 5;
+                    if(keyboardState.IsKeyDown(Keys.Down)){
+                        player.Direction = 7;
+                    }
+                    else if(keyboardState.IsKeyDown(Keys.Up)){
+                        player.Direction = 5;
+                    }
+                }
+
+            }*/
+
+            else
+            {
+                player.Move(Player.Movement.Stop);
+                player.Crouching = false;
+                //Vänder riktningen åt rätt håll ifall man har skjutit diagonalt, upp eller ner
+                if (player.lastDirection)
+                    player.direction = Player.Direction.Left;
+                else
+                    player.direction = Player.Direction.Right;
+
+
+            }
+
+            if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
+            {
+
+                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(50, 1300), 100, 20, this, AI.Behavior.Patrol, "enemy"));
+
+                for (int i = 0; i < theAI.Count; i++)
+                {
+                    for (int j = 0; j < theAI.Count; j++)
+                    {
+                        theAI[i].torso.body.IgnoreCollisionWith(theAI[j].torso.body);
+                        theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].wheel.body);
+                        theAI[i].torso.body.IgnoreCollisionWith(theAI[j].wheel.body);
+                        theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].torso.body);
+                    }
+                }
+            }
+
+            prevKeyboardState = keyboardState;
+
+        }
+        #endregion
+
+        #region CollisionAndDamage
         private bool BeginContact(Contact contact)
         {
 
@@ -295,19 +514,19 @@ namespace Athyl
                 {
 
 
-                            player.playerXP += 30;
-                            player.playerXP += (timedBonusXP * 50 / (int)menu.totalTime);
+                    player.playerXP += 30;
+                    player.playerXP += (timedBonusXP * 50 / (int)menu.totalTime);
 
-                            removedAIList.Add(theAI[i]);
+                    removedAIList.Add(theAI[i]);
 
-                            if (removedAIList.Contains(theAI[i]))
-                            {
-                                world.RemoveBody(theAI[i].wheel.body);
-                                world.RemoveBody(theAI[i].torso.body);
-                                theAI.RemoveAt(i);
+                    if (removedAIList.Contains(theAI[i]))
+                    {
+                        world.RemoveBody(theAI[i].wheel.body);
+                        world.RemoveBody(theAI[i].torso.body);
+                        theAI.RemoveAt(i);
 
-                            }
-                    
+                    }
+
                 }
 
                 else if (theAI[i].enemyHP <= 0 && theAI[i].torso.body.FixtureList[0].UserData.ToString() != "boss")
@@ -328,7 +547,7 @@ namespace Athyl
                     timedBonusXP += 3;
                 }
 
-                
+
             }
 
             foreach (var damage in damageList)
@@ -341,102 +560,9 @@ namespace Athyl
 
             damageList.Clear();
         }
+        #endregion
 
-
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-
-        }
-
-        /// <summary>
-        /// Restart the game
-        /// </summary>
-        private void Restart()
-        {
-            foreach (AI ai in theAI)
-            {
-                world.RemoveBody(ai.wheel.body);
-                world.RemoveBody(ai.torso.body);
-            }
-            theAI.Clear();
-
-            if (player != null)
-            {
-                world.RemoveBody(player.torso.body);
-                world.RemoveBody(player.wheel.body);
-            }
-            player = null;
-
-            //player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(8385, 1000), this, "player");
-            player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(60, 1300), this, "player");
-            
-            //reset spawnpoints
-            foreach (Spawn sp in spawnpoints)
-            {
-                if (sp.Visited)
-                    sp.Visited = false;
-            }
-
-            menu.totalTime = 0f;
-
-            runTime = 0;
-
-            camera = new Camera(graphics.GraphicsDevice.Viewport);
-            camera.UpdateCamera(player);
-
-            if (quest != null)
-            {
-                world.RemoveBody(quest.boulder.body);
-            }
-
-            quest = new Quests(world, this);
-            if(map != null)
-                map.button.body.OnCollision += quest.InteractWithQuestItems;
-        }
-
-
-
-        private void SpawnEnemies()
-        {
-            foreach (Spawn sp in spawnpoints)
-            {
-                if (!sp.Visited)
-                {
-                     if (sp.SpawnTriggerRect.Contains((int)player.torso.Position.X, (int)player.torso.Position.Y))
-                    {
-                        switch (sp.Id)
-                        {
-                            case 1:
-                                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Patrol, "enemy"));
-                                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Turret, "enemy"));
-                                break;
-                            case 7:
-                                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.None, "enemy"));
-                                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Patrol, "enemy"));
-                                break;
-
-                            case 9:
-                                theAI.Add(new AI(world, enemyTexture, new Vector2(84, 120), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Boss, "boss"));
-                                break;
-                                
-                            default:
-                                foreach (Vector2 pos in sp.SpawnPositions)
-                                {
-                                    theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), pos, 100, 20, this, AI.Behavior.None, "enemy"));
-                                }
-                                break;     
-                        }
-                        
-                        sp.Visited = true;
-                    }
-                }
-            }
-        }
-
+        #region Update
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -513,142 +639,9 @@ namespace Athyl
         }
 
 
-        
-
-
-
         /// <summary>
         /// Handle all input
         /// </summary>
-        private void Input()
-        {
-            keyboardState = Keyboard.GetState();
-
-            //flying debug!
-            /*if(keyboardState.IsKeyDown(Keys.Up))
-                player.torso.body.ApplyForce(new Vector2(0, -3.0f));
-            if (keyboardState.IsKeyDown(Keys.Down))
-                player.torso.body.ApplyForce(new Vector2(0, 3));*/
-
-
-            if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
-            {
-                player.Jump();
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Z))
-            {
-                player.useWeapon(world);
-            }
-
-
-   
-            if (keyboardState.IsKeyDown(Keys.Left))
-            {
-                player.Move(Player.Movement.Left);
-                if (keyboardState.IsKeyDown(Keys.Up))
-                {
-                    player.direction = Player.Direction.Upleft;
-                }
-                else if (keyboardState.IsKeyDown(Keys.Down) && !player.Crouching)
-                {
-                    player.direction = Player.Direction.Downleft;
-                }
-                /*else
-                    player.direction = Player.Direction.Left;*/
-            }
-
-            else if (keyboardState.IsKeyDown(Keys.Right))
-            {
-                player.Move(Player.Movement.Right);
-                if (keyboardState.IsKeyDown(Keys.Up))
-                {
-                    player.direction = Player.Direction.Upright;
-                }
-                else if (keyboardState.IsKeyDown(Keys.Down) && !player.Crouching)
-                {
-                    player.direction = Player.Direction.Downright;
-                }
-                /*else
-                    player.direction = Player.Direction.Right;*/
-            }
-
-            else if (keyboardState.IsKeyDown(Keys.Up))
-            {
-                player.direction = Player.Direction.Up;
-                player.Move(Player.Movement.Stop);
-            }
-            else if (keyboardState.IsKeyDown(Keys.Down))
-            {
-                if (!player.OnGround)
-                {
-                    player.direction = Player.Direction.Down;
-                    player.Move(Player.Movement.Stop);
-                }
-                //Vi lämnar duckningen till nästa iteration
-                //else
-                //{
-                //    player.Crouching = true;
-                //}
-            }
-                
-
-            //Logik för att kunna skjuta diagonalt när man står still, men det funkar dåligt
-            /*else if(keyboardState.IsKeyDown(Keys.X)){
-                if(player.Direction == 0){
-                    player.Direction = 4;
-                    if(keyboardState.IsKeyDown(Keys.Down)){
-                        player.Direction = 6;
-                    }
-                    else if(keyboardState.IsKeyDown(Keys.Up)){
-                        player.Direction = 4;
-                    }
-                }
-                else if(player.Direction == 1){
-                    player.Direction = 5;
-                    if(keyboardState.IsKeyDown(Keys.Down)){
-                        player.Direction = 7;
-                    }
-                    else if(keyboardState.IsKeyDown(Keys.Up)){
-                        player.Direction = 5;
-                    }
-                }
-
-            }*/
-
-            else
-            {
-                player.Move(Player.Movement.Stop);
-                player.Crouching = false;
-                //Vänder riktningen åt rätt håll ifall man har skjutit diagonalt, upp eller ner
-                if (player.lastDirection)
-                    player.direction = Player.Direction.Left;
-                else
-                    player.direction = Player.Direction.Right;
-
-
-            }
-
-            if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
-            {
-
-                theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(50, 1300), 100, 20, this, AI.Behavior.Patrol, "enemy"));
-
-                for (int i = 0; i < theAI.Count; i++)
-                {
-                    for (int j = 0; j < theAI.Count; j++)
-                    {
-                        theAI[i].torso.body.IgnoreCollisionWith(theAI[j].torso.body);
-                        theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].wheel.body);
-                        theAI[i].torso.body.IgnoreCollisionWith(theAI[j].wheel.body);
-                        theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].torso.body);
-                    }
-                }
-            }
-
-            prevKeyboardState = keyboardState;
-
-        }
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -714,5 +707,11 @@ namespace Athyl
 
             base.Draw(gameTime);
         }
+
+        void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            runTime++;
+        }
+        #endregion
     }
 }
