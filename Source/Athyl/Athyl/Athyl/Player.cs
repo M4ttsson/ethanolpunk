@@ -127,7 +127,7 @@ namespace Athyl
             //xpRequiredPerLevel
             numFootContacts = 0;
             projectile = new Projectile(game);
-            skillTree = new Skilltree();
+            skillTree = new Skilltree(this);
 
             playerLevel = 1;
             playerXP = 0;
@@ -308,9 +308,10 @@ namespace Athyl
         {
             if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
             {
-                projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body);
+                projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
                 playerAthyl -= 1;
                 lastBullet = DateTime.Now;
+                Console.WriteLine(skillTree.damage);
             }
         }
         public virtual void Jump()
@@ -621,6 +622,9 @@ namespace Athyl
                     UpdateFrame(0.2f);
                 playerHP = 0;
             }
+
+            //Update the skilltree
+            skillTree.Update();
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
