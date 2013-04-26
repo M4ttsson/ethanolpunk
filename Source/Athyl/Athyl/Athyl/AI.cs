@@ -52,7 +52,7 @@ namespace Athyl
         public AI(World world, Texture2D texture, Vector2 size, Vector2 startPosition, float mass, float wheelSize, Game1 game, Behavior behaviors, string userdata)
             : base(world, texture, size, mass, startPosition, game, userdata)
         {
-            Load(texture, 2, 11, 1,0);
+            //Load(texture, 2, 11, 1,0);
             torso.body.CollisionCategories = Category.Cat2;
             speed = 1f;
             //jumpForce = new Vector2(0, -5f);
