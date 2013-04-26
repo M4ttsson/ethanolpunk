@@ -46,9 +46,9 @@ namespace Athyl
         /// <param name="position"></param>
         /// <param name="direction"></param>
         /// <param name="world"></param>
-        public void NewBullet(Vector2 position, Player.Direction direction , World world, float speed, Body wheel)
+        public void NewBullet(Vector2 position, Player.Direction direction , World world, float speed, Body wheel, float damage)
         {
-
+            this.damage = damage;
             //Allows the linear bullets to have some spread!
             float spread = random.Next(-2, 2);
 

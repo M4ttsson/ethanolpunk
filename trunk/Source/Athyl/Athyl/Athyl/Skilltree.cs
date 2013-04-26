@@ -12,10 +12,28 @@ namespace Athyl
         public float fireRate;
         public float projectileSpeed;
         Int16 meleefirebreath, meleeAtkSpd, meleeMoveSpd, meleeJmpHeight, midFireBurst, midFireRate, midEthanoltank, midBulletPassthrough, longShield, longEthanol, longAccuracy, longHeadshotBonus;
-        public Skilltree()
+        public float damage;
+        int playerLevel;
+        
+        public Skilltree(Player playerInfo)
         {
             fireRate = 0.1f;
             projectileSpeed = 0.025f;
+            damage = 34;
+            this.playerInfo = playerInfo;
+            playerLevel = playerInfo.playerLevel;
+        }
+
+        //En enkel levelingfunktion, skjuta snabbare, snabbare kulor och mer skada
+        public void Update()
+        {
+            if (playerLevel < playerInfo.playerLevel)
+            {
+                damage = damage * 1.5f;
+                fireRate = fireRate * 0.9f;
+                projectileSpeed = projectileSpeed * 1.5f;
+                playerLevel = playerInfo.playerLevel;
+            }
         }
         /*
         #region MeleeStance

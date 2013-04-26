@@ -99,7 +99,7 @@ namespace Athyl
             IsMouseVisible = true;
             projectile = new Projectile(this);
 
-            skilltree = new Skilltree();
+            //skilltree = new Skilltree(player);
             myFont = Content.Load<SpriteFont>("font");
 
             //start a thread that listens for exit (debug)
