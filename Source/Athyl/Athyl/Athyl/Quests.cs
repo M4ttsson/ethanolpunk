@@ -19,7 +19,7 @@ namespace Athyl
 {
     class Quests
     {
-        DrawableGameObject boulder;
+        public DrawableGameObject boulder;
         World world;
         public Quests(World world, Game1 game)
         {

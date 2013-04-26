@@ -387,6 +387,12 @@ namespace Athyl
 
             camera = new Camera(graphics.GraphicsDevice.Viewport);
             camera.UpdateCamera(player);
+
+            if (quest != null)
+            {
+                world.RemoveBody(quest.boulder.body);
+            }
+
             quest = new Quests(world, this);
             if(map != null)
                 map.button.body.OnCollision += quest.InteractWithQuestItems;
