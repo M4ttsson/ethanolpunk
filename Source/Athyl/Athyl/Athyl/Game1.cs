@@ -677,8 +677,9 @@ namespace Athyl
 
             }
 
-            menu.Draw(spriteBatch, this);
 
+            menu.Draw(spriteBatch, this);
+            
             spriteBatch.End();
             spriteBatch.Begin();
 
