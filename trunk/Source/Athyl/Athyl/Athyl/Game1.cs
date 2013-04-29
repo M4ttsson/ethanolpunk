@@ -310,6 +310,9 @@ namespace Athyl
             }
         }
 
+        /// <summary>
+        /// Handle all input
+        /// </summary>
         private void Input()
         {
             keyboardState = Keyboard.GetState();
@@ -335,7 +338,7 @@ namespace Athyl
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
-                if(!player.Crouching)
+
                     player.Move(Player.Movement.Left);
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
@@ -350,7 +353,7 @@ namespace Athyl
 
             else if (keyboardState.IsKeyDown(Keys.Right))
             {
-                if (!player.Crouching)
+
                     player.Move(Player.Movement.Right);
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
@@ -639,10 +642,6 @@ namespace Athyl
             base.Update(gameTime);
         }
 
-
-        /// <summary>
-        /// Handle all input
-        /// </summary>
 
         /// <summary>
         /// This is called when the game should draw itself.
