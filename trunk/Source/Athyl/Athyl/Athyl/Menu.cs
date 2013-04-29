@@ -178,6 +178,7 @@ namespace Athyl
         public void StoryMenu(Game1 game)
         {
             gameState = GameState.Story;
+            returnButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - startButton.Width), 300);
         }
 
         public void OptionsPauseMenu(Game1 game)
@@ -410,7 +411,7 @@ namespace Athyl
             //checking the story menu
             if (gameState == GameState.Story)
             {
-                Rectangle returnButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - returnButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
+                Rectangle returnButtonRect = new Rectangle((int)returnButtonPosition.X + 20, (int)returnButtonPosition.Y + 28, 120, 20);
                 if (mouseClickRect.Intersects(returnButtonRect))
                 {
                     gameState = GameState.StartMenu;
@@ -502,6 +503,10 @@ namespace Athyl
             {
                 originalReturnButton = returnButton;
             }
+            else if (mouseClickRect.Intersects(startReturnButtonRect) && gameState == GameState.Story)
+            {
+                originalReturnButton = returnButton;
+            }
             else
             {
                 originalReturnButton = returnButton2;
@@ -564,10 +569,9 @@ namespace Athyl
             }
             if(gameState == GameState.Story)
             {
-                spriteBatch.Draw(loadingBackground, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
-                //Only used to show where the exit button is
-                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 400, -(int)Camera.transform.Translation.Y + 175, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
-                spriteBatch.Draw(originalReturnButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - returnButton.Width / 2, -(int)Camera.transform.Translation.Y + 230, returnButton.Width, returnButton.Height), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y + 250, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
+                spriteBatch.Draw(originalReturnButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - returnButton.Width / 2, -(int)Camera.transform.Translation.Y + 310, returnButton.Width, returnButton.Height), Color.White);
             }
         }
     }
