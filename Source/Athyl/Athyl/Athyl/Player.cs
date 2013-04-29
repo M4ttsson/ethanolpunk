@@ -108,9 +108,11 @@ namespace Athyl
             torso.body.CollisionCategories = Category.Cat1;
             //torso.body.FixedRotation = true;
             //torso.body.Mass = 0;
+            
 
             // Create a joint to keep the torso upright
             JointFactory.CreateFixedAngleJoint(world, torso.body);
+
 
             //angleJoint = JointFactory.CreateAngleJoint(world, wheel.body, wheel.body);
 
@@ -338,60 +340,63 @@ namespace Athyl
         }
         public virtual void Move(Movement movement)
         {
-
-            switch (movement)
+            if (wheel.body.Enabled)
             {
-                case Movement.Left:
-                    if (!OnGround)
-                    {
-                        if (torso.body.LinearVelocity.X > 0)
+                switch (movement)
+                {
+                    case Movement.Left:
+                        if (!OnGround)
                         {
-                            torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
-                            torso.body.ApplyForce(new Vector2(-speed * 2, 0));
+                            if (torso.body.LinearVelocity.X > 0)
+                            {
+                                torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
+                                torso.body.ApplyForce(new Vector2(-speed * 2, 0));
 
+                            }
+                            else if (torso.body.LinearVelocity.X >= -speed * 2)
+                            {
+                                torso.body.ApplyForce(new Vector2(-speed * 2, 0));
+                            }
                         }
-                        else if (torso.body.LinearVelocity.X >= -speed * 2)
+                        else
                         {
-                            torso.body.ApplyForce(new Vector2(-speed * 2, 0));
+                            axis.MotorSpeed = -MathHelper.TwoPi * speed;
+                            UpdateFrame(0.2f);
                         }
-                    }
-                    else
-                    {
-                        axis.MotorSpeed = -MathHelper.TwoPi * speed;
+                        direction = Direction.Left;
+                        lastDirection = true;
+                        break;
+
+                    case Movement.Right:
+                        if (!OnGround)
+                        {
+                            if (torso.body.LinearVelocity.X < 0)
+                            {
+                                torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
+                                torso.body.ApplyForce(new Vector2(speed * 2, 0));
+
+                            }
+                            else if (torso.body.LinearVelocity.X <= speed * 2)
+                            {
+                                torso.body.ApplyForce(new Vector2(speed * 2, 0));
+                            }
+                        }
+                        else
+                        {
+                            axis.MotorSpeed = MathHelper.TwoPi * speed;
+                            UpdateFrame(0.2f);
+                        }
+                        direction = Direction.Right;
+                        lastDirection = false;
+                        break;
+
+                    case Movement.Stop:
+                        axis.MotorSpeed = 0;
                         UpdateFrame(0.2f);
-                    }
-                    direction = Direction.Left;
-                    lastDirection = true;
-                    break;
-
-                case Movement.Right:
-                    if (!OnGround)
-                    {
-                        if (torso.body.LinearVelocity.X < 0)
-                        {
-                            torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
-                            torso.body.ApplyForce(new Vector2(speed * 2, 0));
-
-                        }
-                        else if (torso.body.LinearVelocity.X <= speed * 2)
-                        {
-                            torso.body.ApplyForce(new Vector2(speed * 2, 0));
-                        }
-                    }
-                    else
-                    {
-                        axis.MotorSpeed = MathHelper.TwoPi * speed;
-                        UpdateFrame(0.2f);
-                    }
-                    direction = Direction.Right;
-                    lastDirection = false;
-                    break;
-
-                case Movement.Stop:
-                    axis.MotorSpeed = 0;
-                    UpdateFrame(0.2f);
-                    break;
+                        break;
+                }
             }
+            
         }
         #endregion
         #region DrawsAndUpdate
