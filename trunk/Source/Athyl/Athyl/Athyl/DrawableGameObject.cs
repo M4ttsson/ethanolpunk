@@ -29,15 +29,15 @@ namespace Athyl
         //converts to units or pixels before getting or setting
         public Vector2 Position
         {
-            get { return CoordinateHelper.ToScreen(body.Position); }
-            set { body.Position = CoordinateHelper.ToWorld(value); }
+            get { return ConvertUnits.ToDisplayUnits(body.Position); }
+            set { body.Position = ConvertUnits.ToSimUnits(value); }
         }
 
         private Vector2 size;
         public Vector2 Size
         {
-            get { return CoordinateHelper.ToScreen(size); }
-            set { size = CoordinateHelper.ToWorld(value); }
+            get { return ConvertUnits.ToDisplayUnits(size); }
+            set { size = ConvertUnits.ToSimUnits(value); }
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Athyl
         /// <param name="userdata">Type of object. For example enemy, player, weapon etc.</param>
         public DrawableGameObject(World world, Texture2D texture, Vector2 size, float mass, string userdata)
         {
-            body = BodyFactory.CreateRectangle(world, size.X * CoordinateHelper.pixelToUnit, size.Y * CoordinateHelper.pixelToUnit, 1, userdata);
+            body = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(size.X), ConvertUnits.ToSimUnits(size.Y), 1, userdata);
             body.BodyType = BodyType.Dynamic;
           //  body.Mass = mass;
 
@@ -99,7 +99,7 @@ namespace Athyl
         public DrawableGameObject(World world, Texture2D texture, float diameter, float mass, string userdata)
         {
             size = new Vector2(diameter, diameter);
-            body = BodyFactory.CreateCircle(world, (diameter / 2.0f) * CoordinateHelper.pixelToUnit, 1, userdata);
+            body = BodyFactory.CreateCircle(world, ConvertUnits.ToSimUnits(diameter / 2.0f), 1, userdata);
             body.BodyType = BodyType.Dynamic;
            // body.Mass = mass;
 

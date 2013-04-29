@@ -339,7 +339,7 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.Left))
             {
 
-                    player.Move(Player.Movement.Left);
+                player.Move(Player.Movement.Left);
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
                     player.direction = Player.Direction.Upleft;
@@ -348,13 +348,12 @@ namespace Athyl
                 {
                     player.direction = Player.Direction.Downleft;
                 }
-
             }
 
             else if (keyboardState.IsKeyDown(Keys.Right))
             {
 
-                    player.Move(Player.Movement.Right);
+                player.Move(Player.Movement.Right);
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
                     player.direction = Player.Direction.Upright;
