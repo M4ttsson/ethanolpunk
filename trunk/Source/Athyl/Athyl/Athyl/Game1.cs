@@ -335,7 +335,8 @@ namespace Athyl
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
-                player.Move(Player.Movement.Left);
+                if(!player.Crouching)
+                    player.Move(Player.Movement.Left);
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
                     player.direction = Player.Direction.Upleft;
@@ -349,7 +350,8 @@ namespace Athyl
 
             else if (keyboardState.IsKeyDown(Keys.Right))
             {
-                player.Move(Player.Movement.Right);
+                if (!player.Crouching)
+                    player.Move(Player.Movement.Right);
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
                     player.direction = Player.Direction.Upright;
@@ -366,6 +368,11 @@ namespace Athyl
                 player.direction = Player.Direction.Up;
                 player.Move(Player.Movement.Stop);
             }
+            else if (keyboardState.IsKeyUp(Keys.Down) && prevKeyboardState.IsKeyDown(Keys.Down))// && prevKeyboardState.IsKeyDown(Keys.Up))
+            {
+                player.wheel.body.Enabled = true;
+                player.Crouching = false; 
+            }
             else if (keyboardState.IsKeyDown(Keys.Down))
             {
                 if (!player.OnGround)
@@ -376,9 +383,11 @@ namespace Athyl
                 // vi lämnar duckningen till nästa iteration
                 else
                 {
+                    player.wheel.body.Enabled = false;
                     player.Crouching = true;
                 }
             }
+
 
 
             //Logik för att kunna skjuta diagonalt när man står still, men det funkar dåligt
@@ -672,16 +681,19 @@ namespace Athyl
 
             menu.Draw(spriteBatch, this);
 
+            spriteBatch.End();
+            spriteBatch.Begin();
+
             if (!menu.isLoading && menu.gameState != Menu.GameState.StartMenu)
             {
                 Rectangle bar = new Rectangle(425, GraphicsDevice.Viewport.Height - 200, (int)((Map.progress / Map.done) * 400), 40);
                 Rectangle border = new Rectangle(425, GraphicsDevice.Viewport.Height - 200, 400, 40);
                 spriteBatch.Draw(progressBarBorder, border, Color.White);
                 spriteBatch.Draw(progressBar, bar, Color.White);
-                //spriteBatch.DrawString(myFont, "Loading", new Vector2(500, GraphicsDevice.Viewport.Height - 240), Color.DarkRed);
             }
 
             //Writes out Game Over when the player dies
+
             if (player != null && player.Dead == true)
             {
                 spriteBatch.DrawString(myFont, "Game Over", new Vector2(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 360), Color.DarkRed);
@@ -690,11 +702,11 @@ namespace Athyl
 
 
             //Uncomment if you want to check where the spawnpoints are visually
-           /* foreach (Spawn sp in spawnpoints)
+            /*foreach (Spawn sp in spawnpoints)
             {
                 spriteBatch.Draw(progressBar, sp.SpawnTriggerRect, Color.White);
-            }*/
-
+            }
+            */
             spriteBatch.End();
 
             base.Draw(gameTime);

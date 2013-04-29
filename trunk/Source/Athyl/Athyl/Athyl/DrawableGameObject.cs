@@ -22,6 +22,7 @@ namespace Athyl
     class DrawableGameObject
     {
         public Body body { get; private set; }
+        //public Body crouchBody { get; private set; }
         public Texture2D texture;
         private Vector2 origin;
 
@@ -52,6 +53,14 @@ namespace Athyl
             body = BodyFactory.CreateRectangle(world, size.X * CoordinateHelper.pixelToUnit, size.Y * CoordinateHelper.pixelToUnit, 1, userdata);
             body.BodyType = BodyType.Dynamic;
           //  body.Mass = mass;
+
+           /* if (userdata.ToString() == "player")
+            {
+                crouchBody = BodyFactory.CreateRectangle(world, 50 * CoordinateHelper.pixelToUnit, 40 * CoordinateHelper.pixelToUnit, 1, userdata);
+                crouchBody.BodyType = BodyType.Dynamic;
+                crouchBody.Enabled = false;
+            }
+            */
 
             this.Size = size;
             this.texture = texture;
