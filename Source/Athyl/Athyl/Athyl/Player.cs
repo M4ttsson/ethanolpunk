@@ -311,7 +311,7 @@ namespace Athyl
                 projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
                 playerAthyl -= 1;
                 lastBullet = DateTime.Now;
-                Console.WriteLine(skillTree.damage);
+                //Console.WriteLine(skillTree.damage);
             }
         }
         public virtual void Jump()
