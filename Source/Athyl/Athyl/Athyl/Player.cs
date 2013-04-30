@@ -30,6 +30,9 @@ namespace Athyl
         public int numFootContacts { get; set; }
         public int numSideContacts { get; set; }
 
+        public Stances Stance;
+        
+
         public int playerHP = 150;
         public int playerAthyl = 500;
         public int playerXP = 0;
@@ -73,6 +76,10 @@ namespace Athyl
         private bool liftObject = false;
         public Int16 skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
+
+        private delegate void StancesDel();
+        private StancesDel StanceDelegate;
+
         #endregion
         #region ConstructorAndLoad
         /// <summary>
@@ -108,7 +115,6 @@ namespace Athyl
             torso.body.CollisionCategories = Category.Cat1;
             //torso.body.FixedRotation = true;
             //torso.body.Mass = 0;
-            
 
             // Create a joint to keep the torso upright
             JointFactory.CreateFixedAngleJoint(world, torso.body);
@@ -138,6 +144,10 @@ namespace Athyl
 
 
             Difficulty = 5;
+
+
+            Stance = Stances.MidRange;
+            StanceDelegate = MidRange;
 
             torso.body.OnCollision += InteractWithQuestItems;
 
@@ -173,6 +183,12 @@ namespace Athyl
             Right,
             Stop
 
+        }
+        public enum Stances
+        {
+            LongRange,
+            MidRange,
+            CloseRange
         }
         #endregion
         #region Animation
@@ -398,6 +414,32 @@ namespace Athyl
             }
             
         }
+        #endregion
+        #region Stances
+
+        private void ChangeStance(Stances stance)
+        {
+            switch (stance)
+            {
+                case Stances.CloseRange:
+                    
+                    break;
+            }
+        }
+
+        private void CloseRange()
+        {
+        }
+
+        private void MidRange()
+        {
+        }
+
+        private void LongRange()
+        {
+
+        }
+
         #endregion
         #region DrawsAndUpdate
         /// <summary>
@@ -630,6 +672,7 @@ namespace Athyl
 
             //Update the skilltree
             skillTree.Update();
+            StanceDelegate();
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {

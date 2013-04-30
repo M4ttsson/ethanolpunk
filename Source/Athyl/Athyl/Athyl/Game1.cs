@@ -395,7 +395,18 @@ namespace Athyl
                     }
                 }
             }
-
+            else if (keyboardState.IsKeyDown(Keys.D1))
+            {
+                player.Stance = Player.Stances.CloseRange;
+            }
+            else if (keyboardState.IsKeyDown(Keys.D2))
+            {
+                player.Stance = Player.Stances.MidRange;
+            }
+            else if (keyboardState.IsKeyDown(Keys.D3))
+            {
+                player.Stance = Player.Stances.LongRange;
+            }
 
 
             //Logik för att kunna skjuta diagonalt när man står still, men det funkar dåligt
@@ -579,8 +590,6 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            
-            
             if (player != null && player.Dead)
             {
                 keyboardState = Keyboard.GetState();
@@ -682,6 +691,7 @@ namespace Athyl
 
 
             }
+            
 
 
             menu.Draw(spriteBatch, this);
