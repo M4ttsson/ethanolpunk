@@ -332,9 +332,16 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.Z))
             {
                 player.useWeapon(world);
+                if (player.OnGround)
+                {
+                    player.wheel.body.IsStatic = true;
+                    player.ColFrame = 0;
+                }
             }
-
-
+            else
+            {
+                player.wheel.body.IsStatic = false;
+            }
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
