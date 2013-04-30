@@ -336,11 +336,8 @@ namespace Athyl
                 bool sniper = (Stance == Stances.LongRange) ? true : false;
                 projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
 
-                //tillfällig lösning
-                if(sniper)
-                    playerAthyl -= 10;
-                else
-                    playerAthyl -= 1;
+                playerAthyl -= skillTree.ethanolConsumption;
+
                 lastBullet = DateTime.Now;
                 //Console.WriteLine(skillTree.damage);
             }
