@@ -14,6 +14,11 @@ namespace Athyl
         Int16 meleefirebreath, meleeAtkSpd, meleeMoveSpd, meleeJmpHeight, midFireBurst, midFireRate, midEthanoltank, midBulletPassthrough, longShield, longEthanol, longAccuracy, longHeadshotBonus;
         public float damage;
         int playerLevel;
+
+        public int playerMaxHP;
+        public float playerSpeed;
+        public Vector2 playerJumpForce = new Vector2(0, -2.8f);
+
         
         public Skilltree(Player playerInfo)
         {
