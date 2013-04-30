@@ -344,6 +344,7 @@ namespace Athyl
                 {
                     player.direction = Player.Direction.Upleft;
                 }
+
                 else if (keyboardState.IsKeyDown(Keys.Down) && !player.Crouching)
                 {
                     player.direction = Player.Direction.Downleft;
@@ -352,17 +353,16 @@ namespace Athyl
 
             else if (keyboardState.IsKeyDown(Keys.Right))
             {
-
                 player.Move(Player.Movement.Right);
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
                     player.direction = Player.Direction.Upright;
                 }
+
                 else if (keyboardState.IsKeyDown(Keys.Down) && !player.Crouching)
                 {
                     player.direction = Player.Direction.Downright;
                 }
-
             }
 
             else if (keyboardState.IsKeyDown(Keys.Up))
@@ -370,11 +370,13 @@ namespace Athyl
                 player.direction = Player.Direction.Up;
                 player.Move(Player.Movement.Stop);
             }
+
             else if (keyboardState.IsKeyUp(Keys.Down) && prevKeyboardState.IsKeyDown(Keys.Down))// && prevKeyboardState.IsKeyDown(Keys.Up))
             {
                 player.wheel.body.Enabled = true;
                 player.Crouching = false; 
             }
+
             else if (keyboardState.IsKeyDown(Keys.Down))
             {
                 if (!player.OnGround)
@@ -383,16 +385,17 @@ namespace Athyl
                     player.Move(Player.Movement.Stop);
                 }
                 // vi lämnar duckningen till nästa iteration
+
                 else
                 {
-                    player.wheel.body.Enabled = false;
+                    player.wheel.body.Enabled = false; 
                     player.Crouching = true;
-                    if(keyboardState.IsKeyDown(Keys.Left)){
+                    /*if(keyboardState.IsKeyDown(Keys.Left)){
                         player.direction = Player.Direction.Left;
                     }
                     else if(keyboardState.IsKeyDown(Keys.Right)){
                         player.direction = Player.Direction.Right;
-                    }
+                    }*/
                 }
             }
             else if (keyboardState.IsKeyDown(Keys.D1))
