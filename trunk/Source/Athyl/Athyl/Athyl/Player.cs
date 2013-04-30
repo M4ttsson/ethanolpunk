@@ -51,7 +51,7 @@ namespace Athyl
         //Håller koll på åt vilket håll man stod sist, så att direction ställs rätt om man släpper upp/ner
         public bool lastDirection;
         public float Difficulty { get; set; }
-
+        public Projectile projectile;
 
         protected RevoluteJoint axis;
         protected AngleJoint angleJoint;
@@ -65,7 +65,7 @@ namespace Athyl
         protected World world;
 
         protected Game1 game;
-        protected Projectile projectile;
+        
         private Skilltree skillTree;
 
         private int xpRequiredPerLevel;
@@ -333,8 +333,14 @@ namespace Athyl
         {
             if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
             {
-                projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
-                playerAthyl -= 1;
+                bool sniper = (Stance == Stances.LongRange) ? true : false;
+                projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
+
+                //tillfällig lösning
+                if(sniper)
+                    playerAthyl -= 10;
+                else
+                    playerAthyl -= 1;
                 lastBullet = DateTime.Now;
                 //Console.WriteLine(skillTree.damage);
             }

@@ -46,15 +46,23 @@ namespace Athyl
         /// <param name="position"></param>
         /// <param name="direction"></param>
         /// <param name="world"></param>
-        public void NewBullet(Vector2 position, Player.Direction direction , World world, float speed, Body wheel, float damage)
+        public void NewBullet(Vector2 position, Player.Direction direction , World world, float speed, Body wheel, float damage, bool sniper)
         {
             this.damage = damage;
-            //Allows the linear bullets to have some spread!
-            float spread = random.Next(-2, 2);
 
-            //Allows diagonal bullets to have some spread!
-            float spreadDiagonal = random.Next(1, 5);
-            spread /= 133;
+            float spread = 0;
+            float spreadDiagonal = 0;
+            if (!sniper)
+            {
+                //Allows the linear bullets to have some spread!
+                spread = random.Next(-2, 2);
+
+                //Allows diagonal bullets to have some spread!
+                spreadDiagonal = random.Next(1, 5);
+                spread /= 133;
+
+            }
+            
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"),new Vector2(10,4), 10, "shot");
             bullet.body.IsBullet = true;
             bullet.body.Position = position;

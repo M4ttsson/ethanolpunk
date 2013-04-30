@@ -520,7 +520,7 @@ namespace Athyl
                 {
                     if (theAI[i].torso.body.BodyId == damageList[j].bodyId)
                     {
-                        theAI[i].enemyHP -= (int)projectile.damage;
+                        theAI[i].enemyHP -= (int)player.projectile.damage;
                         //(int)damageList[j].bodyId;
                         //Console.WriteLine(theAI[i].enemyHP);
                     }

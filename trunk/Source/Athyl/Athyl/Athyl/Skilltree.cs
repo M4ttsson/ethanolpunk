@@ -62,7 +62,8 @@ namespace Athyl
 
         public void LongRange()
         {
-
+            fireRate = 0.7f;
+            damage = 100;
         }
 
         /*
