@@ -47,13 +47,14 @@ namespace Athyl
             this.damage = 50;
             this.attackSpeed = 10;
             this.playerSpeed = 2;
-            this.playerJumpForce = new Vector2(0, 3);
+            this.playerJumpForce = new Vector2(0, -3);
         }
 
         public void MidRange()
         {
+            damage = 34;
             playerSpeed = 1.0f;
-            playerJumpForce = new Vector2(0, -1.8f);
+            playerJumpForce = new Vector2(0, -2f);
             ethanolConsumption = 2;
             fireRate = 0.1f;
 

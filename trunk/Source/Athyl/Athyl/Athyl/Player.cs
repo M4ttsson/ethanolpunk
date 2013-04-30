@@ -418,8 +418,7 @@ namespace Athyl
                         UpdateFrame(0.2f);
                         break;
                 }
-            }
-            
+            }            
         }
         #endregion
         #region Stances
