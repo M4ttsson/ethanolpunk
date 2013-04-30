@@ -35,6 +35,20 @@ namespace Athyl
                 playerLevel = playerInfo.playerLevel;
             }
         }
+
+        private void CloseRange()
+        {
+        }
+
+        private void MidRange()
+        {
+        }
+
+        private void LongRange()
+        {
+
+        }
+
         /*
         #region MeleeStance
 
