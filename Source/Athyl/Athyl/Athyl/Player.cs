@@ -59,7 +59,7 @@ namespace Athyl
         protected Vector2 torsoSize;
         protected Vector2 jumpForce = new Vector2(0, -2.8f);
         protected float speed = 1.5f;
-        protected int ColFrame;
+        public int ColFrame;
         protected int RowFrame;
         DateTime lastBullet;
         protected World world;
