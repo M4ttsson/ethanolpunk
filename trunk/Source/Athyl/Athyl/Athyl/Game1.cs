@@ -387,6 +387,12 @@ namespace Athyl
                 {
                     player.wheel.body.Enabled = false;
                     player.Crouching = true;
+                    if(keyboardState.IsKeyDown(Keys.Left)){
+                        player.direction = Player.Direction.Left;
+                    }
+                    else if(keyboardState.IsKeyDown(Keys.Right)){
+                        player.direction = Player.Direction.Right;
+                    }
                 }
             }
 
