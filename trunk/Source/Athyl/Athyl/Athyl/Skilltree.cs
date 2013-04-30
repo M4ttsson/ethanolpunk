@@ -17,7 +17,8 @@ namespace Athyl
 
         public int playerMaxHP;
         public float playerSpeed;
-        public Vector2 playerJumpForce = new Vector2(0, -2.8f);
+        public Vector2 playerJumpForce;
+        public int ethanolConsumption;
 
         
         public Skilltree(Player playerInfo)
@@ -47,6 +48,7 @@ namespace Athyl
 
         public void MidRange()
         {
+
         }
 
         public void LongRange()
