@@ -153,8 +153,8 @@ namespace Athyl
             Difficulty = 5;
 
 
-            Stance = Stances.MidRange;
-            StanceDelegate = MidRange;
+            Stance = Stances.CloseRange;
+            
 
             torso.body.OnCollision += InteractWithQuestItems;
 
