@@ -19,15 +19,15 @@ namespace Athyl
         public float playerSpeed;
         public Vector2 playerJumpForce;
         public int ethanolConsumption;
+        public float attackSpeed;
 
-        
         public Skilltree(Player playerInfo)
         {
-            fireRate = 0.1f;
-            projectileSpeed = 0.025f;
-            damage = 34;
+            this.fireRate = 0.1f;
+            this.projectileSpeed = 0.025f;
+            this.damage = 34;
             this.playerInfo = playerInfo;
-            playerLevel = playerInfo.playerLevel;
+            this.playerLevel = playerInfo.playerLevel;
         }
 
         //En enkel levelingfunktion, skjuta snabbare, snabbare kulor och mer skada
@@ -35,15 +35,19 @@ namespace Athyl
         {
             if (playerLevel < playerInfo.playerLevel)
             {
-                damage = damage * 1.5f;
-                fireRate = fireRate * 0.9f;
-                projectileSpeed = projectileSpeed * 1.5f;
-                playerLevel = playerInfo.playerLevel;
+                this.damage = damage * 1.5f;
+                this.fireRate = fireRate * 0.9f;
+                this.projectileSpeed = projectileSpeed * 1.5f;
+                this.playerLevel = playerInfo.playerLevel;
             }
         }
 
         public void CloseRange()
         {
+            this.damage = 50;
+            this.attackSpeed = 10;
+            this.playerSpeed = 2;
+            this.playerJumpForce = new Vector2(0, 3);
         }
 
         public void MidRange()
