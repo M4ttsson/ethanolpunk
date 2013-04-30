@@ -612,7 +612,7 @@ namespace Athyl
             */
 
             //check if player foot is touching the ground
-            if (numFootContacts < 1)
+            if (numFootContacts < 1 && wheel.body.Enabled == true)
             {
                 OnGround = false;
             }
