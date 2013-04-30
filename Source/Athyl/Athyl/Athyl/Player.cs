@@ -30,16 +30,23 @@ namespace Athyl
         public int numFootContacts { get; set; }
         public int numSideContacts { get; set; }
 
-        public Stances Stance;
+        private Stances stance;
+        public Stances Stance
+        {
+            get { return stance; }
+            set
+            {
+                stance = value;
+                ChangeStance(stance);
+            }
+        }
         
-
         public int playerHP = 150;
         public int playerAthyl = 500;
         public int playerXP = 0;
         public int playerLevel = 1;
         public Direction direction;
         public DrawableGameObject wheel;
-        public enum stance { melee, midRange, longRange };
         public bool Dead { get; set; }
         //Håller koll på åt vilket håll man stod sist, så att direction ställs rätt om man släpper upp/ner
         public bool lastDirection;
@@ -417,12 +424,27 @@ namespace Athyl
         #endregion
         #region Stances
 
+        /// <summary>
+        /// Runs when Stance propertie is changed. Changes delegate and stance specific changes
+        /// </summary>
+        /// <param name="stance">Stance to change to</param>
         private void ChangeStance(Stances stance)
         {
             switch (stance)
             {
                 case Stances.CloseRange:
-                    
+                    skillTree.CloseRange();
+                    StanceDelegate = CloseRange;
+                    break;
+                   
+                case Stances.MidRange:
+                    skillTree.MidRange();
+                    StanceDelegate = MidRange;
+                    break;
+
+                case Stances.LongRange:
+                    skillTree.LongRange();
+                    StanceDelegate = LongRange;
                     break;
             }
         }
@@ -672,6 +694,8 @@ namespace Athyl
 
             //Update the skilltree
             skillTree.Update();
+
+            //run stance specific updates
             StanceDelegate();
         }
         public virtual void Draw(SpriteBatch spriteBatch)
