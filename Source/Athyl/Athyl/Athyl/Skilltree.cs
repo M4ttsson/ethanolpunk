@@ -52,6 +52,10 @@ namespace Athyl
 
         public void MidRange()
         {
+            playerSpeed = 1.0f;
+            playerJumpForce = new Vector2(0, -1.8f);
+            ethanolConsumption = 2;
+            fireRate = 0.1f;
 
         }
 
