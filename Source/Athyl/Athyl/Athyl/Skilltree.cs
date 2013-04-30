@@ -36,15 +36,15 @@ namespace Athyl
             }
         }
 
-        private void CloseRange()
+        public void CloseRange()
         {
         }
 
-        private void MidRange()
+        public void MidRange()
         {
         }
 
-        private void LongRange()
+        public void LongRange()
         {
 
         }
