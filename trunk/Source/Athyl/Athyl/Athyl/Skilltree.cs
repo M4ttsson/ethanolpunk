@@ -47,6 +47,7 @@ namespace Athyl
             this.damage = 50;
             fireRate = 0.3f;
             this.playerSpeed = 2.0f;
+            ethanolConsumption = 0;
             this.playerJumpForce = new Vector2(0, -3);
             ethanolConsumption = 0;
         }
