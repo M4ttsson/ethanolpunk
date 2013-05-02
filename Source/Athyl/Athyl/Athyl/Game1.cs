@@ -42,7 +42,7 @@ namespace Athyl
         SpriteFont myFont;
         Quests quest;
         Camera camera;
-
+       // List<Drops> drops = new List<Drops>();
         static Map map;
 
         Texture2D skyTexture;
@@ -54,7 +54,7 @@ namespace Athyl
         Projectile projectile;
         Thread listenPauseThread;
 
-        private bool timedXPisApplied = false;
+           private bool timedXPisApplied = false;
         public Thread loadThread;
         private Texture2D playerTexture, enemyTexture;
         private float tempTime;
@@ -62,7 +62,7 @@ namespace Athyl
         private int timedBonusXP;
         System.Timers.Timer timer;
         public static float runTime = 0;
-
+        int i = 0;
         //private DrawableGameObject button;
         #endregion
 
@@ -162,7 +162,7 @@ namespace Athyl
             world.ContactManager.BeginContact += BeginContact;
             world.ContactManager.EndContact += EndContact;
 
-
+       
             timer.Start();
         }
 
@@ -291,7 +291,7 @@ namespace Athyl
             }
         }
         #endregion
-            
+
         #region Input
         //listen for pause
         private void ListenPause()
@@ -316,7 +316,7 @@ namespace Athyl
         private void Input()
         {
             keyboardState = Keyboard.GetState();
-
+            MouseState mouse = Mouse.GetState();
             //flying debug!
             /*if(keyboardState.IsKeyDown(Keys.Up))
                 player.torso.body.ApplyForce(new Vector2(0, -3.0f));
@@ -329,73 +329,73 @@ namespace Athyl
                 player.Jump();
             }
 
-            if (keyboardState.IsKeyDown(Keys.Z))
+            if (mouse.LeftButton == ButtonState.Pressed)
             {
                 player.useWeapon(world);
             }
 
-            if (keyboardState.IsKeyDown(Keys.Left))
+            if (keyboardState.IsKeyDown(Keys.A))
             {
 
                 player.Move(Player.Movement.Left);
-                if (keyboardState.IsKeyDown(Keys.Up))
+                if (keyboardState.IsKeyDown(Keys.W))
                 {
                     player.direction = Player.Direction.Upleft;
                 }
 
-                else if (keyboardState.IsKeyDown(Keys.Down) && !player.Crouching)
+                else if (keyboardState.IsKeyDown(Keys.S) && !player.Crouching)
                 {
                     player.direction = Player.Direction.Downleft;
                 }
             }
 
-            else if (keyboardState.IsKeyDown(Keys.Right))
+            else if (keyboardState.IsKeyDown(Keys.D))
             {
                 player.Move(Player.Movement.Right);
-                if (keyboardState.IsKeyDown(Keys.Up))
+                if (keyboardState.IsKeyDown(Keys.W))
                 {
                     player.direction = Player.Direction.Upright;
                 }
 
-                else if (keyboardState.IsKeyDown(Keys.Down) && !player.Crouching)
+                else if (keyboardState.IsKeyDown(Keys.S) && !player.Crouching)
                 {
                     player.direction = Player.Direction.Downright;
                 }
             }
 
-            else if (keyboardState.IsKeyDown(Keys.Up))
+            else if (keyboardState.IsKeyDown(Keys.W))
             {
                 player.direction = Player.Direction.Up;
                 player.Move(Player.Movement.Stop);
             }
 
-            else if (keyboardState.IsKeyUp(Keys.Down) && prevKeyboardState.IsKeyDown(Keys.Down))// && prevKeyboardState.IsKeyDown(Keys.Up))
+            else if (keyboardState.IsKeyUp(Keys.S) && prevKeyboardState.IsKeyDown(Keys.S))// && prevKeyboardState.IsKeyDown(Keys.Up))
             {
                 player.wheel.body.Enabled = true;
-                player.Crouching = false; 
+                player.Crouching = false;
             }
 
-            else if (keyboardState.IsKeyDown(Keys.Down))
+            else if (keyboardState.IsKeyDown(Keys.LeftControl))
             {
-                if (!player.OnGround)
-                {
-                    player.direction = Player.Direction.Down;
-                    player.Move(Player.Movement.Stop);
-                }
-                // vi lämnar duckningen till nästa iteration
+                player.wheel.body.Enabled = false;
+                player.Crouching = true;
+            }
+            else if (!player.OnGround)
+            {
+                player.direction = Player.Direction.Down;
+                player.Move(Player.Movement.Stop);
+            }
 
-                else
-                {
-                    player.wheel.body.Enabled = false; 
-                    player.Crouching = true;
+
+
                     /*if(keyboardState.IsKeyDown(Keys.Left)){
                         player.direction = Player.Direction.Left;
                     }
                     else if(keyboardState.IsKeyDown(Keys.Right)){
                         player.direction = Player.Direction.Right;
                     }*/
-                }
-            }
+
+
             else if (keyboardState.IsKeyDown(Keys.D1))
             {
                 player.Stance = Player.Stances.CloseRange;
@@ -459,6 +459,11 @@ namespace Athyl
                         theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].wheel.body);
                         theAI[i].torso.body.IgnoreCollisionWith(theAI[j].wheel.body);
                         theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].torso.body);
+                        //theAI[i].wheel.body.IgnoreCollisionWith(drops[j].ethanolBox.body);
+                        //theAI[i].wheel.body.IgnoreCollisionWith(drops[j].hpBox.body);
+                        //theAI[i].torso.body.IgnoreCollisionWith(drops[j].hpBox.body);
+                        //theAI[i].torso.body.IgnoreCollisionWith(drops[j].ethanolBox.body);
+
                     }
                 }
             }
@@ -553,6 +558,9 @@ namespace Athyl
                 else if (theAI[i].enemyHP <= 0 && theAI[i].torso.body.FixtureList[0].UserData.ToString() != "boss")
                 {
 
+                    //drops.Add(new Drops(this, world, player));
+
+
                     removedAIList.Add(theAI[i]);
 
                     if (removedAIList.Contains(theAI[i]))
@@ -641,7 +649,7 @@ namespace Athyl
                     {
                         ai.UpdateEnemy(player, world);
 
-                                                
+
                     }
 
                     player.UpdatePlayer();
@@ -650,7 +658,7 @@ namespace Athyl
                     camera.UpdateCamera(player);
 
                     world.Step(0.033333f);
-                    
+
                 }
             }
 
@@ -679,6 +687,12 @@ namespace Athyl
                 projectile.Draw(spriteBatch, player.torso.Position);
             }
 
+            //foreach(Drops d in drops)
+            //{
+            //    d.Draw(spriteBatch);
+                
+            //}
+
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
 
@@ -692,16 +706,18 @@ namespace Athyl
 
 
             }
-            
+
 
 
             menu.Draw(spriteBatch, this);
+
             if (player.Dead == true)
             {
                 spriteBatch.DrawString(myFont, "Game Over", new Vector2(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 360), Color.DarkRed);
                 spriteBatch.DrawString(myFont, "Press 'R ' to restart", new Vector2(-(int)Camera.transform.Translation.X + 530, -(int)Camera.transform.Translation.Y + 400), Color.DarkRed);
 
             }
+
 
             spriteBatch.End();
             spriteBatch.Begin();
@@ -736,3 +752,4 @@ namespace Athyl
         #endregion
     }
 }
+

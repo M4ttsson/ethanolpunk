@@ -117,6 +117,7 @@
     <Compile Include="CoordinateHelper.cs" />
     <Compile Include="Damage.cs" />
     <Compile Include="DrawableGameObject.cs" />
+    <Compile Include="Drops.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Menu.cs" />

@@ -40,7 +40,7 @@ namespace Athyl
                 ChangeStance(stance);
             }
         }
-        
+
         public int playerHP = 150;
         public int playerAthyl = 500;
         public int playerXP = 0;
@@ -65,7 +65,7 @@ namespace Athyl
         protected World world;
 
         protected Game1 game;
-        
+
         private Skilltree skillTree;
 
         private int xpRequiredPerLevel;
@@ -83,7 +83,7 @@ namespace Athyl
         private bool liftObject = false;
         public Int16 skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
-
+        private MouseState mouse;
         private delegate void StancesDel();
         private StancesDel StanceDelegate;
 
@@ -102,7 +102,7 @@ namespace Athyl
         {
             Load(texture, 2, 11, 1, 1);
 
-            int wheelSize = (int)size.X-4;
+            int wheelSize = (int)size.X - 4;
             this.torsoSize = size - new Vector2(0, (wheelSize / 2));
             this.game = game;
             this.world = world;
@@ -114,10 +114,10 @@ namespace Athyl
             wheel.Position = startPosition;
             wheel.body.Friction = 10000f;
             //wheel.body.Mass = 1;
-            
+
             //create torso
             torso = new DrawableGameObject(world, texture, torsoSize, 60, userdata);
-            torso.Position = wheel.Position -new Vector2(0.0f, torsoSize.Y/2-5);
+            torso.Position = wheel.Position - new Vector2(0.0f, torsoSize.Y / 2 - 5);
             torso.body.Restitution = 0;
             torso.body.CollisionCategories = Category.Cat1;
             //torso.body.FixedRotation = true;
@@ -154,7 +154,7 @@ namespace Athyl
 
 
             Stance = Stances.CloseRange;
-            
+
 
             torso.body.OnCollision += InteractWithQuestItems;
 
@@ -233,25 +233,25 @@ namespace Athyl
 
         public void AnimateCrouch()
         {
-                this.frameRow = 2;
-                this.frameColumn = 2;
-                this.ColFrame = 0;
-                this.myTexture = game.Content.Load<Texture2D>("Player/Ducking");
-                this.TimePerFrame = (float)1 / 1f;
-                this.RestartFrame = 0;
-                torso.Size = wheel.Size - new Vector2(10, 10);
-                torso.Position = wheel.Position + new Vector2(0,10);
-                //axis = JointFactory.CreateRevoluteJoint(world, torso.body, wheel.body, Vector2.Zero);
+            this.frameRow = 2;
+            this.frameColumn = 2;
+            this.ColFrame = 0;
+            this.myTexture = game.Content.Load<Texture2D>("Player/Ducking");
+            this.TimePerFrame = (float)1 / 1f;
+            this.RestartFrame = 0;
+            torso.Size = wheel.Size - new Vector2(10, 10);
+            torso.Position = wheel.Position + new Vector2(0, 10);
+            //axis = JointFactory.CreateRevoluteJoint(world, torso.body, wheel.body, Vector2.Zero);
         }
 
         public void AnimateJump()
         {
-                this.frameRow = 2;
-                this.frameColumn = 1;
-                this.ColFrame = 0;
-                this.myTexture = game.Content.Load<Texture2D>("Player/Jump");
-                this.TimePerFrame = (float)1 / 1f;
-                this.RestartFrame = 0;
+            this.frameRow = 2;
+            this.frameColumn = 1;
+            this.ColFrame = 0;
+            this.myTexture = game.Content.Load<Texture2D>("Player/Jump");
+            this.TimePerFrame = (float)1 / 1f;
+            this.RestartFrame = 0;
         }
 
         public void AnimateWallJump()
@@ -276,7 +276,7 @@ namespace Athyl
             Vector2 direction = endRayPoint - startRayPoint;
             direction.Normalize();
 
-            if (startRayPoint != endRayPoint )
+            if (startRayPoint != endRayPoint)
             {
                 startRayPoint = startRayPoint + (direction * accuracy);
 
@@ -292,7 +292,7 @@ namespace Athyl
         //distanceBetweenRays ger avståndet mellan de parallella raysen.
         private bool doubleRayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, Category collisionCategory, int distanceBetweenRays)
         {
-            int dist = distanceBetweenRays/2;
+            int dist = distanceBetweenRays / 2;
 
             if (rayCast(startPosition - new Vector2(dist, 0), endPosition - new Vector2(dist, 0), accuracy, collisionCategory))
                 return rayCast(startPosition - new Vector2(dist, 0), endPosition - new Vector2(dist, 0), accuracy, collisionCategory);
@@ -462,7 +462,7 @@ namespace Athyl
                         UpdateFrame(0.2f);
                         break;
                 }
-            }            
+            }
         }
         #endregion
         #region Stances
@@ -479,7 +479,7 @@ namespace Athyl
                     skillTree.CloseRange();
                     StanceDelegate = CloseRange;
                     break;
-                   
+
                 case Stances.MidRange:
                     skillTree.MidRange();
                     StanceDelegate = MidRange;
@@ -558,16 +558,23 @@ namespace Athyl
         bool InteractWithQuestItems(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
             KeyboardState kbState = Keyboard.GetState();
+             mouse =  Mouse.GetState();
 
-            if (contact.IsTouching())
+
+            // if (contact.IsTouching())
             {
-                if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "boulder")
+                if ((fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "boulder") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "boulder"))
                 {
+
+
                     if (fixtureB.Body.BodyType != BodyType.Static)
                     {
-                        if (kbState.IsKeyDown(Keys.F) && !liftObject)
+                        if (mouse.RightButton == ButtonState.Pressed)
                         {
-                            fixtureB.Body.IgnoreGravity = true;
+                            
+
+                            if (!liftObject && Math.Abs((fixtureB.Body.Position - fixtureA.Body.Position).X) < 20)
+                                fixtureB.Body.IgnoreGravity = true;
                             fixtureB.Body.Position = new Vector2(fixtureA.Body.Position.X, fixtureA.Body.Position.Y);
                             j = JointFactory.CreateWeldJoint(world, fixtureA.Body, fixtureB.Body, Vector2.Zero);
                             fixtureB.Body.IgnoreCollisionWith(torso.body);
@@ -581,7 +588,7 @@ namespace Athyl
 
 
 
-                   
+
                     return true;
                 }
             }
@@ -602,8 +609,9 @@ namespace Athyl
 
         public void UpdatePlayer()
         {
+            mouse = Mouse.GetState();
             KeyboardState kbState = Keyboard.GetState();
-            if (kbState.IsKeyUp(Keys.F) && liftObject)
+            if (mouse.RightButton == ButtonState.Released && liftObject)
             {
 
                 int index = world.BodyList.FindIndex(FindQuestItem);
@@ -625,7 +633,7 @@ namespace Athyl
                 }
 
                 liftObject = false;
-                
+
             }
 
             if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 30, Category.Cat5, 38))  //Kollar om player står på backen.
@@ -746,8 +754,8 @@ namespace Athyl
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
 
             projectile.Draw(spriteBatch, torso.Position);
-            //torso.Draw(spriteBatch);
-            //wheel.Draw(spriteBatch);
+            // torso.Draw(spriteBatch);
+            // wheel.Draw(spriteBatch);
         }
         #endregion
     }

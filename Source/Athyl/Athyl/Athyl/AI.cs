@@ -35,6 +35,10 @@ namespace Athyl
         private DateTime lastCheck;
         private delegate void BehaviorDel();
         private BehaviorDel behavior;
+
+
+
+
         #endregion
         #region Constructor
         /// <summary>
@@ -86,11 +90,15 @@ namespace Athyl
                     jumpInterval = 2f;
                     direction = Direction.Left;
                     break;
-                    
+
                 case Behavior.None:
                     behavior = None;
                     break;
             }
+
+
+
+
         }
         #endregion
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
@@ -129,6 +137,12 @@ namespace Athyl
          * 
          * 
         */
+
+
+
+
+
+
         public void towardsPlayer(Player aPlayer)
         {
             if (!hit)
@@ -239,7 +253,7 @@ namespace Athyl
             Vector2 direction = new Vector2(endRay.X - startRay.X, endRay.Y - startRay.Y);
             direction.Normalize();
 
-            while (new Vector2((int) startRay.X, (int) startRay.Y) != new Vector2((int) endRay.X, (int) endRay.Y))
+            while (new Vector2((int)startRay.X, (int)startRay.Y) != new Vector2((int)endRay.X, (int)endRay.Y))
             {
                 startRay = startRay + direction * accuracy;
 
@@ -293,14 +307,14 @@ namespace Athyl
             None
         }
 
-        public override void  Move(Player.Movement movement)
+        public override void Move(Player.Movement movement)
         {
-            
+
             base.Move(movement);
-            
+
         }
 
-        
+
 
         /// <summary>
         /// Enemy patrols back and forth between two walls and stops and shoot if the player is in its direction
@@ -311,7 +325,7 @@ namespace Athyl
             if ((DateTime.Now - lastCheck).TotalSeconds >= 0.5)
             {
                 int distance = 0;
-                switch(CheckDirection(direction, 500, out distance))
+                switch (CheckDirection(direction, 500, out distance))
                 {
                     case 0:
                         if (direction == Direction.Left)
@@ -319,7 +333,7 @@ namespace Athyl
                         else
                             Move(Movement.Right);
                         break;
-                        
+
                     case 1:
                         Move(Movement.Stop);
                         attackPlayer();
@@ -341,7 +355,7 @@ namespace Athyl
                 }
                 lastCheck = DateTime.Now;
             }
-            
+
             UpdateFrame(0.2f);
         }
 
@@ -428,11 +442,11 @@ namespace Athyl
                     }
                     distance = lenght;
                     return 0;
-                    
+
                 case Direction.Right:
                     for (int i = 1; i <= lenght; i++)
                     {
-                        
+
                         Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(wheel.Position.X + (i + 10), wheel.Position.Y)));
 
                         if (fix != null)

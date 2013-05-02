@@ -40,6 +40,12 @@ namespace Athyl
             set { size = ConvertUnits.ToSimUnits(value); }
         }
 
+        public int Id
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Create a new rectangular object
         /// </summary>
@@ -52,19 +58,49 @@ namespace Athyl
         {
             body = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(size.X), ConvertUnits.ToSimUnits(size.Y), 1, userdata);
             body.BodyType = BodyType.Dynamic;
-          //  body.Mass = mass;
+            //  body.Mass = mass;
 
-           /* if (userdata.ToString() == "player")
-            {
-                crouchBody = BodyFactory.CreateRectangle(world, 50 * CoordinateHelper.pixelToUnit, 40 * CoordinateHelper.pixelToUnit, 1, userdata);
-                crouchBody.BodyType = BodyType.Dynamic;
-                crouchBody.Enabled = false;
-            }
-            */
+            /* if (userdata.ToString() == "player")
+             {
+                 crouchBody = BodyFactory.CreateRectangle(world, 50 * CoordinateHelper.pixelToUnit, 40 * CoordinateHelper.pixelToUnit, 1, userdata);
+                 crouchBody.BodyType = BodyType.Dynamic;
+                 crouchBody.Enabled = false;
+             }
+             */
 
             this.Size = size;
             this.texture = texture;
-            
+
+        }
+
+
+
+        /// <summary>
+        /// Creates a new rectangular object
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="texture"></param>
+        /// <param name="size"></param>
+        /// <param name="mass"></param>
+        /// <param name="userdata"></param>
+        /// <param name="id"></param> Makes it easy to find the right object
+        public DrawableGameObject(World world, Texture2D texture, Vector2 size, float mass, string userdata, int id)
+        {
+            body = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(size.X), ConvertUnits.ToSimUnits(size.Y), 1, userdata);
+            body.BodyType = BodyType.Dynamic;
+            //  body.Mass = mass;
+
+            /* if (userdata.ToString() == "player")
+             {
+                 crouchBody = BodyFactory.CreateRectangle(world, 50 * CoordinateHelper.pixelToUnit, 40 * CoordinateHelper.pixelToUnit, 1, userdata);
+                 crouchBody.BodyType = BodyType.Dynamic;
+                 crouchBody.Enabled = false;
+             }
+             */
+            this.Id = id;
+            this.Size = size;
+            this.texture = texture;
+
         }
 
         /// <summary>
@@ -80,7 +116,7 @@ namespace Athyl
             List<Vertices> verticeList = CreateCompoundPolygon(texture);
             body = BodyFactory.CreateCompoundPolygon(world, verticeList, 1, userdata);
             body.BodyType = BodyType.Dynamic;
-           // body.Mass = mass;
+            // body.Mass = mass;
 
             Vector2 size = new Vector2(texture.Width, texture.Height);
             this.Size = size;
@@ -101,7 +137,7 @@ namespace Athyl
             size = new Vector2(diameter, diameter);
             body = BodyFactory.CreateCircle(world, ConvertUnits.ToSimUnits(diameter / 2.0f), 1, userdata);
             body.BodyType = BodyType.Dynamic;
-           // body.Mass = mass;
+            // body.Mass = mass;
 
             this.Size = size;
             this.texture = texture;
@@ -144,8 +180,8 @@ namespace Athyl
                  (int)Size.X,
                  (int)Size.Y
              );
-            
-             spriteBatch.Draw(texture, destination, null, Color.Wheat, body.Rotation, new Vector2(texture.Width / 2.0f, texture.Height / 2.0f), SpriteEffects.None, 0);
+
+            spriteBatch.Draw(texture, destination, null, Color.Wheat, body.Rotation, new Vector2(texture.Width / 2.0f, texture.Height / 2.0f), SpriteEffects.None, 0);
         }
 
         /// <summary>
@@ -162,7 +198,7 @@ namespace Athyl
                  (int)Size.X,
                  (int)Size.Y
              );
-             spriteBatch.Draw(texture, destination, null, Color.Wheat, body.Rotation, new Vector2(texture.Width / 2.0f, texture.Height / 2.0f), SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, destination, null, Color.Wheat, body.Rotation, new Vector2(texture.Width / 2.0f, texture.Height / 2.0f), SpriteEffects.None, 0);
         }
     }
 }
