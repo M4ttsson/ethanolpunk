@@ -20,7 +20,7 @@ namespace Athyl
 {
     class Menu
     {
-        public enum GameState { StartMenu, Loading, Playing, Paused, OptionsStartMenu, OptionsPauseMenu, Story }
+        public enum GameState { StartMenu, Loading, Playing, Paused, OptionsStartMenu, OptionsPauseMenu, Story, GameOver }
 
         private Texture2D startButton;
         private Texture2D exitButton;
@@ -29,6 +29,8 @@ namespace Athyl
         private Texture2D optionsButton;
         private Texture2D storyButton;
         private Texture2D returnButton;
+        private Texture2D restartButton;
+        private Texture2D mainMenuButton;
         private Texture2D saveButton;
         private Texture2D LoadButon;
         private Texture2D loadingGameButton;
@@ -48,6 +50,8 @@ namespace Athyl
         private Texture2D originalPauseButton;
         private Texture2D originalStoryButton;
         private Texture2D originalReturnButton;
+        private Texture2D originalRestartButton;
+        private Texture2D originalMainMenuButton;
         private Texture2D resumeButton2;
         private Texture2D startButton2;
         private Texture2D exitButton2;
@@ -64,6 +68,8 @@ namespace Athyl
         Vector2 pauseButtonPosition;
         Vector2 optionsButtonPositionPauseMenu;
         Vector2 optionsButtonPositionStartMenu;
+        Vector2 restartButtonPosition;
+        Vector2 mainMenuButtonPosition;
         Vector2 storyButtonPosition;
         Vector2 saveButtonPosition;
         Vector2 loadButtonPosition;
@@ -77,6 +83,7 @@ namespace Athyl
         private Thread backGroundThread;
         public bool isLoading = false;
         private static bool runOnce = false;
+        private SpriteFont myFont;
         MouseState mouseState;
         MouseState previousMouseState;
 
@@ -119,6 +126,7 @@ namespace Athyl
             exitButton2 = game.Content.Load<Texture2D>("Menu items/ExitButton");
             storyButton2 = game.Content.Load<Texture2D>("Menu items/StoryButton");
             returnButton2 = game.Content.Load<Texture2D>("Menu items/ReturnButton");
+            myFont = game.Content.Load<SpriteFont>("font");
         }
 
         /// <summary>
@@ -186,6 +194,11 @@ namespace Athyl
             gameState = GameState.OptionsPauseMenu;
         }
 
+        public void GameOverMenu(Game1 game)
+        {
+            gameState = GameState.GameOver;
+        }
+
         /// <summary>
         /// Starting the game after that the thread has been inactive for 6 sec.
         /// </summary>
@@ -219,7 +232,6 @@ namespace Athyl
             {
                 isLoading = false;
             }
-
 
             if (gameState == GameState.Loading && !isLoading)
             {
@@ -275,6 +287,11 @@ namespace Athyl
             {
                 StoryMenu(game);
             }
+            else if (gameState == GameState.GameOver)
+            {
+                GameOverMenu(game);
+
+            }
 
             MouseOver(mouseState.X, mouseState.Y, game);
 
@@ -293,12 +310,12 @@ namespace Athyl
             {
                 totalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
-            spriteBatch.DrawString(myFont, "Health:" + player.playerHP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 600), Color.DarkRed);
-            spriteBatch.DrawString(myFont, "Ethanol:" + player.playerAthyl.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 630), Color.MidnightBlue);
-            spriteBatch.DrawString(myFont, "Exp:" + player.playerXP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 660), Color.Green);
-            spriteBatch.DrawString(myFont, "Level:" + player.playerLevel.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 690), Color.Wheat);
+            spriteBatch.DrawString(myFont, "Health: " + player.playerHP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 590), Color.DarkRed);
+            spriteBatch.DrawString(myFont, "Ethanol: " + player.playerAthyl.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 620), Color.LightBlue);
+            spriteBatch.DrawString(myFont, "Exp: " + player.playerXP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 650), Color.Green);
+            spriteBatch.DrawString(myFont, "Level: " + player.playerLevel.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 680), Color.Wheat);
             
-            spriteBatch.DrawString(myFont, "Time:" + totalTime.ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10,-(int)Camera.transform.Translation.Y + 570), Color.Violet);
+            spriteBatch.DrawString(myFont, "Time:" + totalTime.ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10,-(int)Camera.transform.Translation.Y + 560), Color.Violet);
         }
 
         /// <summary>
@@ -572,6 +589,10 @@ namespace Athyl
                 spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
                 spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y + 250, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
                 spriteBatch.Draw(originalReturnButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - returnButton.Width / 2, -(int)Camera.transform.Translation.Y + 310, returnButton.Width, returnButton.Height), Color.White);
+            }
+            if (gameState == GameState.GameOver)
+            {
+                spriteBatch.DrawString(myFont, "Game Over", new Vector2(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 360), Color.DarkRed);
             }
         }
     }
