@@ -323,6 +323,18 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.Down))
                 player.torso.body.ApplyForce(new Vector2(0, 3));*/
 
+            if (keyboardState.IsKeyDown(Keys.D1))
+            {
+                player.Stance = Player.Stances.CloseRange;
+            }
+            else if (keyboardState.IsKeyDown(Keys.D2))
+            {
+                player.Stance = Player.Stances.MidRange;
+            }
+            else if (keyboardState.IsKeyDown(Keys.D3))
+            {
+                player.Stance = Player.Stances.LongRange;
+            }
 
             if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
             {
@@ -369,7 +381,7 @@ namespace Athyl
                 player.Move(Player.Movement.Stop);
             }
 
-            else if (keyboardState.IsKeyUp(Keys.S) && prevKeyboardState.IsKeyDown(Keys.S))// && prevKeyboardState.IsKeyDown(Keys.Up))
+            else if (keyboardState.IsKeyUp(Keys.LeftControl) && prevKeyboardState.IsKeyDown(Keys.LeftControl))// && prevKeyboardState.IsKeyDown(Keys.Up))
             {
                 player.wheel.body.Enabled = true;
                 player.Crouching = false;
@@ -385,7 +397,7 @@ namespace Athyl
                 player.direction = Player.Direction.Down;
                 player.Move(Player.Movement.Stop);
             }
-
+                
 
 
                     /*if(keyboardState.IsKeyDown(Keys.Left)){
@@ -396,18 +408,8 @@ namespace Athyl
                     }*/
 
 
-            else if (keyboardState.IsKeyDown(Keys.D1))
-            {
-                player.Stance = Player.Stances.CloseRange;
-            }
-            else if (keyboardState.IsKeyDown(Keys.D2))
-            {
-                player.Stance = Player.Stances.MidRange;
-            }
-            else if (keyboardState.IsKeyDown(Keys.D3))
-            {
-                player.Stance = Player.Stances.LongRange;
-            }
+
+            
 
 
             //Logik för att kunna skjuta diagonalt när man står still, men det funkar dåligt
