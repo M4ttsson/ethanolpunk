@@ -333,14 +333,54 @@ namespace Athyl
         {
             if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
             {
+                if (stance == Stances.CloseRange)
+                {
+                    if (direction == Direction.Right
+                        || direction == Direction.Upright
+                        || direction == Direction.Downright)
+                    {
+                        projectile.NewMeleeBullet(torso.body.Position, Direction.Right, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                        playerAthyl -= skillTree.ethanolConsumption;
+                        lastBullet = DateTime.Now;
+                    }
 
-                bool sniper = (Stance == Stances.LongRange) ? true : false;
-                projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
+                    else if (direction == Direction.Left
+                        || direction == Direction.Upleft
+                        || direction == Direction.Downleft)
+                    {
+                        projectile.NewMeleeBullet(torso.body.Position, Direction.Left, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                        playerAthyl -= skillTree.ethanolConsumption;
+                        lastBullet = DateTime.Now;
+                    }
 
-                playerAthyl -= skillTree.ethanolConsumption;
+                    else if (direction == Direction.Up
+                        || direction == Direction.Down)
+                    {
+                        if (lastDirection)
+                        {
+                            projectile.NewMeleeBullet(torso.body.Position, Direction.Left, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                            playerAthyl -= skillTree.ethanolConsumption;
+                            lastBullet = DateTime.Now;
+                        }
+                        else
+                        {
+                            projectile.NewMeleeBullet(torso.body.Position, Direction.Right, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                            playerAthyl -= skillTree.ethanolConsumption;
+                            lastBullet = DateTime.Now;
+                        }
+                    }
 
-                lastBullet = DateTime.Now;
-                //Console.WriteLine(skillTree.damage);
+                }
+                else
+                {
+                    bool sniper = (Stance == Stances.LongRange) ? true : false;
+                    projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
+
+                    playerAthyl -= skillTree.ethanolConsumption;
+
+                    lastBullet = DateTime.Now;
+                    //Console.WriteLine(skillTree.damage);
+                }
             }
         }
         public virtual void Jump()
