@@ -45,9 +45,10 @@ namespace Athyl
         public void CloseRange()
         {
             this.damage = 50;
-            this.attackSpeed = 10;
-            this.playerSpeed = 2;
+            fireRate = 0.9f;
+            this.playerSpeed = 2.0f;
             this.playerJumpForce = new Vector2(0, -3);
+            ethanolConsumption = 0;
         }
 
         public void MidRange()

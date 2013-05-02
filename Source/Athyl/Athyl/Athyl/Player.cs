@@ -333,6 +333,7 @@ namespace Athyl
         {
             if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
             {
+
                 bool sniper = (Stance == Stances.LongRange) ? true : false;
                 projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
 
@@ -346,7 +347,7 @@ namespace Athyl
         {
             if (OnGround && !Crouching)
             {
-                torso.body.ApplyLinearImpulse(jumpForce);
+                torso.body.ApplyLinearImpulse(skillTree.playerJumpForce);
             }
             //Walljump
             else if (OnWall && !OnGround && !WallJumped)
@@ -376,17 +377,17 @@ namespace Athyl
                             if (torso.body.LinearVelocity.X > 0)
                             {
                                 torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
-                                torso.body.ApplyForce(new Vector2(-speed * 2, 0));
+                                torso.body.ApplyForce(new Vector2(-skillTree.playerSpeed * 2, 0));
 
                             }
-                            else if (torso.body.LinearVelocity.X >= -speed * 2)
+                            else if (torso.body.LinearVelocity.X >= -skillTree.playerSpeed * 2)
                             {
-                                torso.body.ApplyForce(new Vector2(-speed * 2, 0));
+                                torso.body.ApplyForce(new Vector2(-skillTree.playerSpeed * 2, 0));
                             }
                         }
                         else
                         {
-                            axis.MotorSpeed = -MathHelper.TwoPi * speed;
+                            axis.MotorSpeed = -MathHelper.TwoPi * skillTree.playerSpeed;
                             UpdateFrame(0.2f);
                         }
                         direction = Direction.Left;
@@ -399,17 +400,17 @@ namespace Athyl
                             if (torso.body.LinearVelocity.X < 0)
                             {
                                 torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
-                                torso.body.ApplyForce(new Vector2(speed * 2, 0));
+                                torso.body.ApplyForce(new Vector2(skillTree.playerSpeed * 2, 0));
 
                             }
-                            else if (torso.body.LinearVelocity.X <= speed * 2)
+                            else if (torso.body.LinearVelocity.X <= skillTree.playerSpeed * 2)
                             {
-                                torso.body.ApplyForce(new Vector2(speed * 2, 0));
+                                torso.body.ApplyForce(new Vector2(skillTree.playerSpeed * 2, 0));
                             }
                         }
                         else
                         {
-                            axis.MotorSpeed = MathHelper.TwoPi * speed;
+                            axis.MotorSpeed = MathHelper.TwoPi * skillTree.playerSpeed;
                             UpdateFrame(0.2f);
                         }
                         direction = Direction.Right;
