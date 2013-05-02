@@ -61,7 +61,7 @@ namespace Athyl
         List<Spawn> spawnpoints = new List<Spawn>(10);
         private int timedBonusXP;
         System.Timers.Timer timer;
-        public static int runTime = 0;
+        public static float runTime = 0;
 
         //private DrawableGameObject button;
         #endregion
@@ -108,7 +108,7 @@ namespace Athyl
             listenPauseThread.Start();
             //quest = new Quests(world, this);
             IsFixedTimeStep = false;
-            timer = new System.Timers.Timer(1000);
+            timer = new System.Timers.Timer(10);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
 
             camera = new Camera(GraphicsDevice.Viewport);
@@ -731,7 +731,7 @@ namespace Athyl
 
         void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            runTime++;
+            runTime += 0.1f;
         }
         #endregion
     }

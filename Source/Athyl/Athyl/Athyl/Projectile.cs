@@ -23,20 +23,25 @@ namespace Athyl
         public float damage = 34;
         public enum projectiletype { small, medium, large }
         List<DrawableGameObject> bullets = new List<DrawableGameObject>();
+        List<DrawableGameObject> meleeBullets = new List<DrawableGameObject>();
+        List<DrawableGameObject> meleeremoveList = new List<DrawableGameObject>();
+        List<Body> meleeremoveListbody = new List<Body>();
         Game1 game;
         //Lista av saker som ska tas bort i "bullets"
         List<DrawableGameObject> removeList = new List<DrawableGameObject>();
         //Lista av saker som ska tas bort i world
         List<Body> removeListbody = new List<Body>();
         bool friendly;
-        int bulletLifeTime;
-        int bulletWasFired;
+        float bulletLifeTime;
+        float bulletWasFired;
         Random random = new Random();
         #endregion
         #region Constructor
         public Projectile(Game1 game)
         {
             this.game = game;
+
+            bulletLifeTime = 5.0f;
         }
         #endregion
         #region AddBullet
@@ -67,7 +72,6 @@ namespace Athyl
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
             bullet.body.IgnoreGravity = true;
-            bulletLifeTime = 5;
             bulletWasFired = Game1.runTime;
             bullet.body.IsSensor = true;
             bullet.body.IgnoreCollisionWith(wheel);
@@ -137,6 +141,48 @@ namespace Athyl
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
+        /// <summary>
+        /// Adds a melee bullet
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="direction"></param>
+        /// <param name="world"></param>
+        /// <param name="speed"></param>
+        /// <param name="wheel"></param>
+        /// <param name="damage"></param>
+        public void NewMeleeBullet(Vector2 position, Player.Direction direction , World world, float speed, Body wheel, float damage)
+        {
+            this.damage = damage;
+   
+            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"),new Vector2(10,4), 10, "melee");
+            bullet.body.IsBullet = true;
+            bullet.body.Position = position;
+            bullet.body.IgnoreGravity = true;
+            bulletWasFired = Game1.runTime;
+            bullet.body.IsSensor = true;
+            bullet.body.IgnoreCollisionWith(wheel);
+
+            switch (direction)
+            {
+                case Player.Direction.Right:
+                    bullet.body.Rotation = MathHelper.ToRadians(180);
+                    bullet.body.FixedRotation = true;
+                    meleeBullets.Add(bullet);
+                    meleeBullets[meleeBullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, 0));
+                    break;
+
+                case Player.Direction.Left:
+                    bullet.body.FixedRotation = true;
+                    meleeBullets.Add(bullet);
+                    meleeBullets[meleeBullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, 0));
+                    break;
+
+                default:
+                    break;
+
+            }
+            meleeBullets[meleeBullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+        }
 
         /// <summary>
         /// prototyp, kulor som fienden skjuter
@@ -205,7 +251,8 @@ namespace Athyl
         {
             if (contact.IsTouching())
             {
-                if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy" || fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "boss")
+                if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy" || 
+                    fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "boss")
                 {
                     if(!removeListbody.Contains(fixtureA.Body))
                         removeListbody.Add(fixtureA.Body);
@@ -220,6 +267,24 @@ namespace Athyl
                     game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
                     return true;
                 }
+
+                else if (fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "enemy" ||
+                    fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "boss")
+                {
+                    if (!meleeremoveListbody.Contains(fixtureA.Body))
+                        meleeremoveListbody.Add(fixtureA.Body);
+                    foreach (DrawableGameObject i in bullets)
+                    {
+                        if (i.body.BodyId == fixtureA.Body.BodyId)
+                        {
+                            if (!meleeremoveList.Contains(i))
+                                meleeremoveList.Add(i);
+                        }
+                    }
+                    game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
+                    return true;
+                }
+
                 else if (fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "player")
                 {
                     if (!removeListbody.Contains(fixtureA.Body))
@@ -279,7 +344,7 @@ namespace Athyl
             
             for(int i = 0; i < bullets.Count; i++){
                 bullets[i].Draw(spriteBatch);
-                if (bulletWasFired + bulletLifeTime == Game1.runTime)
+                if (bulletWasFired + bulletLifeTime <= Game1.runTime)
                 {
                     if (!removeList.Contains(bullets[i]))
                         removeList.Add(bullets[i]);
@@ -293,11 +358,37 @@ namespace Athyl
                 }
               //  Console.WriteLine(game.world.BodyList.Count);
             }
+
+            for (int i = 0; i < meleeBullets.Count; i++)
+            {
+                meleeBullets[i].Draw(spriteBatch);
+                if (bulletWasFired + 0.1f <= (float)Game1.runTime)
+                {
+                    if (!meleeremoveList.Contains(meleeBullets[i]))
+                        meleeremoveList.Add(meleeBullets[i]);
+                    try
+                    {
+                        game.world.RemoveBody(meleeBullets[i].body);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                //  Console.WriteLine(game.world.BodyList.Count);
+            }
+
             foreach (DrawableGameObject i in removeList)
             {
                 bullets.Remove(i);
                 //Console.WriteLine(bullets.Count);
             }
+
+            foreach (DrawableGameObject i in meleeremoveList)
+            {
+                meleeBullets.Remove(i);
+                //Console.WriteLine(bullets.Count);
+            }
+            
 
             foreach (Body i in removeListbody)
             {
@@ -311,6 +402,7 @@ namespace Athyl
             }
             removeListbody.Clear();
             removeList.Clear();
+            meleeremoveList.Clear();
         }
         #endregion
     }
