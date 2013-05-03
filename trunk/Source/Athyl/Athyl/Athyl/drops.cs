@@ -61,8 +61,6 @@ class Drops
 
             if (!ai.dead)
             {
-
-
                 int random = r.Next(0, 100);
                 if (random % 2 == 1)
                 {
@@ -80,7 +78,6 @@ class Drops
                     hpBox.body.Enabled = true;
                     hpBox.Id++;
                     hpDrop = true;
-
                 }
 
             }
@@ -94,8 +91,6 @@ class Drops
             {
                 if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "playerwheel") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "athyl"))
                 {
-
-
                     playerz.playerAthyl += 50;
                     ethanolBox.body.Enabled = false;
                     ethanolDrop = false;
