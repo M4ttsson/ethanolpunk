@@ -717,7 +717,7 @@ namespace Athyl
 
             }
 
-            if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 30, Category.Cat5, 38))  //Kollar om player står på backen.
+            if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 50, Category.Cat5, 58))  //Kollar om player står på backen.
             {
                 OnGround = true;
                 WallJumped = false;
