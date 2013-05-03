@@ -126,13 +126,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RunningDummyEnemy.png">
-      <Name>RunningDummyEnemy</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="wheel1.png">
       <Name>wheel1</Name>
       <Importer>TextureImporter</Importer>
