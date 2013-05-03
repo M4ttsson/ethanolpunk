@@ -578,9 +578,6 @@ namespace Athyl
                         crossHairPosition.Y += 5;
                     }
                 }
-
-                
-
             }
             else
             {
