@@ -35,7 +35,8 @@ namespace Athyl
         private DateTime lastCheck;
         private delegate void BehaviorDel();
         private BehaviorDel behavior;
-
+        private int patrolLength = 0;
+        private int seenPos = 0;
 
 
 
@@ -74,6 +75,10 @@ namespace Athyl
             {
                 case Behavior.Patrol:
                     behavior = Patrol;
+                    break;
+
+                case Behavior.PatrolDistance:
+                    behavior = PatrolDistance;
                     break;
 
                 case Behavior.Turret:
@@ -302,6 +307,7 @@ namespace Athyl
         public enum Behavior
         {
             Patrol,
+            PatrolDistance,
             Turret,
             Boss,
             None
@@ -359,6 +365,64 @@ namespace Athyl
             UpdateFrame(0.2f);
         }
 
+        private void PatrolDistance()
+        {
+            if ((DateTime.Now - lastCheck).TotalSeconds >= 0.5)
+            {
+                int distance = 0;
+                switch (CheckDirection(direction, 500, out distance))
+                {
+                    case 0:
+                        if (direction == Direction.Left)
+                            Move(Movement.Left);
+                        else
+                            Move(Movement.Right);
+                        patrolLength++;
+
+                        if (patrolLength > 100)
+                        {
+                            direction = lastDirection ? Direction.Right : Direction.Left;
+                            patrolLength = 0;
+                        }
+
+                        break;
+
+                    case 1:
+                        if (distance >= 50)
+                        {
+                            if (direction == Direction.Left)
+                                Move(Movement.Left);
+                            else
+                                Move(Movement.Right);
+                            attackPlayer();
+                            patrolLength++;
+                        }
+                        else
+                        {
+                            Move(Movement.Stop);
+                            attackPlayer();
+                        }
+
+                        break;
+
+                    case 2:
+                        if (distance >= 50)
+                        {
+                            if (direction == Direction.Left)
+                                Move(Movement.Left);
+                            else
+                                Move(Movement.Right);
+                        }
+                        else
+                        {
+                            direction = lastDirection ? Direction.Right : Direction.Left;
+                        }
+                        break;
+                }
+
+            }
+        }
+
         /// <summary>
         /// Enemy stands still and shoot in both directions
         /// </summary>
@@ -390,6 +454,10 @@ namespace Athyl
                     else
                     {
                         direction = lastDirection ? Direction.Right : Direction.Left;
+                        if (direction == Direction.Left)
+                            Move(Movement.Left);
+                        else
+                            Move(Movement.Right);
                     }
                 }
                 lastCheck = DateTime.Now;
