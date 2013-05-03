@@ -106,7 +106,7 @@ namespace Athyl
         /// <param name="startPosition">Startposition</param>
         public Player(World world, Texture2D texture, Vector2 size, float mass, Vector2 startPosition, Game1 game, string userdata)
         {
-            Load(texture, 2, 11, 1, 1);
+            Load(texture, 2, 9, 1, 1);
 
             int wheelSize = (int)size.X - 4;
             this.torsoSize = size - new Vector2(0, (wheelSize / 2));
@@ -221,7 +221,7 @@ namespace Athyl
             else
             {
                 this.frameRow = 2;
-                this.frameColumn = 11;
+                this.frameColumn = 7;
                 this.myTexture = game.Content.Load<Texture2D>("Player/TestGubbar");
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 1;
