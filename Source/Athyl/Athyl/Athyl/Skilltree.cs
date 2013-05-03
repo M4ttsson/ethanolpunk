@@ -11,14 +11,18 @@ namespace Athyl
         Player playerInfo;
         public float fireRate;
         public float projectileSpeed;
-        Int16 meleefirebreath, meleeAtkSpd, meleeMoveSpd, meleeJmpHeight, midFireBurst, midFireRate, midEthanoltank, midBulletPassthrough, longShield, longEthanol, longAccuracy, longHeadshotBonus;
+        //Int16 meleefirebreath, meleeAtkSpd, meleeMoveSpd, meleeJmpHeight, midFireBurst, midFireRate, midEthanoltank, midBulletPassthrough, longShield, longEthanol, longAccuracy, longHeadshotBonus;
+        float meleeAtkSpd, meleeMoveSpd, meleeDmg, meleeEthanolConsumption, midFireRate, midMoveSpd, midDmg, midEthanolConsumption, longMoveSpd, longEthanolConsumption, longAtkSpd, longDmg;
+        Vector2 meleeJmpHeight;
+        Vector2 midJmpHeight;
+        Vector2 longJmpHeight;
         public float damage;
         int playerLevel;
 
         public int playerMaxHP;
         public float playerSpeed;
         public Vector2 playerJumpForce;
-        public int ethanolConsumption;
+        public float ethanolConsumption;
         public float attackSpeed;
 
         public Skilltree(Player playerInfo)
@@ -28,6 +32,22 @@ namespace Athyl
             this.damage = 34;
             this.playerInfo = playerInfo;
             this.playerLevel = playerInfo.playerLevel;
+
+            meleeAtkSpd = 0.3f;
+            meleeMoveSpd = 2.0f; 
+            meleeDmg = 50; 
+            meleeJmpHeight = new Vector2(0, -3);
+            meleeEthanolConsumption = 0;
+            midFireRate = 0.1f;
+            meleeMoveSpd = 1.0f;
+            midDmg = 34;
+            midJmpHeight = new Vector2(0, -2f);
+            midEthanolConsumption = 2;
+            longMoveSpd = 0.5f;
+            longEthanolConsumption = 10;
+            longAtkSpd = 0.7f;
+            longDmg = 100;
+            longJmpHeight = new Vector2(0, -2f);
         }
 
         //En enkel levelingfunktion, skjuta snabbare, snabbare kulor och mer skada
@@ -44,31 +64,58 @@ namespace Athyl
 
         public void CloseRange()
         {
-            this.damage = 50;
-            fireRate = 0.3f;
-            this.playerSpeed = 2.0f;
-            ethanolConsumption = 0;
-            this.playerJumpForce = new Vector2(0, -3);
-            ethanolConsumption = 0;
+            damage = meleeDmg;
+            fireRate = meleeAtkSpd;
+            playerSpeed = meleeMoveSpd;
+            playerJumpForce = meleeJmpHeight;
+            ethanolConsumption = meleeEthanolConsumption;
+        }
+
+        public void LevelCloseRange()
+        {
+            meleeDmg = meleeDmg * 1.5f;
+            meleeAtkSpd = meleeAtkSpd * 1.1f;
+            meleeMoveSpd = meleeMoveSpd * 1.1f;
+            meleeJmpHeight = meleeJmpHeight + new Vector2(0.0f, 0.1f);
+            meleeEthanolConsumption += 0.1f;
         }
 
         public void MidRange()
         {
-            damage = 34;
-            playerSpeed = 1.0f;
-            playerJumpForce = new Vector2(0, -2f);
-            ethanolConsumption = 2;
-            fireRate = 0.1f;
+            damage = midDmg;
+            playerSpeed = midMoveSpd;
+            playerJumpForce = midJmpHeight;
+            ethanolConsumption = midEthanolConsumption;
+            fireRate = midFireRate;
 
+        }
+
+        public void LevelMidRange()
+        {
+            midDmg = midDmg * 1.1f;
+            midMoveSpd = midMoveSpd * 1.04f;
+            midFireRate = midFireRate * 1.5f;
+            midJmpHeight = midJmpHeight + new Vector2(0.0f, 0.3f);
+            midEthanolConsumption = midEthanolConsumption * 1.1f;
         }
 
         public void LongRange()
         {
-            playerSpeed = 0.5f;
-            playerJumpForce = new Vector2(0, -1f);
-            ethanolConsumption = 10;
-            fireRate = 0.7f;
-            damage = 100;
+            damage = longDmg;
+            playerSpeed = longMoveSpd;
+            fireRate = longAtkSpd;
+            ethanolConsumption = longEthanolConsumption;
+            playerJumpForce = longJmpHeight;
+
+        }
+
+        public void LevelLongRange()
+        {
+            longDmg = longDmg * 1.3f;
+            longMoveSpd = longMoveSpd * 1.01f;
+            longAtkSpd = longAtkSpd * 1.01f;
+            longEthanolConsumption = longEthanolConsumption * 1.4f;
+            longJmpHeight = longJmpHeight + new Vector2(0.0f, 0.1f);
         }
 
         /*

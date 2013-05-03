@@ -20,7 +20,7 @@ namespace Athyl
 {
     class Menu
     {
-        public enum GameState { StartMenu, Loading, Playing, Paused, OptionsStartMenu, OptionsPauseMenu, Story, GameOver }
+        public enum GameState { StartMenu, Loading, Playing, Paused, OptionsStartMenu, OptionsPauseMenu, Story, GameOver, LevelUp }
 
         private Texture2D startButton;
         private Texture2D exitButton;
@@ -199,6 +199,11 @@ namespace Athyl
             gameState = GameState.GameOver;
         }
 
+        public void LevelUpMenu(Game1 game)
+        {
+            gameState = GameState.LevelUp;
+        }
+
         /// <summary>
         /// Starting the game after that the thread has been inactive for 6 sec.
         /// </summary>
@@ -317,6 +322,8 @@ namespace Athyl
             
             spriteBatch.DrawString(myFont, "Time:" + totalTime.ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10,-(int)Camera.transform.Translation.Y + 560), Color.Violet);
         }
+
+        
 
         /// <summary>
         /// MouseClicked is function used to create rectangles for the buttons that when intersecting with the mouse pointer and clicked will trigger a game state. Used for the menus.
