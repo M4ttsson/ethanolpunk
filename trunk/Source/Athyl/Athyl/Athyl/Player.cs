@@ -42,7 +42,7 @@ namespace Athyl
         }
 
         public int playerHP = 150;
-        public int playerAthyl = 500;
+        public float playerAthyl = 500;
         public int playerXP = 0;
         public int playerLevel = 1;
         public Direction direction;
