@@ -1,0 +1,23 @@
+Gilliam
+2x Fiende
+2x Mini boss
+Boss
+3x Bakgrund
+3x Tiles för alla nivåer
+Meny
+Ingame Gui
+Stance markör
+Projectil
+Skilltree
+Progressbar
+loadingscreen
+Hp/etanol Pickups
+Sköld
+Byggnader
+Implementera story
+
+
+To be continued:
+3x maps
+Quest items
+3x Cutscens
