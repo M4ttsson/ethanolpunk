@@ -113,7 +113,7 @@ namespace Athyl
         {
             longDmg = longDmg * 1.3f;
             longMoveSpd = longMoveSpd * 1.01f;
-            longAtkSpd = longAtkSpd * 1.01f;
+            longAtkSpd = longAtkSpd * 0.99f;
             longEthanolConsumption = longEthanolConsumption * 1.4f;
             longJmpHeight = longJmpHeight + new Vector2(0.0f, 0.1f);
         }

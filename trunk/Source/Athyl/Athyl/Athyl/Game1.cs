@@ -731,6 +731,9 @@ namespace Athyl
             if (map != null)
                 map.Draw(spriteBatch);
 
+            foreach (AI ai in theAI)
+                ai.Draw(spriteBatch);
+
             if (player != null && menu.gameState == Menu.GameState.Playing)
             {
                 player.Draw(spriteBatch);
@@ -744,8 +747,7 @@ namespace Athyl
                 
             //}
 
-            foreach (AI ai in theAI)
-                ai.Draw(spriteBatch);
+            
 
             quest.DrawQuest(spriteBatch);
 
@@ -761,7 +763,7 @@ namespace Athyl
 
 
             menu.Draw(spriteBatch, this);
-
+//Writes out Game Over when the player dies
             if (player != null && player.Dead == true)
             {
                 spriteBatch.DrawString(myFont, "Game Over", new Vector2(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 360), Color.DarkRed);
@@ -781,7 +783,7 @@ namespace Athyl
                 spriteBatch.Draw(progressBar, bar, Color.White);
             }
 
-            //Writes out Game Over when the player dies
+            
 
 
 
