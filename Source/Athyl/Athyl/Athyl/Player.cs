@@ -222,7 +222,7 @@ namespace Athyl
             {
                 this.frameRow = 2;
                 this.frameColumn = 7;
-                this.myTexture = game.Content.Load<Texture2D>("Player/TestGubbar");
+                this.myTexture = game.Content.Load<Texture2D>("Player/Gilliam");
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 1;
                 torso.Size = torsoSize;
