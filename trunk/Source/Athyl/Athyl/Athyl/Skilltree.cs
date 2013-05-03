@@ -39,7 +39,7 @@ namespace Athyl
             meleeJmpHeight = new Vector2(0, -3);
             meleeEthanolConsumption = 0;
             midFireRate = 0.1f;
-            meleeMoveSpd = 1.0f;
+            midMoveSpd = 1.0f;
             midDmg = 34;
             midJmpHeight = new Vector2(0, -2f);
             midEthanolConsumption = 2;
