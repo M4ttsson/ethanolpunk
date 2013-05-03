@@ -427,7 +427,6 @@ namespace Athyl
             }
             else if (!player.OnGround)
             {
-                player.direction = Player.Direction.Down;
                 player.Move(Player.Movement.Stop);
             }
                 
