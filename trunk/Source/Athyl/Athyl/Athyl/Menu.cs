@@ -31,6 +31,7 @@ namespace Athyl
         private Texture2D returnButton;
         private Texture2D restartButton;
         private Texture2D mainMenuButton;
+        private Texture2D skillTreeButton;
         private Texture2D saveButton;
         private Texture2D LoadButon;
         private Texture2D loadingGameButton;
@@ -52,6 +53,8 @@ namespace Athyl
         private Texture2D originalReturnButton;
         private Texture2D originalRestartButton;
         private Texture2D originalMainMenuButton;
+        private Texture2D originalSkillTreeButton;
+        private Texture2D skillTreeButton2;
         private Texture2D resumeButton2;
         private Texture2D startButton2;
         private Texture2D exitButton2;
@@ -77,7 +80,7 @@ namespace Athyl
         Vector2 loadingScreenPosition;
         Vector2 exitButtonPositionStartMenu;
         Vector2 returnButtonPosition;
-
+        Vector2 skillTreeButtonPosition;
 
 
         private Thread backGroundThread;
@@ -111,6 +114,7 @@ namespace Athyl
             returnButton = game.Content.Load<Texture2D>("Menu items/ReturnButtonHighlight");
             saveButton = game.Content.Load<Texture2D>("Menu items/SaveButton");
             LoadButon = game.Content.Load<Texture2D>("Menu items/LoadButton");
+            skillTreeButton = game.Content.Load<Texture2D>("Menu items/SkillTreeButtonHighlight");
 
             originalResumeButton = game.Content.Load<Texture2D>("Menu items/ResumeButton");
             originalOptionsButton = game.Content.Load<Texture2D>("Menu items/OptionsButton");
@@ -118,6 +122,7 @@ namespace Athyl
             originalExitButton = game.Content.Load<Texture2D>("Menu items/ExitButton");
             originalStoryButton = game.Content.Load<Texture2D>("Menu items/StoryButton");
             originalReturnButton = game.Content.Load<Texture2D>("Menu items/ReturnButton");
+            originalSkillTreeButton = game.Content.Load<Texture2D>("Menu items/SkillTreeButton");
             
 
             resumeButton2 = game.Content.Load<Texture2D>("Menu items/ResumeButton");
@@ -126,6 +131,7 @@ namespace Athyl
             exitButton2 = game.Content.Load<Texture2D>("Menu items/ExitButton");
             storyButton2 = game.Content.Load<Texture2D>("Menu items/StoryButton");
             returnButton2 = game.Content.Load<Texture2D>("Menu items/ReturnButton");
+            skillTreeButton2 = game.Content.Load<Texture2D>("Menu items/SkillTreeButton");
             myFont = game.Content.Load<SpriteFont>("font");
         }
 
@@ -136,7 +142,7 @@ namespace Athyl
         public void StartMenu(Game1 game)
         {
             gameState = GameState.StartMenu;
-            startButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - startButton.Width), 300);
+            startButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - startButton.Width), 310);
             optionsButtonPositionStartMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - 140), 375);
             storyButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - storyButton.Width), 410);
             exitButtonPositionStartMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), 465);
@@ -160,14 +166,14 @@ namespace Athyl
         public void PauseMenu(Game1 game)
         {
             gameState = GameState.Paused;
-            //pauseMenuPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - pauseMenuBackgroundFront.Width / 2), 160);
-            //resumeButtonPosition = new Vector2((int)Camera.transform.Translation.X + game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width / 2, (int)Camera.transform.Translation.Y + game.GraphicsDevice.Viewport.Height / 2 - 130);
-            //saveButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 330);
-            //loadButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 360);
-            //optionsButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - optionsButton.Width / 2), 280);
-            //exitButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30));
-            //soundSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 30);
-            //musicSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 80);
+            pauseMenuPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - pauseMenuBackgroundFront.Width / 2), 160);
+            resumeButtonPosition = new Vector2((int)Camera.transform.Translation.X + game.GraphicsDevice.Viewport.Width / 2 - resumeButton.Width / 2, (int)Camera.transform.Translation.Y + game.GraphicsDevice.Viewport.Height / 2 - 130);
+            saveButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 330);
+            loadButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2), 360);
+            optionsButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - optionsButton.Width / 2), 280);
+            exitButtonPositionPauseMenu = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30));
+            soundSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 30);
+            musicSliderPosition = new Vector2((game.GraphicsDevice.Viewport.Width - 60), 80);
 
 
         }
@@ -202,6 +208,7 @@ namespace Athyl
         public void LevelUpMenu(Game1 game)
         {
             gameState = GameState.LevelUp;
+            skillTreeButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - skillTreeButton.Width / 2), 280);
         }
 
         /// <summary>
@@ -265,6 +272,12 @@ namespace Athyl
                 gameState = GameState.Playing;
             }
 
+            if(kbState.IsKeyDown(Keys.N))
+            {
+                LevelUpMenu(game);
+            }
+            
+
             if (gameState == GameState.Playing)
             {
                 PauseIcon(game);
@@ -292,10 +305,14 @@ namespace Athyl
             {
                 StoryMenu(game);
             }
-            else if (gameState == GameState.GameOver)
-            {
-                GameOverMenu(game);
+            //else if (player.Dead == true)
+            //{
+            //    GameOverMenu(game);
 
+            //}
+            else if (gameState == GameState.LevelUp)
+            {
+                LevelUpMenu(game);
             }
 
             MouseOver(mouseState.X, mouseState.Y, game);
@@ -320,7 +337,7 @@ namespace Athyl
             spriteBatch.DrawString(myFont, "Exp: " + player.playerXP.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 650), Color.Green);
             spriteBatch.DrawString(myFont, "Level: " + player.playerLevel.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 680), Color.Wheat);
             
-            spriteBatch.DrawString(myFont, "Time:" + totalTime.ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10,-(int)Camera.transform.Translation.Y + 560), Color.Violet);
+            spriteBatch.DrawString(myFont, "Time: " + totalTime.ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10,-(int)Camera.transform.Translation.Y + 560), Color.Violet);
         }
 
         
@@ -442,6 +459,15 @@ namespace Athyl
                 }
             }
 
+            //checking the level up menu
+            if (gameState == GameState.LevelUp)
+            {
+                Rectangle skillTreeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - skillTreeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 60, 160, 20);
+                if (mouseClickRect.Intersects(skillTreeButtonRect))
+                {
+                    gameState = GameState.OptionsPauseMenu;
+                }
+            }
         }
 
         /// <summary>
@@ -462,6 +488,7 @@ namespace Athyl
             Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X + 20, (int)storyButtonPosition.Y + 10, 120, 30);
             Rectangle pausedReturnButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - returnButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
             Rectangle startReturnButtonRect = new Rectangle((int)returnButtonPosition.X + 20, (int)returnButtonPosition.Y + 28, 120, 30);
+            Rectangle skillTreeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - skillTreeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 65, 160, 20);
 
             if (mouseClickRect.Intersects(resumeButtonRect))
             {
@@ -535,6 +562,14 @@ namespace Athyl
             {
                 originalReturnButton = returnButton2;
             }
+            if (mouseClickRect.Intersects(skillTreeButtonRect) && gameState == GameState.LevelUp)
+            {
+                originalSkillTreeButton = skillTreeButton;
+            }
+            else
+            {
+                originalSkillTreeButton = skillTreeButton2;
+            }
 
         }
                 
@@ -600,6 +635,12 @@ namespace Athyl
             if (gameState == GameState.GameOver)
             {
                 spriteBatch.DrawString(myFont, "Game Over", new Vector2(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 360), Color.DarkRed);
+            }
+            if (gameState == GameState.LevelUp)
+            {
+                spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
+                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 405, -(int)Camera.transform.Translation.Y + 150, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
+                spriteBatch.Draw(originalSkillTreeButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - skillTreeButton.Width / 2, -(int)Camera.transform.Translation.Y + 270, skillTreeButton.Width, skillTreeButton.Height), Color.White);
             }
         }
     }
