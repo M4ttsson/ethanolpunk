@@ -28,18 +28,23 @@ class Drops
         Player playerz;
         World world;
         Game1 gamez;
-        bool ethanolDrop, hpDrop;
+        public List<DrawableGameObject> hpList = new List<DrawableGameObject>();
+        public List<DrawableGameObject> ethList = new List<DrawableGameObject>();
+        public bool ethanolDrop, hpDrop;
 
         public Drops(Game1 game, World world, Player player)
         {
-            ethanolTexture = game.Content.Load<Texture2D>("ethanol");
-            hpTexture = game.Content.Load<Texture2D>("hpBox");
+            ethanolTexture = game.Content.Load<Texture2D>("Flask");
+            hpTexture = game.Content.Load<Texture2D>("MedKit");
 
-            ethanolBox = new DrawableGameObject(world, ethanolTexture, new Vector2(16, 16), 0, "athyl", 0);
-            hpBox = new DrawableGameObject(world, hpTexture, new Vector2(16, 16), 0, "hpBox", 0);
+            ethanolBox = new DrawableGameObject(world, ethanolTexture, new Vector2(32, 32), 0, "athyl", 0);
+            hpBox = new DrawableGameObject(world, hpTexture, new Vector2(32, 32), 0, "hpBox", 0);
             ethanolBox.body.OnCollision += PickupsForPlayer;
             hpBox.body.OnCollision += PickupsForPlayer;
 
+
+            hpBox.body.FixedRotation = true;
+            ethanolBox.body.FixedRotation = true;
             this.playerz = player;
             this.gamez = game;
             this.world = world;
@@ -48,10 +53,8 @@ class Drops
 
             ethanolDrop = false;
             hpDrop = false;
-            //ethanolBox.body.CollisionCategories = Category.Cat8;
-            //hpBox.body.CollisionCategories = Category.Cat8;
-            //ethanolBox.body.CollidesWith = Category.Cat1 & Category.Cat5 & Category.Cat6 & Category.Cat7;
-            //hpBox.body.CollidesWith = Category.Cat1 & Category.Cat5 & Category.Cat6 & Category.Cat7;
+
+
         }
 
 
@@ -61,53 +64,71 @@ class Drops
 
             if (!ai.dead)
             {
+
+
                 int random = r.Next(0, 100);
-                if (random % 2 == 1)
+                if (random % 5 == 0)
                 {
-
-                    ethanolBox.Position = ai.wheel.Position;
-                    ethanolBox.body.Enabled = true;
-                    ethanolBox.Id++;
-                    ethanolDrop = true;
+                    //Spawn hpBox
+                    hpList.Add(hpBox);
+                    hpBox.body.Position = ai.torso.body.Position;
+                    
+                        
+                    
                 }
 
-                else
+                else if(random % 3 == 0)
                 {
-
-                    hpBox.Position = ai.wheel.Position;
-                    hpBox.body.Enabled = true;
-                    hpBox.Id++;
-                    hpDrop = true;
+                    //SpawnEthanol
+                    ethList.Add(ethanolBox);
+                    ethanolBox.body.Position = ai.torso.body.Position;
                 }
 
+
+                ethanolBox.body.IgnoreCollisionWith(ai.torso.body);
+                hpBox.body.IgnoreCollisionWith(ai.torso.body);
+                ethanolBox.body.IgnoreCollisionWith(ai.wheel.body);
+                hpBox.body.IgnoreCollisionWith(ai.wheel.body);
             }
         }
 
 
-        bool PickupsForPlayer(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+      public bool PickupsForPlayer(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
 
             if (contact.IsTouching())
             {
                 if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "playerwheel") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "athyl"))
                 {
+
+
                     playerz.playerAthyl += 50;
-                    ethanolBox.body.Enabled = false;
-                    ethanolDrop = false;
-                    return true;
+                    ethanolDrop = true;
                 }
 
 
                 else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "playerwheel") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "hpBox"))
                 {
+
+
                     playerz.playerHP += 25;
-                    hpBox.body.Enabled = false;
+                    hpDrop = true;
+                }
+
+                else
+                {
+
+                    ethanolDrop = false;
                     hpDrop = false;
-                    return true;
+
                 }
             }
             return false;
         }
+
+
+
+
 
         public void Update(AI ai, World world)
         {
@@ -118,14 +139,14 @@ class Drops
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (ethanolDrop)
+            foreach (DrawableGameObject d in ethList)
             {
-                ethanolBox.Draw(spriteBatch);
+                d.Draw(spriteBatch);
             }
 
-            if (hpDrop)
+            foreach (DrawableGameObject d in hpList)
             {
-                hpBox.Draw(spriteBatch);
+                d.Draw(spriteBatch);
             }
         }
 

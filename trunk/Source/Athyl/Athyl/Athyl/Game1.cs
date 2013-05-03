@@ -42,7 +42,8 @@ namespace Athyl
         SpriteFont myFont;
         Quests quest;
         Camera camera;
-       // List<Drops> drops = new List<Drops>();
+        List<Drops> drops = new List<Drops>();
+        private List<Drops> removedDropsList = new List<Drops>();
         static Map map;
 
         Texture2D skyTexture;
@@ -202,6 +203,19 @@ namespace Athyl
                 if (sp.Visited)
                     sp.Visited = false;
             }
+
+            if (drops.Count > 0)
+            {
+                foreach (Drops d in drops)
+                {
+                    world.RemoveBody(d.hpBox.body);
+                    world.RemoveBody(d.ethanolBox.body);
+                    
+                }
+            }
+
+            drops.Clear();
+
 
             menu.totalTime = 0f;
 
@@ -493,10 +507,6 @@ namespace Athyl
                         theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].wheel.body);
                         theAI[i].torso.body.IgnoreCollisionWith(theAI[j].wheel.body);
                         theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].torso.body);
-                        //theAI[i].wheel.body.IgnoreCollisionWith(drops[j].ethanolBox.body);
-                        //theAI[i].wheel.body.IgnoreCollisionWith(drops[j].hpBox.body);
-                        //theAI[i].torso.body.IgnoreCollisionWith(drops[j].hpBox.body);
-                        //theAI[i].torso.body.IgnoreCollisionWith(drops[j].ethanolBox.body);
 
                     }
                 }
@@ -553,6 +563,7 @@ namespace Athyl
 
         private void Damage()
         {
+            
             for (int i = 0; i < theAI.Count; i++)
             {
                 for (int j = 0; j < damageList.Count; j++)
@@ -583,8 +594,8 @@ namespace Athyl
                     {
                         world.RemoveBody(theAI[i].wheel.body);
                         world.RemoveBody(theAI[i].torso.body);
-                        theAI.RemoveAt(i);
-
+                        //theAI.RemoveAt(i);
+                       
                     }
 
                 }
@@ -592,7 +603,9 @@ namespace Athyl
                 else if (theAI[i].enemyHP <= 0 && theAI[i].torso.body.FixtureList[0].UserData.ToString() != "boss")
                 {
 
-                    //drops.Add(new Drops(this, world, player));
+                    drops.Add(new Drops(this, world, player));
+                    drops[drops.Count - 1].DropPickups(theAI[i]);
+                    
 
 
                     removedAIList.Add(theAI[i]);
@@ -611,6 +624,11 @@ namespace Athyl
                 }
 
 
+            }
+
+            for (int i = 0; i < removedAIList.Count; i++)
+            {
+                theAI.Remove(removedAIList[i]);
             }
 
             foreach (var damage in damageList)
@@ -709,9 +727,38 @@ namespace Athyl
                     camera.UpdateCamera(player);
 
                     world.Step(0.033333f);
+                    removedDropsList.Clear();
+
+                    foreach (var d in drops)
+                    {
+                        if (d.ethanolDrop)
+                        {
+                            removedDropsList.Add(d);
+
+
+
+
+                        }
+
+                        else if (d.hpDrop)
+                        {
+                            removedDropsList.Add(d);
+
+                        }
+                    }
+
+                    for (int i = 0; i < removedDropsList.Count; i++)
+                    {
+                        world.RemoveBody(removedDropsList[i].hpBox.body);
+                        world.RemoveBody(removedDropsList[i].ethanolBox.body);
+                        drops.Remove(removedDropsList[i]);
+                        
+                    }
+
 
                 }
             }
+        
 
             base.Update(gameTime);
         }
@@ -741,11 +788,11 @@ namespace Athyl
                 projectile.Draw(spriteBatch, player.torso.Position);
             }
 
-            //foreach(Drops d in drops)
-            //{
-            //    d.Draw(spriteBatch);
+            foreach(Drops d in drops)
+            {
+               d.Draw(spriteBatch);
                 
-            //}
+            }
 
             
 
@@ -756,11 +803,7 @@ namespace Athyl
             if (player != null && menu.gameState == Menu.GameState.Playing)
             {
                 menu.DrawPlayerInfo(spriteBatch, GraphicsDevice, player, myFont, gameTime);
-
-
             }
-
-
 
             menu.Draw(spriteBatch, this);
 //Writes out Game Over when the player dies
