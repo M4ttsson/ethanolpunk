@@ -323,6 +323,11 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.Down))
                 player.torso.body.ApplyForce(new Vector2(0, 3));*/
 
+            if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
+            {
+                player.Jump();
+            }
+
             if (keyboardState.IsKeyDown(Keys.D1))
             {
                 player.Stance = Player.Stances.CloseRange;
@@ -334,11 +339,6 @@ namespace Athyl
             else if (keyboardState.IsKeyDown(Keys.D3))
             {
                 player.Stance = Player.Stances.LongRange;
-            }
-
-            if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
-            {
-                player.Jump();
             }
 
             if (mouse.LeftButton == ButtonState.Pressed)
