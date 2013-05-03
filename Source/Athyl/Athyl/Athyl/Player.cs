@@ -547,7 +547,7 @@ namespace Athyl
 
                     
 
-                if (ks.IsKeyDown(Keys.W) && crossHairPosition.Y > torso.Position.Y - 200)
+                if (ks.IsKeyDown(Keys.W) && crossHairPosition.Y > torso.Position.Y - 375)
                 {
                     if (!lastDirection)
                     {
@@ -563,7 +563,7 @@ namespace Athyl
                     }
 
                 }
-                else if (ks.IsKeyDown(Keys.S) && crossHairPosition.Y < torso.Position.Y + 150)
+                else if (ks.IsKeyDown(Keys.S) && crossHairPosition.Y < torso.Position.Y + 250)
                 {
                     if (!lastDirection)
                     {
