@@ -106,7 +106,7 @@ namespace Athyl
         /// <param name="startPosition">Startposition</param>
         public Player(World world, Texture2D texture, Vector2 size, float mass, Vector2 startPosition, Game1 game, string userdata)
         {
-            Load(texture, 2, 9, 1, 1);
+            Load(texture, 2, 7, 1, 1);
 
             int wheelSize = (int)size.X - 4;
             this.torsoSize = size - new Vector2(0, (wheelSize / 2));
