@@ -253,7 +253,7 @@ namespace Athyl
             spawnpoints.Add(new Spawn(9, false, new Rectangle(8785, 500, 50, 1000), new Vector2[] { new Vector2(9723, 1320) }));
         }
 
-        private void SpawnEnemies()
+        private int SpawnEnemies()
         {
             foreach (Spawn sp in spawnpoints)
             {
@@ -317,9 +317,11 @@ namespace Athyl
                         }
 
                         sp.Visited = true;
+                        return 1;
                     }
                 }
             }
+            return 0;
         }
         #endregion
 
@@ -657,7 +659,24 @@ namespace Athyl
 
                     Input();
 
-                    SpawnEnemies();
+                    if (SpawnEnemies() == 1)
+                    {
+                        for (int i = 0; i < theAI.Count; i++)
+                        {
+                            for (int j = 0; j < theAI.Count; j++)
+                            {
+                                theAI[i].torso.body.IgnoreCollisionWith(theAI[j].torso.body);
+                                theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].wheel.body);
+                                theAI[i].torso.body.IgnoreCollisionWith(theAI[j].wheel.body);
+                                theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].torso.body);
+                                //theAI[i].wheel.body.IgnoreCollisionWith(drops[j].ethanolBox.body);
+                                //theAI[i].wheel.body.IgnoreCollisionWith(drops[j].hpBox.body);
+                                //theAI[i].torso.body.IgnoreCollisionWith(drops[j].hpBox.body);
+                                //theAI[i].torso.body.IgnoreCollisionWith(drops[j].ethanolBox.body);
+
+                            }
+                        }
+                    }
 
                     if (runTime == 2 && theAI.Count < 0)
                     {
