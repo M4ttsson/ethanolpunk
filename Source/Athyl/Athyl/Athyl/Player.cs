@@ -242,7 +242,7 @@ namespace Athyl
         public void AnimateCrouch()
         {
             this.frameRow = 2;
-            this.frameColumn = 2;
+            this.frameColumn = 1;
             this.ColFrame = 0;
             this.myTexture = game.Content.Load<Texture2D>("Player/Ducking");
             this.TimePerFrame = (float)1 / 1f;
@@ -819,7 +819,7 @@ namespace Athyl
             {
                 if (!Dead)
                     Dead = true;
-                else if (Dead && ColFrame != frameColumn - 1)
+                else if (Dead && ColFrame != frameColumn-1)
                     UpdateFrame(0.2f);
                 playerHP = 0;
             }
