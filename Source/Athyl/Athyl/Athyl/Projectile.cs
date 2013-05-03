@@ -142,6 +142,39 @@ namespace Athyl
         }
 
         /// <summary>
+        /// Create a sniper bullet in the direction of the crosshair
+        /// </summary>
+        /// <param name="position">Position to shoot from</param>
+        /// <param name="direction">Direction of bullet</param>
+        /// <param name="world"></param>
+        /// <param name="wheel"></param>
+        /// <param name="damage">Bullet damage</param>
+        public void NewBullet(Vector2 position, Vector2 direction, World world, Body wheel, float damage)
+        {
+            this.damage = damage;
+            
+
+            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"), new Vector2(10, 4), 10, "shot");
+            bullet.body.IsBullet = true;
+            bullet.body.Position = position;
+            bullet.body.IgnoreGravity = true;
+            bulletWasFired = Game1.runTime;
+            bullet.body.IsSensor = true;
+            bullet.body.IgnoreCollisionWith(wheel);
+
+            //calculate direction and rotation
+            float dotProd = Vector2.Dot(Vector2.UnitY, direction);
+            float rotation = (direction.X > 0) ? -(float)Math.Acos(dotProd) + MathHelper.ToRadians(-90) : (float)Math.Acos(dotProd) + MathHelper.ToRadians(-90);
+            bullet.body.Rotation = rotation;
+            bullet.body.FixedRotation = true;
+
+            bullets.Add(bullet);
+            bullets[bullets.Count - 1].body.ApplyLinearImpulse(direction / 20);
+
+            bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+        }
+
+        /// <summary>
         /// Adds a melee bullet
         /// </summary>
         /// <param name="position"></param>

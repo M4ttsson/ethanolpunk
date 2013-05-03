@@ -65,6 +65,7 @@ namespace Athyl
         public void LongRange()
         {
             playerSpeed = 0.5f;
+            playerJumpForce = new Vector2(0, -1f);
             ethanolConsumption = 10;
             fireRate = 0.7f;
             damage = 100;

@@ -83,7 +83,13 @@ namespace Athyl
         private bool liftObject = false;
         public Int16 skillPoints = 0;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
+        private Texture2D crossHair;
+        private Rectangle crossHairPosition;
+        private bool sniping = false;
+        private float aimingAngle = 0;
+
         private MouseState mouse;
+
         private delegate void StancesDel();
         private StancesDel StanceDelegate;
 
@@ -155,6 +161,8 @@ namespace Athyl
 
             Stance = Stances.CloseRange;
 
+
+            crossHair = game.Content.Load<Texture2D>("crosshair");
 
             torso.body.OnCollision += InteractWithQuestItems;
 
@@ -374,8 +382,24 @@ namespace Athyl
                 else
                 {
                     bool sniper = (Stance == Stances.LongRange) ? true : false;
-                    projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
 
+                    if (sniper)
+                    {
+                        if (Crouching)
+                        {
+                            Vector2 direction = new Vector2((crossHairPosition.X + 16) - torso.Position.X, (crossHairPosition.Y + 16) - torso.Position.Y);
+                            direction.Normalize();
+                            projectile.NewBullet(torso.body.Position, direction, world, wheel.body, skillTree.damage);
+                        }
+                        else
+                        {
+                            projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
+                        }
+                    }
+                    else
+                    {
+                        projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
+                    }
                     playerAthyl -= skillTree.ethanolConsumption;
 
                     lastBullet = DateTime.Now;
@@ -468,7 +492,7 @@ namespace Athyl
         #region Stances
 
         /// <summary>
-        /// Runs when Stance propertie is changed. Changes delegate and stance specific changes
+        /// Runs when Stance property is changed. Changes delegate and stance specific changes
         /// </summary>
         /// <param name="stance">Stance to change to</param>
         private void ChangeStance(Stances stance)
@@ -502,7 +526,67 @@ namespace Athyl
 
         private void LongRange()
         {
+            if (Crouching)
+            {
+                if (!sniping)
+                {
+                    switch (direction)
+                    {
+                        case Direction.Right:
+                            crossHairPosition = new Rectangle((int)torso.Position.X + 400, (int)torso.Position.Y - 50, 32, 32);
+                            break;
 
+                        case Direction.Left:
+                            crossHairPosition = new Rectangle((int)torso.Position.X - 400, (int)torso.Position.Y - 50, 32, 32);
+                            break;
+                    }
+                    sniping = true;
+                }
+
+                KeyboardState ks = Keyboard.GetState();
+
+                    
+
+                if (ks.IsKeyDown(Keys.W) && crossHairPosition.Y > torso.Position.Y - 200)
+                {
+                    if (!lastDirection)
+                    {
+                        aimingAngle += 0.1f;
+                        crossHairPosition.X -= Convert.ToInt32(aimingAngle);
+                        crossHairPosition.Y -= 5;
+                    }
+                    else
+                    {
+                        aimingAngle += 0.1f;
+                        crossHairPosition.X += Convert.ToInt32(aimingAngle);
+                        crossHairPosition.Y -= 5;
+                    }
+
+                }
+                else if (ks.IsKeyDown(Keys.S) && crossHairPosition.Y < torso.Position.Y + 150)
+                {
+                    if (!lastDirection)
+                    {
+                        aimingAngle -= 0.1f;
+                        crossHairPosition.X += Convert.ToInt32(aimingAngle);
+                        crossHairPosition.Y += 5;
+                    }
+                    else
+                    {
+                        aimingAngle -= 0.1f;
+                        crossHairPosition.X -= Convert.ToInt32(aimingAngle);
+                        crossHairPosition.Y += 5;
+                    }
+                }
+
+                
+
+            }
+            else
+            {
+                aimingAngle = 0;
+                sniping = false;
+            }
         }
 
         #endregion
@@ -756,6 +840,12 @@ namespace Athyl
             projectile.Draw(spriteBatch, torso.Position);
             // torso.Draw(spriteBatch);
             // wheel.Draw(spriteBatch);
+
+            if (Crouching && stance == Stances.LongRange)
+            {
+                
+                spriteBatch.Draw(crossHair, crossHairPosition, Color.White);
+            }
         }
         #endregion
     }
