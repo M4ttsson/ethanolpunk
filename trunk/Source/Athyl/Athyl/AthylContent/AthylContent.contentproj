@@ -93,11 +93,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu items\LoadingGameButton.png">
-      <Name>LoadingGameButton</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Menu items\LoadingScreen.png">
       <Name>LoadingScreen</Name>
       <Importer>TextureImporter</Importer>
@@ -527,6 +522,13 @@
   <ItemGroup>
     <Compile Include="Menu items\ControlMenu.png">
       <Name>ControlMenu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Menu items\LoadingGameButton.png">
+      <Name>LoadingGameButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
