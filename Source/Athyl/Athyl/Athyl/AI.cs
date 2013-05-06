@@ -272,12 +272,22 @@ namespace Athyl
             return false;
         }
 
-        public void UpdateEnemy(Player aPlayer, World world)
+        public void UpdateEnemy(Player aPlayer, World world, List<Drops> drops)
         {
             //towardsPlayer(aPlayer);
 
             /*if(seen)
                 attackPlayer();*/
+
+            foreach (Drops d in drops)
+            {
+
+                torso.body.IgnoreCollisionWith(d.hpBox.body);
+                torso.body.IgnoreCollisionWith(d.ethanolBox.body);
+                wheel.body.IgnoreCollisionWith(d.hpBox.body);
+                wheel.body.IgnoreCollisionWith(d.ethanolBox.body);
+            }
+
 
             if (torso.body.FixtureList[0].UserData.ToString() == "boss")
                 towardsPlayer(aPlayer);

@@ -608,16 +608,6 @@ namespace Athyl
 
                     drops[drops.Count - 1].DropPickups(theAI[i]);
 
-                    foreach (AI ai in theAI)
-                    {
-                        foreach (Drops d in drops)
-                        {
-                            ai.torso.body.IgnoreCollisionWith(d.hpBox.body);
-                            ai.torso.body.IgnoreCollisionWith(d.ethanolBox.body);
-                            ai.wheel.body.IgnoreCollisionWith(d.hpBox.body);
-                            ai.wheel.body.IgnoreCollisionWith(d.ethanolBox.body);
-                        }
-                    }
 
 
                     removedAIList.Add(theAI[i]);
@@ -731,7 +721,7 @@ namespace Athyl
 
                     foreach (AI ai in theAI)
                     {
-                        ai.UpdateEnemy(player, world);
+                        ai.UpdateEnemy(player, world, drops);
 
 
                     }
