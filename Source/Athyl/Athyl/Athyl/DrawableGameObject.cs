@@ -59,7 +59,7 @@ namespace Athyl
             //float density = mass / (ConvertUnits.ToSimUnits(size.X * size.Y));
             body = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(size.X), ConvertUnits.ToSimUnits(size.Y), 1, userdata);
             body.BodyType = BodyType.Dynamic;
-            body.Mass = mass;
+            //body.Mass = mass;
 
             /* if (userdata.ToString() == "player")
              {
@@ -90,7 +90,7 @@ namespace Athyl
             //float density = mass / (ConvertUnits.ToSimUnits(size.X * size.Y));
             body = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(size.X), ConvertUnits.ToSimUnits(size.Y), 1, userdata);
             body.BodyType = BodyType.Dynamic;
-            body.Mass = mass;
+            //body.Mass = mass;
 
             /* if (userdata.ToString() == "player")
              {
@@ -118,7 +118,7 @@ namespace Athyl
             List<Vertices> verticeList = CreateCompoundPolygon(texture);
             body = BodyFactory.CreateCompoundPolygon(world, verticeList, 1, userdata);
             body.BodyType = BodyType.Dynamic;
-            body.Mass = mass;
+            //body.Mass = mass;
 
             Vector2 size = new Vector2(texture.Width, texture.Height);
             this.Size = size;
@@ -140,7 +140,7 @@ namespace Athyl
             //float density = mass / (ConvertUnits.ToSimUnits(size.X * size.Y));
             body = BodyFactory.CreateCircle(world, ConvertUnits.ToSimUnits(diameter / 2.0f), 1, userdata);
             body.BodyType = BodyType.Dynamic;
-            body.Mass = mass;
+            //body.Mass = mass;
 
             this.Size = size;
             this.texture = texture;
