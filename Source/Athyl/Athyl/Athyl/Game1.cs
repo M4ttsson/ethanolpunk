@@ -370,7 +370,7 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.Down))
                 player.torso.body.ApplyForce(new Vector2(0, 3));*/
 
-            if (keyboardState.IsKeyDown(Keys.Space) && !prevKeyboardState.IsKeyDown(Keys.Space))
+            if (keyboardState.IsKeyDown(Keys.K) && !prevKeyboardState.IsKeyDown(Keys.K))
             {
                 player.Jump();
             }
@@ -388,7 +388,7 @@ namespace Athyl
                 player.Stance = Player.Stances.LongRange;
             }
 
-            if (mouse.LeftButton == ButtonState.Pressed)
+            if (keyboardState.IsKeyDown(Keys.J))
             {
                 player.useWeapon(world);
             }
