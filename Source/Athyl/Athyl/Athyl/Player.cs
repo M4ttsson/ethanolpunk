@@ -30,6 +30,7 @@ namespace Athyl
         public bool WallJumped { get; set; }
         public int numFootContacts { get; set; }
         public int numSideContacts { get; set; }
+        public bool NextLevel { get; set; }
 
         private Stances stance;
         public Stances Stance
@@ -54,6 +55,8 @@ namespace Athyl
         public bool lastDirection;
         public float Difficulty { get; set; }
         public Projectile projectile;
+        public Skilltree skillTree;
+
 
         protected RevoluteJoint axis;
         protected AngleJoint angleJoint;
@@ -68,7 +71,7 @@ namespace Athyl
 
         protected Game1 game;
 
-        private Skilltree skillTree;
+        
 
         private int xpRequiredPerLevel;
         private int frameRow;
@@ -90,6 +93,7 @@ namespace Athyl
         private bool sniping = false;
         private float aimingAngle = 0;
         private float Damage;
+        private SpriteFont font;
 
         private MouseState mouse;
 
@@ -163,9 +167,7 @@ namespace Athyl
 
             Difficulty = 5;
 
-
-
-
+            font = game.Content.Load<SpriteFont>("font");
             crossHair = game.Content.Load<Texture2D>("crosshair");
 
             torso.body.OnCollision += InteractWithQuestItems;
@@ -595,6 +597,28 @@ namespace Athyl
 
         #endregion
         #region DrawsAndUpdate
+
+        public void LevelUp(Stances stance)
+        {
+            switch (stance)
+            {
+                case Stances.CloseRange:
+                    skillTree.LevelCloseRange();
+                    NextLevel = false;
+                    break;
+                    
+                case Stances.MidRange:
+                    skillTree.LevelMidRange();
+                    NextLevel = false;
+                    break;
+
+                case Stances.LongRange:
+                    skillTree.LevelLongRange();
+                    NextLevel = false;
+                    break;
+            }
+        }
+
         /// <summary>
         /// Uppdaterar rörelsen i animeringen
         /// </summary>
@@ -761,7 +785,7 @@ namespace Athyl
                 skillPoints++;
                 playerLevel++;
                 playerXP = playerXP - xpRequiredPerLevel;
-
+                NextLevel = true;
             }
             /*
             if (torso.body.Position.X > 40 || torso.body.Position.Y > 10)
@@ -840,6 +864,7 @@ namespace Athyl
             //Update the skilltree
             //skillTree.Update();
 
+
             //run stance specific updates
             StanceDelegate();
         }
@@ -848,12 +873,17 @@ namespace Athyl
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
 
             projectile.Draw(spriteBatch, torso.Position);
-            torso.Draw(spriteBatch);
-            wheel.Draw(spriteBatch);
+            //torso.Draw(spriteBatch);
+            //wheel.Draw(spriteBatch);
 
             if (Crouching && stance == Stances.LongRange)
             {                
                 spriteBatch.Draw(crossHair, crossHairPosition, Color.White);
+            }
+
+            if (NextLevel)
+            {
+                spriteBatch.DrawString(font, "Press N to level up", new Vector2(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 650), Color.White);
             }
         }
         #endregion

@@ -329,6 +329,22 @@ namespace Athyl
             else if (gameState == GameState.LevelUp)
             {
                 LevelUpMenu(game);
+
+                if (player.NextLevel && kbState.IsKeyDown(Keys.D1))
+                {
+                    player.LevelUp(Player.Stances.CloseRange);
+                    gameState = GameState.Playing;
+                }
+                else if (player.NextLevel && kbState.IsKeyDown(Keys.D2))
+                {
+                    player.LevelUp(Player.Stances.MidRange);
+                    gameState = GameState.Playing;
+                }
+                else if (player.NextLevel && kbState.IsKeyDown(Keys.D3))
+                {
+                    player.LevelUp(Player.Stances.LongRange);
+                    gameState = GameState.Playing;
+                }
             }
 
             MouseOver(mouseState.X, mouseState.Y, game);
