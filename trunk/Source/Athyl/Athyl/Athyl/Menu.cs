@@ -45,6 +45,7 @@ namespace Athyl
         private Texture2D progressBar;
         private Texture2D progressBarBorder;
         private Texture2D runningMan;
+        private Texture2D deadMan;
         private int colFrame;
         private float TimePerFrame;
         private float TotalElapsed;
@@ -125,6 +126,7 @@ namespace Athyl
             progressBar = game.Content.Load<Texture2D>("ProgressBar");
             progressBarBorder = game.Content.Load<Texture2D>("ProgressBarBorder");
             runningMan = game.Content.Load<Texture2D>("Player/Gilliam");
+            deadMan = game.Content.Load<Texture2D>("Player/die");
             colFrame = 1;
 
             originalResumeButton = game.Content.Load<Texture2D>("Menu items/ResumeButton");
@@ -246,7 +248,6 @@ namespace Athyl
         /// <param name="game"></param>
         public void UpdateMenu(GameTime gametime, Game1 game, Player player)
         {
-
             KeyboardState kbState = Keyboard.GetState();
             mouseState = Mouse.GetState();
 
@@ -321,11 +322,10 @@ namespace Athyl
             {
                 StoryMenu(game);
             }
-            //else if (player.Dead == true)
-            //{
-            //    GameOverMenu(game);
-
-            //}
+            else if (gameState == GameState.GameOver)
+            {
+                GameOverMenu(game);
+            }
             else if (gameState == GameState.LevelUp)
             {
                 LevelUpMenu(game);
@@ -696,7 +696,16 @@ namespace Athyl
             }
             if (gameState == GameState.GameOver)
             {
-                spriteBatch.DrawString(myFont, "Game Over", new Vector2(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 360), Color.DarkRed);
+                spriteBatch.Draw(loadingBackground, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
+                //The dead man
+                int FrameWidth = deadMan.Width / 3;
+                int FrameHeight = deadMan.Height / 2;
+                Rectangle sourcerect = new Rectangle(FrameWidth * 2, FrameHeight * 0,
+                   FrameWidth, FrameHeight);
+                spriteBatch.Draw(deadMan, new Vector2(425, -(int)Camera.transform.Translation.Y + 200), sourcerect, Color.White,
+                    0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
+
+                //spriteBatch.DrawString(myFont, "Game Over", new Vector2(-(int)Camera.transform.Translation.X + 580, -(int)Camera.transform.Translation.Y + 360), Color.DarkRed);
             }
             if (gameState == GameState.LevelUp)
             {
