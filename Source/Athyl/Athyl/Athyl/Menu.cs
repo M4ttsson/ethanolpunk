@@ -109,7 +109,7 @@ namespace Athyl
             exitButton = game.Content.Load<Texture2D>("Menu items/ExitButtonHighlight");
             pauseButton = game.Content.Load<Texture2D>("Menu items/PauseButton");
             resumeButton = game.Content.Load<Texture2D>("Menu items/ResumeButtonHighlight");
-            optionsButton = game.Content.Load<Texture2D>("Menu items/OptionsButtonHighlight");
+            optionsButton = game.Content.Load<Texture2D>("Menu items/ControlsButtonHighlight");
             storyButton = game.Content.Load<Texture2D>("Menu items/StoryButtonHighlight");
             returnButton = game.Content.Load<Texture2D>("Menu items/ReturnButtonHighlight");
             saveButton = game.Content.Load<Texture2D>("Menu items/SaveButton");
@@ -117,7 +117,7 @@ namespace Athyl
             skillTreeButton = game.Content.Load<Texture2D>("Menu items/SkillTreeButtonHighlight");
 
             originalResumeButton = game.Content.Load<Texture2D>("Menu items/ResumeButton");
-            originalOptionsButton = game.Content.Load<Texture2D>("Menu items/OptionsButton");
+            originalOptionsButton = game.Content.Load<Texture2D>("Menu items/ControlsButton");
             originalStartButton = game.Content.Load<Texture2D>("Menu items/StartButton");
             originalExitButton = game.Content.Load<Texture2D>("Menu items/ExitButton");
             originalStoryButton = game.Content.Load<Texture2D>("Menu items/StoryButton");
@@ -126,7 +126,7 @@ namespace Athyl
             
 
             resumeButton2 = game.Content.Load<Texture2D>("Menu items/ResumeButton");
-            optionsButton2 = game.Content.Load<Texture2D>("Menu items/OptionsButton");
+            optionsButton2 = game.Content.Load<Texture2D>("Menu items/ControlsButton");
             startButton2 = game.Content.Load<Texture2D>("Menu items/StartButton");
             exitButton2 = game.Content.Load<Texture2D>("Menu items/ExitButton");
             storyButton2 = game.Content.Load<Texture2D>("Menu items/StoryButton");
