@@ -26,6 +26,7 @@ class Drops
         public DrawableGameObject hpBox;
         Texture2D ethanolTexture, hpTexture;
         Player playerz;
+        
         World world;
         Game1 gamez;
         public List<DrawableGameObject> hpList = new List<DrawableGameObject>();
@@ -53,8 +54,10 @@ class Drops
 
             ethanolDrop = false;
             hpDrop = false;
+            ethanolBox.body.IgnoreCollisionWith(player.torso.body);
+            hpBox.body.IgnoreCollisionWith(player.torso.body);
 
-
+            
         }
 
 
