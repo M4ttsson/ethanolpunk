@@ -61,6 +61,7 @@ namespace Athyl
         private Texture2D optionsButton2;
         private Texture2D storyButton2;
         private Texture2D returnButton2;
+        private Texture2D keyboardLayout;
         
 
         Vector2 soundSliderPosition;
@@ -132,6 +133,7 @@ namespace Athyl
             storyButton2 = game.Content.Load<Texture2D>("Menu items/StoryButton");
             returnButton2 = game.Content.Load<Texture2D>("Menu items/ReturnButton");
             skillTreeButton2 = game.Content.Load<Texture2D>("Menu items/SkillTreeButton");
+            keyboardLayout = game.Content.Load<Texture2D>("Menu items/ControlMenu");
             myFont = game.Content.Load<SpriteFont>("font");
         }
 
@@ -418,7 +420,7 @@ namespace Athyl
             //checking the options menu during start menu
             if (gameState == GameState.OptionsStartMenu)
             {
-                Rectangle returnButtonRect = new Rectangle((int)returnButtonPosition.X + 20, (int)returnButtonPosition.Y + 28, 120, 20);
+                Rectangle returnButtonRect = new Rectangle((int)returnButtonPosition.X + 20, (int)returnButtonPosition.Y -180, 120, 20);
                 Rectangle exitbuttonRect2 = new Rectangle((int)exitButtonPositionStartMenu.X + 20, (int)exitButtonPositionStartMenu.Y, 120, 20);
 
                 if (mouseClickRect.Intersects(returnButtonRect))
@@ -487,7 +489,7 @@ namespace Athyl
             Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X + 20, (int)startButtonPosition.Y + 28, 120, 30);
             Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X + 20, (int)storyButtonPosition.Y + 10, 120, 30);
             Rectangle pausedReturnButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - returnButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
-            Rectangle startReturnButtonRect = new Rectangle((int)returnButtonPosition.X + 20, (int)returnButtonPosition.Y + 28, 120, 30);
+            Rectangle startReturnButtonRect = new Rectangle((int)returnButtonPosition.X + 20, (int)returnButtonPosition.Y -180, 120, 30);
             Rectangle skillTreeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - skillTreeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 65, 160, 20);
 
             if (mouseClickRect.Intersects(resumeButtonRect))
@@ -615,10 +617,12 @@ namespace Athyl
 
             if (gameState == GameState.OptionsStartMenu)
             {
-                spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
-                spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y + 250, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
-                spriteBatch.Draw(originalReturnButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - returnButton.Width / 2, -(int)Camera.transform.Translation.Y + 310, returnButton.Width, returnButton.Height), Color.White);
-                spriteBatch.Draw(originalExitButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 435, exitButton.Width, exitButton.Height), Color.White);
+                spriteBatch.Draw(loadingBackground, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
+                spriteBatch.Draw(keyboardLayout, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
+                //spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
+                //spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y + 250, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
+                spriteBatch.Draw(originalReturnButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - returnButton.Width / 2, -(int)Camera.transform.Translation.Y + 100, returnButton.Width, returnButton.Height), Color.White);
+                //spriteBatch.Draw(originalExitButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - exitButton.Width / 2, -(int)Camera.transform.Translation.Y + 435, exitButton.Width, exitButton.Height), Color.White);
             }
             if (gameState == GameState.OptionsPauseMenu)
             {
