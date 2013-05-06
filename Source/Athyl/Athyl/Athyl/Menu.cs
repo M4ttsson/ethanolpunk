@@ -42,6 +42,12 @@ namespace Athyl
         private Texture2D musicSlider;
         private Texture2D soundSliderBackground;
         private Texture2D musicSliderBackground;
+        private Texture2D progressBar;
+        private Texture2D progressBarBorder;
+        private Texture2D runningMan;
+        private int colFrame;
+        private float TimePerFrame;
+        private float TotalElapsed;
 
         public float totalTime = 0;
         private Texture2D originalResumeButton;
@@ -116,6 +122,10 @@ namespace Athyl
             saveButton = game.Content.Load<Texture2D>("Menu items/SaveButton");
             LoadButon = game.Content.Load<Texture2D>("Menu items/LoadButton");
             skillTreeButton = game.Content.Load<Texture2D>("Menu items/SkillTreeButtonHighlight");
+            progressBar = game.Content.Load<Texture2D>("ProgressBar");
+            progressBarBorder = game.Content.Load<Texture2D>("ProgressBarBorder");
+            runningMan = game.Content.Load<Texture2D>("Player/Gilliam");
+            colFrame = 1;
 
             originalResumeButton = game.Content.Load<Texture2D>("Menu items/ResumeButton");
             originalOptionsButton = game.Content.Load<Texture2D>("Menu items/ControlsButton");
@@ -135,6 +145,10 @@ namespace Athyl
             skillTreeButton2 = game.Content.Load<Texture2D>("Menu items/SkillTreeButton");
             keyboardLayout = game.Content.Load<Texture2D>("Menu items/ControlMenu");
             myFont = game.Content.Load<SpriteFont>("font");
+
+
+            this.TimePerFrame = (float)1 / 1;
+            this.TotalElapsed = 0;
         }
 
         /// <summary>
@@ -602,7 +616,31 @@ namespace Athyl
             {
 
                 spriteBatch.Draw(loadingBackground, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
-                spriteBatch.Draw(loadingGameButton, new Rectangle(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 330, loadingGameButton.Width, loadingGameButton.Height), Color.CornflowerBlue);
+                spriteBatch.Draw(loadingGameButton, new Rectangle(-(int)Camera.transform.Translation.X + 480, -(int)Camera.transform.Translation.Y + 300, loadingGameButton.Width, loadingGameButton.Height), Color.CornflowerBlue);
+                spriteBatch.End();
+                spriteBatch.Begin();
+                //Progressbar in loading menu
+                Rectangle bar = new Rectangle(425, -(int)Camera.transform.Translation.Y - 400, (int)((Map.progress / Map.done) * 400), 40);
+                Rectangle border = new Rectangle(425, -(int)Camera.transform.Translation.Y - 400, 400, 40);
+                spriteBatch.Draw(progressBarBorder, border, Color.White);
+                spriteBatch.Draw(progressBar, bar, Color.White);
+
+                //The animation of the runningman in loading menu
+                int FrameWidth = runningMan.Width / 7;
+                int FrameHeight = runningMan.Height / 2;
+                Rectangle sourcerect = new Rectangle(FrameWidth * colFrame, FrameHeight * 0,
+                   FrameWidth, FrameHeight);
+                spriteBatch.Draw(runningMan, new Vector2(425, -(int)Camera.transform.Translation.Y - 500), sourcerect, Color.White,
+                    0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
+
+                TotalElapsed += 0.2f;
+                if (TotalElapsed > TimePerFrame)
+                {
+                    colFrame++;
+                    if (colFrame == 7)
+                        colFrame = 1;
+                    TotalElapsed -= TimePerFrame;
+                }
             }
 
             if (gameState == GameState.Paused)

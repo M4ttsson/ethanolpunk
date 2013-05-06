@@ -47,8 +47,8 @@ namespace Athyl
         static Map map;
 
         Texture2D skyTexture;
-        Texture2D progressBar;
-        Texture2D progressBarBorder;
+        //Texture2D progressBar;
+        //Texture2D progressBarBorder;
         Menu menu;
         Sounds sound;
         Skilltree skilltree;
@@ -145,8 +145,8 @@ namespace Athyl
             //sound.Play("Music/song1");
             // MediaPlayer.IsRepeating = true;
             //progressbar
-            progressBar = Content.Load<Texture2D>("ProgressBar");
-            progressBarBorder = Content.Load<Texture2D>("ProgressBarBorder");
+            //progressBar = Content.Load<Texture2D>("ProgressBar");
+            //progressBarBorder = Content.Load<Texture2D>("ProgressBarBorder");
 
             //music.Stop();
 
@@ -822,14 +822,14 @@ namespace Athyl
 
             spriteBatch.End();
             spriteBatch.Begin();
-
-            if (!menu.isLoading && menu.gameState != Menu.GameState.StartMenu)
-            {
-                Rectangle bar = new Rectangle(425, GraphicsDevice.Viewport.Height - 200, (int)((Map.progress / Map.done) * 400), 40);
-                Rectangle border = new Rectangle(425, GraphicsDevice.Viewport.Height - 200, 400, 40);
-                spriteBatch.Draw(progressBarBorder, border, Color.White);
-                spriteBatch.Draw(progressBar, bar, Color.White);
-            }
+            
+            //if (!menu.isLoading && menu.gameState == Menu.GameState.Loading)
+            //{
+            //    Rectangle bar = new Rectangle(425, GraphicsDevice.Viewport.Height - 200, (int)((Map.progress / Map.done) * 400), 40);
+            //    Rectangle border = new Rectangle(425, GraphicsDevice.Viewport.Height - 200, 400, 40);
+            //    spriteBatch.Draw(progressBarBorder, border, Color.White);
+            //    spriteBatch.Draw(progressBar, bar, Color.White);
+            //}
 
             
 
