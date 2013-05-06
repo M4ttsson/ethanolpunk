@@ -111,7 +111,7 @@ namespace Athyl
         {
             Load(texture, 2, 7, 1, 1);
 
-            int wheelSize = (int)size.X - 4;
+            int wheelSize = (int)size.X/2;
             this.torsoSize = size - new Vector2(0, (wheelSize / 2));
             this.game = game;
             this.world = world;
@@ -845,7 +845,7 @@ namespace Athyl
 
             projectile.Draw(spriteBatch, torso.Position);
             //torso.Draw(spriteBatch);
-           // wheel.Draw(spriteBatch);
+            //wheel.Draw(spriteBatch);
 
             if (Crouching && stance == Stances.LongRange)
             {                
