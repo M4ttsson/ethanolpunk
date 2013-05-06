@@ -56,9 +56,10 @@ namespace Athyl
         /// <param name="userdata">Type of object. For example enemy, player, weapon etc.</param>
         public DrawableGameObject(World world, Texture2D texture, Vector2 size, float mass, string userdata)
         {
+            //float density = mass / (ConvertUnits.ToSimUnits(size.X * size.Y));
             body = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(size.X), ConvertUnits.ToSimUnits(size.Y), 1, userdata);
             body.BodyType = BodyType.Dynamic;
-            //  body.Mass = mass;
+            body.Mass = mass;
 
             /* if (userdata.ToString() == "player")
              {
@@ -83,12 +84,13 @@ namespace Athyl
         /// <param name="size"></param>
         /// <param name="mass"></param>
         /// <param name="userdata"></param>
-        /// <param name="id"></param> Makes it easy to find the right object
+        /// <param name="id">Makes it easy to find the right object</param> 
         public DrawableGameObject(World world, Texture2D texture, Vector2 size, float mass, string userdata, int id)
         {
+            //float density = mass / (ConvertUnits.ToSimUnits(size.X * size.Y));
             body = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(size.X), ConvertUnits.ToSimUnits(size.Y), 1, userdata);
             body.BodyType = BodyType.Dynamic;
-            //  body.Mass = mass;
+            body.Mass = mass;
 
             /* if (userdata.ToString() == "player")
              {
@@ -116,7 +118,7 @@ namespace Athyl
             List<Vertices> verticeList = CreateCompoundPolygon(texture);
             body = BodyFactory.CreateCompoundPolygon(world, verticeList, 1, userdata);
             body.BodyType = BodyType.Dynamic;
-            // body.Mass = mass;
+            body.Mass = mass;
 
             Vector2 size = new Vector2(texture.Width, texture.Height);
             this.Size = size;
@@ -135,9 +137,10 @@ namespace Athyl
         public DrawableGameObject(World world, Texture2D texture, float diameter, float mass, string userdata)
         {
             size = new Vector2(diameter, diameter);
+            //float density = mass / (ConvertUnits.ToSimUnits(size.X * size.Y));
             body = BodyFactory.CreateCircle(world, ConvertUnits.ToSimUnits(diameter / 2.0f), 1, userdata);
             body.BodyType = BodyType.Dynamic;
-            // body.Mass = mass;
+            body.Mass = mass;
 
             this.Size = size;
             this.texture = texture;
