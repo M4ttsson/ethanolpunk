@@ -100,7 +100,7 @@ namespace Athyl
             pauseMenuBackgroundFront = game.Content.Load<Texture2D>("Menu items/PauseMenu");
             pauseMenuBackgroundBack = game.Content.Load<Texture2D>("Menu items/PauseMenuBackground");
             loadingGameButton = game.Content.Load<Texture2D>("Menu items/LoadingGameButton");
-            loadingBackground = game.Content.Load<Texture2D>("Menu items/LoadingBackgroundAlt");
+            loadingBackground = game.Content.Load<Texture2D>("Menu items/LoadingScreen");
             soundSlider = game.Content.Load<Texture2D>("note");
             musicSlider = game.Content.Load<Texture2D>("note");
             soundManager = new Sounds(game);
@@ -586,6 +586,7 @@ namespace Athyl
 
             if (gameState == GameState.StartMenu)
             {
+                spriteBatch.Draw(loadingBackground, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
                 spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
                 spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y + 250, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
                 spriteBatch.Draw(originalStartButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - startButton.Width / 2, -(int)Camera.transform.Translation.Y + 310, startButton.Width, startButton.Height), Color.White);
