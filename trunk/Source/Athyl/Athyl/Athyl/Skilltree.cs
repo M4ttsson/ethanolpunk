@@ -12,7 +12,7 @@ namespace Athyl
         public float fireRate;
         public float projectileSpeed;
         //Int16 meleefirebreath, meleeAtkSpd, meleeMoveSpd, meleeJmpHeight, midFireBurst, midFireRate, midEthanoltank, midBulletPassthrough, longShield, longEthanol, longAccuracy, longHeadshotBonus;
-        float meleeAtkSpd, meleeMoveSpd, meleeDmg, meleeEthanolConsumption, midFireRate, midMoveSpd, midDmg, midEthanolConsumption, longMoveSpd, longEthanolConsumption, longAtkSpd, longDmg;
+        float meleeAtkSpd, meleeMoveSpd, meleeDmg, meleeEthanolConsumption, meleeMaxHp, midFireRate, midMoveSpd, midDmg, midEthanolConsumption, midMaxHp, longMoveSpd, longEthanolConsumption, longAtkSpd, longDmg, longMaxHp;
         Vector2 meleeJmpHeight;
         Vector2 midJmpHeight;
         Vector2 longJmpHeight;
@@ -24,6 +24,7 @@ namespace Athyl
         public Vector2 playerJumpForce;
         public float ethanolConsumption;
         public float attackSpeed;
+        public float maxHp;
 
         public Skilltree(Player playerInfo)
         {
@@ -35,19 +36,22 @@ namespace Athyl
 
             meleeAtkSpd = 0.3f;
             meleeMoveSpd = 2.0f; 
-            meleeDmg = 50; 
+            meleeDmg = 100; 
             meleeJmpHeight = new Vector2(0, -3);
             meleeEthanolConsumption = 0;
+            meleeMaxHp = 200;
             midFireRate = 0.1f;
             midMoveSpd = 1.0f;
             midDmg = 34;
             midJmpHeight = new Vector2(0, -2f);
             midEthanolConsumption = 2;
+            midMaxHp = 130;
             longMoveSpd = 0.5f;
             longEthanolConsumption = 10;
             longAtkSpd = 0.7f;
             longDmg = 100;
             longJmpHeight = new Vector2(0, -2f);
+            longMaxHp = 100;
         }
 
         //En enkel levelingfunktion, skjuta snabbare, snabbare kulor och mer skada
@@ -69,6 +73,7 @@ namespace Athyl
             playerSpeed = meleeMoveSpd;
             playerJumpForce = meleeJmpHeight;
             ethanolConsumption = meleeEthanolConsumption;
+            maxHp = meleeMaxHp;
         }
 
         public void LevelCloseRange()
@@ -87,7 +92,7 @@ namespace Athyl
             playerJumpForce = midJmpHeight;
             ethanolConsumption = midEthanolConsumption;
             fireRate = midFireRate;
-
+            maxHp = midMaxHp;
         }
 
         public void LevelMidRange()
@@ -106,7 +111,7 @@ namespace Athyl
             fireRate = longAtkSpd;
             ethanolConsumption = longEthanolConsumption;
             playerJumpForce = longJmpHeight;
-
+            maxHp = longMaxHp;
         }
 
         public void LevelLongRange()

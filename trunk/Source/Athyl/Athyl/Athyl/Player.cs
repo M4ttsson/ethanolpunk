@@ -41,7 +41,8 @@ namespace Athyl
             }
         }
 
-        public int playerHP = 150;
+        public float playerHP;
+        public float playerHpPc;
         public float playerAthyl = 500;
         public int playerXP = 0;
         public int playerLevel = 1;
@@ -87,6 +88,7 @@ namespace Athyl
         private Rectangle crossHairPosition;
         private bool sniping = false;
         private float aimingAngle = 0;
+        private float Damage;
 
         private MouseState mouse;
 
@@ -150,16 +152,17 @@ namespace Athyl
             projectile = new Projectile(game);
             skillTree = new Skilltree(this);
 
+            Stance = Stances.CloseRange;
             playerLevel = 1;
             playerXP = 0;
 
             Dead = false;
-
+            playerHP = skillTree.maxHp;
+            playerHpPc = skillTree.maxHp / playerHP;
 
             Difficulty = 5;
 
 
-            Stance = Stances.CloseRange;
 
 
             crossHair = game.Content.Load<Texture2D>("crosshair");
@@ -502,16 +505,19 @@ namespace Athyl
                 case Stances.CloseRange:
                     skillTree.CloseRange();
                     StanceDelegate = CloseRange;
+                    playerHP = skillTree.maxHp * playerHpPc;
                     break;
 
                 case Stances.MidRange:
                     skillTree.MidRange();
                     StanceDelegate = MidRange;
+                    playerHP = skillTree.maxHp * playerHpPc;
                     break;
 
                 case Stances.LongRange:
                     skillTree.LongRange();
                     StanceDelegate = LongRange;
+                    playerHP = skillTree.maxHp * playerHpPc;
                     break;
             }
         }
@@ -650,7 +656,7 @@ namespace Athyl
 
                     if (fixtureB.Body.BodyType != BodyType.Static)
                     {
-                        if (mouse.RightButton == ButtonState.Pressed)
+                        if (kbState.IsKeyDown(Keys.Space))
                         {
                             
 
@@ -823,6 +829,9 @@ namespace Athyl
                     UpdateFrame(0.2f);
                 playerHP = 0;
             }
+            //Update the health percentage
+            playerHpPc = playerHP / skillTree.maxHp;
+            //Console.WriteLine(playerHpPc);
 
             //Update the skilltree
             skillTree.Update();
@@ -839,8 +848,7 @@ namespace Athyl
            // wheel.Draw(spriteBatch);
 
             if (Crouching && stance == Stances.LongRange)
-            {
-                
+            {                
                 spriteBatch.Draw(crossHair, crossHairPosition, Color.White);
             }
         }
