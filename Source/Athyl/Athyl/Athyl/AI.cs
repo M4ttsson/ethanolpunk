@@ -62,7 +62,7 @@ namespace Athyl
             speed = 1f;
             //jumpForce = new Vector2(0, -5f);
 
-
+            Load(texture, 2, 5, 1, 1);
             direction = Direction.Right;
             lastCheck = DateTime.Now;
             //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
