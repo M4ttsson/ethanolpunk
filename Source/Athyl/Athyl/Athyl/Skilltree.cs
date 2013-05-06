@@ -81,7 +81,7 @@ namespace Athyl
             meleeDmg = meleeDmg * 1.5f;
             meleeAtkSpd = meleeAtkSpd * 1.1f;
             meleeMoveSpd = meleeMoveSpd * 1.1f;
-            meleeJmpHeight = meleeJmpHeight + new Vector2(0.0f, 0.1f);
+            meleeJmpHeight = meleeJmpHeight - new Vector2(0.0f, 0.1f);
             meleeEthanolConsumption += 0.1f;
         }
 
@@ -100,7 +100,7 @@ namespace Athyl
             midDmg = midDmg * 1.1f;
             midMoveSpd = midMoveSpd * 1.04f;
             midFireRate = midFireRate * 1.5f;
-            midJmpHeight = midJmpHeight + new Vector2(0.0f, 0.3f);
+            midJmpHeight = midJmpHeight - new Vector2(0.0f, 0.05f);
             midEthanolConsumption = midEthanolConsumption * 1.1f;
         }
 
@@ -120,7 +120,7 @@ namespace Athyl
             longMoveSpd = longMoveSpd * 1.01f;
             longAtkSpd = longAtkSpd * 0.99f;
             longEthanolConsumption = longEthanolConsumption * 1.4f;
-            longJmpHeight = longJmpHeight + new Vector2(0.0f, 0.1f);
+            longJmpHeight = longJmpHeight - new Vector2(0.0f, 0.05f);
         }
 
         /*

@@ -834,7 +834,7 @@ namespace Athyl
             //Console.WriteLine(playerHpPc);
 
             //Update the skilltree
-            skillTree.Update();
+            //skillTree.Update();
 
             //run stance specific updates
             StanceDelegate();
