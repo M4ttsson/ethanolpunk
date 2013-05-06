@@ -37,8 +37,8 @@ class Drops
             ethanolTexture = game.Content.Load<Texture2D>("Flask");
             hpTexture = game.Content.Load<Texture2D>("MedKit");
 
-            ethanolBox = new DrawableGameObject(world, ethanolTexture, new Vector2(32, 32), 0, "athyl", 0);
-            hpBox = new DrawableGameObject(world, hpTexture, new Vector2(32, 32), 0, "hpBox", 0);
+            ethanolBox = new DrawableGameObject(world, ethanolTexture, new Vector2(32, 32), 1, "athyl", 0);
+            hpBox = new DrawableGameObject(world, hpTexture, new Vector2(32, 32), 1, "hpBox", 0);
             ethanolBox.body.OnCollision += PickupsForPlayer;
             hpBox.body.OnCollision += PickupsForPlayer;
 
