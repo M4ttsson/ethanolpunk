@@ -830,7 +830,11 @@ namespace Athyl
                 playerHP = 0;
             }
             //Update the health percentage
+            if (playerHP > skillTree.maxHp)
+                playerHP = skillTree.maxHp;
             playerHpPc = playerHP / skillTree.maxHp;
+            
+
             //Console.WriteLine(playerHpPc);
 
             //Update the skilltree
