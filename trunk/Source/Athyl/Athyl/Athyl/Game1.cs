@@ -40,7 +40,7 @@ namespace Athyl
         static KeyboardState keyboardState;
         Matrix projectionMatrix;
         SpriteFont myFont;
-        Quests quest;
+        //Quests quest;
         Camera camera;
         List<Drops> drops = new List<Drops>();
         private List<Drops> removedDropsList = new List<Drops>();
@@ -223,7 +223,7 @@ namespace Athyl
 
             camera = new Camera(graphics.GraphicsDevice.Viewport);
             camera.UpdateCamera(player);
-
+/*
             if (quest != null)
             {
                 world.RemoveBody(quest.boulder.body);
@@ -232,6 +232,7 @@ namespace Athyl
             quest = new Quests(world, this);
             if (map != null)
                 map.button.body.OnCollision += quest.InteractWithQuestItems;
+ * */
         }
         #endregion
 
@@ -604,8 +605,19 @@ namespace Athyl
                 {
 
                     drops.Add(new Drops(this, world, player));
+
                     drops[drops.Count - 1].DropPickups(theAI[i]);
-                    
+
+                    foreach (AI ai in theAI)
+                    {
+                        foreach (Drops d in drops)
+                        {
+                            ai.torso.body.IgnoreCollisionWith(d.hpBox.body);
+                            ai.torso.body.IgnoreCollisionWith(d.ethanolBox.body);
+                            ai.wheel.body.IgnoreCollisionWith(d.hpBox.body);
+                            ai.wheel.body.IgnoreCollisionWith(d.ethanolBox.body);
+                        }
+                    }
 
 
                     removedAIList.Add(theAI[i]);
@@ -651,6 +663,9 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
+
+
             if (player != null && player.Dead)
             {
                 keyboardState = Keyboard.GetState();
@@ -796,7 +811,7 @@ namespace Athyl
 
             
 
-            quest.DrawQuest(spriteBatch);
+            //quest.DrawQuest(spriteBatch);
 
 
             //button.Draw(spriteBatch);

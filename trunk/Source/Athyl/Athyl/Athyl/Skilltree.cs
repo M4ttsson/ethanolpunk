@@ -40,12 +40,14 @@ namespace Athyl
             meleeJmpHeight = new Vector2(0, -3);
             meleeEthanolConsumption = 0;
             meleeMaxHp = 200;
+
             midFireRate = 0.1f;
             midMoveSpd = 1.0f;
             midDmg = 34;
             midJmpHeight = new Vector2(0, -2f);
             midEthanolConsumption = 2;
             midMaxHp = 130;
+
             longMoveSpd = 0.5f;
             longEthanolConsumption = 10;
             longAtkSpd = 0.7f;
@@ -123,9 +125,9 @@ namespace Athyl
             longJmpHeight = longJmpHeight - new Vector2(0.0f, 0.05f);
         }
 
-        /*
+        
         #region MeleeStance
-
+        /*
         public void fireBreath(Int16 points)
         {
             meleefirebreath += points;
@@ -133,17 +135,18 @@ namespace Athyl
 
         }
 
-        public void increaseAtkSpd(Int16 points)
+        public void increaseAtkSpd()
         {
-            meleeAtkSpd = points;
+            meleeAtkSpd += playerInfo.skillPoints;
 
             //firerate increases by 3% per level
             fireRate += (fireRate / 33) * meleeAtkSpd;
+            playerInfo.skillPoints--;
         }
 
-        public void increaseMovementSpd(Int16 points)
+        public void increaseMovementSpd()
         {
-            meleeMoveSpd = points;
+            meleeMoveSpd += playerInfo.skillPoints; ;
             playerInfo.speed = (playerInfo.speed / 33) * meleeMoveSpd;
         }
 
@@ -208,9 +211,9 @@ namespace Athyl
         {
 
         }
-
+        */
 
         #endregion
-        */
+        
     }
 }

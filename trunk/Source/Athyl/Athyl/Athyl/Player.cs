@@ -22,6 +22,7 @@ namespace Athyl
     class Player
     {
         #region Properties
+
         public DrawableGameObject torso;
         public bool OnGround { get; set; }
         public bool OnWall { get; set; }
@@ -696,9 +697,8 @@ namespace Athyl
 
         public void UpdatePlayer()
         {
-            mouse = Mouse.GetState();
             KeyboardState kbState = Keyboard.GetState();
-            if (mouse.RightButton == ButtonState.Released && liftObject)
+            if (kbState.IsKeyUp(Keys.Space) && liftObject)
             {
 
                 int index = world.BodyList.FindIndex(FindQuestItem);
