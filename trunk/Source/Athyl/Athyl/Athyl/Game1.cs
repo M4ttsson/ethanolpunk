@@ -495,6 +495,8 @@ namespace Athyl
 
             }
 
+            
+
             if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {
 
@@ -672,6 +674,12 @@ namespace Athyl
                     // menu.StartMenu(this);
                 }
 
+                else if (menu.gameState == Menu.GameState.LevelUp)
+                {
+                    timer.Stop();
+
+                }
+
                 else if (menu.gameState == Menu.GameState.Playing)
                 {
                     if (!timer.Enabled)
@@ -757,7 +765,7 @@ namespace Athyl
                         world.RemoveBody(removedDropsList[i].hpBox.body);
                         world.RemoveBody(removedDropsList[i].ethanolBox.body);
                         drops.Remove(removedDropsList[i]);
-                        
+
                     }
 
 
