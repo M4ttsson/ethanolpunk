@@ -150,7 +150,7 @@ namespace Athyl
 
             //music.Stop();
 
-            enemyTexture = Content.Load<Texture2D>("Player/TestGubbar");
+            enemyTexture = Content.Load<Texture2D>("Player/SoldierWalk");
             playerTexture = Content.Load<Texture2D>("Player/Gilliam");
 
             skyTexture = Content.Load<Texture2D>("Menu items/Background");
