@@ -35,6 +35,7 @@ namespace Athyl
         private List<Texture2D> lvl3 = new List<Texture2D>();
         private Texture2D buttonTexture;
         private DrawableGameObject b;
+        public int currentLevel;
         public DrawableGameObject button;
         #endregion
         #region Constructor
@@ -42,6 +43,8 @@ namespace Athyl
         {
             this.world = world;
             this.game = game;
+
+            currentLevel = 1;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
 
             progress = 1;
 
@@ -61,11 +64,11 @@ namespace Athyl
 
         private void CreateDrawableGameObject(int x, int y, int tileNumber, Vector2 BodySize, bool Collidable)
         {
-            if (y <= 22)                     //Sets the borders between the different levels in our game.
+            if (currentLevel == 1)                     //Sets the borders between the different levels in our game.
                 b = new DrawableGameObject(world, lvl1[tileNumber], BodySize, 0, "ground");
-            else if (y > 22 && y < 45)
+            else if (currentLevel == 2)
                 b = new DrawableGameObject(world, lvl2[tileNumber], BodySize, 0, "ground");
-            else
+            else if (currentLevel == 3)
                 b = new DrawableGameObject(world, lvl3[tileNumber], BodySize, 0, "ground");
 
             b.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
