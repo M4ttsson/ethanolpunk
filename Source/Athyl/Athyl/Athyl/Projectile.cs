@@ -20,7 +20,7 @@ namespace Athyl
         #region Properties
         private int projectileVelocity;
         private Vector2 projectileDirection;
-        public float damage = 34;
+        public float damage;
         public enum projectiletype { small, medium, large }
         List<DrawableGameObject> bullets = new List<DrawableGameObject>();
         List<DrawableGameObject> meleeBullets = new List<DrawableGameObject>();
@@ -224,8 +224,9 @@ namespace Athyl
         /// <param name="direction"></param>
         /// <param name="world"></param>
         /// <param name="speed"></param>
-        public void NewEnemyBullet(Vector2 position, Player.Direction direction, World world, float speed, Body wheel)
+        public void NewEnemyBullet(Vector2 position, Player.Direction direction, World world, float speed, Body wheel, float damage)
         {
+            this.damage = damage;
             //Allows the linear bullets to have some spread!
             float spread = random.Next(-2, 2);
 
