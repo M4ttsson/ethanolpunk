@@ -37,6 +37,7 @@ namespace Athyl
         private BehaviorDel behavior;
         private int patrolLength = 0;
         private int seenPos = 0;
+        private float damage;
 
 
 
@@ -75,25 +76,29 @@ namespace Athyl
             {
                 case Behavior.Patrol:
                     behavior = Patrol;
+                    damage = 34;
                     break;
 
                 case Behavior.PatrolDistance:
                     behavior = PatrolDistance;
+                    damage = 40;
                     break;
 
                 case Behavior.Turret:
                     fireRate = 0.2f;
                     enemyHP += 100;
                     behavior = Turret;
+                    damage = 45;
                     break;
 
                 case Behavior.Boss:
-                    fireRate = 0.05f;
-                    enemyHP = 1510;
+                    fireRate = 0.5f;
+                    enemyHP = 1512;
                     jumpForce = new Vector2(0, -12);
                     behavior = Boss;
                     jumpInterval = 2f;
                     direction = Direction.Left;
+                    damage = 70;
                     break;
 
                 case Behavior.None:
@@ -228,7 +233,7 @@ namespace Athyl
             if ((DateTime.Now - lastBullet).TotalSeconds >= fireRate)
             {
                 //projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed);
-                projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed, wheel.body);
+                projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed, wheel.body, damage);
                 lastBullet = DateTime.Now;
             }
         }
