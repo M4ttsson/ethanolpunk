@@ -271,13 +271,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu items\Background.png">
-      <Name>Background</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Lvl2Tiles\Lvl21x1.png">
       <Name>Lvl21x1</Name>
       <Importer>TextureImporter</Importer>
@@ -586,17 +579,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bakgrunder\BackgroundLvl1.png">
+    <Compile Include="Backgrounds\BackgroundLvl1.png">
       <Name>BackgroundLvl1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Bakgrunder\BackgroundLvl2.png">
+    <Compile Include="Backgrounds\BackgroundLvl2.png">
       <Name>BackgroundLvl2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Bakgrunder\BackgroundLvl3.png">
+    <Compile Include="Backgrounds\BackgroundLvl3.png">
       <Name>BackgroundLvl3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
