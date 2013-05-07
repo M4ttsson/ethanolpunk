@@ -819,7 +819,7 @@ namespace Athyl
             }
 
             menu.Draw(spriteBatch, this);
-//Writes out Game Over when the player dies
+            //Writes out Game Over when the player dies
             if (player != null && player.Dead == true)
             {
                 menu.gameState = Menu.GameState.GameOver;
