@@ -656,7 +656,7 @@ namespace Athyl
         protected override void Update(GameTime gameTime)
         {
 
-
+            Console.WriteLine(theAI.Count);
 
             if (player != null && player.Dead)
             {

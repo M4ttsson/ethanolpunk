@@ -18,8 +18,7 @@ namespace Athyl
         Vector2 longJmpHeight;
         public float damage;
         int playerLevel;
-
-        public int playerMaxHP;
+        public int playerMaxHP = 200;
         public float playerSpeed;
         public Vector2 playerJumpForce;
         public float ethanolConsumption;
@@ -39,21 +38,27 @@ namespace Athyl
             meleeDmg = 100; 
             meleeJmpHeight = new Vector2(0, -3);
             meleeEthanolConsumption = 0;
-            meleeMaxHp = 200;
+
+            //Sets hp to 200
+            meleeMaxHp = playerMaxHP;
 
             midFireRate = 0.1f;
             midMoveSpd = 1.6f;
             midDmg = 34;
             midJmpHeight = new Vector2(0, -2.5f);
             midEthanolConsumption = 2;
-            midMaxHp = 130;
+
+            //Sets hp to 150
+            midMaxHp = (float)playerMaxHP / 1.33f;
 
             longMoveSpd = 1.3f;
             longEthanolConsumption = 10;
             longAtkSpd = 0.7f;
             longDmg = 100;
             longJmpHeight = new Vector2(0, -2.2f);
-            longMaxHp = 100;
+
+            //Sets hp to 100
+            longMaxHp = playerMaxHP/2f;
         }
 
         //En enkel levelingfunktion, skjuta snabbare, snabbare kulor och mer skada
@@ -127,33 +132,32 @@ namespace Athyl
 
         
         #region MeleeStance
-        /*
-        public void fireBreath(Int16 points)
-        {
-            meleefirebreath += points;
-            
-
-        }
+        
+        //public void fireBreath(Int16 points)
+        //{
+        //    meleefirebreath += points;
+        //}
 
         public void increaseAtkSpd()
         {
-            meleeAtkSpd += playerInfo.skillPoints;
-
             //firerate increases by 3% per level
-            fireRate += (fireRate / 33) * meleeAtkSpd;
-            playerInfo.skillPoints--;
+             meleeAtkSpd += (fireRate / 33) * playerInfo.skillPoints/playerInfo.skillPoints;
+             playerInfo.skillPoints--;
         }
 
         public void increaseMovementSpd()
         {
-            meleeMoveSpd += playerInfo.skillPoints; ;
-            playerInfo.speed = (playerInfo.speed / 33) * meleeMoveSpd;
+
+            meleeMoveSpd += (playerSpeed / 33) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.skillPoints--;
         }
 
-        public void increaseJumpHeight(Int16 points)
+        public void increaseJumpHeight()
         {
-            meleeJmpHeight = points;
-            playerInfo.jumpForce += new Vector2(0,(playerInfo.jumpForce.Y / 20) * meleeJmpHeight); 
+
+
+            meleeJmpHeight += new Vector2(0, (playerJumpForce.Y / 20) * playerInfo.skillPoints / playerInfo.skillPoints);
+            playerInfo.skillPoints--;
         }
 
 
@@ -162,56 +166,51 @@ namespace Athyl
         #endregion
 
         #region MidRange
-        public void fireBurst(Int16 points)
-        {
-            midFireBurst = points;
-
-
-        }
+        //public void fireBurst(Int16 points)
+        //{
+        //    midFireBurst = points;
+        //}
 
         //rate of fire
-        public void increaseROF(Int16 points)
+        public void increaseROF()
         {
-            midFireRate = points;
-            fireRate += (fireRate / 25) * midFireRate;
+
+            fireRate += (fireRate / 25) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.skillPoints--;
         }
 
-        public void increaseAmmoCap(Int16 points)
+        public void increaseAmmoCap()
         {
-            midEthanoltank = points;
-            playerInfo.playerAthyl += (playerInfo.playerAthyl / 10) * midEthanoltank;
+
+            playerInfo.playerAthyl += (playerInfo.playerAthyl / 10) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.skillPoints--;
         }
 
-        public void bulletPenetration(Int16 points)
-        {
-            midBulletPassthrough = points;
-
-        }
+        //public void bulletPenetration()
+        //{
+        //    midBulletPassthrough = points;
+        //}
         #endregion
 
         #region Longrange
-        public void shield(Int16 points)
+        //public void shield(Int16 points)
+        //{
+        //}
+
+        public void increaseSniperAmmo()
         {
+            playerInfo.playerAthyl += (playerInfo.playerAthyl / 33) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.playerHP -= (playerInfo.playerHP / 50) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.skillPoints--;
         }
 
-        public void increaseSniperAmmo(Int16 points)
-        {
-            longEthanol = points;
 
-            playerInfo.playerAthyl += (playerInfo.playerAthyl / 33) * longEthanol;
-            playerInfo.playerHP -= (playerInfo.playerHP / 50) * longEthanol;
-        }
-
-        public void sniperAccuracy(Int16 points)
-        {
-
-        }
-
+        //Senare
         public void headshotBonus(Int16 points)
         {
 
         }
-        */
+        
 
         #endregion
         
