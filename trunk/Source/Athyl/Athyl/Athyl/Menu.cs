@@ -768,7 +768,7 @@ namespace Athyl
                 int FrameHeight = deadWoman.Height / 2;
                 Rectangle sourcerect = new Rectangle(FrameWidth * 2, FrameHeight * 0,
                    FrameWidth, FrameHeight);
-                spriteBatch.Draw(deadWoman, new Vector2(-(int)Camera.transform.Translation.X + 540, -(int)Camera.transform.Translation.Y + 162), sourcerect, Color.White,
+                spriteBatch.Draw(deadWoman, new Vector2(-(int)Camera.transform.Translation.X + 540, -(int)Camera.transform.Translation.Y + 163), sourcerect, Color.White,
                     0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
 
                 
