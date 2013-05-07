@@ -153,8 +153,6 @@ namespace Athyl
             enemyTexture = Content.Load<Texture2D>("Player/SoldierWalk2");
             playerTexture = Content.Load<Texture2D>("Player/Gilliam");
 
-            skyTexture = Content.Load<Texture2D>("Menu items/Background");
-
             //button = new DrawableGameObject(world, Content.Load<Texture2D>("buttons/button"), 0, "button");
             //button.Position = new Vector2(2743, 1390); 
             Restart();
@@ -787,9 +785,11 @@ namespace Athyl
 
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.transform);
-            spriteBatch.Draw(skyTexture, new Vector2(-Camera.transform.Translation.X, 0), Color.Wheat);
             if (map != null)
+            {
+                spriteBatch.Draw(Content.Load<Texture2D>("Backgrounds/BackgroundLvl" + map.currentLevel), new Vector2(-Camera.transform.Translation.X, -Camera.transform.Translation.Y), Color.Wheat);
                 map.Draw(spriteBatch);
+            }
 
             foreach (AI ai in theAI)
                 ai.Draw(spriteBatch);
