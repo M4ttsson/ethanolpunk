@@ -609,7 +609,7 @@ namespace FarseerPhysics.Dynamics
             {
                 foreach (Body body in _bodyRemoveList)
                 {
-                    Debug.Assert(BodyList.Count > 0);
+                    Debug.Assert(BodyList.Count > 0);   
 
                     // You tried to remove a body that is not contained in the BodyList.
                     // Are you removing the body more than once?

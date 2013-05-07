@@ -43,6 +43,7 @@ namespace Athyl
             }
         }
 
+        public int xpRequiredPerLevel;
         public float playerHP;
         public float playerHpPc;
         public float playerAthyl = 500;
@@ -56,7 +57,6 @@ namespace Athyl
         public float Difficulty { get; set; }
         public Projectile projectile;
         public Skilltree skillTree;
-
 
         protected RevoluteJoint axis;
         protected AngleJoint angleJoint;
@@ -73,7 +73,7 @@ namespace Athyl
 
         
 
-        private int xpRequiredPerLevel;
+        
         private int frameRow;
         private int frameColumn;
         private int RestartFrame;
@@ -170,8 +170,14 @@ namespace Athyl
             font = game.Content.Load<SpriteFont>("font");
             crossHair = game.Content.Load<Texture2D>("crosshair");
 
+
             torso.body.OnCollision += InteractWithQuestItems;
 
+
+            if (playerLevel == 1)
+            {
+                xpRequiredPerLevel += 10;
+            }
         }
 
         protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec, int RestartFrame)
@@ -721,6 +727,8 @@ namespace Athyl
 
         public void UpdatePlayer()
         {
+
+
             KeyboardState kbState = Keyboard.GetState();
             if (kbState.IsKeyUp(Keys.Space) && liftObject)
             {
@@ -774,14 +782,22 @@ namespace Athyl
                 else if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, -1), 80, Category.Cat7, 40)) //Kollar om player slår i taket.
                     OnWall = false;
             }
+            if (playerLevel > 1)
+            {
+                xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2)) * 15);
+            }
 
-            xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2)) * 15);
+            else
+            {
+                xpRequiredPerLevel = 10;
+            }
             //Console.WriteLine(playerLevel);
             //Console.WriteLine(totalXP);
             //Console.WriteLine(xpRequiredPerLevel);
             AnimatePlayer();
             if (playerXP >= xpRequiredPerLevel && playerXP != 0)
             {
+                playerHP = skillTree.playerMaxHP;
                 skillPoints++;
                 playerLevel++;
                 playerXP = playerXP - xpRequiredPerLevel;

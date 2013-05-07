@@ -19,14 +19,14 @@ using FarseerPhysics.Common.PolygonManipulation;
 
 namespace Athyl
 {
-class Drops
-{
+    class Drops
+    {
 
         public DrawableGameObject ethanolBox;
         public DrawableGameObject hpBox;
         Texture2D ethanolTexture, hpTexture;
         Player playerz;
-        
+
         World world;
         Game1 gamez;
         public List<DrawableGameObject> hpList = new List<DrawableGameObject>();
@@ -57,7 +57,7 @@ class Drops
             ethanolBox.body.IgnoreCollisionWith(player.torso.body);
             hpBox.body.IgnoreCollisionWith(player.torso.body);
 
-            
+
         }
 
 
@@ -70,23 +70,41 @@ class Drops
 
 
                 int random = r.Next(0, 100);
-                if (random % 5 == 0)
+
+                if (playerz.Stance == Player.Stances.CloseRange)
                 {
-                    //Spawn hpBox
-                    hpList.Add(hpBox);
-                    hpBox.body.Position = ai.torso.body.Position;
-                    
-                        
-                    
+                    if (random % 4 == 0 || random % 5 == 0)
+                    {
+                        //Spawn hpBox
+                        hpList.Add(hpBox);
+                        hpBox.body.Position = ai.torso.body.Position;
+                    }
+
+                    if (random % 3 == 1)
+                    {
+                        //SpawnEthanol
+                        ethList.Add(ethanolBox);
+                        ethanolBox.body.Position = ai.torso.body.Position;
+                    }
+                }
+                else if (playerz.Stance == Player.Stances.LongRange || playerz.Stance == Player.Stances.MidRange)
+                {
+                    if (random % 3 == 0)
+                    {   
+                        //Spawn hpBox
+                        hpList.Add(hpBox);
+                        hpBox.body.Position = ai.torso.body.Position;
+                    }
+
+                    if (random % 2 == 0)
+                    {
+                        //SpawnEthanol
+                        ethList.Add(ethanolBox);
+                        ethanolBox.body.Position = ai.torso.body.Position;
+                    }
                 }
 
-                else if(random % 3 == 0)
-                {
-                    //SpawnEthanol
-                    ethList.Add(ethanolBox);
-                    ethanolBox.body.Position = ai.torso.body.Position;
-                }
-
+      
 
                 ethanolBox.body.IgnoreCollisionWith(ai.torso.body);
                 hpBox.body.IgnoreCollisionWith(ai.torso.body);
@@ -96,7 +114,7 @@ class Drops
         }
 
 
-      public bool PickupsForPlayer(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+        public bool PickupsForPlayer(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
 
             if (contact.IsTouching())
