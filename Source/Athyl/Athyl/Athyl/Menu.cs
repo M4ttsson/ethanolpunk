@@ -713,7 +713,7 @@ namespace Athyl
                 spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
                 //spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 405, -(int)Camera.transform.Translation.Y + 150, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
                 //spriteBatch.Draw(originalSkillTreeButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - skillTreeButton.Width / 2, -(int)Camera.transform.Translation.Y + 270, skillTreeButton.Width, skillTreeButton.Height), Color.White);
-                spriteBatch.DrawString(myFont, "Upgrade\n Press 1 for close combat\ nPress 2 for middle combat\n Press 3 for range combat", new Vector2(-(int)Camera.transform.Translation.X + 400, -(int)Camera.transform.Translation.Y + 300), Color.White);
+                spriteBatch.DrawString(myFont, "Upgrade\n Press 1 for close combat\n Press 2 for middle combat\n Press 3 for range combat", new Vector2(-(int)Camera.transform.Translation.X + 400, -(int)Camera.transform.Translation.Y + 300), Color.White);
             }
         }
     }
