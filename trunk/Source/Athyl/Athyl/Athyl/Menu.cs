@@ -31,6 +31,7 @@ namespace Athyl
         private Texture2D returnButton;
         private Texture2D restartButton;
         private Texture2D mainMenuButton;
+        private Texture2D gameOverMainMenuButton;
         private Texture2D skillTreeButton;
         private Texture2D saveButton;
         private Texture2D LoadButon;
@@ -44,8 +45,8 @@ namespace Athyl
         private Texture2D musicSliderBackground;
         private Texture2D progressBar;
         private Texture2D progressBarBorder;
-        private Texture2D runningMan;
-        private Texture2D deadMan;
+        private Texture2D runningWoman;
+        private Texture2D deadWoman;
         private Texture2D gameOver;
         private int colFrame;
         private float TimePerFrame;
@@ -62,6 +63,7 @@ namespace Athyl
         private Texture2D originalRestartButton;
         private Texture2D originalMainMenuButton;
         private Texture2D originalSkillTreeButton;
+        private Texture2D originalGameOverMainMenuButton;
         private Texture2D skillTreeButton2;
         private Texture2D resumeButton2;
         private Texture2D startButton2;
@@ -70,6 +72,8 @@ namespace Athyl
         private Texture2D storyButton2;
         private Texture2D returnButton2;
         private Texture2D mainMenuButton2;
+        private Texture2D restartButton2;
+        private Texture2D gameOverMainMenuButton2;
         private Texture2D keyboardLayout;
         
 
@@ -91,6 +95,7 @@ namespace Athyl
         Vector2 exitButtonPositionStartMenu;
         Vector2 returnButtonPosition;
         Vector2 skillTreeButtonPosition;
+        Vector2 gameOverMainMenuButtonPosition;
 
 
         private Thread backGroundThread;
@@ -126,11 +131,13 @@ namespace Athyl
             LoadButon = game.Content.Load<Texture2D>("Menu items/LoadButton");
             skillTreeButton = game.Content.Load<Texture2D>("Menu items/SkillTreeButtonHighlight");
             mainMenuButton = game.Content.Load<Texture2D>("Menu items/MainMenuButtonHighlight");
+            gameOverMainMenuButton = game.Content.Load<Texture2D>("Menu items/MainMenuButtonHighlight");
+            restartButton = game.Content.Load<Texture2D>("Menu items/RestartButtonHighlight");
             gameOver = game.Content.Load<Texture2D>("Menu items/GameOver");
             progressBar = game.Content.Load<Texture2D>("ProgressBar");
             progressBarBorder = game.Content.Load<Texture2D>("ProgressBarBorder");
-            runningMan = game.Content.Load<Texture2D>("Player/Gilliam");
-            deadMan = game.Content.Load<Texture2D>("Player/die");
+            runningWoman = game.Content.Load<Texture2D>("Player/Gilliam");
+            deadWoman = game.Content.Load<Texture2D>("Player/die");
             colFrame = 1;
 
             originalResumeButton = game.Content.Load<Texture2D>("Menu items/ResumeButton");
@@ -141,6 +148,8 @@ namespace Athyl
             originalReturnButton = game.Content.Load<Texture2D>("Menu items/ReturnButton");
             originalSkillTreeButton = game.Content.Load<Texture2D>("Menu items/SkillTreeButton");
             originalMainMenuButton = game.Content.Load<Texture2D>("Menu items/MainMenuButton");
+            originalRestartButton = game.Content.Load<Texture2D>("Menu items/RestartButton");
+            originalGameOverMainMenuButton = game.Content.Load<Texture2D>("Menu items/MainMenuButton");
             
 
             resumeButton2 = game.Content.Load<Texture2D>("Menu items/ResumeButton");
@@ -151,6 +160,8 @@ namespace Athyl
             returnButton2 = game.Content.Load<Texture2D>("Menu items/ReturnButton");
             skillTreeButton2 = game.Content.Load<Texture2D>("Menu items/SkillTreeButton");
             mainMenuButton2 = game.Content.Load<Texture2D>("Menu items/MainMenuButton");
+            gameOverMainMenuButton2 = game.Content.Load<Texture2D>("Menu items/MainMenuButton");
+            restartButton2 = game.Content.Load<Texture2D>("Menu items/RestartButton");
             keyboardLayout = game.Content.Load<Texture2D>("Menu items/ControlMenu");
             myFont = game.Content.Load<SpriteFont>("font");
 
@@ -228,7 +239,8 @@ namespace Athyl
         public void GameOverMenu(Game1 game)
         {
             gameState = GameState.GameOver;
-            mainMenuButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - mainMenuButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30));
+            restartButtonPosition = new Vector2((int)Camera.transform.Translation.X + game.GraphicsDevice.Viewport.Width / 2 - restartButton.Width / 2, (int)Camera.transform.Translation.Y + game.GraphicsDevice.Viewport.Height / 2);
+            gameOverMainMenuButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - mainMenuButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 + 40));
         }
 
         public void LevelUpMenu(Game1 game)
@@ -426,7 +438,7 @@ namespace Athyl
             {
                 Rectangle resumeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width  /2 - resumeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 105, 120, 20);
                 Rectangle optionsButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - controlsButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 60, 160, 20);
-                Rectangle mainMenuButtonRect = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - mainMenuButton.Width), (game.GraphicsDevice.Viewport.Height / 2 - 20), 190, 50);
+                Rectangle mainMenuButtonRect = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - mainMenuButton.Width), (game.GraphicsDevice.Viewport.Height / 2 - 20), 190, 20);
                 Rectangle exitbuttonRect2 = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width), (game.GraphicsDevice.Viewport.Height / 2 + 20), 120, 20);
                 Rectangle musicRect = new Rectangle((int)musicSliderPosition.X, (int)musicSliderPosition.Y, 40, 40);
                 Rectangle soundRect = new Rectangle((int)soundSliderPosition.X, (int)soundSliderPosition.Y, 40, 40);
@@ -512,6 +524,19 @@ namespace Athyl
                     gameState = GameState.Paused;
                 }
             }
+            if (gameState == GameState.GameOver)
+            {
+                Rectangle restartButtonRect = new Rectangle((int)restartButtonPosition.X, (int)restartButtonPosition.Y, 160, 40);
+                Rectangle gameOverMainMenuButtonRect = new Rectangle((int)gameOverMainMenuButtonPosition.X, (int)gameOverMainMenuButtonPosition.Y, 120, 20);
+                if (mouseClickRect.Intersects(restartButtonRect))
+                {
+                    LoadGame();
+                }
+                else if (mouseClickRect.Intersects(gameOverMainMenuButtonRect))
+                {
+                    gameState = GameState.StartMenu;
+                }
+            }
         }
 
         /// <summary>
@@ -528,12 +553,14 @@ namespace Athyl
             Rectangle optionsButtonRect2 = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - controlsButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 65, 160, 20);
             Rectangle exitButtonRect1 = new Rectangle((int)exitButtonPositionStartMenu.X + 20, (int)exitButtonPositionStartMenu.Y - 5, 120, 20);
             Rectangle exitButtonRect2 = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - exitButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 + 20, 120, 20);
-            Rectangle mainMenuButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - mainMenuButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 20, 190, 50);
+            Rectangle mainMenuButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - mainMenuButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 20, 190, 20);
             Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X + 20, (int)startButtonPosition.Y + 28, 120, 30);
             Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X + 20, (int)storyButtonPosition.Y + 10, 120, 30);
             Rectangle pausedReturnButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - returnButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 240, 120, 20);
             Rectangle startReturnButtonRect = new Rectangle((int)returnButtonPosition.X + 20, (int)returnButtonPosition.Y -180, 120, 30);
             Rectangle skillTreeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - skillTreeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 65, 160, 20);
+            Rectangle restartButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - restartButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2, 160, 40);
+            Rectangle gameOverMainMenuButtonRect = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - mainMenuButton.Width), (game.GraphicsDevice.Viewport.Height / 2 + 40), 120, 20);
 
             if (mouseClickRect.Intersects(resumeButtonRect))
             {
@@ -619,9 +646,21 @@ namespace Athyl
             {
                 originalMainMenuButton = mainMenuButton;
             }
+            else if(mouseClickRect.Intersects(gameOverMainMenuButtonRect) && gameState == GameState.GameOver)
+            {
+                originalMainMenuButton = mainMenuButton;
+            }
             else
             {
                 originalMainMenuButton = mainMenuButton2;
+            }
+            if(mouseClickRect.Intersects(restartButtonRect) && gameState == GameState.GameOver)
+            {
+                originalRestartButton = restartButton;
+            }
+            else
+            {
+                originalRestartButton = restartButton2;
             }
 
         }
@@ -662,12 +701,12 @@ namespace Athyl
                 spriteBatch.Draw(progressBarBorder, border, Color.White);
                 spriteBatch.Draw(progressBar, bar, Color.White);
 
-                //The animation of the runningman in loading menu
-                int FrameWidth = runningMan.Width / 7;
-                int FrameHeight = runningMan.Height / 2;
+                //The animation of the running woman in loading menu
+                int FrameWidth = runningWoman.Width / 7;
+                int FrameHeight = runningWoman.Height / 2;
                 Rectangle sourcerect = new Rectangle(FrameWidth * colFrame, FrameHeight * 0,
                    FrameWidth, FrameHeight);
-                spriteBatch.Draw(runningMan, new Vector2(425, -(int)Camera.transform.Translation.Y - 500), sourcerect, Color.White,
+                spriteBatch.Draw(runningWoman, new Vector2(425, -(int)Camera.transform.Translation.Y - 500), sourcerect, Color.White,
                     0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
 
                 TotalElapsed += 0.2f;
@@ -720,15 +759,19 @@ namespace Athyl
             if (gameState == GameState.GameOver)
             {
                 spriteBatch.Draw(loadingBackground, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
-                //The dead man
-                int FrameWidth = deadMan.Width / 3;
-                int FrameHeight = deadMan.Height / 2;
+                spriteBatch.Draw(gameOver, new Rectangle(-(int)Camera.transform.Translation.X + 640 - gameOver.Width / 2, -(int)Camera.transform.Translation.Y + 220, (int)420, (int)100), Color.White);
+                spriteBatch.Draw(originalRestartButton, new Rectangle(-(int)Camera.transform.Translation.X + 640 - restartButton.Width / 2, -(int)Camera.transform.Translation.Y + 360, restartButton.Width, restartButton.Height), Color.White);
+                spriteBatch.Draw(originalMainMenuButton, new Rectangle(-(int)Camera.transform.Translation.X + 640 - mainMenuButton.Width / 2, -(int)Camera.transform.Translation.Y + 400, mainMenuButton.Width, mainMenuButton.Height), Color.White);
+                
+                //The dead woman
+                int FrameWidth = deadWoman.Width / 3;
+                int FrameHeight = deadWoman.Height / 2;
                 Rectangle sourcerect = new Rectangle(FrameWidth * 2, FrameHeight * 0,
                    FrameWidth, FrameHeight);
-                spriteBatch.Draw(deadMan, new Vector2(-(int)Camera.transform.Translation.X + 540, -(int)Camera.transform.Translation.Y + 162), sourcerect, Color.White,
+                spriteBatch.Draw(deadWoman, new Vector2(-(int)Camera.transform.Translation.X + 540, -(int)Camera.transform.Translation.Y + 162), sourcerect, Color.White,
                     0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
 
-                spriteBatch.Draw(gameOver, new Rectangle(-(int)Camera.transform.Translation.X + 640 - gameOver.Width / 2, -(int)Camera.transform.Translation.Y + 220, (int)420, (int)100), Color.White);
+                
                 
             }
             if (gameState == GameState.LevelUp)
