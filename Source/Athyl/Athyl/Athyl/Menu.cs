@@ -228,6 +228,7 @@ namespace Athyl
         public void GameOverMenu(Game1 game)
         {
             gameState = GameState.GameOver;
+            mainMenuButtonPosition = new Vector2((game.GraphicsDevice.Viewport.Width / 2 - mainMenuButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 - 30));
         }
 
         public void LevelUpMenu(Game1 game)
@@ -724,11 +725,11 @@ namespace Athyl
                 int FrameHeight = deadMan.Height / 2;
                 Rectangle sourcerect = new Rectangle(FrameWidth * 2, FrameHeight * 0,
                    FrameWidth, FrameHeight);
-                spriteBatch.Draw(deadMan, new Vector2(425, -(int)Camera.transform.Translation.Y + 200), sourcerect, Color.White,
+                spriteBatch.Draw(deadMan, new Vector2(-(int)Camera.transform.Translation.X + 540, -(int)Camera.transform.Translation.Y + 162), sourcerect, Color.White,
                     0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
 
-                spriteBatch.Draw(gameOver, 
-                //spriteBatch.DrawString(myFont, "Game Over", new Vector2(-(int)Camera.transform.Translation.X + 580, -(int)Camera.transform.Translation.Y + 360), Color.DarkRed);
+                spriteBatch.Draw(gameOver, new Rectangle(-(int)Camera.transform.Translation.X + 640 - gameOver.Width / 2, -(int)Camera.transform.Translation.Y + 220, (int)420, (int)100), Color.White);
+                
             }
             if (gameState == GameState.LevelUp)
             {
