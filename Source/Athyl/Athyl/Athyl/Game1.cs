@@ -639,7 +639,7 @@ namespace Athyl
             {
                 if (player.torso.body.BodyId == damage.bodyId)
                 {
-                    player.playerHP -= (int)(projectile.damage / player.Difficulty);
+                    player.playerHP -= (int)(damage.damage / player.Difficulty);
                 }
             }
 
