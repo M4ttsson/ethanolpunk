@@ -1,5 +1,4 @@
 ﻿using System;
-
 namespace Athyl
 {
 #if WINDOWS || XBOX
@@ -12,7 +11,8 @@ namespace Athyl
         {
             using (Game1 game = new Game1())
             {
-                game.Run();
+
+                //game.Run();
             }
         }
     }
