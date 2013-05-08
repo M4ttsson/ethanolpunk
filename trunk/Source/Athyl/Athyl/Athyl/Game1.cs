@@ -36,6 +36,7 @@ namespace Athyl
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         public World world;
+        public bool MapLoaded { get; set; }
         List<AI> theAI = new List<AI>();
         public List<Damage> damageList = new List<Damage>();
         private List<AI> removedAIList = new List<AI>();
@@ -49,6 +50,7 @@ namespace Athyl
         List<Drops> drops = new List<Drops>();
         private List<Drops> removedDropsList = new List<Drops>();
         static Map map;
+
 
         Texture2D skyTexture;
         //Texture2D progressBar;
@@ -128,7 +130,7 @@ namespace Athyl
             map = new Map(world, this);
             menu.gameState = Menu.GameState.Playing;
             menu.isLoading = true;
-            
+            MapLoaded = true;
         }
         /// <summary>
         /// LoadContent will be called once per game and is the place to load

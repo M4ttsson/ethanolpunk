@@ -286,18 +286,23 @@ namespace Athyl
 
             if (gameState == GameState.Loading && !isLoading)
             {
-               // backGroundThread = new Thread(game.Load);
-                //this.backGroundThread.IsBackground = true;
-                isLoading = false;
-
-                
-               // backGroundThread.Start();
-                
-                
-                if (!runOnce)
+                if (game.MapLoaded)
                 {
-                    game.loadThread.Start();
-                    runOnce = true;
+                    isLoading = true;
+                    gameState = GameState.Playing;
+                    game.Restart();
+
+                }
+                else
+                {
+
+                    isLoading = false;
+
+                    if (!runOnce)
+                    {
+                        game.loadThread.Start();
+                        runOnce = true;
+                    }
                 }
             }
 
