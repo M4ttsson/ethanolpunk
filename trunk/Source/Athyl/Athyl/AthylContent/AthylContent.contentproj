@@ -217,8 +217,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Small_World.png">
-      <Name>Small_World</Name>
+    <Compile Include="Lvl2Tiles\Map.png">
+      <Name>Map</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -591,6 +591,71 @@
     </Compile>
     <Compile Include="Backgrounds\BackgroundLvl3.png">
       <Name>BackgroundLvl3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Lvl1Tiles\Middle1.png">
+      <Name>Middle1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl1Tiles\Middle2.png">
+      <Name>Middle2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl1Tiles\Middle3.png">
+      <Name>Middle3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Lvl2Tiles\Middle1.png">
+      <Name>Middle1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl2Tiles\Middle2.png">
+      <Name>Middle2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl2Tiles\Middle3.png">
+      <Name>Middle3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Lvl3Tiles\Middle1.png">
+      <Name>Middle1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl3Tiles\Middle2.png">
+      <Name>Middle2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Lvl3Tiles\Middle3.png">
+      <Name>Middle3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Lvl1Tiles\Map.png">
+      <Name>Map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Lvl3Tiles\Map.png">
+      <Name>Map</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

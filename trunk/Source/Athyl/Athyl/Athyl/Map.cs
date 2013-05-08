@@ -35,6 +35,8 @@ namespace Athyl
         private List<Texture2D> lvl3 = new List<Texture2D>();
         private Texture2D buttonTexture;
         private DrawableGameObject b;
+        private Random rand;
+
         public int currentLevel;
         public DrawableGameObject button;
         #endregion
@@ -44,7 +46,8 @@ namespace Athyl
             this.world = world;
             this.game = game;
 
-            currentLevel = 1;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
+            currentLevel = 2;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
+            rand = new Random();
 
             progress = 1;
 
@@ -53,10 +56,10 @@ namespace Athyl
         #endregion
         #region Initialization
         public void InializeMap()
-        {
+        {   
             ReadingTilesTextureToList();
 
-            ReadMapLayout(game.Content.Load<Texture2D>("Small_World"));
+            ReadMapLayout(game.Content.Load<Texture2D>("Lvl" + currentLevel + "Tiles/Map"));
             buttonTexture = game.Content.Load<Texture2D>("buttons/button");
 
             DrawTilesOnPlace();
@@ -82,6 +85,11 @@ namespace Athyl
             }
             SetCollisionCategories(b, tileNumber);
             body.Add(b);
+            randomizeMiddleTexture(x, y, BodySize);
+        }
+
+        private void randomizeMiddleTexture(int x, int y, Vector2 BodySize)
+        {
         }
 
         private void SetCollisionCategories(DrawableGameObject b, int tileNumber)
