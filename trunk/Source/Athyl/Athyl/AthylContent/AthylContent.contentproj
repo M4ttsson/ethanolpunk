@@ -196,13 +196,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Player\TestGubbar.png">
-      <Name>TestGubbar</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Player\Ducking.png">
       <Name>Ducking</Name>
       <Importer>TextureImporter</Importer>
@@ -513,13 +506,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Player\SoldierWalk.png">
-      <Name>SoldierWalk</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Menu items\Loremipsum.png">
       <Name>Loremipsum</Name>
       <Importer>TextureImporter</Importer>
@@ -546,8 +532,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Player\SoldierWalk2.png">
-      <Name>SoldierWalk2</Name>
+    <Compile Include="Ai\SoldierWalk.png">
+      <Name>SoldierWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
