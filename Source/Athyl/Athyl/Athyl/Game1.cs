@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
 using System.Threading;
+using System.Reflection;
 
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
@@ -20,6 +21,7 @@ using FarseerPhysics.Common;
 using FarseerPhysics.Common.Decomposition;
 using FarseerPhysics.Common.PolygonManipulation;
 
+using NLog;
 
 namespace Athyl
 {
@@ -29,6 +31,8 @@ namespace Athyl
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         #region Properties
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         public World world;
@@ -114,6 +118,7 @@ namespace Athyl
 
             camera = new Camera(GraphicsDevice.Viewport);
 
+            logger.Info("Initialized");
             base.Initialize();
         }
         /// <summary>
@@ -124,6 +129,7 @@ namespace Athyl
             map = new Map(world, this);
             menu.gameState = Menu.GameState.Playing;
             menu.isLoading = true;
+            logger.Info("map loaded");
         }
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -163,6 +169,8 @@ namespace Athyl
 
        
             timer.Start();
+
+            logger.Info("World created");
         }
 
         /// <summary>
@@ -178,59 +186,66 @@ namespace Athyl
         /// </summary>
         private void Restart()
         {
-            foreach (AI ai in theAI)
+            try
             {
-                world.RemoveBody(ai.wheel.body);
-                world.RemoveBody(ai.torso.body);
-            }
-            theAI.Clear();
-
-            if (player != null)
-            {
-                world.RemoveBody(player.torso.body);
-                world.RemoveBody(player.wheel.body);
-            }
-            player = null;
-
-            //player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(8385, 1000), this, "player");
-            player = new Player(world, playerTexture, new Vector2(60, 88), 100, new Vector2(60, 1300), this, "player");
-
-            //reset spawnpoints
-            foreach (Spawn sp in spawnpoints)
-            {
-                if (sp.Visited)
-                    sp.Visited = false;
-            }
-
-            if (drops.Count > 0)
-            {
-                foreach (Drops d in drops)
+                foreach (AI ai in theAI)
                 {
-                    world.RemoveBody(d.hpBox.body);
-                    world.RemoveBody(d.ethanolBox.body);
-                    
+                    world.RemoveBody(ai.wheel.body);
+                    world.RemoveBody(ai.torso.body);
                 }
+                theAI.Clear();
+
+                if (player != null)
+                {
+                    world.RemoveBody(player.torso.body);
+                    world.RemoveBody(player.wheel.body);
+                }
+                player = null;
+
+                //player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(8385, 1000), this, "player");
+                player = new Player(world, playerTexture, new Vector2(60, 88), 100, new Vector2(60, 1300), this, "player");
+
+                //reset spawnpoints
+                foreach (Spawn sp in spawnpoints)
+                {
+                    if (sp.Visited)
+                        sp.Visited = false;
+                }
+
+                if (drops.Count > 0)
+                {
+                    foreach (Drops d in drops)
+                    {
+                        world.RemoveBody(d.hpBox.body);
+                        world.RemoveBody(d.ethanolBox.body);
+
+                    }
+                }
+
+                drops.Clear();
+
+
+                menu.totalTime = 0f;
+
+                runTime = 0;
+
+                camera = new Camera(graphics.GraphicsDevice.Viewport);
+                camera.UpdateCamera(player);
+                /*
+                            if (quest != null)
+                            {
+                                world.RemoveBody(quest.boulder.body);
+                            }
+
+                            quest = new Quests(world, this);
+                            if (map != null)
+                                map.button.body.OnCollision += quest.InteractWithQuestItems;
+                 * */
             }
-
-            drops.Clear();
-
-
-            menu.totalTime = 0f;
-
-            runTime = 0;
-
-            camera = new Camera(graphics.GraphicsDevice.Viewport);
-            camera.UpdateCamera(player);
-/*
-            if (quest != null)
+            catch (Exception ex)
             {
-                world.RemoveBody(quest.boulder.body);
+                logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " +  ex.StackTrace);
             }
-
-            quest = new Quests(world, this);
-            if (map != null)
-                map.button.body.OnCollision += quest.InteractWithQuestItems;
- * */
         }
         #endregion
 
@@ -521,22 +536,28 @@ namespace Athyl
         #region CollisionAndDamage
         private bool BeginContact(Contact contact)
         {
-
-            if (contact.FixtureA.UserData.ToString() == "playerwheel")
+            try
             {
-                player.numFootContacts++;
+                if (contact.FixtureA.UserData.ToString() == "playerwheel")
+                {
+                    player.numFootContacts++;
+                }
+                if (contact.FixtureB.UserData.ToString() == "playerwheel")
+                {
+                    player.numFootContacts++;
+                }
+                if (contact.FixtureA.UserData.ToString() == "player")
+                {
+                    player.numSideContacts++;
+                }
+                if (contact.FixtureB.UserData.ToString() == "player")
+                {
+                    player.numSideContacts++;
+                }
             }
-            if (contact.FixtureB.UserData.ToString() == "playerwheel")
+            catch (Exception ex)
             {
-                player.numFootContacts++;
-            }
-            if (contact.FixtureA.UserData.ToString() == "player")
-            {
-                player.numSideContacts++;
-            }
-            if (contact.FixtureB.UserData.ToString() == "player")
-            {
-                player.numSideContacts++;
+                logger.Error(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
             }
 
             return true;
@@ -544,21 +565,28 @@ namespace Athyl
 
         private void EndContact(Contact contact)
         {
-            if (contact.FixtureA.UserData.ToString() == "playerwheel")
+            try
             {
-                player.numFootContacts--;
+                if (contact.FixtureA.UserData.ToString() == "playerwheel")
+                {
+                    player.numFootContacts--;
+                }
+                if (contact.FixtureB.UserData.ToString() == "playerwheel")
+                {
+                    player.numFootContacts--;
+                }
+                if (contact.FixtureA.UserData.ToString() == "player")
+                {
+                    player.numSideContacts--;
+                }
+                if (contact.FixtureB.UserData.ToString() == "player")
+                {
+                    player.numSideContacts--;
+                }
             }
-            if (contact.FixtureB.UserData.ToString() == "playerwheel")
+            catch (Exception ex)
             {
-                player.numFootContacts--;
-            }
-            if (contact.FixtureA.UserData.ToString() == "player")
-            {
-                player.numSideContacts--;
-            }
-            if (contact.FixtureB.UserData.ToString() == "player")
-            {
-                player.numSideContacts--;
+                logger.Error(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
             }
         }
 
@@ -591,6 +619,7 @@ namespace Athyl
 
                     removedAIList.Add(theAI[i]);
 
+
                     if (removedAIList.Contains(theAI[i]))
                     {
                         world.RemoveBody(theAI[i].wheel.body);
@@ -612,14 +641,20 @@ namespace Athyl
 
                     removedAIList.Add(theAI[i]);
 
-                    if (removedAIList.Contains(theAI[i]))
+                    try
                     {
-                        world.RemoveBody(theAI[i].wheel.body);
-                        world.RemoveBody(theAI[i].torso.body);
-                        theAI.RemoveAt(i);
+                        if (removedAIList.Contains(theAI[i]))
+                        {
+                            world.RemoveBody(theAI[i].wheel.body);
+                            world.RemoveBody(theAI[i].torso.body);
+                            theAI.RemoveAt(i);
 
+                        }
                     }
-
+                    catch (Exception ex)
+                    {
+                        logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
+                    }
 
                     player.playerXP += 3;
                     timedBonusXP += 3;
@@ -654,7 +689,7 @@ namespace Athyl
         protected override void Update(GameTime gameTime)
         {
 
-            Console.WriteLine(theAI.Count);
+            
 
             if (player != null && player.Dead)
             {
@@ -737,7 +772,7 @@ namespace Athyl
 
                     camera.UpdateCamera(player);
 
-                    world.Step(0.033333f);
+                    
                     removedDropsList.Clear();
 
                     foreach (var d in drops)
@@ -758,14 +793,22 @@ namespace Athyl
                         }
                     }
 
-                    for (int i = 0; i < removedDropsList.Count; i++)
+                    try
                     {
-                        world.RemoveBody(removedDropsList[i].hpBox.body);
-                        world.RemoveBody(removedDropsList[i].ethanolBox.body);
-                        drops.Remove(removedDropsList[i]);
 
+                        for (int i = 0; i < removedDropsList.Count; i++)
+                        {
+                            world.RemoveBody(removedDropsList[i].hpBox.body);
+                            world.RemoveBody(removedDropsList[i].ethanolBox.body);
+                            drops.Remove(removedDropsList[i]);
+
+                        }
                     }
-
+                    catch (Exception ex)
+                    {
+                        logger.Fatal(ex.Message + "  " + ex.TargetSite +  "  " + ex.StackTrace);
+                    }
+                    world.Step(0.033333f);
 
                 }
             }
