@@ -16,11 +16,13 @@ using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics.Joints;
 using FarseerPhysics.Common.PolygonManipulation;
 
+using NLog;
 
 namespace Athyl
 {
     class Drops
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public DrawableGameObject ethanolBox;
         public DrawableGameObject hpBox;
@@ -119,29 +121,36 @@ namespace Athyl
 
             if (contact.IsTouching())
             {
-                if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "playerwheel") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "athyl"))
+                try
                 {
+                    if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "playerwheel") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "athyl"))
+                    {
 
 
-                    playerz.playerAthyl += 50;
-                    ethanolDrop = true;
+                        playerz.playerAthyl += 50;
+                        ethanolDrop = true;
+                    }
+
+
+                    else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "playerwheel") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "hpBox"))
+                    {
+
+
+                        playerz.playerHP += 25;
+                        hpDrop = true;
+                    }
+
+                    else
+                    {
+
+                        ethanolDrop = false;
+                        hpDrop = false;
+
+                    }
                 }
-
-
-                else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "playerwheel") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "hpBox"))
+                catch (Exception ex)
                 {
-
-
-                    playerz.playerHP += 25;
-                    hpDrop = true;
-                }
-
-                else
-                {
-
-                    ethanolDrop = false;
-                    hpDrop = false;
-
+                    logger.Error(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                 }
             }
             return false;
