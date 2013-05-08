@@ -66,7 +66,6 @@ namespace Athyl
             Load(texture, 2, 5, 1, 1);
             direction = Direction.Right;
             lastCheck = DateTime.Now;
-            //enemyBody.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
 
             //not used yet
             OnGround = true;
@@ -111,21 +110,7 @@ namespace Athyl
 
         }
         #endregion
-        bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
-        {
-            if (contact.IsTouching())
-            {
-                if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
-                {
-                    axis.MotorSpeed = 0;
-                    hit = true;
-                    enemyHP -= 5;
-                    return true;
-                }
-            }
-
-            return false;
-        }
+       
 
         Vector2 right = new Vector2(2, 0);
         Vector2 left = new Vector2(-2, 0);
@@ -147,11 +132,6 @@ namespace Athyl
          * 
          * 
         */
-
-
-
-
-
 
         public void towardsPlayer(Player aPlayer)
         {
