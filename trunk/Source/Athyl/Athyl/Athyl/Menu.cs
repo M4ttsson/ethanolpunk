@@ -257,6 +257,7 @@ namespace Athyl
             Thread.Sleep(6000);
 
             gameState = GameState.Playing;
+           
             isLoading = true;
 
         }
