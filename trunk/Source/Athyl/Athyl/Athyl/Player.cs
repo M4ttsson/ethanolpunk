@@ -16,12 +16,15 @@ using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics.Joints;
 using FarseerPhysics.Common.PolygonManipulation;
 
+using NLog;
+
 
 namespace Athyl
 {
     class Player
     {
         #region Properties
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         public DrawableGameObject torso;
         public bool OnGround { get; set; }
@@ -326,19 +329,26 @@ namespace Athyl
             KeyboardState kbState = Keyboard.GetState();
             if (contact.IsTouching())
             {
-                if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
+                try
                 {
-                    playerHP -= 3;
+                    if (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "enemy")
+                    {
+                        playerHP -= 3;
 
-                    if (direction == Direction.Right)
-                    {
-                        torso.body.ApplyLinearImpulse(new Vector2(-0.8f, -0.9f));
+                        if (direction == Direction.Right)
+                        {
+                            torso.body.ApplyLinearImpulse(new Vector2(-0.8f, -0.9f));
+                        }
+                        else if (direction == Direction.Left)
+                        {
+                            torso.body.ApplyLinearImpulse(new Vector2(0.8f, -0.9f));
+                        }
+                        return true;
                     }
-                    else if (direction == Direction.Left)
-                    {
-                        torso.body.ApplyLinearImpulse(new Vector2(0.8f, -0.9f));
-                    }
-                    return true;
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                 }
             }
             return false;
@@ -401,16 +411,16 @@ namespace Athyl
                         {
                             Vector2 direction = new Vector2((crossHairPosition.X + 16) - torso.Position.X, (crossHairPosition.Y + 16) - torso.Position.Y);
                             direction.Normalize();
-                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(22, 12)), direction, world, wheel.body, skillTree.damage);
+                            projectile.NewBullet(torso.body.Position, direction, world, wheel.body, skillTree.damage);
                         }
                         else
                         {
-                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(22, 14)), direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
+                            projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
                         }
                     }
                     else
                     {
-                        projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(-22, 14)), direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
+                        projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
                     }
                     playerAthyl -= skillTree.ethanolConsumption;
 
@@ -886,9 +896,10 @@ namespace Athyl
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            projectile.Draw(spriteBatch, torso.Position);
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
 
-            projectile.Draw(spriteBatch, torso.Position);
+            
 
             //torso.Draw(spriteBatch);
             //wheel.Draw(spriteBatch);

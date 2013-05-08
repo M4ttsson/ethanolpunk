@@ -13,11 +13,15 @@ using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 
+using NLog;
+
 namespace Athyl
 {
     class Projectile
     {
         #region Properties
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+
         private int projectileVelocity;
         private Vector2 projectileDirection;
         public float damage;
@@ -285,84 +289,91 @@ namespace Athyl
         {
             if (contact.IsTouching())
             {
-                if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy" || 
-                    fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "boss")
+                try
                 {
-                    if(!removeListbody.Contains(fixtureA.Body))
-                        removeListbody.Add(fixtureA.Body);
-                    foreach (DrawableGameObject i in bullets)
+                    if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy" ||
+                        fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "boss")
                     {
-                        if (i.body.BodyId == fixtureA.Body.BodyId)
+                        if (!removeListbody.Contains(fixtureA.Body))
+                            removeListbody.Add(fixtureA.Body);
+                        foreach (DrawableGameObject i in bullets)
                         {
-                            if (!removeList.Contains(i))
-                                removeList.Add(i);
+                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            {
+                                if (!removeList.Contains(i))
+                                    removeList.Add(i);
+                            }
                         }
+                        game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
+                        return true;
                     }
-                    game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
-                    return true;
-                }
 
-                else if (fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "enemy" ||
-                    fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "boss")
-                {
-                    if (!meleeremoveListbody.Contains(fixtureA.Body))
-                        meleeremoveListbody.Add(fixtureA.Body);
-                    foreach (DrawableGameObject i in bullets)
+                    else if (fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "enemy" ||
+                        fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "boss")
                     {
-                        if (i.body.BodyId == fixtureA.Body.BodyId)
+                        if (!meleeremoveListbody.Contains(fixtureA.Body))
+                            meleeremoveListbody.Add(fixtureA.Body);
+                        foreach (DrawableGameObject i in bullets)
                         {
-                            if (!meleeremoveList.Contains(i))
-                                meleeremoveList.Add(i);
+                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            {
+                                if (!meleeremoveList.Contains(i))
+                                    meleeremoveList.Add(i);
+                            }
                         }
+                        game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
+                        return true;
                     }
-                    game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
-                    return true;
-                }
 
-                else if (fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "player")
-                {
-                    if (!removeListbody.Contains(fixtureA.Body))
-                        removeListbody.Add(fixtureA.Body);
-                    foreach (DrawableGameObject i in bullets)
+                    else if (fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "player")
                     {
-                        if (i.body.BodyId == fixtureA.Body.BodyId)
+                        if (!removeListbody.Contains(fixtureA.Body))
+                            removeListbody.Add(fixtureA.Body);
+                        foreach (DrawableGameObject i in bullets)
                         {
-                            if (!removeList.Contains(i))
-                                removeList.Add(i);
+                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            {
+                                if (!removeList.Contains(i))
+                                    removeList.Add(i);
+                            }
                         }
+                        game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
+                        return true;
                     }
-                    game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
-                    return true;
+                    else if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "ground")
+                    {
+                        if (!removeListbody.Contains(fixtureA.Body))
+                            removeListbody.Add(fixtureA.Body);
+                        foreach (DrawableGameObject i in bullets)
+                        {
+                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            {
+                                if (!removeList.Contains(i))
+                                    removeList.Add(i);
+                            }
+                        }
+                        //Console.WriteLine("removed");
+                        return true;
+                    }
+                    else if (fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "ground")
+                    {
+                        if (!removeListbody.Contains(fixtureA.Body))
+                            removeListbody.Add(fixtureA.Body);
+                        foreach (DrawableGameObject i in bullets)
+                        {
+                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            {
+                                if (!removeList.Contains(i))
+                                    removeList.Add(i);
+                            }
+                        }
+                        //Console.WriteLine("removed");
+                        return true;
+                    }
                 }
-                else if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "ground")
+                catch (Exception ex)
                 {
-                    if (!removeListbody.Contains(fixtureA.Body))
-                        removeListbody.Add(fixtureA.Body);
-                    foreach (DrawableGameObject i in bullets)
-                    {
-                        if (i.body.BodyId == fixtureA.Body.BodyId)
-                        {
-                            if (!removeList.Contains(i))
-                                removeList.Add(i);
-                        }
-                    }
-                    //Console.WriteLine("removed");
-                    return true;
-                }
-                else if (fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "ground")
-                {
-                    if (!removeListbody.Contains(fixtureA.Body))
-                        removeListbody.Add(fixtureA.Body);
-                    foreach (DrawableGameObject i in bullets)
-                    {
-                        if (i.body.BodyId == fixtureA.Body.BodyId)
-                        {
-                            if (!removeList.Contains(i))
-                                removeList.Add(i);
-                        }
-                    }
-                    //Console.WriteLine("removed");
-                    return true;
+                    logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                 }
             }
 
@@ -375,40 +386,47 @@ namespace Athyl
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch, Vector2 playerPos)
         {
-            
-            for(int i = 0; i < bullets.Count; i++){
-                bullets[i].Draw(spriteBatch);
-                if (bulletWasFired + bulletLifeTime <= Game1.runTime)
-                {
-                    if (!removeList.Contains(bullets[i]))
-                        removeList.Add(bullets[i]);
-                    try
-                    {
-                        game.world.RemoveBody(bullets[i].body);
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-              //  Console.WriteLine(game.world.BodyList.Count);
-            }
-
-            for (int i = 0; i < meleeBullets.Count; i++)
+            try
             {
-                meleeBullets[i].Draw(spriteBatch);
-                if (bulletWasFired + 0.3f <= (float)Game1.runTime)
+                for (int i = 0; i < bullets.Count; i++)
                 {
-                    if (!meleeremoveList.Contains(meleeBullets[i]))
-                        meleeremoveList.Add(meleeBullets[i]);
-                    try
+                    bullets[i].Draw(spriteBatch);
+                    if (bulletWasFired + bulletLifeTime <= Game1.runTime)
                     {
-                        game.world.RemoveBody(meleeBullets[i].body);
+                        if (!removeList.Contains(bullets[i]))
+                            removeList.Add(bullets[i]);
+                        try
+                        {
+                            game.world.RemoveBody(bullets[i].body);
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
-                    catch (Exception)
-                    {
-                    }
+                    //  Console.WriteLine(game.world.BodyList.Count);
                 }
-                //  Console.WriteLine(game.world.BodyList.Count);
+
+                for (int i = 0; i < meleeBullets.Count; i++)
+                {
+                    meleeBullets[i].Draw(spriteBatch);
+                    if (bulletWasFired + 0.3f <= (float)Game1.runTime)
+                    {
+                        if (!meleeremoveList.Contains(meleeBullets[i]))
+                            meleeremoveList.Add(meleeBullets[i]);
+                        try
+                        {
+                            game.world.RemoveBody(meleeBullets[i].body);
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                    //  Console.WriteLine(game.world.BodyList.Count);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
             }
 
             foreach (DrawableGameObject i in removeList)

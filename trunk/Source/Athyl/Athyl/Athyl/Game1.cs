@@ -244,7 +244,7 @@ namespace Athyl
             }
             catch (Exception ex)
             {
-                logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " +  ex.StackTrace);
+                logger.Fatal("Restart: " + ex.Message + "  " + ex.TargetSite + "  " +  ex.StackTrace);
             }
         }
         #endregion
@@ -363,10 +363,7 @@ namespace Athyl
                 {
                     Exit();
                 }
-                if (keyboardState.IsKeyDown(Keys.R))
-                {
-                    Restart();
-                }
+                
                 Thread.Sleep(20);
             }
         }
@@ -615,13 +612,19 @@ namespace Athyl
 
                     removedAIList.Add(theAI[i]);
 
-
-                    if (removedAIList.Contains(theAI[i]))
+                    try
                     {
-                        world.RemoveBody(theAI[i].wheel.body);
-                        world.RemoveBody(theAI[i].torso.body);
-                        //theAI.RemoveAt(i);
-                       
+                        if (removedAIList.Contains(theAI[i]))
+                        {
+                            world.RemoveBody(theAI[i].wheel.body);
+                            world.RemoveBody(theAI[i].torso.body);
+                            //theAI.RemoveAt(i);
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                     }
 
                 }
@@ -684,12 +687,15 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
-            
+            keyboardState = Keyboard.GetState();
+            if (keyboardState.IsKeyDown(Keys.R))
+            {
+                Restart();
+            }
 
             if (player != null && player.Dead)
             {
-                keyboardState = Keyboard.GetState();
+                
                 player.UpdatePlayer();
 
             }
@@ -829,7 +835,7 @@ namespace Athyl
 
             if (player != null && menu.gameState == Menu.GameState.Playing)
             {
-                projectile.Draw(spriteBatch, player.torso.Position);
+               // projectile.Draw(spriteBatch, player.torso.Position);
                 player.Draw(spriteBatch);
             }
 
