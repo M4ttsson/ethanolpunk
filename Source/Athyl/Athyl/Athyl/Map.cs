@@ -30,6 +30,9 @@ namespace Athyl
         private Color[] colors;
         private Color[,] colors2D;
         private List<DrawableGameObject> body = new List<DrawableGameObject>();
+        private List<Texture2D> middleTexture = new List<Texture2D>();
+        private List<Vector2> middlePosition = new List<Vector2>();
+        private int middleTileNr;
         private List<Texture2D> lvl1 = new List<Texture2D>();
         private List<Texture2D> lvl2 = new List<Texture2D>();
         private List<Texture2D> lvl3 = new List<Texture2D>();
@@ -91,6 +94,11 @@ namespace Athyl
 
         private void randomizeMiddleTexture(int x, int y, Vector2 BodySize)
         {
+            Texture2D t = game.Content.Load<Texture2D>("Lvl" + currentLevel + "Tiles/Middle" + middleTileNr);
+            Vector2 p = new Vector2((x - 1) * 32, y * 32);
+
+            middleTexture.Add(t);
+            middlePosition.Add(p);
         }
 
         private void SetCollisionCategories(DrawableGameObject b, int tileNumber)
@@ -165,6 +173,8 @@ namespace Athyl
             {
                 for (int x = 0; x < 322; x++)
                 {
+                    rand = new Random();
+                    middleTileNr = rand.Next(1, 4);
                     if (colors2D[x, y] == new Color(255, 0, 0))             //Red  LeftUpperCorner
                     {
                         CreateDrawableGameObject(x, y, 0, bodySize, true);
@@ -224,6 +234,10 @@ namespace Athyl
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            for (int i = 0; i < middleTexture.Count; i++)
+            {
+                spriteBatch.Draw(middleTexture[i], middlePosition[i], Color.White);
+            }
             foreach (DrawableGameObject b in body)
             {
                 b.Draw(spriteBatch);
