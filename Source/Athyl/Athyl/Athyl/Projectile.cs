@@ -67,8 +67,8 @@ namespace Athyl
                 spread /= 133;
 
             }
-            
-            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"),new Vector2(10,4), 10, "shot");
+
+            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
             bullet.body.IgnoreGravity = true;
@@ -152,9 +152,9 @@ namespace Athyl
         public void NewBullet(Vector2 position, Vector2 direction, World world, Body wheel, float damage)
         {
             this.damage = damage;
-            
 
-            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"), new Vector2(10, 4), 10, "shot");
+
+            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
             bullet.body.IgnoreGravity = true;
@@ -186,8 +186,8 @@ namespace Athyl
         public void NewMeleeBullet(Vector2 position, Player.Direction direction , World world, float speed, Body wheel, float damage)
         {
             this.damage = damage;
-   
-            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"),new Vector2(10,4), 10, "melee");
+
+            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Fist"), new Vector2(22, 14), 10, "melee");
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
             bullet.body.IgnoreGravity = true;
