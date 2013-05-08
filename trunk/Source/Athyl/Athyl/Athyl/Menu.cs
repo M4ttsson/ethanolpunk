@@ -276,6 +276,7 @@ namespace Athyl
             {
                 MouseClicked(mouseState.X, mouseState.Y, game);
             }
+
             previousMouseState = mouseState;
 
             if (gameState == GameState.Loading)
@@ -530,8 +531,9 @@ namespace Athyl
                 Rectangle restartButtonRect = new Rectangle((int)restartButtonPosition.X, (int)restartButtonPosition.Y, 160, 40);
                 Rectangle gameOverMainMenuButtonRect = new Rectangle((int)gameOverMainMenuButtonPosition.X, (int)gameOverMainMenuButtonPosition.Y, 120, 20);
                 if (mouseClickRect.Intersects(restartButtonRect))
-                {
-                    LoadGame();
+                {                    
+                    game.Restart();
+                    gameState = GameState.Playing;
                 }
                 else if (mouseClickRect.Intersects(gameOverMainMenuButtonRect))
                 {
