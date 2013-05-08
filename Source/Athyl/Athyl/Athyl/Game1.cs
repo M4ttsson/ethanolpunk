@@ -819,7 +819,7 @@ namespace Athyl
                 }
             }
 
-            Console.WriteLine(menu.gameState);
+
             base.Update(gameTime);
         }
 
