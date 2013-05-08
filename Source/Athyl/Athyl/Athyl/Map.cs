@@ -32,13 +32,13 @@ namespace Athyl
         private List<DrawableGameObject> body = new List<DrawableGameObject>();
         private List<Texture2D> middleTexture = new List<Texture2D>();
         private List<Vector2> middlePosition = new List<Vector2>();
-        private int middleTileNr;
+        private int middleTileNr = 1;
+        private Random rand;
         private List<Texture2D> lvl1 = new List<Texture2D>();
         private List<Texture2D> lvl2 = new List<Texture2D>();
         private List<Texture2D> lvl3 = new List<Texture2D>();
         private Texture2D buttonTexture;
         private DrawableGameObject b;
-        private Random rand;
 
         public int currentLevel;
         public DrawableGameObject button;
@@ -48,9 +48,8 @@ namespace Athyl
         {
             this.world = world;
             this.game = game;
-
-            currentLevel = 2;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
-            rand = new Random();
+            
+            currentLevel = 1;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
 
             progress = 1;
 
@@ -93,6 +92,8 @@ namespace Athyl
 
         private void randomizeMiddleTexture(int x, int y, Vector2 BodySize)
         {
+            middleTileNr = rand.Next(1,6);
+
             Texture2D t = game.Content.Load<Texture2D>("Lvl" + currentLevel + "Tiles/Middle" + middleTileNr);
             Vector2 p = new Vector2((x - 1) * 32, y * 32);
 
@@ -167,13 +168,13 @@ namespace Athyl
         #region Draw
         private void DrawTilesOnPlace()
         {
-            Vector2 bodySize = new Vector2(33f, 33f);
+            Vector2 bodySize = new Vector2(32.5f, 32f);
+            
             for (int y = 0; y < 68; y++)
             {
                 for (int x = 0; x < 322; x++)
                 {
-                    rand = new Random();
-                    middleTileNr = rand.Next(1, 4);
+                    rand = new Random((int)(game.TargetElapsedTime.TotalMilliseconds));
                     if (colors2D[x, y] == new Color(255, 0, 0))             //Red  LeftUpperCorner
                     {
                         CreateDrawableGameObject(x, y, 0, bodySize, true);
@@ -231,12 +232,13 @@ namespace Athyl
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)   
         {
             for (int i = 0; i < middleTexture.Count; i++)
             {
                 spriteBatch.Draw(middleTexture[i], middlePosition[i], Color.White);
             }
+
             foreach (DrawableGameObject b in body)
             {
                 b.Draw(spriteBatch);
