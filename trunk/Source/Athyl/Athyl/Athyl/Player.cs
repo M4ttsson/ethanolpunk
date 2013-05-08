@@ -359,7 +359,7 @@ namespace Athyl
                         || direction == Direction.Upright
                         || direction == Direction.Downright)
                     {
-                        projectile.NewMeleeBullet(torso.body.Position, Direction.Right, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                        projectile.NewMeleeBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(22,14)), Direction.Right, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
                         playerAthyl -= skillTree.ethanolConsumption;
                         lastBullet = DateTime.Now;
                     }
@@ -368,7 +368,7 @@ namespace Athyl
                         || direction == Direction.Upleft
                         || direction == Direction.Downleft)
                     {
-                        projectile.NewMeleeBullet(torso.body.Position, Direction.Left, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                        projectile.NewMeleeBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(-22, 14)), Direction.Left, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
                         playerAthyl -= skillTree.ethanolConsumption;
                         lastBullet = DateTime.Now;
                     }
@@ -378,13 +378,13 @@ namespace Athyl
                     {
                         if (lastDirection)
                         {
-                            projectile.NewMeleeBullet(torso.body.Position, Direction.Left, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                            projectile.NewMeleeBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(-22, 14)), Direction.Left, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
                             playerAthyl -= skillTree.ethanolConsumption;
                             lastBullet = DateTime.Now;
                         }
                         else
                         {
-                            projectile.NewMeleeBullet(torso.body.Position, Direction.Right, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                            projectile.NewMeleeBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(22, 14)), Direction.Right, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
                             playerAthyl -= skillTree.ethanolConsumption;
                             lastBullet = DateTime.Now;
                         }
