@@ -399,8 +399,9 @@ namespace Athyl
                         {
                             game.world.RemoveBody(bullets[i].body);
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
+                            logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                         }
                     }
                     //  Console.WriteLine(game.world.BodyList.Count);
@@ -417,8 +418,9 @@ namespace Athyl
                         {
                             game.world.RemoveBody(meleeBullets[i].body);
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
+                            logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                         }
                     }
                     //  Console.WriteLine(game.world.BodyList.Count);
@@ -448,8 +450,9 @@ namespace Athyl
                 {
                     game.world.RemoveBody(i);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                 }
             }
             removeListbody.Clear();
