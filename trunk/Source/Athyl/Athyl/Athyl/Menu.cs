@@ -75,7 +75,8 @@ namespace Athyl
         private Texture2D restartButton2;
         private Texture2D gameOverMainMenuButton2;
         private Texture2D keyboardLayout;
-        private Texture2D Combat, Mid, Long, ColorCombat, ColorMid, ColorLong;
+        private Texture2D Combat, Mid, Long, ColorCombat, ColorMid, ColorLong;      //Button texture
+        private Texture2D BarBorder, BarBorerBkg, AthylTexture, HealthTexture;                    //Hp/Athyl mätare
         private Texture2D GUI;
         
 
@@ -173,6 +174,11 @@ namespace Athyl
             Combat = game.Content.Load<Texture2D>("GUI/NoColorCombat");
             Mid = game.Content.Load<Texture2D>("GUI/NoColorMidrange");
             Long = game.Content.Load<Texture2D>("GUI/NoColorLong");
+
+            BarBorder = game.Content.Load<Texture2D>("GUI/HpAthylBar");
+            BarBorerBkg = game.Content.Load<Texture2D>("GUI/HpAthylBarBkg");
+            HealthTexture = game.Content.Load<Texture2D>("GUI/HpBar");
+            AthylTexture = game.Content.Load<Texture2D>("GUI/AthylBar");
 
             GUI = game.Content.Load<Texture2D>("GUI");
             
@@ -406,9 +412,17 @@ namespace Athyl
 
             ChangeStanceButtons(spriteBatch, player);
 
+            spriteBatch.Draw(BarBorerBkg, new Vector2(-(int)Camera.transform.Translation.X + 32, -(int)Camera.transform.Translation.Y + 15), Color.White);
+            spriteBatch.Draw(BarBorerBkg, new Vector2(-(int)Camera.transform.Translation.X + 32, -(int)Camera.transform.Translation.Y + 32), Color.White);
+            Rectangle bar = new Rectangle(-(int)Camera.transform.Translation.X + 34, -(int)Camera.transform.Translation.Y + 17, (int)(player.playerHpPc) * 218, HealthTexture.Height);
+            Rectangle bar1 = new Rectangle(-(int)Camera.transform.Translation.X + 34, -(int)Camera.transform.Translation.Y + 34, (int)(player.playerHpPc) * 218, HealthTexture.Height);
+            spriteBatch.Draw(HealthTexture, bar, Color.White);
+            spriteBatch.Draw(AthylTexture, bar1, Color.White);
+            spriteBatch.Draw(BarBorder, new Vector2(-(int)Camera.transform.Translation.X + 32, -(int)Camera.transform.Translation.Y + 15), Color.White);
+            spriteBatch.Draw(BarBorder, new Vector2(-(int)Camera.transform.Translation.X + 32, -(int)Camera.transform.Translation.Y + 32), Color.White);
 
-            spriteBatch.DrawString(myFont, "Health: " + (int)player.playerHP, new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 590), Color.DarkRed);
-            spriteBatch.DrawString(myFont, "Ethanol: " + (int)player.playerAthyl, new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 620), Color.LightBlue);
+            //spriteBatch.DrawString(myFont, "Health: " + (int)player.playerHP, new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 590), Color.DarkRed);
+            //spriteBatch.DrawString(myFont, "Ethanol: " + (int)player.playerAthyl, new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 620), Color.LightBlue);
             spriteBatch.DrawString(myFont, "Exp: " + player.playerXP.ToString() + " / " + (int)player.xpRequiredPerLevel, new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 650), Color.Green);
             spriteBatch.DrawString(myFont, "Level: " + player.playerLevel.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 680), Color.Wheat);
 
