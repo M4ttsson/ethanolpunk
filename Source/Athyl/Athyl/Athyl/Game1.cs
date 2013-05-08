@@ -452,6 +452,8 @@ namespace Athyl
             {
                 player.wheel.body.Enabled = false;
                 player.Crouching = true;
+
+                
             }
             else if (!player.OnGround)
             {
@@ -460,12 +462,6 @@ namespace Athyl
                 
 
 
-                    /*if(keyboardState.IsKeyDown(Keys.Left)){
-                        player.direction = Player.Direction.Left;
-                    }
-                    else if(keyboardState.IsKeyDown(Keys.Right)){
-                        player.direction = Player.Direction.Right;
-                    }*/
 
 
 
@@ -780,16 +776,11 @@ namespace Athyl
                         if (d.ethanolDrop)
                         {
                             removedDropsList.Add(d);
-
-
-
-
                         }
 
                         else if (d.hpDrop)
                         {
                             removedDropsList.Add(d);
-
                         }
                     }
 
@@ -801,7 +792,6 @@ namespace Athyl
                             world.RemoveBody(removedDropsList[i].hpBox.body);
                             world.RemoveBody(removedDropsList[i].ethanolBox.body);
                             drops.Remove(removedDropsList[i]);
-
                         }
                     }
                     catch (Exception ex)
