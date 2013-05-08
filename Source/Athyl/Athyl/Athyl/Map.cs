@@ -49,7 +49,7 @@ namespace Athyl
             this.world = world;
             this.game = game;
             
-            currentLevel = 3;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
+            currentLevel = 1;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
 
             progress = 1;
 
@@ -169,11 +169,12 @@ namespace Athyl
         private void DrawTilesOnPlace()
         {
             Vector2 bodySize = new Vector2(33f, 33f);
+
             for (int y = 0; y < 68; y++)
             {
                 for (int x = 0; x < 322; x++)
                 {
-                    rand = new Random((int)(game.TargetElapsedTime.TotalMilliseconds));
+                    rand = new Random();
                     if (colors2D[x, y] == new Color(255, 0, 0))             //Red  LeftUpperCorner
                     {
                         CreateDrawableGameObject(x, y, 0, bodySize, true);
