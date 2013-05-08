@@ -401,16 +401,16 @@ namespace Athyl
                         {
                             Vector2 direction = new Vector2((crossHairPosition.X + 16) - torso.Position.X, (crossHairPosition.Y + 16) - torso.Position.Y);
                             direction.Normalize();
-                            projectile.NewBullet(torso.body.Position, direction, world, wheel.body, skillTree.damage);
+                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(22, 12)), direction, world, wheel.body, skillTree.damage);
                         }
                         else
                         {
-                            projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
+                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(22, 14)), direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
                         }
                     }
                     else
                     {
-                        projectile.NewBullet(torso.body.Position, direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
+                        projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(-22, 14)), direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
                     }
                     playerAthyl -= skillTree.ethanolConsumption;
 
