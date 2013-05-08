@@ -169,12 +169,11 @@ namespace Athyl
         private void DrawTilesOnPlace()
         {
             Vector2 bodySize = new Vector2(33f, 33f);
-
-            rand = new Random((int)(game.TargetElapsedTime.TotalMilliseconds));
             for (int y = 0; y < 68; y++)
             {
                 for (int x = 0; x < 322; x++)
                 {
+                    rand = new Random((int)(game.TargetElapsedTime.TotalMilliseconds));
                     if (colors2D[x, y] == new Color(255, 0, 0))             //Red  LeftUpperCorner
                     {
                         CreateDrawableGameObject(x, y, 0, bodySize, true);
