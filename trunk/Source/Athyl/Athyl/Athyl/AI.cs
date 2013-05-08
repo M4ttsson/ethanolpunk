@@ -91,6 +91,7 @@ namespace Athyl
                     break;
 
                 case Behavior.Boss:
+                    Load(texture, 2, 7, 1, 1);
                     fireRate = 0.5f;
                     enemyHP = 1512;
                     jumpForce = new Vector2(0, -12);

@@ -333,7 +333,7 @@ namespace Athyl
                                     break;
 
                                 case 9:
-                                    theAI.Add(new AI(world, enemyTexture, new Vector2(84, 120), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Boss, "boss"));
+                                    theAI.Add(new AI(world, Content.Load<Texture2D>("Ai/BossRun"), new Vector2(124, 176), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Boss, "boss"));
                                     break;
 
                                 default:
