@@ -372,20 +372,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="walljump.png">
-      <Name>walljump</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Player\walljump.png">
-      <Name>walljump</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Menu items\ExitButtonHighlight.png">
       <Name>ExitButtonHighlight</Name>
       <Importer>TextureImporter</Importer>
@@ -656,6 +642,13 @@
   <ItemGroup>
     <Compile Include="Lvl3Tiles\Map.png">
       <Name>Map</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Player\walljump.png">
+      <Name>walljump</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
