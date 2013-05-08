@@ -891,6 +891,7 @@ namespace Athyl
                 spriteBatch.Draw(progressBar, sp.SpawnTriggerRect, Color.White);
             }
             */
+
             spriteBatch.End();
 
             base.Draw(gameTime);

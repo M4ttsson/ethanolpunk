@@ -75,6 +75,8 @@ namespace Athyl
         private Texture2D restartButton2;
         private Texture2D gameOverMainMenuButton2;
         private Texture2D keyboardLayout;
+        private Texture2D Combat, Mid, Long, ColorCombat, ColorMid, ColorLong;
+        private Texture2D GUI;
         
 
         Vector2 soundSliderPosition;
@@ -165,7 +167,15 @@ namespace Athyl
             keyboardLayout = game.Content.Load<Texture2D>("Menu items/ControlMenu");
             myFont = game.Content.Load<SpriteFont>("font");
 
+            ColorCombat = game.Content.Load<Texture2D>("GUI/ColorCombat");
+            ColorMid = game.Content.Load<Texture2D>("GUI/ColorMidrange");
+            ColorLong = game.Content.Load<Texture2D>("GUI/ColorLong");
+            Combat = game.Content.Load<Texture2D>("GUI/NoColorCombat");
+            Mid = game.Content.Load<Texture2D>("GUI/NoColorMidrange");
+            Long = game.Content.Load<Texture2D>("GUI/NoColorLong");
 
+            GUI = game.Content.Load<Texture2D>("GUI");
+            
             this.TimePerFrame = (float)1 / 1;
             this.TotalElapsed = 0;
         }
@@ -391,14 +401,41 @@ namespace Athyl
             {
                 totalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
+
+            //spriteBatch.Draw(GUI, new Vector2(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y), Color.White);
+
+            ChangeStanceButtons(spriteBatch, player);
+
+
             spriteBatch.DrawString(myFont, "Health: " + (int)player.playerHP, new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 590), Color.DarkRed);
             spriteBatch.DrawString(myFont, "Ethanol: " + (int)player.playerAthyl, new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 620), Color.LightBlue);
             spriteBatch.DrawString(myFont, "Exp: " + player.playerXP.ToString() + " / " + (int)player.xpRequiredPerLevel, new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 650), Color.Green);
             spriteBatch.DrawString(myFont, "Level: " + player.playerLevel.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 680), Color.Wheat);
-            
-            spriteBatch.DrawString(myFont, "Time: " + totalTime.ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10,-(int)Camera.transform.Translation.Y + 560), Color.Violet);
+
+            spriteBatch.DrawString(myFont, "Time: " + totalTime.ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 560), Color.Violet);
         }
 
+        public void ChangeStanceButtons(SpriteBatch spriteBatch, Player player)
+        {
+            if (player.Stance == Player.Stances.CloseRange)
+            {
+                spriteBatch.Draw(ColorCombat, new Vector2(-(int)Camera.transform.Translation.X + 575, -(int)Camera.transform.Translation.Y + 20), Color.White);
+                spriteBatch.Draw(Mid, new Vector2(-(int)Camera.transform.Translation.X + 623, -(int)Camera.transform.Translation.Y + 20), Color.White);
+                spriteBatch.Draw(Long, new Vector2(-(int)Camera.transform.Translation.X + 671, -(int)Camera.transform.Translation.Y + 20), Color.White);
+            }
+            else if (player.Stance == Player.Stances.MidRange)
+            {
+                spriteBatch.Draw(Combat, new Vector2(-(int)Camera.transform.Translation.X + 575, -(int)Camera.transform.Translation.Y + 20), Color.White);
+                spriteBatch.Draw(ColorMid, new Vector2(-(int)Camera.transform.Translation.X + 623, -(int)Camera.transform.Translation.Y + 20), Color.White);
+                spriteBatch.Draw(Long, new Vector2(-(int)Camera.transform.Translation.X + 671, -(int)Camera.transform.Translation.Y + 20), Color.White);
+            }
+            else
+            {
+                spriteBatch.Draw(Combat, new Vector2(-(int)Camera.transform.Translation.X + 575, -(int)Camera.transform.Translation.Y + 20), Color.White);
+                spriteBatch.Draw(Mid, new Vector2(-(int)Camera.transform.Translation.X + 623, -(int)Camera.transform.Translation.Y + 20), Color.White);
+                spriteBatch.Draw(ColorLong, new Vector2(-(int)Camera.transform.Translation.X + 671, -(int)Camera.transform.Translation.Y + 20), Color.White);
+            }
+        }
         
 
         /// <summary>
