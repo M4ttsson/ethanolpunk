@@ -757,7 +757,7 @@ namespace Athyl
                 //spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
                 //spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y + 250, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
                 spriteBatch.Draw(originalReturnButton, new Rectangle(-(int)Camera.transform.Translation.X + 600 - returnButton.Width / 2, -(int)Camera.transform.Translation.Y + 100, returnButton.Width, returnButton.Height), Color.White);
-                spriteBatch.Draw(game.Content.Load<Texture2D>("Menu items/Loremipsum"), new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y + 20, 1280, 720), Color.White);
+                spriteBatch.Draw(game.Content.Load<Texture2D>("Menu items/Story"), new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y + 20, 1280, 720), Color.White);
             }
             if (gameState == GameState.GameOver)
             {
