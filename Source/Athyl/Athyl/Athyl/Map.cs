@@ -49,7 +49,7 @@ namespace Athyl
             this.world = world;
             this.game = game;
 
-            currentLevel = 3;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
+            currentLevel = 2;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
             rand = new Random();
 
             progress = 1;
@@ -62,8 +62,7 @@ namespace Athyl
         {   
             ReadingTilesTextureToList();
 
-            //ReadMapLayout(game.Content.Load<Texture2D>("Lvl" + currentLevel + "Tiles/Map"));
-            ReadMapLayout(game.Content.Load<Texture2D>("Lvl" + 2 + "Tiles/Map"));
+            ReadMapLayout(game.Content.Load<Texture2D>("Lvl" + currentLevel + "Tiles/Map"));
             buttonTexture = game.Content.Load<Texture2D>("buttons/button");
 
             DrawTilesOnPlace();
