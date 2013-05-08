@@ -839,9 +839,8 @@ namespace Athyl
 
             if (player != null && menu.gameState == Menu.GameState.Playing)
             {
-                player.Draw(spriteBatch);
-
                 projectile.Draw(spriteBatch, player.torso.Position);
+                player.Draw(spriteBatch);
             }
 
             foreach(Drops d in drops)
