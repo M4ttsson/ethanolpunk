@@ -118,7 +118,6 @@ namespace Athyl
 
             camera = new Camera(GraphicsDevice.Viewport);
 
-            logger.Info("Initialized");
             base.Initialize();
         }
         /// <summary>
@@ -129,7 +128,7 @@ namespace Athyl
             map = new Map(world, this);
             menu.gameState = Menu.GameState.Playing;
             menu.isLoading = true;
-            logger.Info("map loaded");
+            
         }
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -167,10 +166,8 @@ namespace Athyl
             world.ContactManager.BeginContact += BeginContact;
             world.ContactManager.EndContact += EndContact;
 
-       
+            logger.Info("testlogg");
             timer.Start();
-
-            logger.Info("World created");
         }
 
         /// <summary>
