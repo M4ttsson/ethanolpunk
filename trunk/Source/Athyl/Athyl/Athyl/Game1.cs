@@ -166,7 +166,6 @@ namespace Athyl
             world.ContactManager.BeginContact += BeginContact;
             world.ContactManager.EndContact += EndContact;
 
-            logger.Info("testlogg");
             timer.Start();
         }
 
