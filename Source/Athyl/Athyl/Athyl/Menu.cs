@@ -271,19 +271,6 @@ namespace Athyl
         }
 
         /// <summary>
-        /// Starting the game after that the thread has been inactive for 6 sec.
-        /// </summary>
-        public void LoadGame()
-        {
-            Thread.Sleep(6000);
-
-            gameState = GameState.Playing;
-           
-            isLoading = true;
-
-        }
-
-        /// <summary>
         /// UpdateMenu used to handle different states. Pausing the game and keeping track on if the mouse is clicked on buttons.
         /// </summary>
         /// <param name="gametime"></param>
