@@ -596,8 +596,8 @@ namespace Athyl
             }
             if (gameState == GameState.GameOver)
             {
-                Rectangle restartButtonRect = new Rectangle((int)restartButtonPosition.X, (int)restartButtonPosition.Y, 160, 40);
-                Rectangle gameOverMainMenuButtonRect = new Rectangle((int)gameOverMainMenuButtonPosition.X, (int)gameOverMainMenuButtonPosition.Y, 120, 20);
+                Rectangle restartButtonRect = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - restartButton.Width / 2 + 10), (game.GraphicsDevice.Viewport.Height / 2 + 15), 140, 20);
+                Rectangle gameOverMainMenuButtonRect = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - mainMenuButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 + 60), 190, 20);
                 if (mouseClickRect.Intersects(restartButtonRect))
                 {                    
                     game.Restart();
@@ -628,10 +628,10 @@ namespace Athyl
             Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X + 20, (int)startButtonPosition.Y + 28, 120, 30);
             Rectangle storyButtonRect = new Rectangle((int)storyButtonPosition.X + 20, (int)storyButtonPosition.Y + 10, 120, 30);
             Rectangle pausedReturnButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - returnButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 240, 120, 20);
-            Rectangle startReturnButtonRect = new Rectangle((int)returnButtonPosition.X + 20, (int)returnButtonPosition.Y -180, 120, 30);
+            Rectangle startReturnButtonRect = new Rectangle((int)returnButtonPosition.X + 10, (int)returnButtonPosition.Y -180, 120, 30);
             Rectangle skillTreeButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - skillTreeButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2 - 65, 160, 20);
-            Rectangle restartButtonRect = new Rectangle((int)game.GraphicsDevice.Viewport.Width / 2 - restartButton.Width, (int)game.GraphicsDevice.Viewport.Height / 2, 160, 40);
-            Rectangle gameOverMainMenuButtonRect = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - mainMenuButton.Width), (game.GraphicsDevice.Viewport.Height / 2 + 40), 120, 20);
+            Rectangle restartButtonRect = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - restartButton.Width / 2 + 20), (game.GraphicsDevice.Viewport.Height / 2 + 15), 140, 20);
+            Rectangle gameOverMainMenuButtonRect = new Rectangle((game.GraphicsDevice.Viewport.Width / 2 - mainMenuButton.Width / 2), (game.GraphicsDevice.Viewport.Height / 2 + 60), 190, 20);
 
             if (mouseClickRect.Intersects(resumeButtonRect))
             {
