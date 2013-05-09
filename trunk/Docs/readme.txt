@@ -1,11 +1,3 @@
-**********
-*VIKTIGT!*
-**********
-
-NÄR DU SPELAR ÄTHYL SÅ KOMMER INFORMATION SKICKAS TILL OSS FRÅN SPELET OM NÅGOT GÅR FEL. DETTA FÖR ATT VI SKA KUNNA FELSÖKA ALLA PROBLEM SOM DYKER UPP UNDER ALPHATESTET. INGEN PERSONLIG INFORMATION KOMMER ATT SKICKAS, BARA FELMEDDELANDET SOM SPELET GENERERAR. 
-
-OM DU INTE VILL ATT INFORMATIONEN SKA SKICKAS: SPELA INTE SPELET!
-
 
 Introduktion
 ============
@@ -32,6 +24,7 @@ Ge oss feedback!
 ================
 
 Alla tankar, buggar och problem du stöter på, rapportera det! Skriv ett mail till skic.skicsson@gmail.com
+Skicka även gärna in log.txt filen som ligger i installationsmappen.
 Tack på förhand!
 
 Kontroller
