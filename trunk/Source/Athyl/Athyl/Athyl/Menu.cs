@@ -109,6 +109,8 @@ namespace Athyl
         MouseState mouseState;
         MouseState previousMouseState;
 
+        KeyboardState prevKeyboardState;
+
 
         private Sounds soundManager;
         public GameState gameState;
@@ -324,9 +326,16 @@ namespace Athyl
                 gameState = GameState.Playing;
             }
 
-            if(kbState.IsKeyDown(Keys.N))
+            if(kbState.IsKeyDown(Keys.N) && !prevKeyboardState.IsKeyDown(Keys.N))
             {
-                LevelUpMenu(game);
+                if (gameState == GameState.Playing)
+                {
+                    LevelUpMenu(game);
+                }
+                else
+                {
+                    gameState = GameState.Playing;
+                }
             }
             
 
@@ -384,6 +393,7 @@ namespace Athyl
 
             MouseOver(mouseState.X, mouseState.Y, game);
 
+            prevKeyboardState = kbState;
         }
 
         /// <summary>
