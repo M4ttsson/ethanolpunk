@@ -50,6 +50,7 @@ namespace Athyl
         public float playerHP;
         public float playerHpPc;
         public float playerAthyl = 500;
+        public float playerAthylPc;
         public int playerXP = 0;
         public int playerLevel = 1;
         public Direction direction;
