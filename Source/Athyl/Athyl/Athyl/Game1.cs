@@ -520,7 +520,7 @@ namespace Athyl
 
             
 
-            if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
+            /*if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {
 
                 theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(50, 1300), 100, 20, this, AI.Behavior.Patrol, "enemy"));
@@ -536,7 +536,7 @@ namespace Athyl
 
                     }
                 }
-            }
+            }*/
 
             prevKeyboardState = keyboardState;
 
