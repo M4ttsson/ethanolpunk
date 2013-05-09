@@ -9,8 +9,10 @@ namespace Athyl
         /// </summary>
         static void Main(string[] args)
         {
+            Encryption.ToggleConfigEncryption("Athyl.exe");
             using (Game1 game = new Game1())
             {
+                Encryption.ToggleConfigEncryption("Athyl.exe");
                 game.Run();
 
             }
