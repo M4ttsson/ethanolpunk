@@ -717,7 +717,6 @@ namespace Athyl
             }
             else if (player != null)
             {
-                
                 if (menu.gameState == Menu.GameState.Paused)
                 {
                     timer.Stop();
