@@ -418,8 +418,8 @@ namespace Athyl
 
             //spriteBatch.DrawString(myFont, "Health: " + (int)player.playerHP, new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 590), Color.DarkRed);
             //spriteBatch.DrawString(myFont, "Ethanol: " + (int)player.playerAthyl, new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 620), Color.LightBlue);
-            spriteBatch.DrawString(myFont,player.playerXP.ToString() + " / " + (int)player.xpRequiredPerLevel, new Vector2(-(int)Camera.transform.Translation.X + 1050, -(int)Camera.transform.Translation.Y + 20), Color.Red);
-            spriteBatch.DrawString(myFont, "Lvl: " + player.playerLevel.ToString(), new Vector2(-(int)Camera.transform.Translation.X + 1150, -(int)Camera.transform.Translation.Y + 20), Color.Red);
+            //spriteBatch.DrawString(myFont,player.playerXP.ToString() + " / " + (int)player.xpRequiredPerLevel, new Vector2(-(int)Camera.transform.Translation.X + 1050, -(int)Camera.transform.Translation.Y + 20), Color.Red);
+            spriteBatch.DrawString(myFont, "Exp:", new Vector2(-(int)Camera.transform.Translation.X + 970, -(int)Camera.transform.Translation.Y + 20), Color.Red);
             //spriteBatch.DrawString(myFont, "Time: " + totalTime.ToString("0"), new Vector2(-(int)Camera.transform.Translation.X + 10, -(int)Camera.transform.Translation.Y + 560), Color.Violet);
         }
 
