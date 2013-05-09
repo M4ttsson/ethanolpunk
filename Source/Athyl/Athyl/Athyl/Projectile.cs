@@ -45,7 +45,7 @@ namespace Athyl
         {
             this.game = game;
 
-            bulletLifeTime = 5.0f;
+            bulletLifeTime = 10.0f;
         }
         #endregion
         #region AddBullet
@@ -410,7 +410,7 @@ namespace Athyl
                 for (int i = 0; i < meleeBullets.Count; i++)
                 {
                     meleeBullets[i].Draw(spriteBatch);
-                    if (bulletWasFired + 0.3f <= (float)Game1.runTime)
+                    if (bulletWasFired + 0.5f <= (float)Game1.runTime)
                     {
                         if (!meleeremoveList.Contains(meleeBullets[i]))
                             meleeremoveList.Add(meleeBullets[i]);
