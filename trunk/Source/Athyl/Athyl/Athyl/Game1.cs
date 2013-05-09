@@ -695,6 +695,7 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            menu.UpdateMenu(gameTime, this, player);
             keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.R))
             {
@@ -714,7 +715,7 @@ namespace Athyl
                     Restart();
                 }
 
-                menu.UpdateMenu(gameTime, this, player);
+                
                 if (menu.gameState == Menu.GameState.Paused)
                 {
                     timer.Stop();
