@@ -661,13 +661,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu items\Story.png">
-      <Name>Story</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Ai\BossDie.png">
       <Name>BossDie</Name>
       <Importer>TextureImporter</Importer>
@@ -856,6 +849,13 @@
     </Compile>
     <Compile Include="GUI\ExpBorder.png">
       <Name>ExpBorder</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Menu items\Story.png">
+      <Name>Story</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
