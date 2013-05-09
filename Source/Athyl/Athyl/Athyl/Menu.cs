@@ -78,7 +78,7 @@ namespace Athyl
         private Texture2D Combat, Mid, Long, ColorCombat, ColorMid, ColorLong;      //Button texture
         private Texture2D BarBorder, BarBorerBkg, AthylTexture, HealthTexture;      //Hp/Athyl mätare
         private Texture2D ExpBorder, ExpBar, ExpBarBkg;                             //Exp mätare
-        private Texture2D GUI;
+        private Texture2D SkilltreeCombat, SkilltreeMid, SkilltreeLong;
         
 
         Vector2 soundSliderPosition;
@@ -187,8 +187,10 @@ namespace Athyl
             ExpBarBkg = game.Content.Load<Texture2D>("GUI/ExpBarBKG");
             ExpBorder = game.Content.Load<Texture2D>("GUI/ExpBorder");
 
-            GUI = game.Content.Load<Texture2D>("GUI");
-            
+            SkilltreeCombat = game.Content.Load<Texture2D>("Menu items/TalentTreeClose");
+            SkilltreeMid = game.Content.Load<Texture2D>("Menu items/TalentTreeMiddle");
+            SkilltreeLong = game.Content.Load<Texture2D>("Menu items/TalentTreeLong");
+
             this.TimePerFrame = (float)1 / 1;
             this.TotalElapsed = 0;
         }
@@ -327,7 +329,7 @@ namespace Athyl
             }
 
 
-            if(kbState.IsKeyDown(Keys.N) && !prevKeyboardState.IsKeyDown(Keys.N) && player.NextLevel)
+            if(kbState.IsKeyDown(Keys.N) && !prevKeyboardState.IsKeyDown(Keys.N))// && player.NextLevel)
             {
                 if (gameState == GameState.Playing)
                 {
@@ -743,7 +745,7 @@ namespace Athyl
         /// </summary>
         /// <param name="spriteBatch"></param>
         /// <param name="game"></param>
-        public void Draw(SpriteBatch spriteBatch, Game1 game)
+        public void Draw(SpriteBatch spriteBatch, Game1 game, Player player)
         {
 
             if (gameState == GameState.StartMenu)
@@ -847,9 +849,15 @@ namespace Athyl
             if (gameState == GameState.LevelUp)
             {
                 spriteBatch.Draw(pauseMenuBackgroundBack, new Rectangle(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y, (int)1280, (int)720), Color.White);
-                //spriteBatch.Draw(pauseMenuBackgroundFront, new Rectangle(-(int)Camera.transform.Translation.X + 405, -(int)Camera.transform.Translation.Y + 150, pauseMenuBackgroundFront.Width, pauseMenuBackgroundFront.Height), Color.White);
-                //spriteBatch.Draw(originalSkillTreeButton, new Rectangle(-(int)Camera.transform.Translation.X + 580 - skillTreeButton.Width / 2, -(int)Camera.transform.Translation.Y + 270, skillTreeButton.Width, skillTreeButton.Height), Color.White);
-                spriteBatch.DrawString(myFont, "Upgrade\n Press 1 for close combat\n Press 2 for middle combat\n Press 3 for range combat", new Vector2(-(int)Camera.transform.Translation.X + 400, -(int)Camera.transform.Translation.Y + 300), Color.White);
+                spriteBatch.Draw(SkilltreeCombat, new Rectangle(-(int)Camera.transform.Translation.X + 250, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeCombat.Width, (int)SkilltreeCombat.Height), Color.White);
+                spriteBatch.Draw(SkilltreeMid, new Rectangle(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeMid.Width, (int)SkilltreeMid.Height), Color.White);
+                spriteBatch.Draw(SkilltreeLong, new Rectangle(-(int)Camera.transform.Translation.X + 850, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeLong.Width, (int)SkilltreeLong.Height), Color.White);
+                spriteBatch.DrawString(myFont, "Close", new Vector2(-(int)Camera.transform.Translation.X + 280, -(int)Camera.transform.Translation.Y + 160), Color.Green, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
+                spriteBatch.DrawString(myFont, "Middle", new Vector2(-(int)Camera.transform.Translation.X + 580, -(int)Camera.transform.Translation.Y + 160), Color.Red, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
+                spriteBatch.DrawString(myFont, "Range", new Vector2(-(int)Camera.transform.Translation.X + 880, -(int)Camera.transform.Translation.Y + 160), Color.Blue, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
+
+                if(player.NextLevel)
+                    spriteBatch.DrawString(myFont, "Upgrade\n Press 1 for close combat\n Press 2 for middle combat\n Press 3 for range combat", new Vector2(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 560), Color.White);
             }
         }
     }

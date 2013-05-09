@@ -886,7 +886,7 @@ namespace Athyl
                 menu.DrawPlayerInfo(spriteBatch, GraphicsDevice, player, myFont, gameTime);
             }
 
-            menu.Draw(spriteBatch, this);
+            menu.Draw(spriteBatch, this, player);
             //Writes out Game Over when the player dies
             if (player != null && player.Dead == true)
             {
