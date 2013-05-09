@@ -673,7 +673,7 @@ namespace Athyl
                         logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                     }
 
-                    player.playerXP += 30;
+                    player.playerXP += 3;
                     timedBonusXP += 3;
                 }
 
