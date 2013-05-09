@@ -201,7 +201,7 @@ namespace Athyl
                 player = null;
 
                 //player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(8385, 1000), this, "player");
-                player = new Player(world, playerTexture, new Vector2(60, 88), 100, new Vector2(60, 1300), this, "player");
+                player = new Player(world, playerTexture, new Vector2(60, 88), 100, new Vector2(100, 1300), this, "player");
 
                 //reset spawnpoints
                 foreach (Spawn sp in spawnpoints)
@@ -710,11 +710,6 @@ namespace Athyl
             }
             else if (player != null)
             {
-                if (world.TestPoint(new Vector2(player.torso.Position.X + player.torso.Size.X, player.torso.Position.Y)
-                {
-                    Restart();
-                }
-
                 
                 if (menu.gameState == Menu.GameState.Paused)
                 {
@@ -816,6 +811,20 @@ namespace Athyl
                     catch (Exception ex)
                     {
                         logger.Fatal(ex.Message + "  " + ex.TargetSite +  "  " + ex.StackTrace);
+                    }
+
+                    Fixture fixture = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(player.torso.Position.X + player.torso.Size.X, player.torso.Position.Y)));
+
+                    if (fixture != null && fixture.Body.FixtureList[0].UserData.ToString() == "goal")
+                    {
+                        //map = null;
+                        //Load();
+                        map.currentLevel++;
+
+                        if (map.currentLevel > 3)
+                            map.currentLevel = 1;
+
+                        Restart();
                     }
                     world.Step(0.033333f);
 
