@@ -1,0 +1,24 @@
+- esc stänger av, står att det ska pausa
+
+-skicka med xna redistributable
+
+- "glida ner för kant medan man duckar
+
+- Close op?
+
+- ducka under bossens skott
+
+- Melee kräver >0 etanol
+
+-ducka på fiendens huvud
+
+- dubbeljumpa ashögt
+
+- tryck uppåt och åt sidan knapparna samtidigt, går inte skjuta i long range
+
+- Main menu knapp bugg efter game over
+
+- Trycka på N får spelet att bugga under laddning
+
+- Får game over i huvudmenyn om man trycker N.
+
