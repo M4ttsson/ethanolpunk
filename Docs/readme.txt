@@ -26,6 +26,8 @@ Du kan byta mellan alla stances när du vill med 1, 2 och 3. När du har dödat ett
 
 Ibland när man dör och ska starta om så buggar det ur. Stöter du på ett problem, tryck R.
 
+Walljumps! Walljumps finns i det här spelet och det är precis vad det låter som; hoppa från väggar. Hoppa, rör en vägg och tryck hoppa igen så kan du komma lite högre. Det kräver lite träning, men tillslut så får man till det!
+
 Ge oss feedback!
 ================
 
