@@ -217,6 +217,13 @@ namespace Athyl
                     {
                         CreateDrawableGameObject(x, y, 8, bodySize, true);
                     }
+                    else if (colors2D[x, y] == new Color(121, 0, 0))                //Goal Tiles;
+                    {
+                        b = new DrawableGameObject(world, lvl3[0], bodySize, 0, "goal");
+                        b.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
+                        b.body.BodyType = BodyType.Static;
+                        b.body.CollisionCategories = Category.Cat13;
+                    }
                     else if (colors2D[x, y] == new Color(150, 150, 150))         //Quest Button
                     {
                         button = new DrawableGameObject(world, buttonTexture, 0, "button");
