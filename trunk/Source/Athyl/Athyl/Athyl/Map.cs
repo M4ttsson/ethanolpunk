@@ -51,6 +51,8 @@ namespace Athyl
             
             currentLevel = 1;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
 
+            rand = new Random();
+
             progress = 1;
 
             InializeMap();
@@ -92,7 +94,7 @@ namespace Athyl
 
         private void randomizeMiddleTexture(int x, int y, Vector2 BodySize)
         {
-            middleTileNr = rand.Next(1,9);
+            //middleTileNr = rand.Next(1,9);
 
             Texture2D t = game.Content.Load<Texture2D>("Lvl" + currentLevel + "Tiles/Middle" + middleTileNr);
             Vector2 p = new Vector2((x - 1) * 32, y * 32);
@@ -172,9 +174,13 @@ namespace Athyl
 
             for (int y = 0; y < 68; y++)
             {
+                middleTileNr++;
+
+                if (middleTileNr > 9)
+                    middleTileNr = 1;
+
                 for (int x = 0; x < 322; x++)
                 {
-                    rand = new Random();
                     if (colors2D[x, y] == new Color(255, 0, 0))             //Red  LeftUpperCorner
                     {
                         CreateDrawableGameObject(x, y, 0, bodySize, true);
@@ -230,11 +236,26 @@ namespace Athyl
                 }
                 progress++;
             }
+            RandomizeList();
+        }
+
+        public void RandomizeList()
+        {
+            int n = middlePosition.Count;
+
+            while (n > 1)
+            {
+                n--;
+                int k = rand.Next(n + 1);
+                Vector2 value = middlePosition[k];
+                middlePosition[k] = middlePosition[n];
+                middlePosition[n] = value;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)   
         {
-            for (int i = 0; i < middleTexture.Count; i++)
+            for (int i = 0; i < middlePosition.Count; i++)
             {
                 spriteBatch.Draw(middleTexture[i], middlePosition[i], Color.White);
             }
