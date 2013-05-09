@@ -8,7 +8,7 @@
 
 - ducka under bossens skott
 
-- Melee kräver >0 etanol
+- Melee kräver >0 etanol  (Fixed)
 
 -ducka på fiendens huvud
 
