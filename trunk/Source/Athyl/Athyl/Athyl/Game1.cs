@@ -186,8 +186,11 @@ namespace Athyl
         {
             try
             {
+                
+                
                 foreach (AI ai in theAI)
                 {
+                    ai.projectile.Clear(world);
                     world.RemoveBody(ai.wheel.body);
                     world.RemoveBody(ai.torso.body);
                 }
@@ -197,17 +200,6 @@ namespace Athyl
                 {
                     world.RemoveBody(player.torso.body);
                     world.RemoveBody(player.wheel.body);
-                }
-                player = null;
-
-                //player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(8385, 1000), this, "player");
-                player = new Player(world, playerTexture, new Vector2(60, 88), 100, new Vector2(100, 1300), this, "player");
-
-                //reset spawnpoints
-                foreach (Spawn sp in spawnpoints)
-                {
-                    if (sp.Visited)
-                        sp.Visited = false;
                 }
 
                 if (drops.Count > 0)
@@ -219,6 +211,21 @@ namespace Athyl
 
                     }
                 }
+                if (player != null)
+                    player.projectile.Clear(world);
+
+                player = null;
+                //player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(8385, 1000), this, "player");
+                player = new Player(world, playerTexture, new Vector2(60, 88), 100, new Vector2(100, 1300), this, "player");
+
+                //reset spawnpoints
+                foreach (Spawn sp in spawnpoints)
+                {
+                    if (sp.Visited)
+                        sp.Visited = false;
+                }
+
+               
 
                 drops.Clear();
 
