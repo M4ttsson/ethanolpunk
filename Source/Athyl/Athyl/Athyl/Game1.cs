@@ -118,7 +118,6 @@ namespace Athyl
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
 
             camera = new Camera(GraphicsDevice.Viewport);
-            logger.Info("test");
             base.Initialize();
         }
         /// <summary>
