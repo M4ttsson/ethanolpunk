@@ -364,7 +364,7 @@ namespace Athyl
         /// <param name="world"></param>
         public virtual void useWeapon(World world)
         {
-            if (playerAthyl > 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
+            if (playerAthyl >= 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
             {
                 if (stance == Stances.CloseRange)
                 {
@@ -404,7 +404,7 @@ namespace Athyl
                     }
 
                 }
-                else
+                else if (playerAthyl > 0)
                 {
                     bool sniper = (Stance == Stances.LongRange) ? true : false;
 
