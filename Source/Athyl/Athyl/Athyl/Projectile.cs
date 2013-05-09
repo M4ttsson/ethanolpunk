@@ -380,6 +380,24 @@ namespace Athyl
             return false;
         }
 
+        public void Clear(World world)
+        {
+            foreach (DrawableGameObject d in bullets)
+            {
+                world.RemoveBody(d.body);  
+            }
+            bullets.Clear();
+            foreach (DrawableGameObject d in meleeBullets)
+            {
+                world.RemoveBody(d.body);
+            }
+            meleeBullets.Clear();
+            meleeremoveList.Clear();
+            meleeremoveListbody.Clear();
+            removeList.Clear();
+            removeListbody.Clear();
+        }
+
         /// <summary>
         /// Ritar projektiler. Tar bort alla kulor som träffar något eller har varit aktiva för länge
         /// </summary>
