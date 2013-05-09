@@ -28,7 +28,7 @@ namespace Athyl
         public DrawableGameObject hpBox;
         Texture2D ethanolTexture, hpTexture;
         Player playerz;
-
+ 
         World world;
         Game1 gamez;
         public List<DrawableGameObject> hpList = new List<DrawableGameObject>();
@@ -44,7 +44,6 @@ namespace Athyl
             hpBox = new DrawableGameObject(world, hpTexture, new Vector2(32, 32), 1, "hpBox", 0);
             ethanolBox.body.OnCollision += PickupsForPlayer;
             hpBox.body.OnCollision += PickupsForPlayer;
-
 
             hpBox.body.FixedRotation = true;
             ethanolBox.body.FixedRotation = true;
@@ -75,7 +74,7 @@ namespace Athyl
 
                 if (playerz.Stance == Player.Stances.CloseRange)
                 {
-                    if (random % 4 == 0 || random % 5 == 0)
+                    if (random % 3 == 0 || random % 3 == 2)
                     {
                         //Spawn hpBox
                         hpList.Add(hpBox);
@@ -91,14 +90,14 @@ namespace Athyl
                 }
                 else if (playerz.Stance == Player.Stances.LongRange || playerz.Stance == Player.Stances.MidRange)
                 {
-                    if (random % 3 == 0)
+                    if (random % 3 == 1)
                     {   
                         //Spawn hpBox
                         hpList.Add(hpBox);
                         hpBox.body.Position = ai.torso.body.Position;
                     }
 
-                    if (random % 2 == 0)
+                    if (random % 3 == 0)
                     {
                         //SpawnEthanol
                         ethList.Add(ethanolBox);
@@ -126,17 +125,17 @@ namespace Athyl
                     if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "playerwheel") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "athyl"))
                     {
 
+                            playerz.playerAthyl += 50;
 
-                        playerz.playerAthyl += 50;
                         ethanolDrop = true;
                     }
 
 
                     else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "playerwheel") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "hpBox"))
                     {
-
-
-                        playerz.playerHP += 25;
+                        
+                            playerz.playerHP += 35;
+                        
                         hpDrop = true;
                     }
 

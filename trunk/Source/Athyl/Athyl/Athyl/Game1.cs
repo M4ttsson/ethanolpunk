@@ -106,7 +106,7 @@ namespace Athyl
             IsMouseVisible = true;
             projectile = new Projectile(this);
 
-            //skilltree = new Skilltree(player);
+            
             myFont = Content.Load<SpriteFont>("font");
 
             //start a thread that listens for exit (debug)
@@ -184,6 +184,7 @@ namespace Athyl
         /// </summary>
         public void Restart()
         {
+
             try
             {
                 
@@ -247,6 +248,8 @@ namespace Athyl
                             if (map != null)
                                 map.button.body.OnCollision += quest.InteractWithQuestItems;
                  * */
+
+                skilltree = new Skilltree(player);
 
             }
             catch (Exception ex)
@@ -670,7 +673,7 @@ namespace Athyl
                         logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                     }
 
-                    player.playerXP += 3;
+                    player.playerXP += 30;
                     timedBonusXP += 3;
                 }
 
@@ -702,6 +705,7 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            Console.WriteLine(player.playerHP);
             menu.UpdateMenu(gameTime, this, player);
             keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.R))
