@@ -709,6 +709,10 @@ namespace Athyl
             }
             else if (player != null)
             {
+                if (world.TestPoint(new Vector2(player.torso.Position.X + player.torso.Size.X, player.torso.Position.Y)
+                {
+                    Restart();
+                }
 
                 menu.UpdateMenu(gameTime, this, player);
                 if (menu.gameState == Menu.GameState.Paused)
