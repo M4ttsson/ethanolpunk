@@ -62,6 +62,8 @@ namespace Athyl
         public Projectile projectile;
         public Skilltree skillTree;
 
+
+
         protected RevoluteJoint axis;
         protected AngleJoint angleJoint;
         protected Texture2D myTexture;
@@ -98,7 +100,6 @@ namespace Athyl
         private float aimingAngle = 0;
         private float Damage;
         private SpriteFont font;
-
         private MouseState mouse;
 
         private delegate void StancesDel();
@@ -168,7 +169,8 @@ namespace Athyl
             Dead = false;
             playerHP = skillTree.maxHp;
             playerHpPc = skillTree.maxHp / playerHP;
-
+            playerAthyl = skillTree.maxAthyl;
+            playerAthylPc = skillTree.maxAthyl / playerAthyl;
             Difficulty = 5;
 
             font = game.Content.Load<SpriteFont>("font");
@@ -526,18 +528,21 @@ namespace Athyl
                     skillTree.CloseRange();
                     StanceDelegate = CloseRange;
                     playerHP = skillTree.maxHp * playerHpPc;
+                    playerAthyl = skillTree.maxAthyl * playerAthylPc;
                     break;
 
                 case Stances.MidRange:
                     skillTree.MidRange();
                     StanceDelegate = MidRange;
                     playerHP = skillTree.maxHp * playerHpPc;
+                    playerAthyl = skillTree.maxAthyl * playerAthylPc;
                     break;
 
                 case Stances.LongRange:
                     skillTree.LongRange();
                     StanceDelegate = LongRange;
                     playerHP = skillTree.maxHp * playerHpPc;
+                    playerAthyl = skillTree.maxAthyl * playerAthylPc;
                     break;
             }
         }
@@ -739,7 +744,15 @@ namespace Athyl
         public void UpdatePlayer()
         {
 
+            if (playerHP > skillTree.maxHp)
+            {
+                playerHP = skillTree.maxHp;
+            }
 
+            if (playerAthyl > 500)
+            {
+                playerAthyl = 500;
+            }
             KeyboardState kbState = Keyboard.GetState();
             if (kbState.IsKeyUp(Keys.Space) && liftObject)
             {
@@ -802,12 +815,11 @@ namespace Athyl
             {
                 xpRequiredPerLevel = 10;
             }
-            //Console.WriteLine(playerLevel);
-            //Console.WriteLine(totalXP);
-            //Console.WriteLine(xpRequiredPerLevel);
+    
             AnimatePlayer();
             if (playerXP >= xpRequiredPerLevel && playerXP != 0)
             {
+
                 playerHP = skillTree.playerMaxHP;
                 skillPoints++;
                 playerLevel++;
@@ -884,7 +896,10 @@ namespace Athyl
             if (playerHP > skillTree.maxHp)
                 playerHP = skillTree.maxHp;
             playerHpPc = playerHP / skillTree.maxHp;
-            
+
+            if (playerAthyl > skillTree.maxAthyl)
+                playerAthyl = skillTree.maxAthyl;
+            playerAthylPc = playerAthyl / skillTree.maxAthyl;
 
             //Console.WriteLine(playerHpPc);
 

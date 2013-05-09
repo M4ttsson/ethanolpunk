@@ -316,7 +316,7 @@ namespace Athyl
                 }
             }
 
-            if (kbState.IsKeyDown(Keys.F2))
+            if (kbState.IsKeyDown(Keys.F2) && gameState == GameState.Playing)
             {
                 gameState = GameState.Paused;
             }
@@ -325,6 +325,7 @@ namespace Athyl
             {
                 gameState = GameState.Playing;
             }
+
 
             if(kbState.IsKeyDown(Keys.N) && !prevKeyboardState.IsKeyDown(Keys.N))
             {
@@ -428,7 +429,7 @@ namespace Athyl
             spriteBatch.Draw(BarBorerBkg, new Vector2(-(int)Camera.transform.Translation.X + 32, -(int)Camera.transform.Translation.Y + 32), Color.White);
             spriteBatch.Draw(ExpBarBkg, new Vector2(-(int)Camera.transform.Translation.X + 1024, -(int)Camera.transform.Translation.Y + 15), Color.White);
             Rectangle barHp = new Rectangle(-(int)Camera.transform.Translation.X + 34, -(int)Camera.transform.Translation.Y + 17, (int)(player.playerHpPc * 218), HealthTexture.Height);
-            Rectangle barAthyl = new Rectangle(-(int)Camera.transform.Translation.X + 34, -(int)Camera.transform.Translation.Y + 34, (int)((player.playerAthyl / 500) * 218), AthylTexture.Height);
+            Rectangle barAthyl = new Rectangle(-(int)Camera.transform.Translation.X + 34, -(int)Camera.transform.Translation.Y + 34, (int)(player.playerAthylPc * 218), AthylTexture.Height);
             Rectangle barExp = new Rectangle(-(int)Camera.transform.Translation.X + 1026, -(int)Camera.transform.Translation.Y + 17, (int)((player.playerXP * 220) / player.xpRequiredPerLevel), ExpBar.Height);
             spriteBatch.Draw(HealthTexture, barHp, Color.White);
             spriteBatch.Draw(AthylTexture, barAthyl, Color.White);
