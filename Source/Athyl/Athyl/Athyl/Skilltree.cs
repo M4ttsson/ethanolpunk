@@ -30,7 +30,7 @@ namespace Athyl
         public Skilltree(Player playerInfo)
         {
             this.fireRate = 0.1f;
-            this.projectileSpeed = 0.025f;
+            this.projectileSpeed = 0.039f;
             this.damage = 34;
             this.playerInfo = playerInfo;
             this.playerLevel = playerInfo.playerLevel;
@@ -38,30 +38,27 @@ namespace Athyl
 
             meleeAtkSpd = 0.3f;
             meleeMoveSpd = 2.0f; 
-            meleeDmg = 100; 
+            meleeDmg = 75; 
             meleeJmpHeight = new Vector2(0, -3);
             meleeEthanolConsumption = 0;
-
             //Sets hp to 200
             meleeMaxHp = playerMaxHP;
             meleeMaxAthyl = playerMaxAthyl;
 
-            midFireRate = 0.1f;
-            midMoveSpd = 1.6f;
-            midDmg = 34;
-            midJmpHeight = new Vector2(0, -2.5f);
+            midFireRate = 0.13f;
+            midMoveSpd = 2.0f;
+            midDmg = 50;
+            midJmpHeight = new Vector2(0, -2.8f);
             midEthanolConsumption = 2;
-
             //Sets hp to 150
             midMaxHp = (float)playerMaxHP / 1.33f;
             midMaxAthyl = playerMaxAthyl;
 
-            longMoveSpd = 1.3f;
+            longMoveSpd = 1.6f;
             longEthanolConsumption = 10;
             longAtkSpd = 0.7f;
-            longDmg = 100;
-            longJmpHeight = new Vector2(0, -2.2f);
-
+            longDmg = 200;
+            longJmpHeight = new Vector2(0, -2.5f);
             //Sets hp to 100
             longMaxHp = playerMaxHP/2f;
             longMaxAthyl = playerMaxAthyl;
@@ -93,7 +90,7 @@ namespace Athyl
         public void LevelCloseRange()
         {
             meleeDmg = meleeDmg * 1.5f;
-            meleeAtkSpd = meleeAtkSpd * 1.1f;
+            meleeAtkSpd = meleeAtkSpd * 0.99f;
             meleeMoveSpd = meleeMoveSpd * 1.1f;
             meleeJmpHeight = meleeJmpHeight - new Vector2(0.0f, 0.1f);
             meleeEthanolConsumption += 0.1f;
@@ -115,7 +112,7 @@ namespace Athyl
         {
             midDmg = midDmg * 1.1f;
             midMoveSpd = midMoveSpd * 1.04f;
-            midFireRate = midFireRate * 1.5f;
+            midFireRate = midFireRate - 0.01f;
             midJmpHeight = midJmpHeight - new Vector2(0.0f, 0.05f);
             midEthanolConsumption = midEthanolConsumption * 1.1f;
             midMaxHp = playerMaxHP * 1.2f;

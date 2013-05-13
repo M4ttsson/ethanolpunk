@@ -823,6 +823,7 @@ namespace Athyl
             {
 
                 
+                playerAthyl = skillTree.playerMaxAthyl;
                 skillPoints++;
                 playerLevel++;
                 playerXP = playerXP - xpRequiredPerLevel;
