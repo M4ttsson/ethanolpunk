@@ -71,6 +71,7 @@ namespace Athyl
         public int ColFrame;
         protected int RowFrame;
         DateTime lastBullet;
+        DateTime lastJump;
         protected World world;
 
         protected Game1 game;
@@ -99,6 +100,7 @@ namespace Athyl
         private float Damage;
         private SpriteFont font;
         private MouseState mouse;
+        
 
         private delegate void StancesDel();
         private StancesDel StanceDelegate;
@@ -444,9 +446,10 @@ namespace Athyl
             if (OnGround && !Crouching)
             {
                 torso.body.ApplyLinearImpulse(skillTree.playerJumpForce);
+                lastJump = DateTime.Now;
             }
             //Walljump
-            else if (OnWall && !OnGround && !WallJumped)
+            else if (OnWall && !OnGround && !WallJumped && lastJump.Millisecond + 100  <= DateTime.Now.Millisecond)
             {
                 if (direction == Direction.Right)
                 {
