@@ -518,13 +518,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ai\SoldierWalk.png">
-      <Name>SoldierWalk</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Menu items\Restartbutton.png">
       <Name>Restartbutton</Name>
       <Importer>TextureImporter</Importer>
@@ -862,6 +855,13 @@
     </Compile>
     <Compile Include="Menu items\TalentTreeMiddle.png">
       <Name>TalentTreeMiddle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ai\EnemyWalk.png">
+      <Name>EnemyWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

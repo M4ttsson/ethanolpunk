@@ -155,7 +155,7 @@ namespace Athyl
 
             //music.Stop();
 
-            enemyTexture = Content.Load<Texture2D>("Ai/SoldierWalk");
+            enemyTexture = Content.Load<Texture2D>("Ai/EnemyWalk");
             playerTexture = Content.Load<Texture2D>("Player/Gilliam");
 
             //button = new DrawableGameObject(world, Content.Load<Texture2D>("buttons/button"), 0, "button");
