@@ -797,14 +797,14 @@ namespace Athyl
             {
                 if (rayCast(torso.Position, torso.Position + new Vector2(1, 0), 40, Category.Cat5)
                     || rayCast(torso.Position, torso.Position + new Vector2(1, 0), 40, Category.Cat6)
-                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), 40, Category.Cat7))//Kollar om spelare kolliderar med en vägg
+                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), 40, Category.Cat7))//Kollar om spelare kolliderar med en vägg till höger
                 {
                     OnWall = true;
                 }
 
                 else if (rayCast(torso.Position, torso.Position + new Vector2(-1, 0), 40, Category.Cat5)
                         || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), 40, Category.Cat6)
-                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), 40, Category.Cat7))
+                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), 40, Category.Cat7))//Kollar om spelare kolliderar med en vägg till Vänster
                 {
                     OnWall = true;
                 }
