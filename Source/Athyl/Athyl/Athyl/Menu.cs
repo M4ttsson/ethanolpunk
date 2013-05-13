@@ -51,7 +51,7 @@ namespace Athyl
         
         private Button start, exit, control, story, back, resume, mainMenu, restart;  //De olika knapparna
 
-        private Texture2D menuBackground, keyboardLayout, storyText, loadingText, gameOverText;
+        private Texture2D menuBackground, keyboardLayout, storyText, loadingText, gameOverText, closeText, rangeText, middleText;
 
         private Texture2D deadWoman, progressBar, progressBarBorder, runningWoman;
 
@@ -105,6 +105,9 @@ namespace Athyl
             SkilltreeCombat = game.Content.Load<Texture2D>("Menu items/TalentTreeClose");  //Skilltree tables
             SkilltreeMid = game.Content.Load<Texture2D>("Menu items/TalentTreeMiddle");
             SkilltreeLong = game.Content.Load<Texture2D>("Menu items/TalentTreeLong");
+            closeText = game.Content.Load<Texture2D>("Menu items/CloseText");
+            middleText = game.Content.Load<Texture2D>("Menu items/MiddleText");
+            rangeText = game.Content.Load<Texture2D>("Menu items/RangeText");
 
             start = new Button(game.Content.Load<Texture2D>("Menu items/StartButton"), game.Content.Load<Texture2D>("Menu items/StartButtonHighlight"), false);
             exit = new Button(game.Content.Load<Texture2D>("Menu items/ExitButton"), game.Content.Load<Texture2D>("Menu items/ExitButtonHighlight"), false);
@@ -496,9 +499,9 @@ namespace Athyl
                 spriteBatch.Draw(SkilltreeCombat, new Rectangle(-(int)Camera.transform.Translation.X + 250, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeCombat.Width, (int)SkilltreeCombat.Height), Color.White);
                 spriteBatch.Draw(SkilltreeMid, new Rectangle(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeMid.Width, (int)SkilltreeMid.Height), Color.White);
                 spriteBatch.Draw(SkilltreeLong, new Rectangle(-(int)Camera.transform.Translation.X + 850, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeLong.Width, (int)SkilltreeLong.Height), Color.White);
-                spriteBatch.DrawString(myFont, "Close", new Vector2(-(int)Camera.transform.Translation.X + 280, -(int)Camera.transform.Translation.Y + 160), Color.Green, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
-                spriteBatch.DrawString(myFont, "Middle", new Vector2(-(int)Camera.transform.Translation.X + 580, -(int)Camera.transform.Translation.Y + 160), Color.Red, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
-                spriteBatch.DrawString(myFont, "Range", new Vector2(-(int)Camera.transform.Translation.X + 880, -(int)Camera.transform.Translation.Y + 160), Color.Blue, 0, Vector2.Zero, 1.5f, SpriteEffects.None, 0);
+                spriteBatch.Draw(closeText, new Vector2(-(int)Camera.transform.Translation.X + 285, -(int)Camera.transform.Translation.Y + 185), Color.White);
+                spriteBatch.Draw(middleText, new Vector2(-(int)Camera.transform.Translation.X + 575, -(int)Camera.transform.Translation.Y + 190), Color.White);
+                spriteBatch.Draw(rangeText, new Vector2(-(int)Camera.transform.Translation.X + 885, -(int)Camera.transform.Translation.Y + 188), Color.White);
 
                 if(player.NextLevel)
                     spriteBatch.DrawString(myFont, "Upgrade\n Press 1 for close combat\n Press 2 for middle combat\n Press 3 for range combat", new Vector2(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 560), Color.White);
