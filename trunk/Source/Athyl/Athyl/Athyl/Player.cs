@@ -161,7 +161,7 @@ namespace Athyl
 
             //xpRequiredPerLevel
             numFootContacts = 0;
-            projectile = new Projectile(game);
+            projectile = new Projectile(game, this);
             skillTree = new Skilltree(this);
 
             Stance = Stances.CloseRange;
@@ -913,8 +913,7 @@ namespace Athyl
 
             //Console.WriteLine(playerHpPc);
 
-            //Update the skilltree
-            //skillTree.Update();
+            
 
 
             //run stance specific updates
