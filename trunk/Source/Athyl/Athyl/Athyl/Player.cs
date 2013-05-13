@@ -782,8 +782,8 @@ namespace Athyl
 
             }
 
-            if (tripleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 40, Category.Cat5, 58)
-                || tripleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 45, Category.Cat2, 58))  //Kollar om player står på backen eller på en AI.
+            if (tripleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 40, Category.Cat5, (int)torso.Size.X)
+                || tripleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 45, Category.Cat2, (int)torso.Size.X))  //Kollar om player står på backen eller på en AI.
             {
                 OnGround = true;
                 WallJumped = false;
@@ -795,23 +795,21 @@ namespace Athyl
 
             if (!OnGround)
             {
-                if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), 40, Category.Cat5))         //Kollar om spelare kolliderar med höger vägg
+                if (rayCast(torso.Position, torso.Position + new Vector2(1, 0), 40, Category.Cat5)
+                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), 40, Category.Cat6)
+                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), 40, Category.Cat7))//Kollar om spelare kolliderar med en vägg
+                {
                     OnWall = true;
-                else if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), 40, Category.Cat6))    //Kollar om spelare kolliderar med höger vägg
+                }
+
+                else if (rayCast(torso.Position, torso.Position + new Vector2(-1, 0), 40, Category.Cat5)
+                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), 40, Category.Cat6)
+                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), 40, Category.Cat7))
+                {
                     OnWall = true;
-                else if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), 40, Category.Cat7))    //Kollar om spelare kolliderar med höger vägg
-                    OnWall = true;
-                else if (rayCast(wheel.Position, wheel.Position + new Vector2(-1, 0), 40, Category.Cat5))   //Kollar om spelare kolliderar med vänster vägg
-                    OnWall = true;
-                else if (rayCast(wheel.Position, wheel.Position + new Vector2(-1, 0), 40, Category.Cat6))   //Kollar om spelare kolliderar med vänster vägg
-                    OnWall = true;
-                else if (rayCast(wheel.Position, wheel.Position + new Vector2(-1, 0), 40, Category.Cat7))   //Kollar om spelare kolliderar med vänster vägg
-                    OnWall = true;
-                else if (rayCast(wheel.Position, wheel.Position + new Vector2(-1, 0), 40, Category.Cat12))  //Kollar om spelare kolliderar med Osynlig vägg
-                    OnWall = false;
-                else if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), 40, Category.Cat12))   //Kollar om spelare kolliderar med Osynlig vägg
-                    OnWall = false;
-                else if (tripleRayCast(wheel.Position, wheel.Position + new Vector2(0, -1), 80, Category.Cat7, 40)) //Kollar om spelare slår i taket.
+                }
+
+                else
                     OnWall = false;
             }
             if (playerLevel > 1)
@@ -836,13 +834,6 @@ namespace Athyl
                 NextLevel = true;
                 playerHP = skillTree.playerMaxHP;
             }
-            /*
-            if (torso.body.Position.X > 40 || torso.body.Position.Y > 10)
-            {
-                game.Restart();
-            }
-
-            */
 
             //check if player foot is touching the ground
             if (numFootContacts < 1 && wheel.body.Enabled == true)
@@ -852,20 +843,19 @@ namespace Athyl
             else
             {
                 OnGround = true;
-                //WallJumped = false;
             }
 
 
             //Console.WriteLine(OnGround);
             //check if player is touching a wall
-            if (numSideContacts < 1)
-            {
-                OnWall = false;
-            }
-            else
-            {
-                OnWall = true;
-            }
+            //if (numSideContacts < 1)
+            //{
+            //    OnWall = false;
+            //}
+            //else
+            //{
+            //    OnWall = true;
+            //}
 
             //Falldamage on player.
             if (torso.body.LinearVelocity.Y > 11 && !OnGround)
@@ -881,12 +871,9 @@ namespace Athyl
                 isFalling = false;
             }
 
-
-
             //player off screen
             if (torso.Position.X > Map.BoundsX)
             {
-
                 playerHP = 0;
             }
             else if (torso.Position.X < -10)
@@ -910,12 +897,9 @@ namespace Athyl
             if (playerAthyl > skillTree.maxAthyl)
                 playerAthyl = skillTree.maxAthyl;
             playerAthylPc = playerAthyl / skillTree.maxAthyl;
-
-            //Console.WriteLine(playerHpPc);
-
             
-
-
+            
+            
             //run stance specific updates
             StanceDelegate();
         }
