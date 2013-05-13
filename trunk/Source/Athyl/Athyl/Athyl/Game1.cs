@@ -216,7 +216,7 @@ namespace Athyl
 
                 player = null;
                 //player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(8385, 1000), this, "player");
-                player = new Player(world, playerTexture, new Vector2(60, 88), 100, new Vector2(60, 1300), this, "player");
+                player = new Player(world, playerTexture, new Vector2(60, 88), 10, new Vector2(60, 1300), this, "player");
 
                 //reset spawnpoints
                 foreach (Spawn sp in spawnpoints)
@@ -702,7 +702,7 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            Console.WriteLine(player.playerHP);
+            Console.WriteLine(player.torso.Position);//player.torso.body.Mass + "   " + player.wheel.body.Mass);
             menu.UpdateMenu(gameTime, this, player);
             keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.R))
