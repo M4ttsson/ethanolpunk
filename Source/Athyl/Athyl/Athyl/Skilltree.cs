@@ -38,18 +38,18 @@ namespace Athyl
             
 
             meleeAtkSpd = 0.3f;
-            meleeMoveSpd = 1.0f; 
+            meleeMoveSpd = 1.4f; 
             meleeDmg = 75; 
-            meleeJmpHeight = new Vector2(0, -4.0f);
+            meleeJmpHeight = new Vector2(0, -28.0f);
             meleeEthanolConsumption = 0;
             //Sets hp to 200
             meleePlayerDmg = 0.75f;
             meleeMaxAthyl = playerMaxAthyl;
 
             midFireRate = 0.13f;
-            midMoveSpd = 1.0f;
+            midMoveSpd = 1.4f;
             midDmg = 50;
-            midJmpHeight = new Vector2(0, -3.8f);
+            midJmpHeight = new Vector2(0, -26.6f);
             midEthanolConsumption = 2;
             //Sets hp to 150
             midPlayerDmg = 0.5f;
@@ -59,7 +59,7 @@ namespace Athyl
             longEthanolConsumption = 10;
             longAtkSpd = 0.7f;
             longDmg = 200;
-            longJmpHeight = new Vector2(0, -3.3f);
+            longJmpHeight = new Vector2(0, -23.1f);
             //Sets hp to 100
             longPlayerDmg = 1.0f;
             longMaxAthyl = playerMaxAthyl;
@@ -83,9 +83,9 @@ namespace Athyl
             meleeDmg = meleeDmg * 1.5f;
             meleeAtkSpd = meleeAtkSpd * 0.99f;
             meleeMoveSpd = meleeMoveSpd * 1.1f;
-            meleeJmpHeight = meleeJmpHeight - new Vector2(0.0f, 0.1f);
+            meleeJmpHeight = meleeJmpHeight - new Vector2(0.0f, 0.7f);
             meleeEthanolConsumption += 0.1f;
-            meleePlayerDmg = meleePlayerDmg * 0.9f;
+            meleePlayerDmg = meleePlayerDmg * 1.1f;
         }
 
         public void MidRange()
@@ -104,9 +104,9 @@ namespace Athyl
             midDmg = midDmg * 1.1f;
             midMoveSpd = midMoveSpd * 1.04f;
             midFireRate = midFireRate - 0.01f;
-            midJmpHeight = midJmpHeight - new Vector2(0.0f, 0.05f);
+            midJmpHeight = midJmpHeight - new Vector2(0.0f, 0.35f);
             midEthanolConsumption = midEthanolConsumption * 1.1f;
-            midPlayerDmg = midPlayerDmg * 0.9f;
+            midPlayerDmg = midPlayerDmg * 1.1f;
         }
 
         public void LongRange()
@@ -126,8 +126,8 @@ namespace Athyl
             longMoveSpd = longMoveSpd * 1.01f;
             longAtkSpd = longAtkSpd * 0.99f;
             longEthanolConsumption = longEthanolConsumption * 1.4f;
-            longJmpHeight = longJmpHeight - new Vector2(0.0f, 0.05f);
-            longPlayerDmg = longPlayerDmg * 0.9f;
+            longJmpHeight = longJmpHeight - new Vector2(0.0f, 0.35f);
+            longPlayerDmg = longPlayerDmg * 1.1f;
         }
 
         

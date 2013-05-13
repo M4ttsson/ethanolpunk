@@ -128,13 +128,13 @@ namespace Athyl
             WallJumped = false;
 
             // Create the feet of the body, here implemented as high friction wheels 
-            wheel = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), wheelSize, mass, userdata + "wheel");
+            wheel = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), wheelSize, 4.0f, userdata + "wheel");
             wheel.Position = startPosition;
             wheel.body.Friction = 10000f;
             //wheel.body.Mass = 1;
 
             //create torso
-            torso = new DrawableGameObject(world, texture, torsoSize, 60, userdata);
+            torso = new DrawableGameObject(world, texture, torsoSize, 6.0f, userdata);
             torso.Position = wheel.Position - new Vector2(0.0f, torsoSize.Y / 2 - 5);
             torso.body.Restitution = 0;
             torso.body.CollisionCategories = Category.Cat1;
@@ -450,13 +450,13 @@ namespace Athyl
             {
                 if (direction == Direction.Right)
                 {
-                    torso.body.ApplyLinearImpulse(new Vector2(-0.8f, -3.1f));
+                    torso.body.ApplyLinearImpulse(new Vector2(skillTree.playerJumpForce.Y/2, skillTree.playerJumpForce.Y));
                     direction = Direction.Left;
                     lastDirection = true;
                 }
                 else if (direction == Direction.Left)
                 {
-                    torso.body.ApplyLinearImpulse(new Vector2(0.8f, -3.1f));
+                    torso.body.ApplyLinearImpulse(new Vector2(-skillTree.playerJumpForce.Y/2, skillTree.playerJumpForce.Y));
                     direction = Direction.Right;
                     lastDirection = false;
                 }
@@ -475,12 +475,12 @@ namespace Athyl
                             if (torso.body.LinearVelocity.X > 0)
                             {
                                 torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
-                                torso.body.ApplyForce(new Vector2(-skillTree.playerSpeed * 2, 0));
+                                torso.body.ApplyForce(new Vector2(skillTree.playerJumpForce.Y/2, 0));
 
                             }
-                            else if (torso.body.LinearVelocity.X >= -skillTree.playerSpeed * 2)
+                            else if (torso.body.LinearVelocity.X >= skillTree.playerJumpForce.Y / 2)
                             {
-                                torso.body.ApplyForce(new Vector2(-skillTree.playerSpeed * 2, 0));
+                                torso.body.ApplyForce(new Vector2(skillTree.playerJumpForce.Y / 2, 0));
                             }
                         }
                         else
@@ -498,12 +498,12 @@ namespace Athyl
                             if (torso.body.LinearVelocity.X < 0)
                             {
                                 torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
-                                torso.body.ApplyForce(new Vector2(skillTree.playerSpeed * 2, 0));
+                                torso.body.ApplyForce(new Vector2(-skillTree.playerJumpForce.Y / 2, 0));
 
                             }
-                            else if (torso.body.LinearVelocity.X <= skillTree.playerSpeed * 2)
+                            else if (torso.body.LinearVelocity.X <= -skillTree.playerJumpForce.Y / 2)
                             {
-                                torso.body.ApplyForce(new Vector2(skillTree.playerSpeed * 2, 0));
+                                torso.body.ApplyForce(new Vector2(-skillTree.playerJumpForce.Y / 2, 0));
                             }
                         }
                         else

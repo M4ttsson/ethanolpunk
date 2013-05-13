@@ -59,7 +59,8 @@ namespace Athyl
             //float density = mass / (ConvertUnits.ToSimUnits(size.X * size.Y));
             body = BodyFactory.CreateRectangle(world, ConvertUnits.ToSimUnits(size.X), ConvertUnits.ToSimUnits(size.Y), 1, userdata);
             body.BodyType = BodyType.Dynamic;
-            //body.Mass = mass;
+            body.ResetMassData();
+            body.Mass = mass;
 
             /* if (userdata.ToString() == "player")
              {
@@ -137,10 +138,11 @@ namespace Athyl
         public DrawableGameObject(World world, Texture2D texture, float diameter, float mass, string userdata)
         {
             size = new Vector2(diameter, diameter);
-            //float density = mass / (ConvertUnits.ToSimUnits(size.X * size.Y));
+           // float density = mass / (ConvertUnits.ToSimUnits(size.X * size.Y));
             body = BodyFactory.CreateCircle(world, ConvertUnits.ToSimUnits(diameter / 2.0f), 1, userdata);
             body.BodyType = BodyType.Dynamic;
-            //body.Mass = mass;
+            body.ResetMassData();
+            body.Mass = mass;
 
             this.Size = size;
             this.texture = texture;
