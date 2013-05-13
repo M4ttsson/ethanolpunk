@@ -78,7 +78,7 @@ namespace Athyl
             else if (currentLevel == 3)
                 b = new DrawableGameObject(world, lvl3[tileNumber], BodySize, 0, "ground");
 
-            b.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
+            b.Position = new Vector2((x - 1) * 32 + 16, (y-1) * 32 + 16);
             b.body.BodyType = BodyType.Static;
             if (!Collidable)
             {
@@ -97,7 +97,7 @@ namespace Athyl
             //middleTileNr = rand.Next(1,9);
 
             Texture2D t = game.Content.Load<Texture2D>("Lvl" + currentLevel + "Tiles/Middle" + middleTileNr);
-            Vector2 p = new Vector2((x - 1) * 32, y * 32);
+            Vector2 p = new Vector2((x - 1) * 32, (y - 1) * 32);
 
             middleTexture.Add(t);
             middlePosition.Add(p);
@@ -172,7 +172,7 @@ namespace Athyl
         {
             Vector2 bodySize = new Vector2(33f, 33f);
 
-            for (int y = 0; y < 68; y++)
+            for (int y = 0; y < 70; y++)
             {
                 middleTileNr++;
 
@@ -220,21 +220,21 @@ namespace Athyl
                     else if (colors2D[x, y] == new Color(121, 0, 0))                //Goal Tiles;
                     {
                         b = new DrawableGameObject(world, lvl3[0], bodySize, 0, "goal");
-                        b.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
+                        b.Position = new Vector2((x - 1) * 32 + 16, (y - 1) * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         b.body.CollisionCategories = Category.Cat13;
                     }
                     else if (colors2D[x, y] == new Color(150, 150, 150))         //Quest Button
                     {
                         button = new DrawableGameObject(world, buttonTexture, 0, "button");
-                        button.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
+                        button.Position = new Vector2((x - 1) * 32 + 16, (y - 1) * 32 + 16);
                         button.body.BodyType = BodyType.Static;
                         body.Add(button);
                     }
                     else if (colors2D[x, y] == new Color(255, 102, 0))           //Invicible walls
                     {
                         b = new DrawableGameObject(world, lvl3[0], bodySize, 0, "ground");
-                        b.Position = new Vector2((x - 1) * 32 + 16, y * 32 + 16);
+                        b.Position = new Vector2((x - 1) * 32 + 16, (y - 1) * 32 + 16);
                         b.body.BodyType = BodyType.Static;
                         b.body.CollisionCategories = Category.Cat12;
                     }

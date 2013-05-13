@@ -122,7 +122,7 @@ namespace Athyl
             playerSounds = new Sounds(game);
             Load(texture, 2, 7, 1, 1);
 
-            int wheelSize = (int)size.X+2;
+            int wheelSize = (int)size.X;
             this.torsoSize = size - new Vector2(0, (wheelSize / 2));
             this.game = game;
             this.world = world;
