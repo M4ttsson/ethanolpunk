@@ -63,7 +63,7 @@ namespace Athyl
             torso.body.CollisionCategories = Category.Cat2;
             speed = 0.5f;
             //jumpForce = new Vector2(0, -5f);
-
+            
             Load(texture, 2, 5, 1, 1);
             direction = Direction.Right;
             lastCheck = DateTime.Now;
@@ -89,6 +89,7 @@ namespace Athyl
                     enemyHP += 100;
                     behavior = Turret;
                     damage = 45;
+                    Load(texture, 2, 1, 1, 1);
                     break;
 
                 case Behavior.Boss:
