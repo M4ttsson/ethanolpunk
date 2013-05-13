@@ -318,7 +318,7 @@ namespace Athyl
                 }
             }
 
-            if (kbState.IsKeyDown(Keys.F2) && gameState == GameState.Playing)
+            if (kbState.IsKeyDown(Keys.Escape) && gameState == GameState.Playing)
             {
                 gameState = GameState.Paused;
             }

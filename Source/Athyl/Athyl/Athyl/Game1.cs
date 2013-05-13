@@ -58,7 +58,7 @@ namespace Athyl
         Sounds sound;
         Skilltree skilltree;
         Projectile projectile;
-        Thread listenPauseThread;
+        //Thread listenPauseThread;
 
            private bool timedXPisApplied = false;
         public Thread loadThread;
@@ -109,9 +109,9 @@ namespace Athyl
             myFont = Content.Load<SpriteFont>("font");
 
             //start a thread that listens for exit (debug)
-            listenPauseThread = new Thread(ListenPause);
-            listenPauseThread.IsBackground = true;
-            listenPauseThread.Start();
+            //listenPauseThread = new Thread(ListenPause);
+            //listenPauseThread.IsBackground = true;
+            //listenPauseThread.Start();
             //quest = new Quests(world, this);
             IsFixedTimeStep = false;
             timer = new System.Timers.Timer(10);
