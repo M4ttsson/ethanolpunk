@@ -94,15 +94,6 @@ namespace Athyl
             }
 
 
-
-            /*
-            if ((DateTime.Now - previousJump).TotalSeconds >= jumpInterval)
-            {
-                torso.body.ApplyLinearImpulse(jumpForce);
-                previousJump = DateTime.Now;
-            }
-             * */
-
             else if (kbState.IsKeyDown(Keys.L) && isPaused == true)
             {
                 MediaPlayer.Resume();

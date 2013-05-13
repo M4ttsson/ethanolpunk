@@ -63,12 +63,12 @@ namespace Athyl
         /// <param name="position"></param>
         /// <param name="direction"></param>
         /// <param name="world"></param>
-        public void NewBullet(Vector2 position, Player.Direction direction , World world, float speed, Body wheel, float damage, bool sniper)
+        public void NewBullet(Vector2 position, Player.Direction direction , World world, float speed, Body wheel, Body torso, float damage, bool sniper)
         {
             this.damage = damage;
 
             float spread = 0;
-            float spreadDiagonal = 0;
+            float spreadDiagonal = 1;
             if (!sniper)
             {
                 //Allows the linear bullets to have some spread!
@@ -80,6 +80,8 @@ namespace Athyl
 
             }
 
+
+
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
@@ -87,7 +89,7 @@ namespace Athyl
             bulletWasFired = Game1.runTime;
             bullet.body.IsSensor = true;
             bullet.body.IgnoreCollisionWith(wheel);
-
+            bullet.body.IgnoreCollisionWith(torso);
             switch (direction)
             {
                 case Player.Direction.Right:
@@ -122,7 +124,7 @@ namespace Athyl
                     bullet.body.Rotation = MathHelper.ToRadians(135);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * -1.0f) * spreadDiagonal);                
+                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * -1.0f) * spreadDiagonal);
                     break;
 
                 case Player.Direction.Upleft:
@@ -161,7 +163,7 @@ namespace Athyl
         /// <param name="world"></param>
         /// <param name="wheel"></param>
         /// <param name="damage">Bullet damage</param>
-        public void NewBullet(Vector2 position, Vector2 direction, World world, Body wheel, float damage)
+        public void NewBullet(Vector2 position, Vector2 direction, World world, Body wheel, Body torso, float damage)
         {
             this.damage = damage;
 
@@ -173,7 +175,8 @@ namespace Athyl
             bulletWasFired = Game1.runTime;
             bullet.body.IsSensor = true;
             bullet.body.IgnoreCollisionWith(wheel);
-
+            bullet.body.IgnoreCollisionWith(torso);
+            
             //calculate direction and rotation
             float dotProd = Vector2.Dot(Vector2.UnitY, direction);
             float rotation = (direction.X > 0) ? -(float)Math.Acos(dotProd) + MathHelper.ToRadians(-90) : (float)Math.Acos(dotProd) + MathHelper.ToRadians(-90);
@@ -260,6 +263,7 @@ namespace Athyl
                     bullet.body.Rotation = MathHelper.ToRadians(180);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
+                    
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, spread * 0.2f));
                     break;
 
@@ -269,19 +273,12 @@ namespace Athyl
                     bullets.Add(bullet);
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, spread * 0.2f));
                     break;
+
+
+                    
             }
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
-            //DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Bullet"), new Vector2(10, 4), 10, "hostile");
-            //bullet.body.IsBullet = true;
-            //bullet.body.Position = position;
-            //bullet.body.IgnoreGravity = true;
-            //bullet.body.FixedRotation = true;
-            //bullets.Add(bullet);
-            //if (direction == Player.Direction.Right)
-            //    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, 0.0f));
-            //else
-            //    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, 0.0f));
-            //bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+
         }
         #endregion
         #region Collisionanddraw

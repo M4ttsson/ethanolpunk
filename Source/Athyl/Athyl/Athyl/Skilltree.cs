@@ -32,7 +32,7 @@ namespace Athyl
         {
             this.fireRate = 0.1f;
             this.projectileSpeed = 0.039f;
-            this.damage = 34;
+            this.damage = 50;
             this.playerInfo = playerInfo;
             this.playerLevel = playerInfo.playerLevel;
             
@@ -55,11 +55,11 @@ namespace Athyl
             midPlayerDmg = 0.5f;
             midMaxAthyl = playerMaxAthyl;
 
-            longMoveSpd = 0.6f;
+            longMoveSpd = 0.8f;
             longEthanolConsumption = 10;
             longAtkSpd = 0.7f;
             longDmg = 200;
-            longJmpHeight = new Vector2(0, -2.5f);
+            longJmpHeight = new Vector2(0, -3.3f);
             //Sets hp to 100
             longPlayerDmg = 1.0f;
             longMaxAthyl = playerMaxAthyl;
