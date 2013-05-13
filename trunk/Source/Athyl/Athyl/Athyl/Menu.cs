@@ -29,7 +29,7 @@ namespace Athyl
             this.button = normal;
             this.buttonHl = highlight;
             this.mouseOver = mouseOver;
-            this.rectangle = new Rectangle();
+            this.rectangle = Rectangle.Empty;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Vector2 viewPortPos)
@@ -404,6 +404,15 @@ namespace Athyl
         /// <param name="game"></param>
         public void Draw(SpriteBatch spriteBatch, Game1 game, Player player)
         {
+            start.Draw(spriteBatch, Vector2.Zero, viewPortPos);
+            control.Draw(spriteBatch, Vector2.Zero, viewPortPos);
+            story.Draw(spriteBatch, Vector2.Zero, viewPortPos);
+            exit.Draw(spriteBatch, Vector2.Zero, viewPortPos);
+            resume.Draw(spriteBatch, Vector2.Zero, viewPortPos);
+            restart.Draw(spriteBatch, Vector2.Zero, viewPortPos);
+            mainMenu.Draw(spriteBatch, Vector2.Zero, viewPortPos);
+            back.Draw(spriteBatch, Vector2.Zero, viewPortPos);
+
             if (gameState == GameState.StartMenu)
             {
                 spriteBatch.Draw(menuBackground, cameraPos, Color.White);
