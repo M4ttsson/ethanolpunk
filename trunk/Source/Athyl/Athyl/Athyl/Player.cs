@@ -801,16 +801,16 @@ namespace Athyl
 
             if (!OnGround)
             {
-                if (rayCast(torso.Position, torso.Position + new Vector2(1, 0), 40, Category.Cat5)
-                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), 40, Category.Cat6)
-                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), 40, Category.Cat7))//Kollar om spelare kolliderar med en vägg till höger
+                if (rayCast(torso.Position, torso.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 3, Category.Cat5)
+                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 3, Category.Cat6)
+                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 3, Category.Cat7))//Kollar om spelare kolliderar med en vägg till höger
                 {
                     OnWall = true;
                 }
 
-                else if (rayCast(torso.Position, torso.Position + new Vector2(-1, 0), 40, Category.Cat5)
-                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), 40, Category.Cat6)
-                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), 40, Category.Cat7))//Kollar om spelare kolliderar med en vägg till Vänster
+                else if (rayCast(torso.Position, torso.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 3, Category.Cat5)
+                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 3, Category.Cat6)
+                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 3, Category.Cat7))//Kollar om spelare kolliderar med en vägg till Vänster
                 {
                     OnWall = true;
                 }
