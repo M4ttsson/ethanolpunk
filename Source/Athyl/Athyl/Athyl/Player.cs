@@ -822,11 +822,12 @@ namespace Athyl
             if (playerXP >= xpRequiredPerLevel && playerXP != 0)
             {
 
-                playerHP = skillTree.playerMaxHP;
+                
                 skillPoints++;
                 playerLevel++;
                 playerXP = playerXP - xpRequiredPerLevel;
                 NextLevel = true;
+                playerHP = skillTree.playerMaxHP;
             }
             /*
             if (torso.body.Position.X > 40 || torso.body.Position.Y > 10)
@@ -919,8 +920,8 @@ namespace Athyl
 
             
 
-            //torso.Draw(spriteBatch);
-            //wheel.Draw(spriteBatch);
+            torso.Draw(spriteBatch);
+            wheel.Draw(spriteBatch);
 
 
             if (Crouching && stance == Stances.LongRange)
