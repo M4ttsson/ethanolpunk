@@ -122,7 +122,7 @@ namespace Athyl
             playerSounds = new Sounds(game);
             Load(texture, 2, 7, 1, 1);
 
-            int wheelSize = (int)size.X-2;
+            int wheelSize = (int)size.X+2;
             this.torsoSize = size - new Vector2(0, (wheelSize / 2));
             this.game = game;
             this.world = world;
@@ -937,10 +937,10 @@ namespace Athyl
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            //torso.Draw(spriteBatch);
             projectile.Draw(spriteBatch, torso.Position);
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
 
-            //torso.Draw(spriteBatch);
             //wheel.Draw(spriteBatch);
 
             if (Crouching && stance == Stances.LongRange)
