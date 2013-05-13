@@ -35,7 +35,7 @@ namespace Athyl
         private float speed;
         private DateTime lastCheck;
         private delegate void BehaviorDel();
-        private BehaviorDel behavior;
+        private BehaviorDel behaviorDel;
         private int patrolLength = 0;
         private int seenPos = 0;
         private float damage;
@@ -71,23 +71,24 @@ namespace Athyl
             //not used yet
             OnGround = true;
 
+     
             //sets behavior for this AI
             switch (behaviors)
             {
                 case Behavior.Patrol:
-                    behavior = Patrol;
+                    behaviorDel = Patrol;
                     damage = 34;
                     break;
 
                 case Behavior.PatrolDistance:
-                    behavior = PatrolDistance;
+                    behaviorDel = PatrolDistance;
                     damage = 40;
                     break;
 
                 case Behavior.Turret:
                     fireRate = 0.2f;
                     enemyHP += 100;
-                    behavior = Turret;
+                    behaviorDel = Turret;
                     damage = 45;
                     Load(texture, 2, 1, 1, 1);
                     break;
@@ -97,14 +98,14 @@ namespace Athyl
                     fireRate = 0.5f;
                     enemyHP = 1512;
                     jumpForce = new Vector2(0, -12);
-                    behavior = Boss;
+                    behaviorDel = Boss;
                     jumpInterval = 2f;
                     direction = Direction.Left;
                     damage = 70;
                     break;
 
                 case Behavior.None:
-                    behavior = None;
+                    behaviorDel = None;
                     break;
             }
 
@@ -118,23 +119,6 @@ namespace Athyl
         Vector2 right = new Vector2(2, 0);
         Vector2 left = new Vector2(-2, 0);
 
-        /* Idea for AI
-         * 
-         * 
-         *  1) Is Y value somewhat near the players Y value
-            2) If yes, move towards player
-         *     
-            3) If no, raycast a line straight up
-            4) If said line hits a box (anything that is collisionable) 
-            5) Raycast to the left and right of the AI (imagine a line that changes rotation, the rotation point being in the middle of the AI)
-            6) Find the X position of the side of the box that is last in the row of boxes
-            7) If the left X position is further away than the right X position, move to the right X position + 20 or so (or vice versa). 
-            8) Jump up on the row of boxes
-            9) Go to step 1
-         * 
-         * 
-         * 
-        */
 
         public void towardsPlayer(Player aPlayer)
         {
@@ -215,10 +199,16 @@ namespace Athyl
         {
             if ((DateTime.Now - lastBullet).TotalSeconds >= fireRate)
             {
+
+
                 //projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed);
                 projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed, wheel.body, damage);
                 lastBullet = DateTime.Now;
+
+
             }
+
+
         }
 
 
@@ -276,12 +266,8 @@ namespace Athyl
                 wheel.body.IgnoreCollisionWith(d.ethanolBox.body);
             }
 
-
-            if (torso.body.FixtureList[0].UserData.ToString() == "boss")
-                towardsPlayer(aPlayer);
-
             //Adds patrol to the AI
-            behavior();
+            behaviorDel();
 
 
         }

@@ -840,7 +840,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Music\" />
+    <Compile Include="Music\Kapow.wav">
+      <Name>Kapow</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Menu items\TalentTreeClose.png">
@@ -864,6 +868,20 @@
       <Name>EnemyWalk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Music\Pewpew.wav">
+      <Name>Pewpew</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Music\Sniper.wav">
+      <Name>Sniper</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>

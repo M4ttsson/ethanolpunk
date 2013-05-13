@@ -61,8 +61,7 @@ namespace Athyl
         public float Difficulty { get; set; }
         public Projectile projectile;
         public Skilltree skillTree;
-
-
+        private Sounds playerSounds;
 
         protected RevoluteJoint axis;
         protected AngleJoint angleJoint;
@@ -117,6 +116,8 @@ namespace Athyl
         /// <param name="startPosition">Startposition</param>
         public Player(World world, Texture2D texture, Vector2 size, float mass, Vector2 startPosition, Game1 game, string userdata)
         {
+
+            playerSounds = new Sounds(game);
             Load(texture, 2, 7, 1, 1);
 
             int wheelSize = (int)size.X-2;
@@ -368,8 +369,10 @@ namespace Athyl
         {
             if (playerAthyl >= 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
             {
+
                 if (stance == Stances.CloseRange)
                 {
+                    playerSounds.PlaySoundFX("Music/Kapow");
                     if (direction == Direction.Right
                         || direction == Direction.Upright
                         || direction == Direction.Downright)
@@ -412,20 +415,22 @@ namespace Athyl
 
                     if (sniper)
                     {
+                        playerSounds.PlaySoundFX("Music/Sniper");
                         if (Crouching)
                         {
                             Vector2 direction = new Vector2((crossHairPosition.X + 16) - torso.Position.X, (crossHairPosition.Y + 16) - torso.Position.Y);
                             direction.Normalize();
-                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 0)), direction, world, wheel.body, skillTree.damage);
+                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 0)), direction, world, wheel.body, torso.body, skillTree.damage);
                         }
                         else
                         {
-                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 14)), direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
+                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 14)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, sniper);
                         }
                     }
                     else
                     {
-                        projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 14)), direction, world, skillTree.projectileSpeed, wheel.body, skillTree.damage, sniper);
+                        playerSounds.PlaySoundFX("Music/Pewpew");
+                        projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 14)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, sniper);
                     }
                     playerAthyl -= skillTree.ethanolConsumption;
 
