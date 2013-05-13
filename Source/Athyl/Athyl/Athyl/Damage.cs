@@ -17,6 +17,12 @@ namespace Athyl
             this.bodyId = bodyId;
             this.damage = damage;
         }
+
+        public Damage(int bodyId, float damage, float playerDmg)
+        {
+            this.bodyId = bodyId;
+            this.damage = damage * playerDmg;
+        }
         #endregion
     }
 }

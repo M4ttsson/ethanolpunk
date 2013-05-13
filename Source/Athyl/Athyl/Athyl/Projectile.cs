@@ -38,6 +38,7 @@ namespace Athyl
         bool friendly;
         float bulletLifeTime;
         float bulletWasFired;
+        Player player;
         Random random = new Random();
         #endregion
         #region Constructor
@@ -45,6 +46,13 @@ namespace Athyl
         {
             this.game = game;
 
+            bulletLifeTime = 10.0f;
+        }
+
+        public Projectile(Game1 game, Player player)
+        {
+            this.game = game;
+            this.player = player;
             bulletLifeTime = 10.0f;
         }
         #endregion
@@ -337,7 +345,7 @@ namespace Athyl
                                     removeList.Add(i);
                             }
                         }
-                        game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
+                        game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage, player.skillTree.playerDmg));
                         return true;
                     }
                     else if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "ground")
