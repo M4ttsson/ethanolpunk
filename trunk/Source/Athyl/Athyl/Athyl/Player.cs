@@ -781,10 +781,14 @@ namespace Athyl
 
             }
 
-            if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 50, Category.Cat5, 58))  //Kollar om player står på backen.
+            if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 40, Category.Cat5, 58))  //Kollar om player står på backen.
             {
                 OnGround = true;
                 WallJumped = false;
+            }
+            else
+            {
+                OnGround = false;
             }
 
             if (!OnGround)
@@ -805,7 +809,7 @@ namespace Athyl
                     OnWall = false;
                 else if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), 40, Category.Cat12))   //Kollar om spelare kolliderar med Osynlig vägg
                     OnWall = false;
-                else if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, -1), 80, Category.Cat7, 40)) //Kollar om player slår i taket.
+                else if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, -1), 80, Category.Cat7, 40)) //Kollar om spelare slår i taket.
                     OnWall = false;
             }
             if (playerLevel > 1)
