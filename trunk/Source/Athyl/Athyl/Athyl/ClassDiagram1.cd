@@ -3,21 +3,28 @@
   <Class Name="Athyl.AI" Collapsed="true">
     <Position X="1.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>qSAAgAABAQABA0AABAEAAAAABAFIAUAgAAAAEEAAgAM=</HashCode>
+      <HashCode>KCCAAAABEoIAgxAAQEAAAAgCFAMoAAAISEAEQAEAgAI=</HashCode>
       <FileName>AI.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Athyl.DrawableGameObject" Collapsed="true">
     <Position X="7.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAAAAAAAAAAAggAgAIAABAAAAQAAAgAAAAAAAAAAAAA=</HashCode>
+      <HashCode>CAACAAAAAAAAggAgAIAABAAAAQAAAgAAAAAAAAAAAAA=</HashCode>
       <FileName>DrawableGameObject.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Athyl.Game1">
+  <Class Name="Athyl.Game1" Collapsed="true">
     <Position X="10.75" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Athyl.Game1.Spawn" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Game1.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAQAEEAAgAABgwAAAAAIAggACACQggiBECAAAAAAIAQ=</HashCode>
+      <HashCode>EAQg2EqA0iAEiwBCAgBAAAgAEIAGAAgFMCAAAAQIAIQ=</HashCode>
       <FileName>Game1.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -31,14 +38,14 @@
   <Class Name="Athyl.Map" Collapsed="true">
     <Position X="3.25" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQEAAAAAAAAgAAAAAAAAAAAAAAAgEAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAEEIBAQACACgEAAAAAAAEQQSAAAAGIBYAAgMACwAA=</HashCode>
       <FileName>Map.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Athyl.Menu" Collapsed="true">
     <Position X="4" Y="5.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAwAhgAAIAIUgEAoEAAAYAAAIAIAAABEAAwACIAAAE=</HashCode>
+      <HashCode>4gT4grsaHQgNewUQsViUEYABC7AYw1pB8CgkCkaAA4Q=</HashCode>
       <FileName>Menu.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -52,7 +59,7 @@
   <Class Name="Athyl.Player" Collapsed="true">
     <Position X="1.5" Y="3" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>hQIggAABAoABA0AAQCEAABAAAABgAUggSAAAEEAAAAA=</HashCode>
+      <HashCode>hQaikBKFIpgB70iSAEkEAFCBBApgAUw6SAEAGWEggUE=</HashCode>
       <FileName>Player.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -66,21 +73,21 @@
   <Class Name="Athyl.Projectile" Collapsed="true">
     <Position X="6.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAgAAAAAAAAAAAAAAAAAAAIAAAAIAAAAA=</HashCode>
+      <HashCode>AABgAAABAIAFggECAAAAABAABAgAAAAIICwAAIBAAIA=</HashCode>
       <FileName>Projectile.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Athyl.Skilltree" Collapsed="true">
     <Position X="12.25" Y="2.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>KAAAAIAAQAAABAABAAAAAECAAAAIAFAQUEAABAAAAAA=</HashCode>
+      <HashCode>XAwCEoBCBgIEkBAAIoABQgAEAAhIAFAQQVCAAKigAIQ=</HashCode>
       <FileName>Skilltree.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Athyl.Sounds" Collapsed="true">
     <Position X="1.75" Y="4.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAIAAAIgAAAAAQAIAA=</HashCode>
+      <HashCode>QAAAAAAAAAAAAAAAAAAASAQAAAAIAAAIgAAAAAQAIAI=</HashCode>
       <FileName>Sounds.cs</FileName>
     </TypeIdentifier>
   </Class>
