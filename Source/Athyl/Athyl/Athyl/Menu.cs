@@ -329,7 +329,7 @@ namespace Athyl
             }
 
 
-            if(kbState.IsKeyDown(Keys.N) && !prevKeyboardState.IsKeyDown(Keys.N))// && player.NextLevel)
+            if(kbState.IsKeyDown(Keys.N) && !prevKeyboardState.IsKeyDown(Keys.N) && (gameState == GameState.Playing || gameState == GameState.LevelUp))
             {
                 if (gameState == GameState.Playing)
                 {
