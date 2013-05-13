@@ -448,11 +448,13 @@ namespace Athyl
                 {
                     torso.body.ApplyLinearImpulse(new Vector2(-0.8f, -3.1f));
                     direction = Direction.Left;
+                    lastDirection = true;
                 }
                 else if (direction == Direction.Left)
                 {
                     torso.body.ApplyLinearImpulse(new Vector2(0.8f, -3.1f));
                     direction = Direction.Right;
+                    lastDirection = false;
                 }
                 WallJumped = true;
             }
@@ -746,6 +748,10 @@ namespace Athyl
 
         public void UpdatePlayer()
         {
+            if (direction == Direction.Left)
+                RowFrame = 1;
+            else if (direction == Direction.Right)
+                RowFrame = 0;
 
             if (playerHP > skillTree.maxHp)
             {
