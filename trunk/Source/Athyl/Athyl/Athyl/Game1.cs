@@ -84,6 +84,7 @@ namespace Athyl
             Content.RootDirectory = "Content";
 
             loadThread = new Thread(Load);
+            loadThread.Name = "Load thread";
             loadThread.IsBackground = true;
 
             //create spawnpoints
@@ -702,7 +703,6 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            Console.WriteLine(player.torso.Position);//player.torso.body.Mass + "   " + player.wheel.body.Mass);
             menu.UpdateMenu(gameTime, this, player);
             keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.R))
