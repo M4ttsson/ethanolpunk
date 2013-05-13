@@ -178,6 +178,28 @@ namespace Athyl
                 paused = false;
             }
 
+            if (gameState == GameState.LevelUp && player.NextLevel)
+            {
+                if (kbState.IsKeyDown(Keys.D1) && !prevKdState.IsKeyDown(Keys.D1))
+                {
+                    player.skillTree.LevelCloseRange();
+                    player.skillPoints--;
+                }
+                else if (kbState.IsKeyDown(Keys.D2) && !prevKdState.IsKeyDown(Keys.D2))
+                {
+                    player.skillTree.LevelMidRange();
+                    player.skillPoints--;
+                }
+                else if (kbState.IsKeyDown(Keys.D3) && !prevKdState.IsKeyDown(Keys.D3))
+                {
+                    player.skillTree.LongRange();
+                    player.skillPoints--;
+                }
+
+                if (player.skillPoints == 0)
+                    player.NextLevel = false;
+            }
+
             if (gameState == GameState.Loading)
             {
                 isLoading = false;
@@ -407,14 +429,14 @@ namespace Athyl
         /// <param name="game"></param>
         public void Draw(SpriteBatch spriteBatch, Game1 game, Player player)
         {
-            start.Draw(spriteBatch, Vector2.Zero, viewPortPos);
-            control.Draw(spriteBatch, Vector2.Zero, viewPortPos);
-            story.Draw(spriteBatch, Vector2.Zero, viewPortPos);
-            exit.Draw(spriteBatch, Vector2.Zero, viewPortPos);
-            resume.Draw(spriteBatch, Vector2.Zero, viewPortPos);
-            restart.Draw(spriteBatch, Vector2.Zero, viewPortPos);
-            mainMenu.Draw(spriteBatch, Vector2.Zero, viewPortPos);
-            back.Draw(spriteBatch, Vector2.Zero, viewPortPos);
+            start.Draw(spriteBatch, new Vector2(-100,-100), viewPortPos);
+            control.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
+            story.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
+            exit.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
+            resume.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
+            restart.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
+            mainMenu.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
+            back.Draw(spriteBatch, new Vector2(-100,-100), viewPortPos);
 
             if (gameState == GameState.StartMenu)
             {
@@ -502,6 +524,8 @@ namespace Athyl
                 spriteBatch.Draw(closeText, new Vector2(-(int)Camera.transform.Translation.X + 285, -(int)Camera.transform.Translation.Y + 185), Color.White);
                 spriteBatch.Draw(middleText, new Vector2(-(int)Camera.transform.Translation.X + 575, -(int)Camera.transform.Translation.Y + 190), Color.White);
                 spriteBatch.Draw(rangeText, new Vector2(-(int)Camera.transform.Translation.X + 885, -(int)Camera.transform.Translation.Y + 188), Color.White);
+
+                spriteBatch.DrawString(myFont, "Points: " + player.skillPoints, pos0, Color.White);
 
                 if(player.NextLevel)
                     spriteBatch.DrawString(myFont, "Upgrade\n Press 1 for close combat\n Press 2 for middle combat\n Press 3 for range combat", new Vector2(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 560), Color.White);
