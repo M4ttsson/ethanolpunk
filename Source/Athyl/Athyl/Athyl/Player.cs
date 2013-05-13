@@ -748,10 +748,13 @@ namespace Athyl
 
         public void UpdatePlayer()
         {
-            if (direction == Direction.Left)
-                RowFrame = 1;
-            else if (direction == Direction.Right)
-                RowFrame = 0;
+            if (WallJumped)         //Ser till att gubben vänder sig åt rätt håll vid walljump
+            {
+                if (direction == Direction.Left)
+                    RowFrame = 1;
+                else if (direction == Direction.Right)
+                    RowFrame = 0;
+            }
 
             if (playerHP > skillTree.maxHp)
             {
@@ -801,16 +804,16 @@ namespace Athyl
 
             if (!OnGround)
             {
-                if (rayCast(torso.Position, torso.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 3, Category.Cat5)
-                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 3, Category.Cat6)
-                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 3, Category.Cat7))//Kollar om spelare kolliderar med en vägg till höger
+                if (rayCast(torso.Position, torso.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 5, Category.Cat5)
+                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 5, Category.Cat6)
+                    || rayCast(torso.Position, torso.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 5, Category.Cat7))//Kollar om spelare kolliderar med en vägg till höger
                 {
                     OnWall = true;
                 }
 
-                else if (rayCast(torso.Position, torso.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 3, Category.Cat5)
-                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 3, Category.Cat6)
-                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 3, Category.Cat7))//Kollar om spelare kolliderar med en vägg till Vänster
+                else if (rayCast(torso.Position, torso.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 5, Category.Cat5)
+                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 5, Category.Cat6)
+                        || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 5, Category.Cat7))//Kollar om spelare kolliderar med en vägg till Vänster
                 {
                     OnWall = true;
                 }
