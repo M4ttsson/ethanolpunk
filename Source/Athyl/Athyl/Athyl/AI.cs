@@ -32,6 +32,7 @@ namespace Athyl
         private bool seen = false;
         public bool dead = false;
 
+        private float speed;
         private DateTime lastCheck;
         private delegate void BehaviorDel();
         private BehaviorDel behavior;
@@ -60,7 +61,7 @@ namespace Athyl
         {
             //Load(texture, 2, 11, 1,0);
             torso.body.CollisionCategories = Category.Cat2;
-            speed = 1f;
+            speed = 0.5f;
             //jumpForce = new Vector2(0, -5f);
 
             Load(texture, 2, 5, 1, 1);
