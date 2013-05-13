@@ -771,8 +771,8 @@ namespace Athyl
                 //Progressbar in loading menu
                 Rectangle bar = new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y - 400, (int)((Map.progress / Map.done) * 400), 40);
                 Rectangle border = new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y - 400, 400, 40);
-                spriteBatch.Draw(progressBarBorder, border, Color.White);
                 spriteBatch.Draw(progressBar, bar, Color.White);
+                spriteBatch.Draw(progressBarBorder, border, Color.White);
 
                 //The animation of the running woman in loading menu
                 int FrameWidth = runningWoman.Width / 7;

@@ -100,6 +100,7 @@ namespace Athyl
         /// </summary>
         protected override void Initialize()
         {
+            camera = new Camera(GraphicsDevice.Viewport);
             menu = new Menu(this);
             menu.gameState = Menu.GameState.StartMenu;
             IsMouseVisible = true;
@@ -117,7 +118,6 @@ namespace Athyl
             timer = new System.Timers.Timer(10);
             timer.Elapsed += new System.Timers.ElapsedEventHandler(timer_Elapsed);
 
-            camera = new Camera(GraphicsDevice.Viewport);
             base.Initialize();
         }
         /// <summary>
