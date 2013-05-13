@@ -69,7 +69,6 @@ namespace Athyl
         protected Texture2D myTexture;
         protected Vector2 torsoSize;
         protected Vector2 jumpForce = new Vector2(0, -2.8f);
-        protected float speed = 1.5f;
         public int ColFrame;
         protected int RowFrame;
         DateTime lastBullet;
@@ -120,7 +119,7 @@ namespace Athyl
         {
             Load(texture, 2, 7, 1, 1);
 
-            int wheelSize = (int)size.X/2;
+            int wheelSize = (int)size.X;
             this.torsoSize = size - new Vector2(0, (wheelSize / 2));
             this.game = game;
             this.world = world;
@@ -820,7 +819,23 @@ namespace Athyl
 
                 else
                     OnWall = false;
+                wheel.body.Friction = 0;
             }
+            else
+            {
+                wheel.body.Friction = 10000f; 
+                if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 5, Category.Cat5)
+                 && direction == Direction.Right)
+                {
+                    axis.MotorSpeed = 0;
+                }
+                else if (rayCast(wheel.Position, wheel.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 5, Category.Cat5)
+                    && direction == Direction.Left)
+                {
+                    axis.MotorSpeed = 0;
+                }
+            }
+
             if (playerLevel > 1)
             {
                 xpRequiredPerLevel = (int)((playerLevel * (float)Math.Log(playerLevel, 2)) * 15);

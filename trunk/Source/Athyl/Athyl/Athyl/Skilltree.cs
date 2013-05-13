@@ -38,24 +38,24 @@ namespace Athyl
             
 
             meleeAtkSpd = 0.3f;
-            meleeMoveSpd = 2.0f; 
+            meleeMoveSpd = 1.0f; 
             meleeDmg = 75; 
-            meleeJmpHeight = new Vector2(0, -3);
+            meleeJmpHeight = new Vector2(0, -4.0f);
             meleeEthanolConsumption = 0;
             //Sets hp to 200
             meleePlayerDmg = 0.75f;
             meleeMaxAthyl = playerMaxAthyl;
 
             midFireRate = 0.13f;
-            midMoveSpd = 2.0f;
+            midMoveSpd = 1.0f;
             midDmg = 50;
-            midJmpHeight = new Vector2(0, -2.8f);
+            midJmpHeight = new Vector2(0, -3.8f);
             midEthanolConsumption = 2;
             //Sets hp to 150
             midPlayerDmg = 0.5f;
             midMaxAthyl = playerMaxAthyl;
 
-            longMoveSpd = 1.6f;
+            longMoveSpd = 0.6f;
             longEthanolConsumption = 10;
             longAtkSpd = 0.7f;
             longDmg = 200;
