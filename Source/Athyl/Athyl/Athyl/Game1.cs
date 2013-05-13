@@ -457,13 +457,11 @@ namespace Athyl
 
             else if (keyboardState.IsKeyUp(Keys.LeftControl) && prevKeyboardState.IsKeyDown(Keys.LeftControl))// && prevKeyboardState.IsKeyDown(Keys.Up))
             {
-                player.wheel.body.Enabled = true;
                 player.Crouching = false;
             }
 
             else if (keyboardState.IsKeyDown(Keys.LeftControl))
             {
-                player.wheel.body.Enabled = false;
                 player.Crouching = true;
 
                 
