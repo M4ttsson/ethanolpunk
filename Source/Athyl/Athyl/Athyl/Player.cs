@@ -317,7 +317,7 @@ namespace Athyl
 
         //Skickar två parallella rays från startPosition i riktning mot endPosition med steg av "accuracy" som ger true om kollision med ett object av given kategori, annars false
         //distanceBetweenRays ger avståndet mellan de parallella raysen.
-        private bool doubleRayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, Category collisionCategory, int distanceBetweenRays)
+        private bool tripleRayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, Category collisionCategory, int distanceBetweenRays)
         {
             int dist = distanceBetweenRays / 2;
 
@@ -325,6 +325,8 @@ namespace Athyl
                 return rayCast(startPosition - new Vector2(dist, 0), endPosition - new Vector2(dist, 0), accuracy, collisionCategory);
             else if (rayCast(startPosition + new Vector2(dist, 0), endPosition + new Vector2(dist, 0), accuracy, collisionCategory))
                 return rayCast(startPosition + new Vector2(dist, 0), endPosition + new Vector2(dist, 0), accuracy, collisionCategory);
+            else if (rayCast(startPosition, endPosition, accuracy, collisionCategory))
+                return rayCast(startPosition, endPosition, accuracy, collisionCategory);
             else
                 return false;
         }
@@ -780,7 +782,8 @@ namespace Athyl
 
             }
 
-            if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 40, Category.Cat5, 58))  //Kollar om player står på backen.
+            if (tripleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 40, Category.Cat5, 58)
+                || tripleRayCast(wheel.Position, wheel.Position + new Vector2(0, 1), 45, Category.Cat2, 58))  //Kollar om player står på backen eller på en AI.
             {
                 OnGround = true;
                 WallJumped = false;
@@ -808,7 +811,7 @@ namespace Athyl
                     OnWall = false;
                 else if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), 40, Category.Cat12))   //Kollar om spelare kolliderar med Osynlig vägg
                     OnWall = false;
-                else if (doubleRayCast(wheel.Position, wheel.Position + new Vector2(0, -1), 80, Category.Cat7, 40)) //Kollar om spelare slår i taket.
+                else if (tripleRayCast(wheel.Position, wheel.Position + new Vector2(0, -1), 80, Category.Cat7, 40)) //Kollar om spelare slår i taket.
                     OnWall = false;
             }
             if (playerLevel > 1)
