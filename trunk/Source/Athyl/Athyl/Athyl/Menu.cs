@@ -59,9 +59,12 @@ namespace Athyl
         private Texture2D BarBorder, BarBorerBkg, AthylTexture, HealthTexture;      //Hp/Athyl mätare
         private Texture2D ExpBorder, ExpBar, ExpBarBkg;                             //Exp mätare
         private Texture2D SkilltreeCombat, SkilltreeMid, SkilltreeLong;             //Stance ikoner
+        private Texture2D SkilltreeBorder, SkilltreeGray, SkilltreePipes;
 
         private Vector2 cameraPos, viewPortPos;                     //Olika positioner man kan använda för att få en standard.
         private Vector2 pos0, pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9 = Vector2.Zero;
+
+        private int SkilltreeColorIncrease;
 
         private int colFrame;
         private float TimePerFrame;
@@ -108,6 +111,10 @@ namespace Athyl
             closeText = game.Content.Load<Texture2D>("Menu items/CloseText");
             middleText = game.Content.Load<Texture2D>("Menu items/MiddleText");
             rangeText = game.Content.Load<Texture2D>("Menu items/RangeText");
+            SkilltreeBorder = game.Content.Load<Texture2D>("Menu items/TalentTreeBorder");
+            SkilltreeGray = game.Content.Load<Texture2D>("Menu items/GrayTalentTree");
+            SkilltreePipes = game.Content.Load<Texture2D>("Menu items/TalentTreePipes");
+            SkilltreeColorIncrease = 0;
 
             start = new Button(game.Content.Load<Texture2D>("Menu items/StartButton"), game.Content.Load<Texture2D>("Menu items/StartButtonHighlight"), false);
             exit = new Button(game.Content.Load<Texture2D>("Menu items/ExitButton"), game.Content.Load<Texture2D>("Menu items/ExitButtonHighlight"), false);
@@ -518,9 +525,19 @@ namespace Athyl
 
             else if (gameState == GameState.LevelUp)
             {
-                spriteBatch.Draw(SkilltreeCombat, new Rectangle(-(int)Camera.transform.Translation.X + 250, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeCombat.Width, (int)SkilltreeCombat.Height), Color.White);
-                spriteBatch.Draw(SkilltreeMid, new Rectangle(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeMid.Width, (int)SkilltreeMid.Height), Color.White);
-                spriteBatch.Draw(SkilltreeLong, new Rectangle(-(int)Camera.transform.Translation.X + 850, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeLong.Width, (int)SkilltreeLong.Height), Color.White);
+                spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
+                spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
+                spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 858, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
+                spriteBatch.Draw(SkilltreeCombat, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeCombat.Width, (int)(SkilltreeCombat.Height*0.25) * player.skillPoints), Color.White);
+                spriteBatch.Draw(SkilltreeMid, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeMid.Width, (int)(SkilltreeCombat.Height * 0.25) * player.skillPoints), Color.White);
+                spriteBatch.Draw(SkilltreeLong, new Rectangle(-(int)Camera.transform.Translation.X + 858, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeLong.Width, (int)(SkilltreeCombat.Height * 0.25) * player.skillPoints), Color.White);
+                spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 250, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
+                spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
+                spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 850, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
+                spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 290, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
+                spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
+                spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 890, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
+
                 spriteBatch.Draw(closeText, new Vector2(-(int)Camera.transform.Translation.X + 285, -(int)Camera.transform.Translation.Y + 185), Color.White);
                 spriteBatch.Draw(middleText, new Vector2(-(int)Camera.transform.Translation.X + 575, -(int)Camera.transform.Translation.Y + 190), Color.White);
                 spriteBatch.Draw(rangeText, new Vector2(-(int)Camera.transform.Translation.X + 885, -(int)Camera.transform.Translation.Y + 188), Color.White);
