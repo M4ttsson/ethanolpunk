@@ -236,7 +236,8 @@ namespace Athyl
             {
                 SkilltreeColorIncrease = 1;
             }
-
+            else
+                SkilltreeColorIncrease = 0;
 
             MouseOver(game);
             previousMouseState = mouseState;
