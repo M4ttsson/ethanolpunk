@@ -95,7 +95,10 @@ namespace Athyl
             //create spawnpoints
             CreateSpawns();
 
-            InputClass.ReadConfig();
+            if (InputClass.ReadConfig())
+            {
+                Exit();
+            }
         }
 
         
