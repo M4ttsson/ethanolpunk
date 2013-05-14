@@ -519,8 +519,8 @@ namespace Athyl
             {
                 spriteBatch.Draw(menuBackground, cameraPos, Color.White);
                 spriteBatch.Draw(gameOverText, new Vector2(pos1.X - gameOverText.Width/2, pos1.Y), Color.White);
-                restart.Draw(spriteBatch, pos5, viewPortPos);
-                mainMenu.Draw(spriteBatch, pos4, viewPortPos);
+                restart.Draw(spriteBatch, pos4, viewPortPos);
+                mainMenu.Draw(spriteBatch, pos5, viewPortPos);
                 //The dead woman
                 int FrameWidth = deadWoman.Width / 3;
                 int FrameHeight = deadWoman.Height / 2;
