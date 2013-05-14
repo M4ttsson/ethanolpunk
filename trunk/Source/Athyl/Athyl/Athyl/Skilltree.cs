@@ -68,8 +68,6 @@ namespace Athyl
             longMaxAthyl = playerMaxAthyl;
         }
 
-        
-
         public void CloseRange()
         {
             damage = meleeDmg;
@@ -133,88 +131,85 @@ namespace Athyl
             longPlayerDmg = longPlayerDmg * 1.1f;
         }
 
-        
         #region MeleeStance
-        
-        //public void fireBreath(Int16 points)
-        //{
-        //    meleefirebreath += points;
-        //}
+        public void increasefireBreath()        //Upgrades fireBreath
+        {
+        }
 
-        public void increaseAtkSpd()
+        public void increaseAtkSpd()            //Upgrades Attack speed
         {
             //firerate increases by 3% per level
              meleeAtkSpd += (fireRate / 33) * playerInfo.skillPoints/playerInfo.skillPoints;
              playerInfo.skillPoints--;
         }
 
-        public void increaseMovementSpd()
+        public void increaseAtkDmg()            //Upgrades Attack damage
         {
-
             meleeMoveSpd += (playerSpeed / 33) * playerInfo.skillPoints / playerInfo.skillPoints;
             playerInfo.skillPoints--;
         }
 
-        public void increaseJumpHeight()
+        public void increaseDodge()             //Upgrades dodge chance
         {
-
-
             meleeJmpHeight += new Vector2(0, (playerJumpForce.Y / 20) * playerInfo.skillPoints / playerInfo.skillPoints);
             playerInfo.skillPoints--;
         }
-
-
-
-
         #endregion
 
         #region MidRange
-        //public void fireBurst(Int16 points)
-        //{
-        //    midFireBurst = points;
-        //}
+        public void fireBurst()        //Upgrades fireburst
+        {
 
-        //rate of fire
-        public void increaseROF()
+        }
+
+        public void increaseAthyl()        //Upgrades Athyl
         {
 
             fireRate += (fireRate / 25) * playerInfo.skillPoints / playerInfo.skillPoints;
             playerInfo.skillPoints--;
         }
 
-        public void increaseAmmoCap()
+        public void increasePasstrough()        //Upgrades Passtrough
         {
-
             playerInfo.playerAthyl += (playerInfo.playerAthyl / 10) * playerInfo.skillPoints / playerInfo.skillPoints;
             playerInfo.skillPoints--;
         }
 
-        //public void bulletPenetration()
-        //{
-        //    midBulletPassthrough = points;
-        //}
+        public void increaseFastShot()        //Upgrades fastShot
+        {
+            playerInfo.playerAthyl += (playerInfo.playerAthyl / 10) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.skillPoints--;
+        }
         #endregion
 
         #region Longrange
-        //public void shield(Int16 points)
-        //{
-        //}
-
-        public void increaseSniperAmmo()
+        public void increaseShield()        //Upgrades Shield
         {
             playerInfo.playerAthyl += (playerInfo.playerAthyl / 33) * playerInfo.skillPoints / playerInfo.skillPoints;
             playerInfo.playerHP -= (playerInfo.playerHP / 50) * playerInfo.skillPoints / playerInfo.skillPoints;
             playerInfo.skillPoints--;
         }
 
-
-        //Senare
-        public void headshotBonus(Int16 points)
+        public void increaseHP()        //Upgrades Health
         {
-
+            playerInfo.playerAthyl += (playerInfo.playerAthyl / 33) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.playerHP -= (playerInfo.playerHP / 50) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.skillPoints--;
         }
-        
 
+        public void increaseAim()        //Upgrades Aim
+        {
+            playerInfo.playerAthyl += (playerInfo.playerAthyl / 33) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.playerHP -= (playerInfo.playerHP / 50) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.skillPoints--;
+        }
+
+        public void increaseShieldCD()        //Upgrades Shield CoolDown
+        {
+            playerInfo.playerAthyl += (playerInfo.playerAthyl / 33) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.playerHP -= (playerInfo.playerHP / 50) * playerInfo.skillPoints / playerInfo.skillPoints;
+            playerInfo.skillPoints--;
+        }
         #endregion
         
     }
