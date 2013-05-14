@@ -44,7 +44,6 @@ namespace Athyl
         private Random random = new Random();
 
         #endregion
-
         #region Constructor
         public Projectile(Game1 game)
         {
@@ -272,7 +271,6 @@ namespace Athyl
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
         #endregion
-
         #region Collisionanddraw
         /// <summary>
         /// Kollision med kulor, tar bort något träffas
