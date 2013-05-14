@@ -67,7 +67,7 @@ namespace Athyl
         private Vector2 cameraPos, viewPortPos;                     //Olika positioner man kan använda för att få en standard.
         private Vector2 pos0, pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9 = Vector2.Zero;
 
-        private int SkilltreeColorIncrease;
+        private int CloseColorIncrease, MidColorIncrease, LongColorIncrease;
 
         private int colFrame;
         private float TimePerFrame;
@@ -117,7 +117,9 @@ namespace Athyl
             SkilltreeBorder = game.Content.Load<Texture2D>("Menu items/TalentTreeBorder");
             SkilltreeGray = game.Content.Load<Texture2D>("Menu items/GrayTalentTree");
             SkilltreePipes = game.Content.Load<Texture2D>("Menu items/TalentTreePipes");
-            SkilltreeColorIncrease = 0;
+            CloseColorIncrease = 0;
+            MidColorIncrease = 0;
+            LongColorIncrease = 0;
 
             start = new Button(game.Content.Load<Texture2D>("Menu items/StartButton"), game.Content.Load<Texture2D>("Menu items/StartButtonHighlight"), false);
             exit = new Button(game.Content.Load<Texture2D>("Menu items/ExitButton"), game.Content.Load<Texture2D>("Menu items/ExitButtonHighlight"), false);
@@ -253,14 +255,28 @@ namespace Athyl
 
             if (player.skillPoints >= 1)     //Ska längre fram öka färgen på skillträdet.
             {
-                SkilltreeColorIncrease = 1;
+                CloseColorIncrease = 1;
+                MidColorIncrease = 1;
+                LongColorIncrease = 1;
             }
-            else if (SkilltreeColorIncrease > 3)
+            else if (CloseColorIncrease > 3)
             {
-                SkilltreeColorIncrease = 3;
+                CloseColorIncrease = 3;
+            }
+            else if (MidColorIncrease > 3)
+            {
+                MidColorIncrease = 3;
+            }
+            else if (LongColorIncrease > 3)
+            {
+                LongColorIncrease = 3;
             }
             else
-                SkilltreeColorIncrease = 0;
+            {
+                CloseColorIncrease = 0;
+                MidColorIncrease = 0;
+                LongColorIncrease = 0;
+            }
 
             MouseOver(game);
             previousMouseState = mouseState;
@@ -558,9 +574,9 @@ namespace Athyl
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 858, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
-                spriteBatch.Draw(SkilltreeCombat, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeCombat.Width, (int)(SkilltreeCombat.Height * 0.34) * SkilltreeColorIncrease), Color.White);
-                spriteBatch.Draw(SkilltreeMid, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeMid.Width, (int)(SkilltreeCombat.Height * 0.34) * SkilltreeColorIncrease), Color.White);
-                spriteBatch.Draw(SkilltreeLong, new Rectangle(-(int)Camera.transform.Translation.X + 858, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeLong.Width, (int)(SkilltreeCombat.Height * 0.34) * SkilltreeColorIncrease), Color.White);
+                spriteBatch.Draw(SkilltreeCombat, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeCombat.Width, (int)(SkilltreeCombat.Height * 0.34) * CloseColorIncrease), Color.White);
+                spriteBatch.Draw(SkilltreeMid, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeMid.Width, (int)(SkilltreeCombat.Height * 0.34) * MidColorIncrease), Color.White);
+                spriteBatch.Draw(SkilltreeLong, new Rectangle(-(int)Camera.transform.Translation.X + 858, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeLong.Width, (int)(SkilltreeCombat.Height * 0.34) * LongColorIncrease), Color.White);
                 spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 250, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
                 spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
                 spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 850, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
@@ -568,27 +584,27 @@ namespace Athyl
                 spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
                 spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 890, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
 
-                FireBreath.Draw(spriteBatch, cameraPos + new Vector2(335,250), viewPortPos);
+                FireBreath.Draw(spriteBatch, cameraPos + new Vector2(335,250), viewPortPos);     //Första nivå skillsen
                 Fireburst.Draw(spriteBatch, cameraPos + new Vector2(635, 250), viewPortPos);
                 Shield.Draw(spriteBatch, cameraPos + new Vector2(935,250), viewPortPos);
 
-                AtkDmg.Draw(spriteBatch, cameraPos + new Vector2(295, 350), viewPortPos);
+                AtkDmg.Draw(spriteBatch, cameraPos + new Vector2(295, 350), viewPortPos);       //Andra vänster nivå skillsen
                 MoreAthyl.Draw(spriteBatch, cameraPos + new Vector2(595, 350), viewPortPos);
                 MoreHP.Draw(spriteBatch, cameraPos + new Vector2(895, 350), viewPortPos);
 
-                AtkSpd.Draw(spriteBatch, cameraPos + new Vector2(380, 350), viewPortPos);
+                AtkSpd.Draw(spriteBatch, cameraPos + new Vector2(380, 350), viewPortPos);       //Andra höger nivå skillsen
                 Passtrough.Draw(spriteBatch, cameraPos + new Vector2(980, 350), viewPortPos);
                 Aim.Draw(spriteBatch, cameraPos + new Vector2(680, 350), viewPortPos);
 
-                Dodge.Draw(spriteBatch, cameraPos + new Vector2(335, 450), viewPortPos);
+                Dodge.Draw(spriteBatch, cameraPos + new Vector2(335, 450), viewPortPos);        //Sista nivå skillsen
                 FastShot.Draw(spriteBatch, cameraPos + new Vector2(635, 450), viewPortPos);
                 ShieldCD.Draw(spriteBatch, cameraPos + new Vector2(935, 450), viewPortPos);
 
                 spriteBatch.Draw(closeText, new Vector2(-(int)Camera.transform.Translation.X + 285, -(int)Camera.transform.Translation.Y + 185), Color.White);
                 spriteBatch.Draw(middleText, new Vector2(-(int)Camera.transform.Translation.X + 575, -(int)Camera.transform.Translation.Y + 190), Color.White);
                 spriteBatch.Draw(rangeText, new Vector2(-(int)Camera.transform.Translation.X + 885, -(int)Camera.transform.Translation.Y + 188), Color.White);
-
-                spriteBatch.DrawString(myFont, "Points: " + player.skillPoints, pos0, Color.White);
+                
+                spriteBatch.DrawString(myFont, "Points: " + player.skillPoints, pos0 - new Vector2(50, 0), Color.Gold);
 
                 if(player.NextLevel)
                     spriteBatch.DrawString(myFont, "Upgrade\n Press 1 for close combat\n Press 2 for middle combat\n Press 3 for range combat", new Vector2(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 560), Color.White);
