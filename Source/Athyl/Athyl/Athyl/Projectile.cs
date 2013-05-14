@@ -20,33 +20,37 @@ namespace Athyl
     class Projectile
     {
         #region Properties
+
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
         private int projectileVelocity;
         private Vector2 projectileDirection;
-        public float damage;
-        public enum projectiletype { small, medium, large }
-        List<DrawableGameObject> bullets = new List<DrawableGameObject>();
-        List<DrawableGameObject> meleeBullets = new List<DrawableGameObject>();
-        List<DrawableGameObject> meleeremoveList = new List<DrawableGameObject>();
-        List<Body> meleeremoveListbody = new List<Body>();
-        Game1 game;
-        //Lista av saker som ska tas bort i "bullets"
-        List<DrawableGameObject> removeList = new List<DrawableGameObject>();
-        //Lista av saker som ska tas bort i world
-        List<Body> removeListbody = new List<Body>();
-        bool friendly;
-        float bulletLifeTime;
-        float bulletWasFired;
-        Player player;
-        Random random = new Random();
+        private bool friendly;
+        private float bulletLifeTime;
+        private float meleeBulletLifeTime;
+        private float bulletWasFired;
+        private float damage;
+
+        //Lists of things to remove
+        private List<DrawableGameObject> bullets = new List<DrawableGameObject>();
+        private List<DrawableGameObject> meleeBullets = new List<DrawableGameObject>();
+        private List<DrawableGameObject> meleeremoveList = new List<DrawableGameObject>();
+        private List<DrawableGameObject> removeList = new List<DrawableGameObject>();
+        private List<Body> meleeremoveListbody = new List<Body>();
+        private List<Body> removeListbody = new List<Body>();
+
+        private Game1 game;
+        private Player player;
+        private Random random = new Random();
+
         #endregion
+
         #region Constructor
         public Projectile(Game1 game)
         {
             this.game = game;
-
             bulletLifeTime = 10.0f;
+            meleeBulletLifeTime = 0.0f;
         }
 
         public Projectile(Game1 game, Player player)
@@ -63,12 +67,12 @@ namespace Athyl
         /// <param name="position"></param>
         /// <param name="direction"></param>
         /// <param name="world"></param>
-        public void NewBullet(Vector2 position, Player.Direction direction , World world, float speed, Body wheel, Body torso, float damage, bool sniper)
+        public void NewBullet(Vector2 position, Player.Direction direction, World world, float speed, Body wheel, Body torso, float damage, bool sniper)
         {
             this.damage = damage;
-
             float spread = 0;
             float spreadDiagonal = 1;
+
             if (!sniper)
             {
                 //Allows the linear bullets to have some spread!
@@ -77,10 +81,7 @@ namespace Athyl
                 //Allows diagonal bullets to have some spread!
                 spreadDiagonal = random.Next(1, 5);
                 spread /= 133;
-
             }
-
-
 
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
             bullet.body.IsBullet = true;
@@ -98,7 +99,6 @@ namespace Athyl
                     bullets.Add(bullet);
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, spread * 0.2f));
                     break;
-
 
                 case Player.Direction.Left:
                     bullet.body.FixedRotation = true;
@@ -166,8 +166,6 @@ namespace Athyl
         public void NewBullet(Vector2 position, Vector2 direction, World world, Body wheel, Body torso, float damage)
         {
             this.damage = damage;
-
-
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
@@ -176,7 +174,7 @@ namespace Athyl
             bullet.body.IsSensor = true;
             bullet.body.IgnoreCollisionWith(wheel);
             bullet.body.IgnoreCollisionWith(torso);
-            
+
             //calculate direction and rotation
             float dotProd = Vector2.Dot(Vector2.UnitY, direction);
             float rotation = (direction.X > 0) ? -(float)Math.Acos(dotProd) + MathHelper.ToRadians(-90) : (float)Math.Acos(dotProd) + MathHelper.ToRadians(-90);
@@ -185,7 +183,6 @@ namespace Athyl
 
             bullets.Add(bullet);
             bullets[bullets.Count - 1].body.ApplyLinearImpulse(direction / 20);
-
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
@@ -198,10 +195,9 @@ namespace Athyl
         /// <param name="speed"></param>
         /// <param name="wheel"></param>
         /// <param name="damage"></param>
-        public void NewMeleeBullet(Vector2 position, Player.Direction direction , World world, float speed, Body wheel, float damage)
+        public void NewMeleeBullet(Vector2 position, Player.Direction direction, World world, float speed, Body wheel, float damage)
         {
             this.damage = damage;
-
             DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Fist"), new Vector2(22, 14), 10, "melee");
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
@@ -227,8 +223,8 @@ namespace Athyl
 
                 default:
                     break;
-
             }
+
             meleeBullets[meleeBullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
@@ -263,28 +259,24 @@ namespace Athyl
                     bullet.body.Rotation = MathHelper.ToRadians(180);
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
-                    
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, spread * 0.2f));
                     break;
-
 
                 case Player.Direction.Left:
                     bullet.body.FixedRotation = true;
                     bullets.Add(bullet);
                     bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, spread * 0.2f));
                     break;
-
-
-                    
             }
-            bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
 
+            bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
         #endregion
+
         #region Collisionanddraw
         /// <summary>
         /// Kollision med kulor, tar bort något träffas
-        /// olik logik beroende på om det är fiende eller spelare som krockar
+        /// olika logik beroende på om det är fiende eller spelare som krockar
         /// </summary>
         /// <param name="fixtureA"></param>
         /// <param name="fixtureB"></param>
@@ -357,7 +349,6 @@ namespace Athyl
                                     removeList.Add(i);
                             }
                         }
-                        //Console.WriteLine("removed");
                         return true;
                     }
                     else if (fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "ground")
@@ -372,7 +363,6 @@ namespace Athyl
                                     removeList.Add(i);
                             }
                         }
-                        //Console.WriteLine("removed");
                         return true;
                     }
                 }
@@ -381,17 +371,21 @@ namespace Athyl
                     logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                 }
             }
-
             return false;
         }
 
+        /// <summary>
+        /// Clears all bullets from all kinds of lists and from the world
+        /// </summary>
+        /// <param name="world"></param>
         public void Clear(World world)
         {
             foreach (DrawableGameObject d in bullets)
             {
-                world.RemoveBody(d.body);  
+                world.RemoveBody(d.body);
             }
             bullets.Clear();
+
             foreach (DrawableGameObject d in meleeBullets)
             {
                 world.RemoveBody(d.body);
@@ -427,13 +421,12 @@ namespace Athyl
                             logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                         }
                     }
-                    //  Console.WriteLine(game.world.BodyList.Count);
                 }
 
                 for (int i = 0; i < meleeBullets.Count; i++)
                 {
                     meleeBullets[i].Draw(spriteBatch);
-                    if (bulletWasFired + 0.5f <= (float)Game1.runTime)
+                    if (bulletWasFired + meleeBulletLifeTime <= (float)Game1.runTime)
                     {
                         if (!meleeremoveList.Contains(meleeBullets[i]))
                             meleeremoveList.Add(meleeBullets[i]);
@@ -446,9 +439,9 @@ namespace Athyl
                             logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                         }
                     }
-                    //  Console.WriteLine(game.world.BodyList.Count);
                 }
             }
+
             catch (Exception ex)
             {
                 logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
@@ -457,15 +450,13 @@ namespace Athyl
             foreach (DrawableGameObject i in removeList)
             {
                 bullets.Remove(i);
-                //Console.WriteLine(bullets.Count);
             }
 
             foreach (DrawableGameObject i in meleeremoveList)
             {
                 meleeBullets.Remove(i);
-                //Console.WriteLine(bullets.Count);
             }
-            
+
 
             foreach (Body i in removeListbody)
             {
@@ -473,14 +464,17 @@ namespace Athyl
                 {
                     game.world.RemoveBody(i);
                 }
+
                 catch (Exception ex)
                 {
                     logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                 }
             }
+
             removeListbody.Clear();
             removeList.Clear();
             meleeremoveList.Clear();
+
         }
         #endregion
     }
