@@ -155,7 +155,7 @@ namespace Athyl
             //create a world with normal gravity
             world = new World(new Vector2(0, 9.82f));
 
-            //zero gravity
+            //zero gravity /Timmo
             //world = new World(Vector2.Zero);
 
             //sound = new Sounds(this);
@@ -175,7 +175,7 @@ namespace Athyl
             //button = new DrawableGameObject(world, Content.Load<Texture2D>("buttons/button"), 0, "button");
             //button.Position = new Vector2(2743, 1390); 
             Restart();
-
+            
             //foot contacts
             world.ContactManager.BeginContact += BeginContact;
             world.ContactManager.EndContact += EndContact;
@@ -228,8 +228,12 @@ namespace Athyl
                     player.projectile.Clear(world);
 
                 player = null;
-                //player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(8385, 1000), this, "player");
-                player = new Player(world, playerTexture, new Vector2(60, 88), 10, new Vector2(60, 1300), this, "player");
+
+                //starta i slutet av banan (låt va kvar /Timmo)
+                player = new Player(world, playerTexture, new Vector2(42, 90), 100, new Vector2(8385, 1000), this, "player");
+
+
+                //player = new Player(world, playerTexture, new Vector2(60, 88), 10, new Vector2(60, 1300), this, "player");
 
                 //reset spawnpoints
                 foreach (Spawn sp in spawnpoints)
@@ -405,11 +409,18 @@ namespace Athyl
         {
             keyboardState = Keyboard.GetState();
             MouseState mouse = Mouse.GetState();
+
+            //leave /Timmo
             //flying debug!
             /*if(keyboardState.IsKeyDown(Keys.Up))
-                player.torso.body.ApplyForce(new Vector2(0, -3.0f));
+                player.torso.body.ApplyForce(new Vector2(0, -21.0f));
             if (keyboardState.IsKeyDown(Keys.Down))
-                player.torso.body.ApplyForce(new Vector2(0, 3));*/
+                player.torso.body.ApplyForce(new Vector2(0, 21));
+            if(keyboardState.IsKeyDown(Keys.Right))
+                player.torso.body.ApplyForce(new Vector2(21, 0));
+            if (keyboardState.IsKeyDown(Keys.Left))
+                player.torso.body.ApplyForce(new Vector2(-21, 0));*/
+
 
             if (keyboardState.IsKeyDown(InputClass.jumpKey) && !prevKeyboardState.IsKeyDown(InputClass.jumpKey))
             {
