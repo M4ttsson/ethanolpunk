@@ -816,6 +816,7 @@ namespace Athyl
                     || rayCast(torso.Position, torso.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 5, Category.Cat7))//Kollar om spelare kolliderar med en vägg till höger
                 {
                     OnWall = true;
+                    direction = Direction.Left;
                 }
 
                 else if (rayCast(torso.Position, torso.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 5, Category.Cat5)
@@ -823,6 +824,7 @@ namespace Athyl
                         || rayCast(torso.Position, torso.Position + new Vector2(-1, 0), (int)torso.Size.X / 2 + 5, Category.Cat7))//Kollar om spelare kolliderar med en vägg till Vänster
                 {
                     OnWall = true;
+                    direction = Direction.Right;
                 }
 
                 else
