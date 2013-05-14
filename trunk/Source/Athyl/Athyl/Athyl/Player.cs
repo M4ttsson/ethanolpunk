@@ -24,16 +24,72 @@ namespace Athyl
     class Player
     {
         #region Properties
-        private static Logger logger = LogManager.GetCurrentClassLogger();
-
+        
+        public Direction direction;
+        public DrawableGameObject wheel;
         public DrawableGameObject torso;
+        public Projectile projectile;
+        public Skilltree skillTree;
+        public Int16 skillPoints = 0;
+
         public bool OnGround { get; set; }
         public bool OnWall { get; set; }
         public bool Crouching { get; set; }
         public bool WallJumped { get; set; }
+        public bool NextLevel { get; set; }
+        public bool Dead { get; set; }
+        public bool lastDirection;
+
         public int numFootContacts { get; set; }
         public int numSideContacts { get; set; }
-        public bool NextLevel { get; set; }
+        public int xpRequiredPerLevel;
+        public int playerXP = 0;
+        public int playerLevel = 1;
+        public int ColFrame;
+
+        public float Difficulty { get; set; }
+        public float playerHP;
+        public float playerHpPc;
+        public float playerAthyl = 500;
+        public float playerAthylPc;
+        
+        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private Sounds playerSounds;
+        private Joint j;
+        private List<DrawableGameObject> shots = new List<DrawableGameObject>();
+        private Texture2D crossHair;
+        private Rectangle crossHairPosition;
+        private SpriteFont font;
+        private MouseState mouse;
+        private delegate void StancesDel();
+        private StancesDel StanceDelegate;
+        private DateTime lastBullet;
+        private DateTime lastJump;
+
+        private int frameRow;
+        private int frameColumn;
+        private int RestartFrame;
+        private int totalXP;
+
+        private bool hasLeveledRecently = false;
+        private bool isFalling = false;
+        private bool liftObject = false;
+        private bool sniping = false;
+
+        private float TimePerFrame;
+        private float TotalElapsed;
+        private float tempfallDamage = 0;
+        private float aimingAngle = 0;
+        private float Damage;
+
+        protected RevoluteJoint axis;
+        protected AngleJoint angleJoint;
+        protected Texture2D myTexture;
+        protected World world;
+        protected Game1 game;
+        protected Vector2 torsoSize;
+        protected Vector2 jumpForce = new Vector2(0, -2.8f);
+        protected int RowFrame;
 
         private Stances stance;
         public Stances Stance
@@ -45,65 +101,6 @@ namespace Athyl
                 ChangeStance(stance);
             }
         }
-
-        public int xpRequiredPerLevel;
-        public float playerHP;
-        public float playerHpPc;
-        public float playerAthyl = 500;
-        public float playerAthylPc;
-        public int playerXP = 0;
-        public int playerLevel = 1;
-        public Direction direction;
-        public DrawableGameObject wheel;
-        public bool Dead { get; set; }
-        //Håller koll på åt vilket håll man stod sist, så att direction ställs rätt om man släpper upp/ner
-        public bool lastDirection;
-        public float Difficulty { get; set; }
-        public Projectile projectile;
-        public Skilltree skillTree;
-        private Sounds playerSounds;
-
-        protected RevoluteJoint axis;
-        protected AngleJoint angleJoint;
-        protected Texture2D myTexture;
-        protected Vector2 torsoSize;
-        protected Vector2 jumpForce = new Vector2(0, -2.8f);
-        public int ColFrame;
-        protected int RowFrame;
-        DateTime lastBullet;
-        DateTime lastJump;
-        protected World world;
-
-        protected Game1 game;
-
-        
-
-        
-        private int frameRow;
-        private int frameColumn;
-        private int RestartFrame;
-
-        private float TimePerFrame;
-        private float TotalElapsed;
-        private int totalXP;
-        private bool hasLeveledRecently = false;
-        private bool isFalling = false;
-        private float tempfallDamage = 0;
-        private Joint j;
-        private bool liftObject = false;
-        public Int16 skillPoints = 0;
-        private List<DrawableGameObject> shots = new List<DrawableGameObject>();
-        private Texture2D crossHair;
-        private Rectangle crossHairPosition;
-        private bool sniping = false;
-        private float aimingAngle = 0;
-        private float Damage;
-        private SpriteFont font;
-        private MouseState mouse;
-        
-
-        private delegate void StancesDel();
-        private StancesDel StanceDelegate;
 
         #endregion
         #region ConstructorAndLoad
@@ -133,7 +130,6 @@ namespace Athyl
             wheel = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), wheelSize, 4.0f, userdata + "wheel");
             wheel.Position = startPosition;
             wheel.body.Friction = 10000f;
-            //wheel.body.Mass = 1;
 
             //create torso
             torso = new DrawableGameObject(world, texture, torsoSize, 6.0f, userdata);
@@ -142,14 +138,6 @@ namespace Athyl
             torso.body.CollisionCategories = Category.Cat1;
             torso.body.FixedRotation = true;
             torso.body.Rotation = 0;
-            //torso.body.FixedRotation = true;
-            //torso.body.Mass = 0;
-
-            // Create a joint to keep the torso upright
-            //JointFactory.CreateFixedAngleJoint(world, torso.body);
-
-
-            //angleJoint = JointFactory.CreateAngleJoint(world, wheel.body, wheel.body);
 
             // Connect the feet to the torso
             axis = JointFactory.CreateRevoluteJoint(world, torso.body, wheel.body, Vector2.Zero);
@@ -180,9 +168,7 @@ namespace Athyl
             font = game.Content.Load<SpriteFont>("font");
             crossHair = game.Content.Load<Texture2D>("crosshair");
 
-
             torso.body.OnCollision += InteractWithQuestItems;
-
 
             if (playerLevel == 1)
             {
@@ -297,7 +283,16 @@ namespace Athyl
         }
         #endregion
         #region CollisionAndRaycast
-        //Skickar en ray från startPosition i riktning mot endPosition med steg av "accuracy" som ger true om kollision med ett object av given kategori, annars false
+
+        /// <summary>
+        /// Skickar en ray från startPosition i riktning mot endPosition med steg av 
+        /// "accuracy" som ger true om kollision med ett object av given kategori, annars false
+        /// </summary>
+        /// <param name="startPosition"></param>
+        /// <param name="endPosition"></param>
+        /// <param name="accuracy"></param>
+        /// <param name="collisionCategory"></param>
+        /// <returns></returns>
         private bool rayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, Category collisionCategory)
         {
             Vector2 startRayPoint = new Vector2((int)startPosition.X, (int)startPosition.Y);
@@ -317,8 +312,17 @@ namespace Athyl
             return false;
         }
 
-        //Skickar två parallella rays från startPosition i riktning mot endPosition med steg av "accuracy" som ger true om kollision med ett object av given kategori, annars false
-        //distanceBetweenRays ger avståndet mellan de parallella raysen.
+        /// <summary>
+        /// Skickar två parallella rays från startPosition i riktning mot endPosition med steg av "accuracy" 
+        /// som ger true om kollision med ett object av given kategori, annars false
+        /// distanceBetweenRays ger avståndet mellan de parallella raysen.
+        /// </summary>
+        /// <param name="startPosition"></param>
+        /// <param name="endPosition"></param>
+        /// <param name="accuracy"></param>
+        /// <param name="collisionCategory"></param>
+        /// <param name="distanceBetweenRays"></param>
+        /// <returns></returns>
         private bool tripleRayCast(Vector2 startPosition, Vector2 endPosition, int accuracy, Category collisionCategory, int distanceBetweenRays)
         {
             int dist = distanceBetweenRays / 2;
@@ -332,6 +336,7 @@ namespace Athyl
             else
                 return false;
         }
+
         bool body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
             KeyboardState kbState = Keyboard.GetState();
@@ -361,6 +366,7 @@ namespace Athyl
             }
             return false;
         }
+
         #endregion
         #region Actions
         /// <summary>
@@ -402,6 +408,7 @@ namespace Athyl
                             playerAthyl -= skillTree.ethanolConsumption;
                             lastBullet = DateTime.Now;
                         }
+
                         else
                         {
                             projectile.NewMeleeBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(22, 14)), Direction.Right, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
@@ -409,8 +416,8 @@ namespace Athyl
                             lastBullet = DateTime.Now;
                         }
                     }
-
                 }
+
                 else if (playerAthyl > 0)
                 {
                     bool sniper = (Stance == Stances.LongRange) ? true : false;
@@ -424,23 +431,26 @@ namespace Athyl
                             direction.Normalize();
                             projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 0)), direction, world, wheel.body, torso.body, skillTree.damage);
                         }
+
                         else
                         {
                             projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 14)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, sniper);
                         }
                     }
+
                     else
                     {
                         playerSounds.PlaySoundFX("Music/Pewpew");
                         projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 14)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, sniper);
                     }
                     playerAthyl -= skillTree.ethanolConsumption;
-
                     lastBullet = DateTime.Now;
-                    //Console.WriteLine(skillTree.damage);
                 }
             }
         }
+        /// <summary>
+        /// Allows the player to jump. Walljump if on wall
+        /// </summary>
         public virtual void Jump()
         {
             if (OnGround && !Crouching)
@@ -448,6 +458,7 @@ namespace Athyl
                 torso.body.ApplyLinearImpulse(skillTree.playerJumpForce);
                 lastJump = DateTime.Now;
             }
+
             //Walljump
             else if (OnWall && !OnGround && !WallJumped && lastJump.Millisecond + 100  <= DateTime.Now.Millisecond)
             {
@@ -457,6 +468,7 @@ namespace Athyl
                     direction = Direction.Left;
                     lastDirection = true;
                 }
+
                 else if (direction == Direction.Left)
                 {
                     torso.body.ApplyLinearImpulse(new Vector2(-skillTree.playerJumpForce.Y/2, skillTree.playerJumpForce.Y));
@@ -466,6 +478,7 @@ namespace Athyl
                 WallJumped = true;
             }
         }
+
         public virtual void Move(Movement movement)
         {
             if (wheel.body.Enabled)
@@ -481,16 +494,19 @@ namespace Athyl
                                 torso.body.ApplyForce(new Vector2(skillTree.playerJumpForce.Y/2, 0));
 
                             }
+
                             else if (torso.body.LinearVelocity.X >= skillTree.playerJumpForce.Y / 2)
                             {
                                 torso.body.ApplyForce(new Vector2(skillTree.playerJumpForce.Y / 2, 0));
                             }
                         }
+
                         else
                         {
                             axis.MotorSpeed = -MathHelper.TwoPi * skillTree.playerSpeed;
                             UpdateFrame(0.2f);
                         }
+
                         direction = Direction.Left;
                         lastDirection = true;
                         break;
@@ -504,11 +520,13 @@ namespace Athyl
                                 torso.body.ApplyForce(new Vector2(-skillTree.playerJumpForce.Y / 2, 0));
 
                             }
+
                             else if (torso.body.LinearVelocity.X <= -skillTree.playerJumpForce.Y / 2)
                             {
                                 torso.body.ApplyForce(new Vector2(-skillTree.playerJumpForce.Y / 2, 0));
                             }
                         }
+
                         else
                         {
                             axis.MotorSpeed = MathHelper.TwoPi * skillTree.playerSpeed;
@@ -525,6 +543,7 @@ namespace Athyl
                 }
             }
         }
+
         #endregion
         #region Stances
 
@@ -588,8 +607,6 @@ namespace Athyl
 
                 KeyboardState ks = Keyboard.GetState();
 
-
-
                 if (ks.IsKeyDown(InputClass.upKey) && crossHairPosition.Y > torso.Position.Y - 375)
                 {
                     if (!lastDirection)
@@ -606,7 +623,9 @@ namespace Athyl
                     }
 
                 }
+
                 else if (ks.IsKeyDown(InputClass.downKey) && crossHairPosition.Y < torso.Position.Y + 250)
+
                 {
                     if (!lastDirection)
                     {
@@ -622,6 +641,7 @@ namespace Athyl
                     }
                 }
             }
+
             else
             {
                 aimingAngle = 0;
@@ -672,10 +692,12 @@ namespace Athyl
             {
                 RowFrame = 0;
             }
+
             else if (axis.MotorSpeed < 0 && !Dead)
             {
                 RowFrame = 1;
             }
+
             else if (axis.MotorSpeed == 0 && !Dead)
             {
                 ColFrame = 0;
@@ -705,20 +727,13 @@ namespace Athyl
         {
             KeyboardState kbState = Keyboard.GetState();
              mouse =  Mouse.GetState();
-
-
-            // if (contact.IsTouching())
-            {
+           
                 if ((fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "boulder") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "boulder"))
                 {
-
-
                     if (fixtureB.Body.BodyType != BodyType.Static)
                     {
                         if (kbState.IsKeyDown(Keys.Space))
-                        {
-                            
-
+                        {                 
                             if (!liftObject && Math.Abs((fixtureB.Body.Position - fixtureA.Body.Position).X) < 20)
                                 fixtureB.Body.IgnoreGravity = true;
                             fixtureB.Body.Position = new Vector2(fixtureA.Body.Position.X, fixtureA.Body.Position.Y);
@@ -727,17 +742,11 @@ namespace Athyl
                             fixtureB.Body.IgnoreCollisionWith(wheel.body);
 
                             liftObject = true;
-
                         }
-
                     }
 
-
-
-
                     return true;
-                }
-            }
+                }          
             return false;
         }
 
@@ -772,23 +781,22 @@ namespace Athyl
             {
                 playerAthyl = 500;
             }
+
             KeyboardState kbState = Keyboard.GetState();
             if (kbState.IsKeyUp(Keys.Space) && liftObject)
             {
-
                 int index = world.BodyList.FindIndex(FindQuestItem);
 
                 world.BodyList[index].RestoreCollisionWith(torso.body);
                 world.BodyList[index].IgnoreGravity = false;
 
-
                 world.RemoveJoint(j);
-
 
                 if (direction == Direction.Right)
                 {
                     world.BodyList[index].ApplyForce(new Vector2(8, -15));
                 }
+
                 if (direction == Direction.Left)
                 {
                     world.BodyList[index].ApplyForce(new Vector2(-8, -15));
@@ -804,6 +812,7 @@ namespace Athyl
                 OnGround = true;
                 WallJumped = false;
             }
+
             else
             {
                 OnGround = false;
@@ -831,6 +840,7 @@ namespace Athyl
                     OnWall = false;
                 wheel.body.Friction = 0;
             }
+
             else
             {
                 wheel.body.Friction = 10000f; 
@@ -857,10 +867,9 @@ namespace Athyl
             }
     
             AnimatePlayer();
-            if (playerXP >= xpRequiredPerLevel && playerXP != 0)
-            {
 
-                
+            if (playerXP >= xpRequiredPerLevel && playerXP != 0)
+            {           
                 playerAthyl = skillTree.playerMaxAthyl;
                 skillPoints++;
                 playerLevel++;
@@ -869,32 +878,9 @@ namespace Athyl
                 playerHP = skillTree.playerMaxHP;
             }
 
-            //check if player foot is touching the ground
-            //if (numFootContacts < 1 && wheel.body.Enabled == true)
-            //{
-            //    OnGround = false;
-            //}
-            //else
-            //{
-            //    OnGround = true;
-            //}
-
-
-            //Console.WriteLine(OnGround);
-            //check if player is touching a wall
-            //if (numSideContacts < 1)
-            //{
-            //    OnWall = false;
-            //}
-            //else
-            //{
-            //    OnWall = true;
-            //}
-
             //Falldamage on player.
             if (torso.body.LinearVelocity.Y > 11 && !OnGround)
             {
-                //playerHP -= (int)torso.body.LinearVelocity.Y * 2;
                 isFalling = true;
                 tempfallDamage = torso.body.LinearVelocity.Y * 2;
             }
@@ -910,8 +896,10 @@ namespace Athyl
             {
                 playerHP = 0;
             }
+
             else if (torso.Position.X < -10)
                 playerHP = 0;
+
             if (torso.Position.Y > Map.BoundsY)
                 playerHP = 0;
 
@@ -919,10 +907,12 @@ namespace Athyl
             {
                 if (!Dead)
                     Dead = true;
+
                 else if (Dead && ColFrame != frameColumn-1)
                     UpdateFrame(0.2f);
                 playerHP = 0;
             }
+
             //Update the health percentage
             if (playerHP > skillTree.maxHp)
                 playerHP = skillTree.maxHp;
@@ -938,11 +928,11 @@ namespace Athyl
             StanceDelegate();
         }
         public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            //torso.Draw(spriteBatch);
+        {            
             projectile.Draw(spriteBatch, torso.Position);
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
 
+            //torso.Draw(spriteBatch);
             //wheel.Draw(spriteBatch);
 
             if (Crouching && stance == Stances.LongRange)
