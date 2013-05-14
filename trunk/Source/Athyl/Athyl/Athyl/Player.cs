@@ -676,6 +676,9 @@ namespace Athyl
                 TotalElapsed -= TimePerFrame;
             }
 
+            if(skillPoints == 0)
+                NextLevel = false;
+
             if (axis.MotorSpeed > 0 && !Dead)
             {
                 RowFrame = 0;
