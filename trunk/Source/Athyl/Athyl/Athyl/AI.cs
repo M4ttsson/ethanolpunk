@@ -34,6 +34,7 @@ namespace Athyl
 
         private float speed;
         private DateTime lastCheck;
+        private Behavior behaviors;
         private delegate void BehaviorDel();
         private BehaviorDel behaviorDel;
         private int patrolLength = 0;
@@ -109,7 +110,7 @@ namespace Athyl
                     break;
             }
 
-
+            this.behaviors = behaviors;
 
 
         }
@@ -282,8 +283,22 @@ namespace Athyl
 
         protected override void UpdateFrame(float elapsed)
         {
+            if (behaviors == Behavior.Turret)
+            {
+                if (direction == Direction.Left)
+                {
+                    RowFrame = 1;
+                }
 
-            base.UpdateFrame(0.2f);
+                else if (direction == Direction.Right)
+                {
+                    RowFrame = 0;
+                }
+            }
+            else
+            {
+                base.UpdateFrame(0.2f);
+            }
         }
 
         #region Behavior
@@ -420,15 +435,7 @@ namespace Athyl
                 direction = (direction == Direction.Left) ? Direction.Right : Direction.Left;
                 lastCheck = DateTime.Now;
             }
-            if (direction == Direction.Left)
-            {
-                RowFrame = 1;
-            }
-
-            else if (direction == Direction.Right)
-            {
-                RowFrame = 0;
-            }
+            UpdateFrame(0.2f);
         }
 
         private void Boss()
