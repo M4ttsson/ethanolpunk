@@ -207,27 +207,27 @@ namespace Athyl
                 paused = false;
             }
 
-            if (gameState == GameState.LevelUp && player.NextLevel)
-            {
-                if (kbState.IsKeyDown(InputClass.closeKey) && !prevKdState.IsKeyDown(InputClass.closeKey))
-                {
-                    player.skillTree.LevelCloseRange();
-                    player.skillPoints--;
-                }
-                else if (kbState.IsKeyDown(InputClass.middleKey) && !prevKdState.IsKeyDown(InputClass.middleKey))
-                {
-                    player.skillTree.LevelMidRange();
-                    player.skillPoints--;
-                }
-                else if (kbState.IsKeyDown(InputClass.longKey) && !prevKdState.IsKeyDown(InputClass.longKey))
-                {
-                    player.skillTree.LongRange();
-                    player.skillPoints--;
-                }
+            //if (gameState == GameState.LevelUp && player.NextLevel)
+            //{
+            //    if (kbState.IsKeyDown(InputClass.closeKey) && !prevKdState.IsKeyDown(InputClass.closeKey))
+            //    {
+            //        player.skillTree.LevelCloseRange();
+            //        player.skillPoints--;
+            //    }
+            //    else if (kbState.IsKeyDown(InputClass.middleKey) && !prevKdState.IsKeyDown(InputClass.middleKey))
+            //    {
+            //        player.skillTree.LevelMidRange();
+            //        player.skillPoints--;
+            //    }
+            //    else if (kbState.IsKeyDown(InputClass.longKey) && !prevKdState.IsKeyDown(InputClass.longKey))
+            //    {
+            //        player.skillTree.LongRange();
+            //        player.skillPoints--;
+            //    }
 
-                if (player.skillPoints == 0)
-                    player.NextLevel = false;
-            }
+            //    if (player.skillPoints == 0)
+            //        player.NextLevel = false;
+            //}
 
             if (gameState == GameState.Loading)
             {
@@ -330,7 +330,7 @@ namespace Athyl
                 AtkDmg.mouseOver = false;
             else
                 AtkDmg.mouseOver = true;
-            if (player.skillTree.attackSpeed > 0)
+            if (player.skillTree.AtkSpdPoint > 0)
                 AtkSpd.mouseOver = false;
             else
                 AtkSpd.mouseOver = true;
@@ -500,61 +500,85 @@ namespace Athyl
                 if (FireBreath.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.firebreathPoint < 5)
                 {
                     player.skillTree.firebreathPoint++;
+                    player.skillTree.increasefireBreath();
+                    player.skillTree.CloseRange();
                     player.skillPoints--;
                 }
                 else if (Fireburst.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.FireBurstPoint < 5)
                 {
                     player.skillTree.FireBurstPoint++;
+                    player.skillTree.increaseFireBurst();
+                    player.skillTree.MidRange();
                     player.skillPoints--;
                 }
                 else if (Shield.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.ShieldPoint < 5)
                 {
                     player.skillTree.ShieldPoint++;
+                    player.skillTree.increaseShield();
+                    player.skillTree.LongRange();
                     player.skillPoints--;
                 }
                 else if (AtkDmg.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AtkDmgPoint < 5 && player.skillTree.firebreathPoint > 0)
                 {
                     player.skillTree.AtkDmgPoint++;
+                    player.skillTree.increaseAtkDmg();
+                    player.skillTree.CloseRange();
                     player.skillPoints--;
                 }
                 else if (MoreAthyl.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AthylPoint < 5 && player.skillTree.FireBurstPoint > 0)
                 {
                     player.skillTree.AthylPoint++;
+                    player.skillTree.increaseAthyl();
+                    player.skillTree.MidRange();
                     player.skillPoints--;
                 }
                 else if (MoreHP.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.HPPoint < 5 && player.skillTree.ShieldPoint > 0)
                 {
                     player.skillTree.HPPoint++;
+                    player.skillTree.increaseArmor();
+                    player.skillTree.LongRange();
                     player.skillPoints--;
                 }
                 else if (AtkSpd.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AtkSpdPoint < 5 && player.skillTree.firebreathPoint > 0)
                 {
                     player.skillTree.AtkSpdPoint++;
+                    player.skillTree.increaseAtkSpd();
+                    player.skillTree.CloseRange();
                     player.skillPoints--;
                 }
                 else if (Passtrough.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.PassthroughPoint < 5 && player.skillTree.FireBurstPoint > 0)
                 {
                     player.skillTree.PassthroughPoint++;
+                    player.skillTree.increasePasstrough();
+                    player.skillTree.MidRange();
                     player.skillPoints--;
                 }
                 else if (Aim.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AimPoint < 5 && player.skillTree.ShieldPoint > 0)
                 {
                     player.skillTree.AimPoint++;
+                    player.skillTree.increaseAim();
+                    player.skillTree.LongRange();
                     player.skillPoints--;
                 }
                 else if (Dodge.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.DodgePoint < 5 && (player.skillTree.AtkDmgPoint == 5 || player.skillTree.AtkSpdPoint == 5))
                 {
                     player.skillTree.DodgePoint++;
+                    player.skillTree.increaseDodge();
+                    player.skillTree.CloseRange();
                     player.skillPoints--;
                 }
                 else if (FastShot.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.FastShotPoint < 5 && (player.skillTree.AthylPoint == 5 || player.skillTree.PassthroughPoint == 5))
                 {
                     player.skillTree.FastShotPoint++;
+                    player.skillTree.increaseFastShot();
+                    player.skillTree.MidRange();
                     player.skillPoints--;
                 }
                 else if (ShieldCD.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.ShieldCDPoint < 5 && (player.skillTree.HPPoint == 5 || player.skillTree.AimPoint == 5))
                 {
                     player.skillTree.ShieldCDPoint++;
+                    player.skillTree.increaseShieldCD();
+                    player.skillTree.LongRange();
                     player.skillPoints--;
                 }
             }
