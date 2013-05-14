@@ -95,7 +95,7 @@ namespace Athyl
                     enemyHP += 100;
                     behaviorDel = Turret;
                     damage = 45;
-                    Load(texture, 2, 1, 1, 1);
+                    Load(texture, 2, 4, 1, 1);
                     break;
 
                 case Behavior.Boss:
@@ -295,6 +295,14 @@ namespace Athyl
         {
             if (behaviors == Behavior.Turret)
             {
+                TotalElapsed += elapsed;
+                if (TotalElapsed > TimePerFrame)
+                {
+                    ColFrame++;
+                    if (ColFrame == frameColumn)
+                        ColFrame = RestartFrame;
+                    TotalElapsed -= TimePerFrame;
+                }
                 if (direction == Direction.Left)
                 {
                     RowFrame = 1;

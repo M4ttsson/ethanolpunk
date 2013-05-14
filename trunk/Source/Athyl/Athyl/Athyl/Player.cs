@@ -66,18 +66,18 @@ namespace Athyl
         private DateTime lastBullet;
         private DateTime lastJump;
 
-        private int frameRow;
-        private int frameColumn;
-        private int RestartFrame;
-        private int totalXP;
+        protected int frameRow;
+        protected int frameColumn;
+        protected int RestartFrame;
+        protected int totalXP;
 
         private bool hasLeveledRecently = false;
         private bool isFalling = false;
         private bool liftObject = false;
         private bool sniping = false;
 
-        private float TimePerFrame;
-        private float TotalElapsed;
+        protected float TimePerFrame;
+        protected float TotalElapsed;
         private float tempfallDamage = 0;
         private float aimingAngle = 0;
         private float Damage;
