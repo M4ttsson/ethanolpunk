@@ -421,12 +421,22 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.Left))
                 player.torso.body.ApplyForce(new Vector2(-21, 0));*/
 
-
+            //Jump (jumpKey)
             if (keyboardState.IsKeyDown(InputClass.jumpKey) && !prevKeyboardState.IsKeyDown(InputClass.jumpKey))
             {
                 player.Jump();
             }
+            //Shoot (shootKey)
+            if (keyboardState.IsKeyDown(InputClass.shootKey))
+            {
+                player.useWeapon(world);
+            }
+            //Use stuff ex.lifting stuff (useKey)
+            if (keyboardState.IsKeyDown(InputClass.useKey))
+            {
+            }
 
+            //change stances (closeKey, middleKey, longKey)
             if (keyboardState.IsKeyDown(InputClass.closeKey))
             {
                 player.Stance = Player.Stances.CloseRange;
@@ -439,15 +449,11 @@ namespace Athyl
             {
                 player.Stance = Player.Stances.LongRange;
             }
-
-            if (keyboardState.IsKeyDown(InputClass.shootKey))
-            {
-                player.useWeapon(world);
-            }
-
+            
+            //Movement keys (leftKey, UuKey, downKey, rightKey, crouchKey)
+            //Left
             if (keyboardState.IsKeyDown(InputClass.leftKey))
             {
-
                 player.Move(Player.Movement.Left);
                 if (keyboardState.IsKeyDown(InputClass.upKey))
                 {
@@ -459,7 +465,7 @@ namespace Athyl
                     player.direction = Player.Direction.Downleft;
                 }
             }
-
+            //Right
             else if (keyboardState.IsKeyDown(InputClass.rightKey))
             {
                 player.Move(Player.Movement.Right);
@@ -473,60 +479,26 @@ namespace Athyl
                     player.direction = Player.Direction.Downright;
                 }
             }
-
+            //Up
             else if (keyboardState.IsKeyDown(InputClass.upKey))
             {
                 player.direction = Player.Direction.Up;
                 player.Move(Player.Movement.Stop);
             }
-
-            else if (keyboardState.IsKeyUp(InputClass.crouchKey) && prevKeyboardState.IsKeyDown(InputClass.crouchKey))// && prevKeyboardState.IsKeyDown(Keys.Up))
+            //crouch
+            else if (keyboardState.IsKeyUp(InputClass.crouchKey) && prevKeyboardState.IsKeyDown(InputClass.crouchKey))
             {
                 player.Crouching = false;
             }
-
             else if (keyboardState.IsKeyDown(InputClass.crouchKey))
             {
-                player.Crouching = true;
-
-                
+                player.Crouching = true;  
             }
+
             else if (!player.OnGround)
             {
                 player.Move(Player.Movement.Stop);
             }
-                
-
-
-
-
-
-            
-
-
-            //Logik för att kunna skjuta diagonalt när man står still, men det funkar dåligt
-            /*else if(keyboardState.IsKeyDown(Keys.X)){
-                if(player.Direction == 0){
-                    player.Direction = 4;
-                    if(keyboardState.IsKeyDown(Keys.Down)){
-                        player.Direction = 6;
-                    }
-                    else if(keyboardState.IsKeyDown(Keys.Up)){
-                        player.Direction = 4;
-                    }
-                }
-                else if(player.Direction == 1){
-                    player.Direction = 5;
-                    if(keyboardState.IsKeyDown(Keys.Down)){
-                        player.Direction = 7;
-                    }
-                    else if(keyboardState.IsKeyDown(Keys.Up)){
-                        player.Direction = 5;
-                    }
-                }
-
-            }*/
-
             else
             {
                 player.Move(Player.Movement.Stop);
@@ -536,12 +508,9 @@ namespace Athyl
                     player.direction = Player.Direction.Left;
                 else
                     player.direction = Player.Direction.Right;
-
-
             }
 
-            
-
+            //Använder M som snabbknapp för att kunna spawna fiender.
             /*if (keyboardState.IsKeyDown(Keys.M) && prevKeyboardState.IsKeyDown(Keys.M))
             {
 
@@ -726,8 +695,6 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            Console.WriteLine(player.skillTree.maxAthyl);
-
             menu.UpdateMenu(gameTime, this, player);
             keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.R))

@@ -12,7 +12,7 @@ namespace Athyl
     class InputClass
     {
         //keys
-        public static Keys rightKey, leftKey, upKey, downKey, jumpKey, shootKey, closeKey, middleKey, longKey, crouchKey;
+        public static Keys rightKey, leftKey, upKey, downKey, jumpKey, shootKey, closeKey, middleKey, longKey, crouchKey, useKey;
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private InputClass()
         {
@@ -53,6 +53,8 @@ namespace Athyl
                 middleKey = (Keys)Enum.Parse(typeof(Keys), key, true);
                 key = nvc.Get("Long");
                 longKey = (Keys)Enum.Parse(typeof(Keys), key, true);
+                key = nvc.Get("Use");
+                useKey = (Keys)Enum.Parse(typeof(Keys), key, true);
 
                 return false;
             }
