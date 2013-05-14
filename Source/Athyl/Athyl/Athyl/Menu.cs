@@ -253,23 +253,61 @@ namespace Athyl
                 }
             }
 
+            UpdateColorTalentree(player);
+
+            MouseOver(game, player);
+            previousMouseState = mouseState;
+            prevKdState = kbState;
+        }
+
+        /// <summary>
+        /// Uppdaterar så att skillträdets färger stämmer med poängen.
+        /// </summary>
+        /// <param name="player"></param>
+        public void UpdateColorTalentree(Player player)
+        {
             if (player.skillPoints >= 1)     //Ska längre fram öka färgen på skillträdet.
             {
                 CloseColorIncrease = 1;
+                FireBreath.mouseOver = false;
                 MidColorIncrease = 1;
+                Fireburst.mouseOver = false;
                 LongColorIncrease = 1;
-            }
-            else if (CloseColorIncrease > 3)
-            {
-                CloseColorIncrease = 3;
-            }
-            else if (MidColorIncrease > 3)
-            {
-                MidColorIncrease = 3;
-            }
-            else if (LongColorIncrease > 3)
-            {
-                LongColorIncrease = 3;
+                Shield.mouseOver = false;
+                if (player.skillTree.firebreathPoint > 0)
+                {
+                    CloseColorIncrease = 2;
+                    AtkDmg.mouseOver = false;
+                    AtkSpd.mouseOver = false;
+                }
+                if (player.skillTree.FireBurstPoint > 0)
+                {
+                    MidColorIncrease = 2;
+                    MoreAthyl.mouseOver = false;
+                    Passtrough.mouseOver = false;
+                }
+                if (player.skillTree.ShieldPoint > 0)
+                {
+                    LongColorIncrease = 2;
+                    MoreHP.mouseOver = false;
+                    Aim.mouseOver = false;
+                }
+
+                if (player.skillTree.AtkDmgPoint == 5 || player.skillTree.AtkSpdPoint == 5)
+                {
+                    CloseColorIncrease = 3;
+                    Dodge.mouseOver = false;
+                }
+                if (player.skillTree.AthylPoint == 5 || player.skillTree.PassthroughPoint == 5)
+                {
+                    MidColorIncrease = 3;
+                    FastShot.mouseOver = false;
+                }
+                if (player.skillTree.HPPoint == 5 || player.skillTree.AimPoint == 5)
+                {
+                    LongColorIncrease = 3;
+                    ShieldCD.mouseOver = false;
+                }
             }
             else
             {
@@ -277,12 +315,6 @@ namespace Athyl
                 MidColorIncrease = 0;
                 LongColorIncrease = 0;
             }
-
-
-            MouseOver(game);
-            previousMouseState = mouseState;
-            prevKdState = kbState;
-
         }
 
         /// <summary>
@@ -346,7 +378,7 @@ namespace Athyl
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="game"></param>
-        void MouseClicked(Game1 game)
+        void MouseClicked(Game1 game, Player player)
         {
             if (start.rectangle.Contains(mouseState.X, mouseState.Y))
             {
@@ -396,6 +428,75 @@ namespace Athyl
             {
                 game.Exit();
             }
+
+            skillTreeClick(player);
+        }
+
+        public void skillTreeClick(Player player)
+        {
+            if (player.skillPoints > 0)
+            {
+                if (FireBreath.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.firebreathPoint < 5)
+                {
+                    player.skillTree.firebreathPoint++;
+                    player.skillPoints--;
+                }
+                else if (Fireburst.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.FireBurstPoint < 5)
+                {
+                    player.skillTree.FireBurstPoint++;
+                    player.skillPoints--;
+                }
+                else if (Shield.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.ShieldPoint < 5)
+                {
+                    player.skillTree.ShieldPoint++;
+                    player.skillPoints--;
+                }
+                else if (AtkDmg.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AtkDmgPoint < 5)
+                {
+                    player.skillTree.AtkDmgPoint++;
+                    player.skillPoints--;
+                }
+                else if (MoreAthyl.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AthylPoint < 5)
+                {
+                    player.skillTree.AthylPoint++;
+                    player.skillPoints--;
+                }
+                else if (MoreHP.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.HPPoint < 5)
+                {
+                    player.skillTree.HPPoint++;
+                    player.skillPoints--;
+                }
+                else if (AtkSpd.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AtkSpdPoint < 5)
+                {
+                    player.skillTree.AtkSpdPoint++;
+                    player.skillPoints--;
+                }
+                else if (Passtrough.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.PassthroughPoint < 5)
+                {
+                    player.skillTree.PassthroughPoint++;
+                    player.skillPoints--;
+                }
+                else if (Aim.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AimPoint < 5)
+                {
+                    player.skillTree.AimPoint++;
+                    player.skillPoints--;
+                }
+                else if (Dodge.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.DodgePoint < 5)
+                {
+                    player.skillTree.DodgePoint++;
+                    player.skillPoints--;
+                }
+                else if (FastShot.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.FastShotPoint < 5)
+                {
+                    player.skillTree.FastShotPoint++;
+                    player.skillPoints--;
+                }
+                else if (ShieldCD.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.ShieldCDPoint < 5)
+                {
+                    player.skillTree.ShieldCDPoint++;
+                    player.skillPoints--;
+                }
+            }
         }
 
         /// <summary>
@@ -404,7 +505,7 @@ namespace Athyl
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="game"></param>
-        public void MouseOver(Game1 game)
+        public void MouseOver(Game1 game, Player player)
         {
             if (start.rectangle.Contains(mouseState.X, mouseState.Y))
             {
@@ -473,7 +574,7 @@ namespace Athyl
 
             if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
             {
-                MouseClicked(game);
+                MouseClicked(game, player);
             }
         }
                 
@@ -595,8 +696,8 @@ namespace Athyl
                 MoreHP.Draw(spriteBatch, cameraPos + new Vector2(895, 350), viewPortPos);
 
                 AtkSpd.Draw(spriteBatch, cameraPos + new Vector2(380, 350), viewPortPos);       //Andra höger nivå skillsen
-                Passtrough.Draw(spriteBatch, cameraPos + new Vector2(980, 350), viewPortPos);
-                Aim.Draw(spriteBatch, cameraPos + new Vector2(680, 350), viewPortPos);
+                Passtrough.Draw(spriteBatch, cameraPos + new Vector2(680, 350), viewPortPos);
+                Aim.Draw(spriteBatch, cameraPos + new Vector2(980, 350), viewPortPos);
 
                 Dodge.Draw(spriteBatch, cameraPos + new Vector2(335, 450), viewPortPos);        //Sista nivå skillsen
                 FastShot.Draw(spriteBatch, cameraPos + new Vector2(635, 450), viewPortPos);
