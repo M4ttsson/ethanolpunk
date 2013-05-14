@@ -48,7 +48,7 @@ namespace Athyl
 
     class Menu
     {
-        public enum GameState { StartMenu, Loading, Playing, Paused, ControlsMenu, Story, GameOver, LevelUp }
+        public enum GameState { StartMenu, Loading, Playing, Paused, ControlsMenu, Story, GameOver, Skilltree }
         
         private Button start, exit, control, story, back, resume, mainMenu, restart;  //De olika text knapparna
         private Button Shield, ShieldCD, MoreHP, Aim; //Long Skilltree knappar;
@@ -199,16 +199,16 @@ namespace Athyl
             }
             if (kbState.IsKeyDown(Keys.N) && !prevKdState.IsKeyDown(Keys.N) && gameState == GameState.Playing)
             {
-                gameState = GameState.LevelUp;
+                gameState = GameState.Skilltree;
                 paused = true;
             }
-            else if (kbState.IsKeyDown(Keys.N) && !prevKdState.IsKeyDown(Keys.N) && gameState == GameState.LevelUp)
+            else if (kbState.IsKeyDown(Keys.N) && !prevKdState.IsKeyDown(Keys.N) && gameState == GameState.Skilltree)
             {
                 gameState = GameState.Playing;
                 paused = false;
             }
 
-            //if (gameState == GameState.LevelUp && player.NextLevel)
+            //if (gameState == GameState.Skilltree && player.NextLevel)
             //{
             //    if (kbState.IsKeyDown(InputClass.closeKey) && !prevKdState.IsKeyDown(InputClass.closeKey))
             //    {
@@ -761,7 +761,7 @@ namespace Athyl
                     0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
             }
 
-            else if (gameState == GameState.LevelUp)
+            else if (gameState == GameState.Skilltree)
             {
                 spriteBatch.End();
                 spriteBatch.Begin();

@@ -716,7 +716,7 @@ namespace Athyl
                     // menu.StartMenu(this);
                 }
 
-                else if (menu.gameState == Menu.GameState.LevelUp)
+                else if (menu.gameState == Menu.GameState.Skilltree)
                 {
                     timer.Stop();
 
