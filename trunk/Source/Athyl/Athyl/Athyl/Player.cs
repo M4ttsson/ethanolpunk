@@ -676,7 +676,10 @@ namespace Athyl
                 TotalElapsed -= TimePerFrame;
             }
 
-            if(skillPoints == 0)
+            //Om det finns skillpoints oanvända
+            if(skillPoints > 0)
+                NextLevel = true;
+            else
                 NextLevel = false;
 
             if (axis.MotorSpeed > 0 && !Dead)

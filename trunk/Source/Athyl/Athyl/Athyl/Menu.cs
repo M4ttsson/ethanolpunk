@@ -51,9 +51,9 @@ namespace Athyl
         public enum GameState { StartMenu, Loading, Playing, Paused, ControlsMenu, Story, GameOver, Skilltree }
         
         private Button start, exit, control, story, back, resume, mainMenu, restart;  //De olika text knapparna
-        private Button Shield, ShieldCD, MoreHP, Aim; //Long Skilltree knappar;
-        private Button Fireburst, MoreAthyl, Passtrough, FastShot; //Mid Skilltree knappar;
-        private Button AtkDmg, AtkSpd, FireBreath, Dodge; //close Skilltree knappar;
+        private Button Shield, ShieldCD, MoreHP, Aim;                                //Long Skilltree knappar;
+        private Button Fireburst, MoreAthyl, Passtrough, FastShot;                  //Mid Skilltree knappar;
+        private Button AtkDmg, AtkSpd, FireBreath, Dodge;                          //close Skilltree knappar;
 
         private Texture2D menuBackground, pauseBackground, keyboardLayout, storyText, loadingText, gameOverText, closeText, rangeText, middleText;
 
@@ -741,8 +741,7 @@ namespace Athyl
 
             else if (gameState == GameState.Skilltree)
             {
-                spriteBatch.End();
-                spriteBatch.Begin();
+                spriteBatch.Draw(pauseBackground, cameraPos, Color.White);
 
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
