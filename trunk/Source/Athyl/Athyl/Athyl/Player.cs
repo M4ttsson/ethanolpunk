@@ -838,7 +838,6 @@ namespace Athyl
 
                 else
                     OnWall = false;
-                wheel.body.Friction = 0;
             }
 
             else

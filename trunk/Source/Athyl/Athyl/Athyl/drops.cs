@@ -123,7 +123,7 @@ namespace Athyl
             {
                 try
                 {
-                    if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "player"))
+                    if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "athyl"))
                     {
 
                             playerz.playerAthyl += 50;
@@ -132,7 +132,7 @@ namespace Athyl
                     }
 
 
-                    else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "player"))
+                    else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "hpBox"))
                     {
                         
                             playerz.playerHP += 35;
