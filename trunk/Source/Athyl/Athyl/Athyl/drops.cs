@@ -55,9 +55,10 @@ namespace Athyl
 
             ethanolDrop = false;
             hpDrop = false;
-            ethanolBox.body.IgnoreCollisionWith(player.torso.body);
-            hpBox.body.IgnoreCollisionWith(player.torso.body);
-
+            //ethanolBox.body.IgnoreCollisionWith(player.torso.body);
+            //hpBox.body.IgnoreCollisionWith(player.torso.body);
+            hpBox.body.IgnoreCollisionWith(player.wheel.body);
+            ethanolBox.body.IgnoreCollisionWith(player.wheel.body);
 
         }
 
@@ -122,7 +123,7 @@ namespace Athyl
             {
                 try
                 {
-                    if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "playerwheel") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "athyl"))
+                    if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "player"))
                     {
 
                             playerz.playerAthyl += 50;
@@ -131,7 +132,7 @@ namespace Athyl
                     }
 
 
-                    else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "playerwheel") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "hpBox"))
+                    else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "player"))
                     {
                         
                             playerz.playerHP += 35;
