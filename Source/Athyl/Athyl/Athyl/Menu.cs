@@ -24,6 +24,7 @@ namespace Athyl
         public Rectangle rectangle;
         public bool mouseOver { get; set; }
 
+
         public Button(Texture2D normal, Texture2D highlight, bool mouseOver)
         {
             this.button = normal;
