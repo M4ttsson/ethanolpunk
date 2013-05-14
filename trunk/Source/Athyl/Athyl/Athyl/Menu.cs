@@ -266,54 +266,111 @@ namespace Athyl
         /// <param name="player"></param>
         public void UpdateColorTalentree(Player player)
         {
+            CloseColorIncrease = 3;  //Dessa ändrar färgen på själva skillsbordet
+            MidColorIncrease = 3;
+            LongColorIncrease = 3;
+
+            ifFullIncreaseColor(player);
+            ifPointsIncreaseColor(player);
+        }
+
+        /// <summary>
+        /// Om tillgängliga poäng, ge färg till de skills man får lägga på.
+        /// </summary>
+        /// <param name="player"></param>
+        public void ifPointsIncreaseColor(Player player)
+        {
             if (player.skillPoints >= 1)     //Ska längre fram öka färgen på skillträdet.
             {
-                CloseColorIncrease = 1;
                 FireBreath.mouseOver = false;
-                MidColorIncrease = 1;
                 Fireburst.mouseOver = false;
-                LongColorIncrease = 1;
                 Shield.mouseOver = false;
                 if (player.skillTree.firebreathPoint > 0)
                 {
-                    CloseColorIncrease = 2;
                     AtkDmg.mouseOver = false;
                     AtkSpd.mouseOver = false;
                     if (player.skillTree.AtkDmgPoint == 5 || player.skillTree.AtkSpdPoint == 5)
                     {
-                        CloseColorIncrease = 3;
                         Dodge.mouseOver = false;
                     }
                 }
                 if (player.skillTree.FireBurstPoint > 0)
                 {
-                    MidColorIncrease = 2;
                     MoreAthyl.mouseOver = false;
                     Passtrough.mouseOver = false;
                     if (player.skillTree.AthylPoint == 5 || player.skillTree.PassthroughPoint == 5)
                     {
-                        MidColorIncrease = 3;
                         FastShot.mouseOver = false;
                     }
                 }
                 if (player.skillTree.ShieldPoint > 0)
                 {
-                    LongColorIncrease = 2;
                     MoreHP.mouseOver = false;
                     Aim.mouseOver = false;
                     if (player.skillTree.HPPoint == 5 || player.skillTree.AimPoint == 5)
                     {
-                        LongColorIncrease = 3;
                         ShieldCD.mouseOver = false;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Ger de skillsen som har poäng färg.
+        /// </summary>
+        /// <param name="player"></param>
+        public void ifFullIncreaseColor(Player player)
+        {
+            if (player.skillTree.firebreathPoint > 0)
+                FireBreath.mouseOver = false;
             else
-            {
-                CloseColorIncrease = 0;
-                MidColorIncrease = 0;
-                LongColorIncrease = 0;
-            }
+                FireBreath.mouseOver = true;
+            if (player.skillTree.AtkDmgPoint > 0)
+                AtkDmg.mouseOver = false;
+            else
+                AtkDmg.mouseOver = true;
+            if (player.skillTree.attackSpeed > 0)
+                AtkSpd.mouseOver = false;
+            else
+                AtkSpd.mouseOver = true;
+            if (player.skillTree.DodgePoint > 0)
+                Dodge.mouseOver = false;
+            else
+                Dodge.mouseOver = true;
+
+            if (player.skillTree.FireBurstPoint > 0)
+                Fireburst.mouseOver = false;
+            else
+                Fireburst.mouseOver = true;
+            if (player.skillTree.AthylPoint > 0)
+                MoreAthyl.mouseOver = false;
+            else
+                MoreAthyl.mouseOver = true;
+            if (player.skillTree.PassthroughPoint > 0)
+                Passtrough.mouseOver = false;
+            else
+                Passtrough.mouseOver = true;
+            if (player.skillTree.FastShotPoint > 0)
+                FastShot.mouseOver = false;
+            else
+                FastShot.mouseOver = true;
+
+            if (player.skillTree.ShieldPoint > 0)
+                Shield.mouseOver = false;
+            else
+                Shield.mouseOver = true;
+            if (player.skillTree.HPPoint > 0)
+                MoreHP.mouseOver = false;
+            else
+                MoreHP.mouseOver = true;
+            if (player.skillTree.AimPoint > 0)
+                Aim.mouseOver = false;
+            else
+                Aim.mouseOver = true;
+            if (player.skillTree.ShieldCDPoint > 0)
+                ShieldCD.mouseOver = false;
+            else
+                ShieldCD.mouseOver = true;
         }
 
         /// <summary>
