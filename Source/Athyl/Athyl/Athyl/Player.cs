@@ -30,7 +30,7 @@ namespace Athyl
         public DrawableGameObject torso;
         public Projectile projectile;
         public Skilltree skillTree;
-        public Int16 skillPoints = 0;
+        public Int16 skillPoints = 10;
 
         public bool OnGround { get; set; }
         public bool OnWall { get; set; }
