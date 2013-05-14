@@ -660,28 +660,7 @@ namespace Athyl
 
         #endregion
         #region DrawsAndUpdate
-
-        //public void LevelUp(Stances stance)
-        //{
-        //    switch (stance)
-        //    {
-        //        case Stances.CloseRange:
-        //            skillTree.LevelCloseRange();
-        //            NextLevel = false;
-        //            break;
-                    
-        //        case Stances.MidRange:
-        //            skillTree.LevelMidRange();
-        //            NextLevel = false;
-        //            break;
-
-        //        case Stances.LongRange:
-        //            skillTree.LevelLongRange();
-        //            NextLevel = false;
-        //            break;
-        //    }
-        //}
-
+        
         /// <summary>
         /// Uppdaterar rörelsen i animeringen
         /// </summary>
