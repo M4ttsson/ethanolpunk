@@ -279,34 +279,33 @@ namespace Athyl
                     CloseColorIncrease = 2;
                     AtkDmg.mouseOver = false;
                     AtkSpd.mouseOver = false;
+                    if (player.skillTree.AtkDmgPoint == 5 || player.skillTree.AtkSpdPoint == 5)
+                    {
+                        CloseColorIncrease = 3;
+                        Dodge.mouseOver = false;
+                    }
                 }
                 if (player.skillTree.FireBurstPoint > 0)
                 {
                     MidColorIncrease = 2;
                     MoreAthyl.mouseOver = false;
                     Passtrough.mouseOver = false;
+                    if (player.skillTree.AthylPoint == 5 || player.skillTree.PassthroughPoint == 5)
+                    {
+                        MidColorIncrease = 3;
+                        FastShot.mouseOver = false;
+                    }
                 }
                 if (player.skillTree.ShieldPoint > 0)
                 {
                     LongColorIncrease = 2;
                     MoreHP.mouseOver = false;
                     Aim.mouseOver = false;
-                }
-
-                if (player.skillTree.AtkDmgPoint == 5 || player.skillTree.AtkSpdPoint == 5)
-                {
-                    CloseColorIncrease = 3;
-                    Dodge.mouseOver = false;
-                }
-                if (player.skillTree.AthylPoint == 5 || player.skillTree.PassthroughPoint == 5)
-                {
-                    MidColorIncrease = 3;
-                    FastShot.mouseOver = false;
-                }
-                if (player.skillTree.HPPoint == 5 || player.skillTree.AimPoint == 5)
-                {
-                    LongColorIncrease = 3;
-                    ShieldCD.mouseOver = false;
+                    if (player.skillTree.HPPoint == 5 || player.skillTree.AimPoint == 5)
+                    {
+                        LongColorIncrease = 3;
+                        ShieldCD.mouseOver = false;
+                    }
                 }
             }
             else
@@ -432,6 +431,10 @@ namespace Athyl
             skillTreeClick(player);
         }
 
+        /// <summary>
+        /// Bestämmer vad som ska hända när man klickar i skillträdet.
+        /// </summary>
+        /// <param name="player"></param>
         public void skillTreeClick(Player player)
         {
             if (player.skillPoints > 0)
@@ -451,47 +454,47 @@ namespace Athyl
                     player.skillTree.ShieldPoint++;
                     player.skillPoints--;
                 }
-                else if (AtkDmg.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AtkDmgPoint < 5)
+                else if (AtkDmg.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AtkDmgPoint < 5 && player.skillTree.firebreathPoint > 0)
                 {
                     player.skillTree.AtkDmgPoint++;
                     player.skillPoints--;
                 }
-                else if (MoreAthyl.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AthylPoint < 5)
+                else if (MoreAthyl.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AthylPoint < 5 && player.skillTree.FireBurstPoint > 0)
                 {
                     player.skillTree.AthylPoint++;
                     player.skillPoints--;
                 }
-                else if (MoreHP.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.HPPoint < 5)
+                else if (MoreHP.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.HPPoint < 5 && player.skillTree.ShieldPoint > 0)
                 {
                     player.skillTree.HPPoint++;
                     player.skillPoints--;
                 }
-                else if (AtkSpd.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AtkSpdPoint < 5)
+                else if (AtkSpd.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AtkSpdPoint < 5 && player.skillTree.firebreathPoint > 0)
                 {
                     player.skillTree.AtkSpdPoint++;
                     player.skillPoints--;
                 }
-                else if (Passtrough.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.PassthroughPoint < 5)
+                else if (Passtrough.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.PassthroughPoint < 5 && player.skillTree.FireBurstPoint > 0)
                 {
                     player.skillTree.PassthroughPoint++;
                     player.skillPoints--;
                 }
-                else if (Aim.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AimPoint < 5)
+                else if (Aim.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AimPoint < 5 && player.skillTree.ShieldPoint > 0)
                 {
                     player.skillTree.AimPoint++;
                     player.skillPoints--;
                 }
-                else if (Dodge.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.DodgePoint < 5)
+                else if (Dodge.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.DodgePoint < 5 && (player.skillTree.AtkDmgPoint == 5 || player.skillTree.AtkSpdPoint == 5))
                 {
                     player.skillTree.DodgePoint++;
                     player.skillPoints--;
                 }
-                else if (FastShot.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.FastShotPoint < 5)
+                else if (FastShot.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.FastShotPoint < 5 && (player.skillTree.AthylPoint == 5 || player.skillTree.PassthroughPoint == 5))
                 {
                     player.skillTree.FastShotPoint++;
                     player.skillPoints--;
                 }
-                else if (ShieldCD.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.ShieldCDPoint < 5)
+                else if (ShieldCD.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.ShieldCDPoint < 5 && (player.skillTree.HPPoint == 5 || player.skillTree.AimPoint == 5))
                 {
                     player.skillTree.ShieldCDPoint++;
                     player.skillPoints--;
