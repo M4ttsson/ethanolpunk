@@ -255,7 +255,7 @@ namespace Athyl
             this.myTexture = game.Content.Load<Texture2D>("Player/Ducking");
             this.TimePerFrame = (float)1 / 1f;
             this.RestartFrame = 0;
-            torso.Size = new Vector2(74, 40);
+            torso.Size = new Vector2(70, 30);
             axis.MotorSpeed = 0;
         }
 
@@ -927,11 +927,11 @@ namespace Athyl
             StanceDelegate();
         }
         public virtual void Draw(SpriteBatch spriteBatch)
-        {            
+        {       
             projectile.Draw(spriteBatch, torso.Position);
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
 
-            //torso.Draw(spriteBatch);
+            //torso.Draw(spriteBatch);   
             //wheel.Draw(spriteBatch);
 
             if (Crouching && stance == Stances.LongRange)
