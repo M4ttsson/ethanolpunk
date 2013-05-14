@@ -55,7 +55,7 @@ namespace Athyl
         private Button Fireburst, MoreAthyl, Passtrough, FastShot;                  //Mid Skilltree knappar;
         private Button AtkDmg, AtkSpd, FireBreath, Dodge;                          //close Skilltree knappar;
 
-        private Texture2D menuBackground, pauseBackground, keyboardLayout, storyText, loadingText, gameOverText, closeText, rangeText, middleText;
+        private Texture2D menuBackground, pauseBackground, keyboardLayout, storyText, loadingText, gameOverText, PauseText, closeText, rangeText, middleText;
 
         private Texture2D deadWoman, progressBar, progressBarBorder, runningWoman;
 
@@ -91,6 +91,7 @@ namespace Athyl
             storyText = game.Content.Load<Texture2D>("Menu items/story");
             loadingText = game.Content.Load<Texture2D>("Menu items/LoadingGameButton");
             gameOverText = game.Content.Load<Texture2D>("Menu items/GameOver");
+            PauseText = game.Content.Load<Texture2D>("Menu items/Pause");
             menuBackground = game.Content.Load<Texture2D>("Menu items/LoadingScreen");
             pauseBackground = game.Content.Load<Texture2D>("Menu items/PauseMenuBackground");
 
@@ -700,7 +701,7 @@ namespace Athyl
             else if (gameState == GameState.Paused)
             {
                 spriteBatch.Draw(pauseBackground, cameraPos, Color.White);
-                spriteBatch.DrawString(myFont, "PAUSE", pos0 - new Vector2(100, 0), Color.White, 0, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 1);  //måste ändras
+                spriteBatch.Draw(PauseText, pos2 - new Vector2(PauseText.Width / 2, 0), Color.White);
                 mainMenu.Draw(spriteBatch, pos4, viewPortPos);
                 resume.Draw(spriteBatch, pos5, viewPortPos);
                 restart.Draw(spriteBatch, pos6, viewPortPos);
