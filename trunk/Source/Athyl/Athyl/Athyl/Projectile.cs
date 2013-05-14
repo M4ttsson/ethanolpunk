@@ -50,7 +50,7 @@ namespace Athyl
         {
             this.game = game;
             bulletLifeTime = 10.0f;
-            meleeBulletLifeTime = 0.0f;
+            meleeBulletLifeTime = 0.5f;
         }
 
         public Projectile(Game1 game, Player player)
