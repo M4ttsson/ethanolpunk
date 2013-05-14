@@ -11,7 +11,7 @@ namespace Athyl
         Player playerInfo;
         public float fireRate;
         public float projectileSpeed;
-        //Int16 meleefirebreath, meleeAtkSpd, meleeMoveSpd, meleeJmpHeight, midFireBurst, midFireRate, midEthanoltank, midBulletPassthrough, longShield, longEthanol, longAccuracy, longHeadshotBonus;
+        public Int16 firebreathPoint, AtkSpdPoint, AtkDmgPoint, DodgePoint, FireBurstPoint, FastShotPoint, AthylPoint, PassthroughPoint, ShieldPoint, HPPoint, AimPoint, ShieldCDPoint;
         float meleeAtkSpd, meleeMoveSpd, meleeDmg, meleeEthanolConsumption, meleePlayerDmg, midFireRate, midMoveSpd, midDmg, midEthanolConsumption, midPlayerDmg, longMoveSpd, longEthanolConsumption, longAtkSpd, longDmg, longPlayerDmg, meleeMaxAthyl, midMaxAthyl, longMaxAthyl;
         Vector2 meleeJmpHeight;
         Vector2 midJmpHeight;
@@ -35,7 +35,10 @@ namespace Athyl
             this.damage = 50;
             this.playerInfo = playerInfo;
             this.playerLevel = playerInfo.playerLevel;
-            
+
+            firebreathPoint = AtkSpdPoint = AtkDmgPoint = DodgePoint = 0;           //Close talentpoints
+            FireBurstPoint = FastShotPoint = AthylPoint = PassthroughPoint = 0;     //Mid talentpoints
+            ShieldPoint = HPPoint = AimPoint = ShieldCDPoint = 0;                   //Long talentpoints
 
             meleeAtkSpd = 0.3f;
             meleeMoveSpd = 1.4f; 
