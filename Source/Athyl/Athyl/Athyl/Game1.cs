@@ -624,7 +624,7 @@ namespace Athyl
 
 
                     player.playerXP += 30;
-                    player.playerXP += (timedBonusXP * 50 / (int)menu.totalTime);
+                    //player.playerXP += (timedBonusXP * 50 / (int)menu.totalTime);
 
                     removedAIList.Add(theAI[i]);
 
