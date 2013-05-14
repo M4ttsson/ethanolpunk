@@ -49,7 +49,10 @@ namespace Athyl
     {
         public enum GameState { StartMenu, Loading, Playing, Paused, ControlsMenu, Story, GameOver, LevelUp }
         
-        private Button start, exit, control, story, back, resume, mainMenu, restart;  //De olika knapparna
+        private Button start, exit, control, story, back, resume, mainMenu, restart;  //De olika text knapparna
+        private Button Shield, ShieldCD, MoreHP, Aim; //Long Skilltree knappar;
+        private Button Fireburst, MoreAthyl, Passtrough, FastShot; //Mid Skilltree knappar;
+        private Button AtkDmg, AtkSpd, FireBreath, Dodge; //close Skilltree knappar;
 
         private Texture2D menuBackground, keyboardLayout, storyText, loadingText, gameOverText, closeText, rangeText, middleText;
 
@@ -124,6 +127,22 @@ namespace Athyl
             resume = new Button(game.Content.Load<Texture2D>("Menu items/ResumeButton"), game.Content.Load<Texture2D>("Menu items/ResumeButtonHighlight"), false);
             mainMenu = new Button(game.Content.Load<Texture2D>("Menu items/MainMenuButton"), game.Content.Load<Texture2D>("Menu items/MainMenuButtonHighlight"), false);
             restart = new Button(game.Content.Load<Texture2D>("Menu items/Restartbutton"), game.Content.Load<Texture2D>("Menu items/RestartbuttonHighlight"), false);
+
+            Shield = new Button(game.Content.Load<Texture2D>("Menu items/ShieldIkon"), game.Content.Load<Texture2D>("Menu items/ShieldIkonGray"), true);
+            ShieldCD = new Button(game.Content.Load<Texture2D>("Menu items/ShieldCDIcon"), game.Content.Load<Texture2D>("Menu items/ShieldCDIconGray"), true);
+            MoreHP = new Button(game.Content.Load<Texture2D>("Menu items/AidIcon"), game.Content.Load<Texture2D>("Menu items/AidIconGray"), true);
+            Aim = new Button(game.Content.Load<Texture2D>("Menu items/AimIcon"), game.Content.Load<Texture2D>("Menu items/AimIconGray"), true);
+
+            Fireburst = new Button(game.Content.Load<Texture2D>("Menu items/FBIcon"), game.Content.Load<Texture2D>("Menu items/FBIconGray"), true);
+            MoreAthyl = new Button(game.Content.Load<Texture2D>("Menu items/AthylIcon"), game.Content.Load<Texture2D>("Menu items/AthylIconGray"), true);
+            Passtrough = new Button(game.Content.Load<Texture2D>("Menu items/PenetrationIcon"), game.Content.Load<Texture2D>("Menu items/PenetrationIconGray"), true);
+            FastShot = new Button(game.Content.Load<Texture2D>("Menu items/FireSPDIcon"), game.Content.Load<Texture2D>("Menu items/FireSPDIconGray"), true);
+
+            AtkDmg = new Button(game.Content.Load<Texture2D>("Menu items/YUIcon"), game.Content.Load<Texture2D>("Menu items/YUIconGray"), true);
+            AtkSpd = new Button(game.Content.Load<Texture2D>("Menu items/FastFisting"), game.Content.Load<Texture2D>("Menu items/FastFistingGray"), true);
+            FireBreath = new Button(game.Content.Load<Texture2D>("Menu items/Fireburst"), game.Content.Load<Texture2D>("Menu items/FireburstGray"), true);
+            Dodge = new Button(game.Content.Load<Texture2D>("Menu items/HornedMan"), game.Content.Load<Texture2D>("Menu items/HornedManGray"), true);
+
 
             this.TimePerFrame = (float)1 / 1;           //Update animations
             this.TotalElapsed = 0;
@@ -235,6 +254,10 @@ namespace Athyl
             if (player.skillPoints >= 1)     //Ska längre fram öka färgen på skillträdet.
             {
                 SkilltreeColorIncrease = 1;
+            }
+            else if (SkilltreeColorIncrease > 3)
+            {
+                SkilltreeColorIncrease = 3;
             }
             else
                 SkilltreeColorIncrease = 0;
@@ -535,15 +558,31 @@ namespace Athyl
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 858, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
-                spriteBatch.Draw(SkilltreeCombat, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeCombat.Width, (int)(SkilltreeCombat.Height*0.25) * SkilltreeColorIncrease), Color.White);
-                spriteBatch.Draw(SkilltreeMid, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeMid.Width, (int)(SkilltreeCombat.Height * 0.25) * SkilltreeColorIncrease), Color.White);
-                spriteBatch.Draw(SkilltreeLong, new Rectangle(-(int)Camera.transform.Translation.X + 858, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeLong.Width, (int)(SkilltreeCombat.Height * 0.25) * SkilltreeColorIncrease), Color.White);
+                spriteBatch.Draw(SkilltreeCombat, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeCombat.Width, (int)(SkilltreeCombat.Height * 0.34) * SkilltreeColorIncrease), Color.White);
+                spriteBatch.Draw(SkilltreeMid, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeMid.Width, (int)(SkilltreeCombat.Height * 0.34) * SkilltreeColorIncrease), Color.White);
+                spriteBatch.Draw(SkilltreeLong, new Rectangle(-(int)Camera.transform.Translation.X + 858, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeLong.Width, (int)(SkilltreeCombat.Height * 0.34) * SkilltreeColorIncrease), Color.White);
                 spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 250, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
                 spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
                 spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 850, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
                 spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 290, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
                 spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
                 spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 890, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
+
+                FireBreath.Draw(spriteBatch, cameraPos + new Vector2(335,250), viewPortPos);
+                Fireburst.Draw(spriteBatch, cameraPos + new Vector2(635, 250), viewPortPos);
+                Shield.Draw(spriteBatch, cameraPos + new Vector2(935,250), viewPortPos);
+
+                AtkDmg.Draw(spriteBatch, cameraPos + new Vector2(295, 350), viewPortPos);
+                MoreAthyl.Draw(spriteBatch, cameraPos + new Vector2(595, 350), viewPortPos);
+                MoreHP.Draw(spriteBatch, cameraPos + new Vector2(895, 350), viewPortPos);
+
+                AtkSpd.Draw(spriteBatch, cameraPos + new Vector2(380, 350), viewPortPos);
+                Passtrough.Draw(spriteBatch, cameraPos + new Vector2(980, 350), viewPortPos);
+                Aim.Draw(spriteBatch, cameraPos + new Vector2(680, 350), viewPortPos);
+
+                Dodge.Draw(spriteBatch, cameraPos + new Vector2(335, 450), viewPortPos);
+                FastShot.Draw(spriteBatch, cameraPos + new Vector2(635, 450), viewPortPos);
+                ShieldCD.Draw(spriteBatch, cameraPos + new Vector2(935, 450), viewPortPos);
 
                 spriteBatch.Draw(closeText, new Vector2(-(int)Camera.transform.Translation.X + 285, -(int)Camera.transform.Translation.Y + 185), Color.White);
                 spriteBatch.Draw(middleText, new Vector2(-(int)Camera.transform.Translation.X + 575, -(int)Camera.transform.Translation.Y + 190), Color.White);
