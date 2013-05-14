@@ -652,26 +652,26 @@ namespace Athyl
         #endregion
         #region DrawsAndUpdate
 
-        public void LevelUp(Stances stance)
-        {
-            switch (stance)
-            {
-                case Stances.CloseRange:
-                    skillTree.LevelCloseRange();
-                    NextLevel = false;
-                    break;
+        //public void LevelUp(Stances stance)
+        //{
+        //    switch (stance)
+        //    {
+        //        case Stances.CloseRange:
+        //            skillTree.LevelCloseRange();
+        //            NextLevel = false;
+        //            break;
                     
-                case Stances.MidRange:
-                    skillTree.LevelMidRange();
-                    NextLevel = false;
-                    break;
+        //        case Stances.MidRange:
+        //            skillTree.LevelMidRange();
+        //            NextLevel = false;
+        //            break;
 
-                case Stances.LongRange:
-                    skillTree.LevelLongRange();
-                    NextLevel = false;
-                    break;
-            }
-        }
+        //        case Stances.LongRange:
+        //            skillTree.LevelLongRange();
+        //            NextLevel = false;
+        //            break;
+        //    }
+        //}
 
         /// <summary>
         /// Uppdaterar rörelsen i animeringen
@@ -869,12 +869,12 @@ namespace Athyl
 
             if (playerXP >= xpRequiredPerLevel && playerXP != 0)
             {           
-                playerAthyl = skillTree.playerMaxAthyl;
+                playerAthyl = skillTree.maxAthyl;
                 skillPoints++;
                 playerLevel++;
                 playerXP = playerXP - xpRequiredPerLevel;
                 NextLevel = true;
-                playerHP = skillTree.playerMaxHP;
+                playerHP = skillTree.maxHp;
             }
 
             //Falldamage on player.
