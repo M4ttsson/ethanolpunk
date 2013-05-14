@@ -282,6 +282,7 @@ namespace Athyl
 
         protected override void UpdateFrame(float elapsed)
         {
+
             base.UpdateFrame(0.2f);
         }
 
@@ -418,6 +419,15 @@ namespace Athyl
             {
                 direction = (direction == Direction.Left) ? Direction.Right : Direction.Left;
                 lastCheck = DateTime.Now;
+            }
+            if (direction == Direction.Left)
+            {
+                RowFrame = 1;
+            }
+
+            else if (direction == Direction.Right)
+            {
+                RowFrame = 0;
             }
         }
 
