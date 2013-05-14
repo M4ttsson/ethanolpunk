@@ -208,17 +208,17 @@ namespace Athyl
 
             if (gameState == GameState.LevelUp && player.NextLevel)
             {
-                if (kbState.IsKeyDown(Keys.D1) && !prevKdState.IsKeyDown(Keys.D1))
+                if (kbState.IsKeyDown(InputClass.closeKey) && !prevKdState.IsKeyDown(InputClass.closeKey))
                 {
                     player.skillTree.LevelCloseRange();
                     player.skillPoints--;
                 }
-                else if (kbState.IsKeyDown(Keys.D2) && !prevKdState.IsKeyDown(Keys.D2))
+                else if (kbState.IsKeyDown(InputClass.middleKey) && !prevKdState.IsKeyDown(InputClass.middleKey))
                 {
                     player.skillTree.LevelMidRange();
                     player.skillPoints--;
                 }
-                else if (kbState.IsKeyDown(Keys.D3) && !prevKdState.IsKeyDown(Keys.D3))
+                else if (kbState.IsKeyDown(InputClass.longKey) && !prevKdState.IsKeyDown(InputClass.longKey))
                 {
                     player.skillTree.LongRange();
                     player.skillPoints--;
@@ -278,9 +278,11 @@ namespace Athyl
                 LongColorIncrease = 0;
             }
 
+
             MouseOver(game);
             previousMouseState = mouseState;
             prevKdState = kbState;
+
         }
 
         /// <summary>

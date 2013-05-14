@@ -125,6 +125,7 @@
     <Compile Include="DrawableGameObject.cs" />
     <Compile Include="Drops.cs" />
     <Compile Include="Encryption.cs" />
+    <Compile Include="InputClass.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Menu.cs" />
