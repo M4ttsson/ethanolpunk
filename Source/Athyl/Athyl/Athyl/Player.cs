@@ -385,7 +385,10 @@ namespace Athyl
                         || direction == Direction.Upright
                         || direction == Direction.Downright)
                     {
-                        projectile.NewMeleeBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(22,14)), Direction.Right, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                        if(Crouching)
+                            projectile.NewMeleeBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(22, 25)), Direction.Right, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                        else
+                            projectile.NewMeleeBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(22,21)), Direction.Right, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
                         playerAthyl -= skillTree.ethanolConsumption;
                         lastBullet = DateTime.Now;
                     }
@@ -394,7 +397,10 @@ namespace Athyl
                         || direction == Direction.Upleft
                         || direction == Direction.Downleft)
                     {
-                        projectile.NewMeleeBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(-22, 14)), Direction.Left, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                        if (Crouching)
+                            projectile.NewMeleeBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(-22, 25)), Direction.Left, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
+                        else
+                            projectile.NewMeleeBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(-22, 21)), Direction.Left, world, skillTree.projectileSpeed, wheel.body, skillTree.damage);
                         playerAthyl -= skillTree.ethanolConsumption;
                         lastBullet = DateTime.Now;
                     }
@@ -441,7 +447,10 @@ namespace Athyl
                     else
                     {
                         playerSounds.PlaySoundFX("Music/Pewpew");
-                        projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 14)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, sniper);
+                        if (Crouching)
+                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 25)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, sniper);
+                        else
+                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 21)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, sniper);
                     }
                     playerAthyl -= skillTree.ethanolConsumption;
                     lastBullet = DateTime.Now;
