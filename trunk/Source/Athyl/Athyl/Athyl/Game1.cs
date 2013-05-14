@@ -865,10 +865,7 @@ namespace Athyl
                 
             }
 
-            
-
             //quest.DrawQuest(spriteBatch);
-
 
             //button.Draw(spriteBatch);
             if (player != null && menu.gameState == Menu.GameState.Playing)
@@ -877,27 +874,15 @@ namespace Athyl
             }
 
             menu.Draw(spriteBatch, this, player);
+
             //Writes out Game Over when the player dies
             if (player != null && player.Dead == true)
             {
                 menu.gameState = Menu.GameState.GameOver;
             }
 
-
             spriteBatch.End();
             spriteBatch.Begin();
-            
-            //if (!menu.isLoading && menu.gameState == Menu.GameState.Loading)
-            //{
-            //    Rectangle bar = new Rectangle(425, GraphicsDevice.Viewport.Height - 200, (int)((Map.progress / Map.done) * 400), 40);
-            //    Rectangle border = new Rectangle(425, GraphicsDevice.Viewport.Height - 200, 400, 40);
-            //    spriteBatch.Draw(progressBarBorder, border, Color.White);
-            //    spriteBatch.Draw(progressBar, bar, Color.White);
-            //}
-
-            
-
-
 
             //Uncomment if you want to check where the spawnpoints are visually
             /*foreach (Spawn sp in spawnpoints)
