@@ -117,6 +117,7 @@ namespace Athyl
         #region MeleeStance
         public void increasefireBreath()        //Upgrades fireBreath
         {
+
         }
 
         public void increaseAtkSpd()            //Upgrades Attack speed
@@ -131,12 +132,14 @@ namespace Athyl
 
         public void increaseDodge()             //Upgrades dodge chance
         {
+
         }
         #endregion
 
         #region MidRange
         public void increaseFireBurst()        //Upgrades fireburst
         {
+
         }
 
         public void increaseAthyl()        //Upgrades Athyl
@@ -158,6 +161,7 @@ namespace Athyl
         #region Longrange
         public void increaseShield()        //Upgrades Shield
         {
+
         }
 
         public void increaseArmor()        //Upgrades armor
@@ -167,10 +171,12 @@ namespace Athyl
 
         public void increaseAim()        //Upgrades Aim
         {
+
         }
 
         public void increaseShieldCD()        //Upgrades Shield CoolDown
         {
+
         }
         #endregion
         
