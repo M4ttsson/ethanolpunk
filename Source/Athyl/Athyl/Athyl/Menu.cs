@@ -48,8 +48,9 @@ namespace Athyl
 
     class Menu
     {
+        #region Properties
         public enum GameState { StartMenu, Loading, Playing, Paused, ControlsMenu, Story, GameOver, Skilltree }
-        
+
         private Button start, exit, control, story, back, resume, mainMenu, restart;  //De olika text knapparna
         private Button Shield, ShieldCD, MoreHP, Aim;                                //Long Skilltree knappar;
         private Button Fireburst, MoreAthyl, Passtrough, FastShot;                  //Mid Skilltree knappar;
@@ -83,8 +84,9 @@ namespace Athyl
         MouseState previousMouseState;
 
         public GameState gameState;
-        public KeyboardState kbState, prevKdState;
-
+        public KeyboardState kbState, prevKdState; 
+        #endregion
+        #region Constructor
         public Menu(Game1 game)
         {
             keyboardLayout = game.Content.Load<Texture2D>("Menu items/ControlMenu");
@@ -152,31 +154,16 @@ namespace Athyl
             this.TimePerFrame = (float)1 / 1;           //Update animations
             this.TotalElapsed = 0;
             this.colFrame = 1;
-            
+
             progressBar = game.Content.Load<Texture2D>("ProgressBar");
             progressBarBorder = game.Content.Load<Texture2D>("ProgressBarBorder");
             runningWoman = game.Content.Load<Texture2D>("Player/Gilliam");
             deadWoman = game.Content.Load<Texture2D>("Player/die");
 
             myFont = game.Content.Load<SpriteFont>("font");
-        }
-
-        private void setButtonPositions(Game1 game)
-        {
-            cameraPos = new Vector2(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y);
-            viewPortPos = new Vector2(game.GraphicsDevice.Viewport.X + cameraPos.X, game.GraphicsDevice.Viewport.Y + cameraPos.Y);
-            pos0 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 50);
-            pos1 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 100);
-            pos2 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 150);
-            pos3 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 200);
-            pos4 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 250);
-            pos5 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 300);
-            pos6 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 350);
-            pos7 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 400);
-            pos8 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 450);
-            pos9 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 500);
-        }
-
+        } 
+        #endregion
+        #region UpdatesAndSkillTreeApperance
         /// <summary>
         /// UpdateMenu used to handle different states. Pausing the game and keeping track on if the mouse is clicked on buttons.
         /// </summary>
@@ -185,7 +172,7 @@ namespace Athyl
         public void UpdateMenu(GameTime gametime, Game1 game, Player player)
         {
             mouseState = Mouse.GetState();
-            kbState =  Keyboard.GetState();
+            kbState = Keyboard.GetState();
             setButtonPositions(game);
 
             if (kbState.IsKeyDown(Keys.Escape) && !prevKdState.IsKeyDown(Keys.Escape) && gameState == GameState.Playing)
@@ -208,7 +195,7 @@ namespace Athyl
                 gameState = GameState.Playing;
                 paused = false;
             }
-            
+
             if (gameState == GameState.Loading)
             {
                 isLoading = false;
@@ -234,7 +221,7 @@ namespace Athyl
                 }
             }
 
-            UpdateColorTalentree(player);
+            UpdateColorSkilltree(player);
 
             MouseOver(game, player);
             previousMouseState = mouseState;
@@ -242,10 +229,30 @@ namespace Athyl
         }
 
         /// <summary>
+        /// Calculates the standards position for buttons and such.
+        /// </summary>
+        /// <param name="game"></param>
+        private void setButtonPositions(Game1 game)
+        {
+            cameraPos = new Vector2(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y);
+            viewPortPos = new Vector2(game.GraphicsDevice.Viewport.X + cameraPos.X, game.GraphicsDevice.Viewport.Y + cameraPos.Y);
+            pos0 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 50);
+            pos1 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 100);
+            pos2 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 150);
+            pos3 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 200);
+            pos4 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 250);
+            pos5 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 300);
+            pos6 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 350);
+            pos7 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 400);
+            pos8 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 450);
+            pos9 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 500);
+        }
+
+        /// <summary>
         /// Uppdaterar så att skillträdets färger stämmer med poängen.
         /// </summary>
         /// <param name="player"></param>
-        public void UpdateColorTalentree(Player player)
+        public void UpdateColorSkilltree(Player player)
         {
             CloseColorIncrease = 3;  //Dessa ändrar färgen på själva skillsbordet
             MidColorIncrease = 3;
@@ -253,47 +260,6 @@ namespace Athyl
 
             ifFullIncreaseColor(player);
             ifPointsIncreaseColor(player);
-        }
-
-        /// <summary>
-        /// Om tillgängliga poäng, ge färg till de skills man får lägga på.
-        /// </summary>
-        /// <param name="player"></param>
-        public void ifPointsIncreaseColor(Player player)
-        {
-            if (player.skillPoints >= 1)     //Ska längre fram öka färgen på skillträdet.
-            {
-                FireBreath.mouseOver = false;
-                Fireburst.mouseOver = false;
-                Shield.mouseOver = false;
-                if (player.skillTree.firebreathPoint > 0)
-                {
-                    AtkDmg.mouseOver = false;
-                    AtkSpd.mouseOver = false;
-                    if (player.skillTree.AtkDmgPoint == 5 || player.skillTree.AtkSpdPoint == 5)
-                    {
-                        Dodge.mouseOver = false;
-                    }
-                }
-                if (player.skillTree.FireBurstPoint > 0)
-                {
-                    MoreAthyl.mouseOver = false;
-                    Passtrough.mouseOver = false;
-                    if (player.skillTree.AthylPoint == 5 || player.skillTree.PassthroughPoint == 5)
-                    {
-                        FastShot.mouseOver = false;
-                    }
-                }
-                if (player.skillTree.ShieldPoint > 0)
-                {
-                    MoreHP.mouseOver = false;
-                    Aim.mouseOver = false;
-                    if (player.skillTree.HPPoint == 5 || player.skillTree.AimPoint == 5)
-                    {
-                        ShieldCD.mouseOver = false;
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -352,8 +318,50 @@ namespace Athyl
                 ShieldCD.mouseOver = false;
             else
                 ShieldCD.mouseOver = true;
-        }
+        } 
 
+        /// <summary>
+        /// Om tillgängliga poäng, ge färg till de skills man får lägga på.
+        /// </summary>
+        /// <param name="player"></param>
+        public void ifPointsIncreaseColor(Player player)
+        {
+            if (player.skillPoints >= 1)     //Ska längre fram öka färgen på skillträdet.
+            {
+                FireBreath.mouseOver = false;
+                Fireburst.mouseOver = false;
+                Shield.mouseOver = false;
+                if (player.skillTree.firebreathPoint > 0)
+                {
+                    AtkDmg.mouseOver = false;
+                    AtkSpd.mouseOver = false;
+                    if (player.skillTree.AtkDmgPoint == 5 || player.skillTree.AtkSpdPoint == 5)
+                    {
+                        Dodge.mouseOver = false;
+                    }
+                }
+                if (player.skillTree.FireBurstPoint > 0)
+                {
+                    MoreAthyl.mouseOver = false;
+                    Passtrough.mouseOver = false;
+                    if (player.skillTree.AthylPoint == 5 || player.skillTree.PassthroughPoint == 5)
+                    {
+                        FastShot.mouseOver = false;
+                    }
+                }
+                if (player.skillTree.ShieldPoint > 0)
+                {
+                    MoreHP.mouseOver = false;
+                    Aim.mouseOver = false;
+                    if (player.skillTree.HPPoint == 5 || player.skillTree.AimPoint == 5)
+                    {
+                        ShieldCD.mouseOver = false;
+                    }
+                }
+            }
+        }
+        #endregion
+        #region GUIUpdateAndDraw
         /// <summary>
         /// Drawing the UI
         /// </summary>
@@ -407,8 +415,9 @@ namespace Athyl
                 spriteBatch.Draw(Mid, new Vector2(-(int)Camera.transform.Translation.X + 623, -(int)Camera.transform.Translation.Y + 20), Color.White);
                 spriteBatch.Draw(ColorLong, new Vector2(-(int)Camera.transform.Translation.X + 671, -(int)Camera.transform.Translation.Y + 20), Color.White);
             }
-        }
-        
+        } 
+        #endregion
+        #region MouseClickAndHighlight
         /// <summary>
         /// MouseClicked is function used to create rectangles for the buttons that when intersecting with the mouse pointer and clicked will trigger a game state. Used for the menus.
         /// </summary>
@@ -640,8 +649,9 @@ namespace Athyl
             {
                 MouseClicked(game, player);
             }
-        }
-                
+        } 
+        #endregion
+        #region Draw
         /// <summary>
         /// Drawing the graphics for the menus for the different game states.
         /// </summary>
@@ -649,19 +659,19 @@ namespace Athyl
         /// <param name="game"></param>
         public void Draw(SpriteBatch spriteBatch, Game1 game, Player player)
         {
-            start.Draw(spriteBatch, new Vector2(-100,-100), viewPortPos);
+            start.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
             control.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
             story.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
             exit.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
             resume.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
             restart.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
             mainMenu.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
-            back.Draw(spriteBatch, new Vector2(-100,-100), viewPortPos);
+            back.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
 
             if (gameState == GameState.StartMenu)
             {
                 spriteBatch.Draw(menuBackground, cameraPos, Color.White);
-                spriteBatch.DrawString(myFont, "ATHYL\nLOGOTYP", pos0 - new Vector2(200,0), Color.White, 0, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 1);  //måste ändras
+                spriteBatch.DrawString(myFont, "ATHYL\nLOGOTYP", pos0 - new Vector2(200, 0), Color.White, 0, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 1);  //måste ändras
                 if (paused)
                 {
                     resume.Draw(spriteBatch, pos5, viewPortPos);
@@ -682,10 +692,10 @@ namespace Athyl
             else if (gameState == GameState.Loading)
             {
                 spriteBatch.Draw(menuBackground, cameraPos, Color.White);
-                spriteBatch.Draw(loadingText, pos5 - new Vector2(loadingText.Width/2, 0), Color.White);
+                spriteBatch.Draw(loadingText, pos5 - new Vector2(loadingText.Width / 2, 0), Color.White);
 
                 //Progressbar in loading menu
-                Rectangle border = new Rectangle((int)cameraPos.X + game.GraphicsDevice.Viewport.Width / 2 - 200, (int)cameraPos.Y + game.GraphicsDevice.Viewport.Height / 2,  400, 40);
+                Rectangle border = new Rectangle((int)cameraPos.X + game.GraphicsDevice.Viewport.Width / 2 - 200, (int)cameraPos.Y + game.GraphicsDevice.Viewport.Height / 2, 400, 40);
                 Rectangle bar = new Rectangle(border.X, border.Y, (int)((Map.progress / Map.done) * border.Width), border.Height);
                 spriteBatch.Draw(progressBar, bar, Color.White);
                 spriteBatch.Draw(progressBarBorder, border, Color.White);
@@ -695,7 +705,7 @@ namespace Athyl
                 int FrameHeight = runningWoman.Height / 2;
                 Rectangle sourcerect = new Rectangle(FrameWidth * colFrame, FrameHeight * 0,
                    FrameWidth, FrameHeight);
-                spriteBatch.Draw(runningWoman, pos5 - new Vector2(loadingText.Width ,runningWoman.Height/4), sourcerect, Color.White,
+                spriteBatch.Draw(runningWoman, pos5 - new Vector2(loadingText.Width, runningWoman.Height / 4), sourcerect, Color.White,
                     0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
 
                 TotalElapsed += 0.2f;
@@ -737,7 +747,7 @@ namespace Athyl
             else if (gameState == GameState.GameOver)
             {
                 spriteBatch.Draw(menuBackground, cameraPos, Color.White);
-                spriteBatch.Draw(gameOverText, pos2 - new Vector2(gameOverText.Width/2, 0), Color.White);
+                spriteBatch.Draw(gameOverText, pos2 - new Vector2(gameOverText.Width / 2, 0), Color.White);
                 restart.Draw(spriteBatch, pos6, viewPortPos);
                 mainMenu.Draw(spriteBatch, pos7, viewPortPos);
 
@@ -767,9 +777,9 @@ namespace Athyl
                 spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
                 spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 890, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
 
-                FireBreath.Draw(spriteBatch, cameraPos + new Vector2(335,250), viewPortPos);     //Första nivå skillsen
+                FireBreath.Draw(spriteBatch, cameraPos + new Vector2(335, 250), viewPortPos);     //Första nivå skillsen
                 Fireburst.Draw(spriteBatch, cameraPos + new Vector2(635, 250), viewPortPos);
-                Shield.Draw(spriteBatch, cameraPos + new Vector2(935,250), viewPortPos);
+                Shield.Draw(spriteBatch, cameraPos + new Vector2(935, 250), viewPortPos);
 
                 AtkDmg.Draw(spriteBatch, cameraPos + new Vector2(295, 350), viewPortPos);       //Andra vänster nivå skillsen
                 MoreAthyl.Draw(spriteBatch, cameraPos + new Vector2(595, 350), viewPortPos);
@@ -786,7 +796,7 @@ namespace Athyl
                 spriteBatch.Draw(closeText, new Vector2(-(int)Camera.transform.Translation.X + 285, -(int)Camera.transform.Translation.Y + 185), Color.White);
                 spriteBatch.Draw(middleText, new Vector2(-(int)Camera.transform.Translation.X + 575, -(int)Camera.transform.Translation.Y + 190), Color.White);
                 spriteBatch.Draw(rangeText, new Vector2(-(int)Camera.transform.Translation.X + 885, -(int)Camera.transform.Translation.Y + 188), Color.White);
-                
+
                 spriteBatch.DrawString(myFont, "Points: " + player.skillPoints, pos0 - new Vector2(50, 0), Color.Gold);
 
                 spriteBatch.DrawString(myFont, "" + player.skillTree.firebreathPoint + "/5", cameraPos + new Vector2(320, 285), Color.Gold);
@@ -805,5 +815,6 @@ namespace Athyl
                 spriteBatch.DrawString(myFont, "" + player.skillTree.ShieldCDPoint + "/5", cameraPos + new Vector2(920, 485), Color.Gold);
             }
         }
-    }
+    } 
+        #endregion
 }
