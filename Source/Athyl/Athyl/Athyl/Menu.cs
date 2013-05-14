@@ -55,7 +55,7 @@ namespace Athyl
         private Button Fireburst, MoreAthyl, Passtrough, FastShot; //Mid Skilltree knappar;
         private Button AtkDmg, AtkSpd, FireBreath, Dodge; //close Skilltree knappar;
 
-        private Texture2D menuBackground, keyboardLayout, storyText, loadingText, gameOverText, closeText, rangeText, middleText;
+        private Texture2D menuBackground, pauseBackground, keyboardLayout, storyText, loadingText, gameOverText, closeText, rangeText, middleText;
 
         private Texture2D deadWoman, progressBar, progressBarBorder, runningWoman;
 
@@ -92,6 +92,7 @@ namespace Athyl
             loadingText = game.Content.Load<Texture2D>("Menu items/LoadingGameButton");
             gameOverText = game.Content.Load<Texture2D>("Menu items/GameOver");
             menuBackground = game.Content.Load<Texture2D>("Menu items/LoadingScreen");
+            pauseBackground = game.Content.Load<Texture2D>("Menu items/PauseMenuBackground");
 
             ColorCombat = game.Content.Load<Texture2D>("GUI/ColorCombat");  //Stance ikoner
             ColorMid = game.Content.Load<Texture2D>("GUI/ColorMidrange");
@@ -164,15 +165,15 @@ namespace Athyl
             cameraPos = new Vector2(-(int)Camera.transform.Translation.X, -(int)Camera.transform.Translation.Y);
             viewPortPos = new Vector2(game.GraphicsDevice.Viewport.X + cameraPos.X, game.GraphicsDevice.Viewport.Y + cameraPos.Y);
             pos0 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 50);
-            pos1 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 300);
-            pos2 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 350);
-            pos3 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 400);
-            pos4 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 450);
-            pos5 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 500);
-            pos6 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 550);
-            pos7 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 600);
-            pos8 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 630);
-            pos9 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 700);
+            pos1 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 100);
+            pos2 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 150);
+            pos3 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 200);
+            pos4 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 250);
+            pos5 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 300);
+            pos6 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 350);
+            pos7 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 400);
+            pos8 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 450);
+            pos9 = cameraPos + new Vector2(game.graphics.PreferredBackBufferWidth / 2, 500);
         }
 
         /// <summary>
@@ -682,22 +683,21 @@ namespace Athyl
             if (gameState == GameState.StartMenu)
             {
                 spriteBatch.Draw(menuBackground, cameraPos, Color.White);
-                start.Draw(spriteBatch, pos1, viewPortPos);
-                control.Draw(spriteBatch, pos2, viewPortPos);
-                story.Draw(spriteBatch, pos3, viewPortPos);
-                exit.Draw(spriteBatch, pos4, viewPortPos);
+                spriteBatch.DrawString(myFont, "ATHYL\nLOGOTYP", pos0 - new Vector2(200,0), Color.White, 0, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 1);  //måste ändras
+                start.Draw(spriteBatch, pos5, viewPortPos);
+                control.Draw(spriteBatch, pos6, viewPortPos);
+                story.Draw(spriteBatch, pos7, viewPortPos);
+                exit.Draw(spriteBatch, pos8, viewPortPos);
             }
 
             else if (gameState == GameState.Loading)
             {
                 spriteBatch.Draw(menuBackground, cameraPos, Color.White);
-                spriteBatch.Draw(loadingText, pos1, Color.White);
-                spriteBatch.End();
-                spriteBatch.Begin();
+                spriteBatch.Draw(loadingText, pos5 - new Vector2(loadingText.Width/2, 0), Color.White);
 
                 //Progressbar in loading menu
-                Rectangle bar = new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y - 400, (int)((Map.progress / Map.done) * 400), 40);
-                Rectangle border = new Rectangle(-(int)Camera.transform.Translation.X + 425, -(int)Camera.transform.Translation.Y - 400, 400, 40);
+                Rectangle border = new Rectangle((int)cameraPos.X + game.GraphicsDevice.Viewport.Width / 2 - 200, (int)cameraPos.Y + game.GraphicsDevice.Viewport.Height / 2,  400, 40);
+                Rectangle bar = new Rectangle(border.X, border.Y, (int)((Map.progress / Map.done) * border.Width), border.Height);
                 spriteBatch.Draw(progressBar, bar, Color.White);
                 spriteBatch.Draw(progressBarBorder, border, Color.White);
 
@@ -706,7 +706,7 @@ namespace Athyl
                 int FrameHeight = runningWoman.Height / 2;
                 Rectangle sourcerect = new Rectangle(FrameWidth * colFrame, FrameHeight * 0,
                    FrameWidth, FrameHeight);
-                spriteBatch.Draw(runningWoman, new Vector2(425, -(int)Camera.transform.Translation.Y - 500), sourcerect, Color.White,
+                spriteBatch.Draw(runningWoman, pos5 - new Vector2(loadingText.Width ,runningWoman.Height/4), sourcerect, Color.White,
                     0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
 
                 TotalElapsed += 0.2f;
@@ -721,11 +721,14 @@ namespace Athyl
 
             else if (gameState == GameState.Paused)
             {
-                resume.Draw(spriteBatch, pos1, viewPortPos);
-                restart.Draw(spriteBatch, pos2, viewPortPos);
-                control.Draw(spriteBatch, pos3, viewPortPos);
-                story.Draw(spriteBatch, pos4, viewPortPos);
-                exit.Draw(spriteBatch, pos5, viewPortPos);
+                spriteBatch.Draw(pauseBackground, cameraPos, Color.White);
+                spriteBatch.DrawString(myFont, "PAUSE", pos0 - new Vector2(100, 0), Color.White, 0, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 1);  //måste ändras
+                mainMenu.Draw(spriteBatch, pos4, viewPortPos);
+                resume.Draw(spriteBatch, pos5, viewPortPos);
+                restart.Draw(spriteBatch, pos6, viewPortPos);
+                control.Draw(spriteBatch, pos7, viewPortPos);
+                story.Draw(spriteBatch, pos8, viewPortPos);
+                exit.Draw(spriteBatch, pos9, viewPortPos);
             }
 
             else if (gameState == GameState.ControlsMenu)
@@ -745,20 +748,24 @@ namespace Athyl
             else if (gameState == GameState.GameOver)
             {
                 spriteBatch.Draw(menuBackground, cameraPos, Color.White);
-                spriteBatch.Draw(gameOverText, new Vector2(pos1.X - gameOverText.Width/2, pos1.Y), Color.White);
-                restart.Draw(spriteBatch, pos4, viewPortPos);
-                mainMenu.Draw(spriteBatch, pos5, viewPortPos);
+                spriteBatch.Draw(gameOverText, pos2 - new Vector2(gameOverText.Width/2, 0), Color.White);
+                restart.Draw(spriteBatch, pos6, viewPortPos);
+                mainMenu.Draw(spriteBatch, pos7, viewPortPos);
+
                 //The dead woman
                 int FrameWidth = deadWoman.Width / 3;
                 int FrameHeight = deadWoman.Height / 2;
                 Rectangle sourcerect = new Rectangle(FrameWidth * 2, FrameHeight * 0,
                    FrameWidth, FrameHeight);
-                spriteBatch.Draw(deadWoman, new Vector2(-(int)Camera.transform.Translation.X + 600, -(int)Camera.transform.Translation.Y + 163), sourcerect, Color.White,
+                spriteBatch.Draw(deadWoman, pos4 - new Vector2(FrameWidth / 2, FrameHeight / 4), sourcerect, Color.White,
                     0.0f, new Vector2(0.0f, 0.0f), 1.0f, SpriteEffects.None, 1.0f);
             }
 
             else if (gameState == GameState.LevelUp)
             {
+                spriteBatch.End();
+                spriteBatch.Begin();
+
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 858, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
