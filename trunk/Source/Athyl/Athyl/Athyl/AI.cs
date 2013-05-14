@@ -30,6 +30,7 @@ namespace Athyl
         private float fireRate = 0.5f;
         private bool hit = false;
         private bool seen = false;
+        private int checkTwice = 0;
         public bool dead = false;
 
         private float speed;
@@ -40,8 +41,11 @@ namespace Athyl
         private int patrolLength = 0;
         private int seenPos = 0;
         private float damage;
+        
 
-
+        //test (leave alone)
+        Texture2D bossRay;
+        Rectangle bossRectRay;
 
         #endregion
         #region Constructor
@@ -103,6 +107,7 @@ namespace Athyl
                     jumpInterval = 2f;
                     direction = Direction.Left;
                     damage = 70;
+                    speed = 0.5f;
                     break;
 
                 case Behavior.None:
@@ -112,6 +117,11 @@ namespace Athyl
 
             this.behaviors = behaviors;
 
+
+
+            //test (leave in peace)
+            bossRay = game.Content.Load<Texture2D>("ProgressBar");
+            bossRectRay = new Rectangle((int)wheel.Position.X, (int)wheel.Position.Y, 20, 20);
 
         }
         #endregion
@@ -277,7 +287,7 @@ namespace Athyl
             //DrawFrame(spriteBatch, wheel.Position + new Vector2(-55.0f/2, -110f));
             //enemyBody.Draw(spriteBatch, new Vector2(enemyBody.Size.X, enemyBody.Size.Y + wheel.Size.Y));
             //wheel.Draw(spriteBatch);
-
+            spriteBatch.Draw(bossRay, bossRectRay, Color.White);
             base.Draw(spriteBatch);
         }
 
@@ -316,7 +326,27 @@ namespace Athyl
         public override void Move(Player.Movement movement)
         {
 
-            base.Move(movement);
+            switch (movement)
+            {
+                case Movement.Left:
+                    axis.MotorSpeed = -MathHelper.TwoPi * speed;
+                    UpdateFrame(0.2f);
+                    direction = Direction.Left;
+                    lastDirection = true;
+                    break;
+
+                case Movement.Right:
+                    axis.MotorSpeed = MathHelper.TwoPi * speed;
+                    UpdateFrame(0.2f);
+                    direction = Direction.Right;
+                    lastDirection = false;
+                    break;
+
+                case Movement.Stop:
+                    axis.MotorSpeed = 0;
+                    UpdateFrame(0.2f);
+                    break;
+            }
 
         }
 
@@ -438,33 +468,118 @@ namespace Athyl
             UpdateFrame(0.2f);
         }
 
+        #region BossBehavior
+
         private void Boss()
         {
-            if ((DateTime.Now - lastCheck).TotalSeconds >= 1)
+            if ((DateTime.Now - lastCheck).TotalSeconds >= 0.2)
             {
+                //bossRectRay.Width = 1;
+                bossRectRay.X = (int)wheel.Position.X;
+                bossRectRay.Y = (int)(wheel.Position.Y);
                 int distance = 0;
-                if (CheckDirection(direction, 72, out distance) == 2)
+                switch (CheckDirection(direction, 500, out distance))
                 {
-                    if (distance >= 50)
-                    {
-                        if (direction == Direction.Left)
+                    case 0:
+                        bossRectRay.X -= distance;
+                       // bossRectRay.Width = distance;
+
+                        //Stop and look for player (seen will be true)
+                        Move(Movement.Stop);
+
+                        if (seen)
+                        {
+                            CheckUp();
+                        }
+
+                        break;
+
+                    case 1:
+                        //move towards player and shoot
+                        seen = true;
+                        if (distance >= 150 && direction == Direction.Left)
+                        {
                             Move(Movement.Left);
-                        else
+                        }
+                        else if (distance >= 150)
+                        {
                             Move(Movement.Right);
-                    }
-                    else
-                    {
-                        direction = lastDirection ? Direction.Right : Direction.Left;
-                        if (direction == Direction.Left)
+                        }
+                        else
+                        {
+                            Move(Movement.Stop);
+                        }
+                        bossRectRay.X -= distance;
+                        //bossRectRay.Width = distance;
+                        break;
+
+                    case 2:
+                        //stop before the wall, if the player was seen, check for way around
+                        if (distance >= 275 && direction == Direction.Left)
+                        {
                             Move(Movement.Left);
-                        else
+                        }
+                        else if (distance >= 275)
+                        {
                             Move(Movement.Right);
-                    }
+                        }
+                        else
+                        {
+                            Move(Movement.Stop);
+                        }
+
+                        if (seen)
+                        {
+                            CheckUp();
+                        }
+
+                        bossRectRay.X -= distance;
+                        //bossRectRay.Width = distance;
+                        break;
                 }
+                //Console.WriteLine(distance);
                 lastCheck = DateTime.Now;
             }
-            attackPlayer();
+            //attackPlayer();
         }
+
+        private void CheckUp()
+        {
+
+            int distance = 0;
+            switch (CheckDirection(Direction.Upleft, 500, out distance))
+            {
+                case 0:
+                    //lost player
+                    if (checkTwice++ == 2)
+                    {
+                        seen = false;
+                        checkTwice = 0;
+                    }
+                    break;
+
+                case 1:
+                    //found player
+                    attackPlayer();
+                    checkTwice = 0;
+                    break;
+
+                case 2:
+                    if (checkTwice++ == 2)
+                    {
+                        seen = false;
+                        checkTwice = 0;
+                    }
+                    break;
+            }
+            bossRectRay.X = (int)wheel.Position.X;
+            bossRectRay.X -= distance;
+            bossRectRay.Y -= distance;
+            
+
+        }
+
+        #endregion
 
         /// <summary>
         /// No actions
@@ -488,6 +603,7 @@ namespace Athyl
                 case Direction.Left:
                     for (int i = 1; i <= lenght; i++)
                     {
+                        
                         Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(wheel.Position.X - (i + 10), wheel.Position.Y)));
 
                         if (fix != null)
@@ -538,6 +654,62 @@ namespace Athyl
                         }
                     }
                     distance = lenght;
+                    return 0;
+
+                case Direction.Upleft:
+                    for (int i = 1; i <= lenght / 2; i++)
+                    {
+
+                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(torso.Position.X - (i + 10), (torso.Position.Y) - (i + 15))));
+
+                        if (fix != null)
+                        {
+                            try
+                            {
+                                if (fix.UserData.ToString() == "player")
+                                {
+                                    distance = i;
+                                    return 1;
+                                }
+                                if (fix.UserData.ToString() == "ground")
+                                {
+                                    distance = i;
+                                    return 2;
+                                }
+                            }
+                            catch (Exception)
+                            { Console.WriteLine("No user data"); }
+                        }
+                    }
+                    distance = lenght / 2;
+                    return 0;
+
+                case Direction.Downleft:
+                    for (int i = 1; i <= lenght / 2; i++)
+                    {
+
+                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(wheel.Position.X - (i + 10), wheel.Position.Y + (i + 10))));
+
+                        if (fix != null)
+                        {
+                            try
+                            {
+                                if (fix.UserData.ToString() == "player")
+                                {
+                                    distance = i;
+                                    return 1;
+                                }
+                                if (fix.UserData.ToString() == "ground")
+                                {
+                                    distance = i;
+                                    return 2;
+                                }
+                            }
+                            catch (Exception)
+                            { Console.WriteLine("No user data"); }
+                        }
+                    }
+                    distance = lenght / 2;
                     return 0;
 
                 default:
