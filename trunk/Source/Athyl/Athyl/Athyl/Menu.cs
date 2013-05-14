@@ -709,8 +709,20 @@ namespace Athyl
                 
                 spriteBatch.DrawString(myFont, "Points: " + player.skillPoints, pos0 - new Vector2(50, 0), Color.Gold);
 
-                if(player.NextLevel)
-                    spriteBatch.DrawString(myFont, "Upgrade\n Press 1 for close combat\n Press 2 for middle combat\n Press 3 for range combat", new Vector2(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 560), Color.White);
+                spriteBatch.DrawString(myFont, "" + player.skillTree.firebreathPoint + "/5", cameraPos + new Vector2(320, 285), Color.Gold);
+                spriteBatch.DrawString(myFont, "" + player.skillTree.AtkDmgPoint + "/5", cameraPos + new Vector2(280, 385), Color.Gold);
+                spriteBatch.DrawString(myFont, "" + player.skillTree.AtkSpdPoint + "/5", cameraPos + new Vector2(365, 385), Color.Gold);
+                spriteBatch.DrawString(myFont, "" + player.skillTree.DodgePoint + "/5", cameraPos + new Vector2(320, 485), Color.Gold);
+
+                spriteBatch.DrawString(myFont, "" + player.skillTree.FireBurstPoint + "/5", cameraPos + new Vector2(620, 285), Color.Gold);
+                spriteBatch.DrawString(myFont, "" + player.skillTree.AthylPoint + "/5", cameraPos + new Vector2(580, 385), Color.Gold);
+                spriteBatch.DrawString(myFont, "" + player.skillTree.PassthroughPoint + "/5", cameraPos + new Vector2(665, 385), Color.Gold);
+                spriteBatch.DrawString(myFont, "" + player.skillTree.FastShotPoint + "/5", cameraPos + new Vector2(620, 485), Color.Gold);
+
+                spriteBatch.DrawString(myFont, "" + player.skillTree.ShieldPoint + "/5", cameraPos + new Vector2(920, 285), Color.Gold);
+                spriteBatch.DrawString(myFont, "" + player.skillTree.HPPoint + "/5", cameraPos + new Vector2(880, 385), Color.Gold);
+                spriteBatch.DrawString(myFont, "" + player.skillTree.AimPoint + "/5", cameraPos + new Vector2(965, 385), Color.Gold);
+                spriteBatch.DrawString(myFont, "" + player.skillTree.ShieldCDPoint + "/5", cameraPos + new Vector2(920, 485), Color.Gold);
             }
         }
     }
