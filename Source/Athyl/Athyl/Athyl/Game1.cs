@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Media;
 using System.Diagnostics;
 using System.Threading;
 using System.Reflection;
+using System.Configuration;
+using System.Collections.Specialized;
 
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
@@ -69,6 +71,9 @@ namespace Athyl
         System.Timers.Timer timer;
         public static float runTime = 0;
         int i = 0;
+
+
+
         //private DrawableGameObject button;
         #endregion
 
@@ -89,7 +94,11 @@ namespace Athyl
 
             //create spawnpoints
             CreateSpawns();
+
+            InputClass.ReadConfig();
         }
+
+        
         #endregion
 
         #region InitializationRestartAndLoad
@@ -399,70 +408,70 @@ namespace Athyl
             if (keyboardState.IsKeyDown(Keys.Down))
                 player.torso.body.ApplyForce(new Vector2(0, 3));*/
 
-            if (keyboardState.IsKeyDown(Keys.K) && !prevKeyboardState.IsKeyDown(Keys.K))
+            if (keyboardState.IsKeyDown(InputClass.jumpKey) && !prevKeyboardState.IsKeyDown(InputClass.jumpKey))
             {
                 player.Jump();
             }
 
-            if (keyboardState.IsKeyDown(Keys.D1))
+            if (keyboardState.IsKeyDown(InputClass.closeKey))
             {
                 player.Stance = Player.Stances.CloseRange;
             }
-            else if (keyboardState.IsKeyDown(Keys.D2))
+            else if (keyboardState.IsKeyDown(InputClass.middleKey))
             {
                 player.Stance = Player.Stances.MidRange;
             }
-            else if (keyboardState.IsKeyDown(Keys.D3))
+            else if (keyboardState.IsKeyDown(InputClass.longKey))
             {
                 player.Stance = Player.Stances.LongRange;
             }
 
-            if (keyboardState.IsKeyDown(Keys.J))
+            if (keyboardState.IsKeyDown(InputClass.shootKey))
             {
                 player.useWeapon(world);
             }
 
-            if (keyboardState.IsKeyDown(Keys.A))
+            if (keyboardState.IsKeyDown(InputClass.leftKey))
             {
 
                 player.Move(Player.Movement.Left);
-                if (keyboardState.IsKeyDown(Keys.W))
+                if (keyboardState.IsKeyDown(InputClass.upKey))
                 {
                     player.direction = Player.Direction.Upleft;
                 }
 
-                else if (keyboardState.IsKeyDown(Keys.S) && !player.Crouching)
+                else if (keyboardState.IsKeyDown(InputClass.downKey) && !player.Crouching)
                 {
                     player.direction = Player.Direction.Downleft;
                 }
             }
 
-            else if (keyboardState.IsKeyDown(Keys.D))
+            else if (keyboardState.IsKeyDown(InputClass.rightKey))
             {
                 player.Move(Player.Movement.Right);
-                if (keyboardState.IsKeyDown(Keys.W))
+                if (keyboardState.IsKeyDown(InputClass.upKey))
                 {
                     player.direction = Player.Direction.Upright;
                 }
 
-                else if (keyboardState.IsKeyDown(Keys.S) && !player.Crouching)
+                else if (keyboardState.IsKeyDown(InputClass.downKey) && !player.Crouching)
                 {
                     player.direction = Player.Direction.Downright;
                 }
             }
 
-            else if (keyboardState.IsKeyDown(Keys.W))
+            else if (keyboardState.IsKeyDown(InputClass.upKey))
             {
                 player.direction = Player.Direction.Up;
                 player.Move(Player.Movement.Stop);
             }
 
-            else if (keyboardState.IsKeyUp(Keys.LeftControl) && prevKeyboardState.IsKeyDown(Keys.LeftControl))// && prevKeyboardState.IsKeyDown(Keys.Up))
+            else if (keyboardState.IsKeyUp(InputClass.crouchKey) && prevKeyboardState.IsKeyDown(InputClass.crouchKey))// && prevKeyboardState.IsKeyDown(Keys.Up))
             {
                 player.Crouching = false;
             }
 
-            else if (keyboardState.IsKeyDown(Keys.LeftControl))
+            else if (keyboardState.IsKeyDown(InputClass.crouchKey))
             {
                 player.Crouching = true;
 
