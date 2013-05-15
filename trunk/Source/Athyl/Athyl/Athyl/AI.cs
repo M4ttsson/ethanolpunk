@@ -95,7 +95,7 @@ namespace Athyl
                     enemyHP += 100;
                     behaviorDel = Turret;
                     damage = 45;
-                    Load(texture, 2, 4, 1, 1);
+                    Load(texture, 1, 8, 1, 0);
                     break;
 
                 case Behavior.Boss:
@@ -303,15 +303,7 @@ namespace Athyl
                         ColFrame = RestartFrame;
                     TotalElapsed -= TimePerFrame;
                 }
-                if (direction == Direction.Left)
-                {
-                    RowFrame = 1;
-                }
-
-                else if (direction == Direction.Right)
-                {
-                    RowFrame = 0;
-                }
+                
             }
             else
             {
@@ -473,7 +465,7 @@ namespace Athyl
                 direction = (direction == Direction.Left) ? Direction.Right : Direction.Left;
                 lastCheck = DateTime.Now;
             }
-            UpdateFrame(0.2f);
+            UpdateFrame(0.1f);
         }
 
         #region BossBehavior

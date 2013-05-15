@@ -321,12 +321,12 @@ namespace Athyl
                             {
                                 case 1:
                                     theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Patrol, "enemy"));
-                                    theAI.Add(new AI(world, enemyTurret, new Vector2(65, 68), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Turret, "enemy"));
+                                    theAI.Add(new AI(world, enemyTurret, new Vector2(64, 68), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Turret, "enemy"));
                                     break;
 
                                 case 2:
                                     theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Patrol, "enemy"));
-                                    theAI.Add(new AI(world, enemyTurret, new Vector2(65, 68), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Turret, "enemy"));
+                                    theAI.Add(new AI(world, enemyTurret, new Vector2(64, 68), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Turret, "enemy"));
                                     break;
 
                                 case 3:
@@ -334,24 +334,24 @@ namespace Athyl
                                     break;
 
                                 case 4:
-                                    theAI.Add(new AI(world, enemyTurret, new Vector2(65, 68), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Turret, "enemy"));
+                                    theAI.Add(new AI(world, enemyTurret, new Vector2(64, 68), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Turret, "enemy"));
                                     theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.PatrolDistance, "enemy"));
                                     break;
 
                                 case 5:
                                     theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.PatrolDistance, "enemy"));
                                     theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.PatrolDistance, "enemy"));
-                                    theAI.Add(new AI(world, enemyTurret, new Vector2(65, 68), sp.SpawnPositions[2], 100, 20, this, AI.Behavior.Turret, "enemy"));
-                                    theAI.Add(new AI(world, enemyTurret, new Vector2(65, 68), sp.SpawnPositions[3], 100, 20, this, AI.Behavior.Turret, "enemy"));
+                                    theAI.Add(new AI(world, enemyTurret, new Vector2(64, 68), sp.SpawnPositions[2], 100, 20, this, AI.Behavior.Turret, "enemy"));
+                                    theAI.Add(new AI(world, enemyTurret, new Vector2(64, 68), sp.SpawnPositions[3], 100, 20, this, AI.Behavior.Turret, "enemy"));
                                     break;
 
                                 case 6:
-                                    theAI.Add(new AI(world, enemyTurret, new Vector2(65, 68), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Turret, "enemy"));
-                                    theAI.Add(new AI(world, enemyTurret, new Vector2(65, 68), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Turret, "enemy"));
+                                    theAI.Add(new AI(world, enemyTurret, new Vector2(64, 68), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Turret, "enemy"));
+                                    theAI.Add(new AI(world, enemyTurret, new Vector2(64, 68), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Turret, "enemy"));
                                     break;
 
                                 case 7:
-                                    theAI.Add(new AI(world, enemyTurret, new Vector2(65, 68), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Turret, "enemy"));
+                                    theAI.Add(new AI(world, enemyTurret, new Vector2(64, 68), sp.SpawnPositions[0], 100, 20, this, AI.Behavior.Turret, "enemy"));
                                     theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 100, 20, this, AI.Behavior.Patrol, "enemy"));
                                     break;
 
