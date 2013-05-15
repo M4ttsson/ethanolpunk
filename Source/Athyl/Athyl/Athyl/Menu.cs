@@ -61,7 +61,7 @@ namespace Athyl
         public void Draw(SpriteBatch spriteBatch, Vector2 pos)
         {
             if(visible)
-                spriteBatch.DrawString(font, text, pos, Color.White);
+                spriteBatch.DrawString(font, text, pos, Color.White,0,Vector2.Zero,0.75f,SpriteEffects.None,1);
         }
     }
 
@@ -175,20 +175,20 @@ namespace Athyl
             FireBreath = new Button(game.Content.Load<Texture2D>("Menu items/Fireburst"), game.Content.Load<Texture2D>("Menu items/FireburstGray"), true);
             Dodge = new Button(game.Content.Load<Texture2D>("Menu items/HornedMan"), game.Content.Load<Texture2D>("Menu items/HornedManGray"), true);
 
-            ShieldText = new HooverText(game, "ShieldText", false);
-            ShieldCDText = new HooverText(game, "ShieldCDText", false);
-            HealthText = new HooverText(game, "HealthText", false);
-            AimText = new HooverText(game, "AimText", false);
+            ShieldText = new HooverText(game, "\nShield: Places a shield in front of Gilliam, protecting her from attacks.\nUse with " + InputClass.useKey.ToString() + "-button.", false);
+            ShieldCDText = new HooverText(game, "\nReduce cooldown: Reduces the cooldown of the shield.", false);
+            HealthText = new HooverText(game, "\nArmor: Reduces the damage taken from enemy attacks.", false);
+            AimText = new HooverText(game, "\nLaser Sight: Gives you a better aim with a laser.", false);
 
-            fireBurstText = new HooverText(game, "fireBurstText", false);
-            AthylText = new HooverText(game, "AthylText", false);
-            PasstroughText = new HooverText(game, "PasstroughText", false);
-            FastShotText = new HooverText(game, "FastShotText", false);
+            fireBurstText = new HooverText(game, "\nBurst: Fires a rapid burst of bullets. Gives increased damage.\nUse with " + InputClass.useKey.ToString() + "-button.", false);
+            AthylText = new HooverText(game, "\nGive me Athyl: Increases your max Athyl reserves.", false);
+            PasstroughText = new HooverText(game, "\nPiercing Bullets: Gives a chance for bullets to penetrate through enemies.", false);
+            FastShotText = new HooverText(game, "\nRapid fire: Increases the rate of fire.", false);
 
-            AtkDmgText = new HooverText(game, "AtkDmgText", false);
-            AtkSpdText = new HooverText(game, "AtkSpdText", false);
-            fireBreathText = new HooverText(game, "fireBreathText", false);
-            DodgeText = new HooverText(game, "DodgeText", false);
+            AtkDmgText = new HooverText(game, "\nBalcon Punsch: Fisting deals more damage.", false);
+            AtkSpdText = new HooverText(game, "\nFast Fisting: Fist faster!", false);
+            fireBreathText = new HooverText(game, "\nFlamethrower: Burn your enemies in flames!\nUse with " + InputClass.useKey.ToString() + "-button.", false);
+            DodgeText = new HooverText(game, "\nMatrix Style: Gives a chance for Gilliam avoid bullets.", false);
 
             this.TimePerFrame = (float)1 / 1;           //Update animations
             this.TotalElapsed = 0;
