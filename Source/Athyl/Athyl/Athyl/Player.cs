@@ -678,12 +678,6 @@ namespace Athyl
                 TotalElapsed -= TimePerFrame;
             }
 
-            //Om det finns skillpoints oanvända
-            if(skillPoints > 0)
-                NextLevel = true;
-            else
-                NextLevel = false;
-
             if (axis.MotorSpeed > 0 && !Dead)
             {
                 RowFrame = 0;
@@ -760,6 +754,13 @@ namespace Athyl
 
         public void UpdatePlayer()
         {
+
+            //Om det finns skillpoints oanvända
+            if (skillPoints > 0)
+                NextLevel = true;
+            else
+                NextLevel = false;
+
             if (WallJumped)         //Ser till att gubben vänder sig åt rätt håll vid walljump
             {
                 if (direction == Direction.Left)
