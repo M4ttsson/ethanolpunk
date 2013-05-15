@@ -22,7 +22,7 @@ namespace Athyl
 
         public Int16 firebreathPoint, AtkSpdPoint, AtkDmgPoint, DodgePoint;
         public Int16 FireBurstPoint, FastShotPoint, AthylPoint, PassthroughPoint;
-        public Int16 ShieldPoint, HPPoint, AimPoint, ShieldCDPoint;
+        public Int16 ShieldPoint, KevlarPoint, AimPoint, ShieldCDPoint;
 
         //public int playerMaxHP;
         //public int playerMaxAthyl;
@@ -51,7 +51,7 @@ namespace Athyl
 
             firebreathPoint = AtkSpdPoint = AtkDmgPoint = DodgePoint = 0;           //Close talentpoints
             FireBurstPoint = FastShotPoint = AthylPoint = PassthroughPoint = 0;     //Mid talentpoints
-            ShieldPoint = HPPoint = AimPoint = ShieldCDPoint = 0;                   //Long talentpoints
+            ShieldPoint = KevlarPoint = AimPoint = ShieldCDPoint = 0;                   //Long talentpoints
 
             //Set default values for melee
             meleeFireRate = 0.3f;
@@ -166,7 +166,7 @@ namespace Athyl
 
         public void increaseArmor()        //Upgrades armor
         {
-            longPlayerDmg -= (((longPlayerDmg / 100) * 5) * HPPoint);
+            longPlayerDmg -= (((longPlayerDmg / 100) * 5) * KevlarPoint);
         }
 
         public void increaseAim()        //Upgrades Aim
