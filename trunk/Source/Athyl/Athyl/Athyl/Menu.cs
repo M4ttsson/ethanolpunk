@@ -71,13 +71,13 @@ namespace Athyl
         public enum GameState { StartMenu, Loading, Playing, Paused, ControlsMenu, Story, GameOver, Skilltree }
 
         private Button start, exit, control, story, back, resume, mainMenu, restart;  //De olika text knapparna
-        private Button Shield, ShieldCD, MoreHP, Aim;                                //Long Skilltree knappar;
+        private Button Shield, ShieldCD, Kevlar, Aim;                                //Long Skilltree knappar;
         private Button Fireburst, MoreAthyl, Passtrough, FastShot;                  //Mid Skilltree knappar;
         private Button AtkDmg, AtkSpd, FireBreath, Dodge;                          //close Skilltree knappar;
 
         private HooverText fireBreathText, AtkDmgText, AtkSpdText, DodgeText;          //Hoovertext för de olika skillsen i close
         private HooverText fireBurstText, AthylText, PasstroughText, FastShotText;      //Hoovertext för de olika skillsen i midd
-        private HooverText ShieldText, HealthText, AimText, ShieldCDText;               //Hoovertext för de olika skillsen i long
+        private HooverText ShieldText, KelvarText, AimText, ShieldCDText;               //Hoovertext för de olika skillsen i long
 
         private Texture2D menuBackground, pauseBackground, keyboardLayout, storyText, loadingText, gameOverText, PauseText, closeText, rangeText, middleText;
 
@@ -162,7 +162,7 @@ namespace Athyl
 
             Shield = new Button(game.Content.Load<Texture2D>("Menu items/ShieldIkon"), game.Content.Load<Texture2D>("Menu items/ShieldIkonGray"), true);
             ShieldCD = new Button(game.Content.Load<Texture2D>("Menu items/ShieldCDIcon"), game.Content.Load<Texture2D>("Menu items/ShieldCDIconGray"), true);
-            MoreHP = new Button(game.Content.Load<Texture2D>("Menu items/AidIcon"), game.Content.Load<Texture2D>("Menu items/AidIconGray"), true);
+            Kevlar = new Button(game.Content.Load<Texture2D>("Menu items/KevlarIcon"), game.Content.Load<Texture2D>("Menu items/KevlarIconGray"), true);
             Aim = new Button(game.Content.Load<Texture2D>("Menu items/AimIcon"), game.Content.Load<Texture2D>("Menu items/AimIconGray"), true);
 
             Fireburst = new Button(game.Content.Load<Texture2D>("Menu items/FBIcon"), game.Content.Load<Texture2D>("Menu items/FBIconGray"), true);
@@ -177,7 +177,7 @@ namespace Athyl
 
             ShieldText = new HooverText(game, "\nShield: Places a shield in front of Gilliam, protecting her from attacks.\nUse with " + InputClass.useKey.ToString() + "-button.", false);
             ShieldCDText = new HooverText(game, "\nReduce cooldown: Reduces the cooldown of the shield.", false);
-            HealthText = new HooverText(game, "\nArmor: Reduces the damage taken from enemy attacks.", false);
+            KelvarText = new HooverText(game, "\nArmor: Reduces the damage taken from enemy attacks.", false);
             AimText = new HooverText(game, "\nLaser Sight: Gives you a better aim with a laser.", false);
 
             fireBurstText = new HooverText(game, "\nBurst: Fires a rapid burst of bullets. Gives increased damage.\nUse with " + InputClass.useKey.ToString() + "-button.", false);
@@ -188,7 +188,7 @@ namespace Athyl
             AtkDmgText = new HooverText(game, "\nBalcon Punsch: Fisting deals more damage.", false);
             AtkSpdText = new HooverText(game, "\nFast Fisting: Fist faster!", false);
             fireBreathText = new HooverText(game, "\nFlamethrower: Burn your enemies in flames!\nUse with " + InputClass.useKey.ToString() + "-button.", false);
-            DodgeText = new HooverText(game, "\nMatrix Style: Gives a chance for Gilliam avoid bullets.", false);
+            DodgeText = new HooverText(game, "\nMatrix Style: Gives a chance for Gilliam to avoid bullets.", false);
 
             this.TimePerFrame = (float)1 / 1;           //Update animations
             this.TotalElapsed = 0;
@@ -345,10 +345,10 @@ namespace Athyl
                 Shield.toggleTextures = false;
             else
                 Shield.toggleTextures = true;
-            if (player.skillTree.HPPoint > 0)
-                MoreHP.toggleTextures = false;
+            if (player.skillTree.KevlarPoint > 0)
+                Kevlar.toggleTextures = false;
             else
-                MoreHP.toggleTextures = true;
+                Kevlar.toggleTextures = true;
             if (player.skillTree.AimPoint > 0)
                 Aim.toggleTextures = false;
             else
@@ -390,9 +390,9 @@ namespace Athyl
                 }
                 if (player.skillTree.ShieldPoint > 0)
                 {
-                    MoreHP.toggleTextures = false;
+                    Kevlar.toggleTextures = false;
                     Aim.toggleTextures = false;
-                    if (player.skillTree.HPPoint == 5 || player.skillTree.AimPoint == 5)
+                    if (player.skillTree.KevlarPoint == 5 || player.skillTree.AimPoint == 5)
                     {
                         ShieldCD.toggleTextures = false;
                     }
@@ -560,9 +560,9 @@ namespace Athyl
                     player.skillTree.MidRange();
                     player.skillPoints--;
                 }
-                else if (MoreHP.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.HPPoint < 5 && player.skillTree.ShieldPoint > 0)
+                else if (Kevlar.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.KevlarPoint < 5 && player.skillTree.ShieldPoint > 0)
                 {
-                    player.skillTree.HPPoint++;
+                    player.skillTree.KevlarPoint++;
                     player.skillTree.increaseArmor();
                     player.skillTree.LongRange();
                     player.skillPoints--;
@@ -602,7 +602,7 @@ namespace Athyl
                     player.skillTree.MidRange();
                     player.skillPoints--;
                 }
-                else if (ShieldCD.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.ShieldCDPoint < 5 && (player.skillTree.HPPoint == 5 || player.skillTree.AimPoint == 5))
+                else if (ShieldCD.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.ShieldCDPoint < 5 && (player.skillTree.KevlarPoint == 5 || player.skillTree.AimPoint == 5))
                 {
                     player.skillTree.ShieldCDPoint++;
                     player.skillTree.increaseShieldCD();
@@ -704,7 +704,7 @@ namespace Athyl
             PasstroughText.visible = false;
             FastShotText.visible = false;
             ShieldText.visible = false;
-            HealthText.visible = false;
+            KelvarText.visible = false;
             AimText.visible = false;
             ShieldCDText.visible = false;
 
@@ -746,9 +746,9 @@ namespace Athyl
             {
                 ShieldText.visible = true;
             }
-            if (MoreHP.rectangle.Contains(mouseState.X, mouseState.Y))
+            if (Kevlar.rectangle.Contains(mouseState.X, mouseState.Y))
             {
-                HealthText.visible = true;
+                KelvarText.visible = true;
             }
             if (Aim.rectangle.Contains(mouseState.X, mouseState.Y))
             {
@@ -887,7 +887,7 @@ namespace Athyl
                 FastShotText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
 
                 ShieldText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
-                HealthText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
+                KelvarText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
                 AimText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
                 ShieldCDText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
 
@@ -919,7 +919,7 @@ namespace Athyl
                 FastShot.Draw(spriteBatch, cameraPos + new Vector2(635, 450), viewPortPos);
 
                 Shield.Draw(spriteBatch, cameraPos + new Vector2(935, 250), viewPortPos);
-                MoreHP.Draw(spriteBatch, cameraPos + new Vector2(895, 350), viewPortPos);
+                Kevlar.Draw(spriteBatch, cameraPos + new Vector2(895, 350), viewPortPos);
                 Aim.Draw(spriteBatch, cameraPos + new Vector2(980, 350), viewPortPos);
                 ShieldCD.Draw(spriteBatch, cameraPos + new Vector2(935, 450), viewPortPos);
 
@@ -940,7 +940,7 @@ namespace Athyl
 
                 //Skriver ut antalet poäng lagda på skills i long trädet.
                 spriteBatch.DrawString(myFont, "" + player.skillTree.ShieldPoint + "/5", cameraPos + new Vector2(920, 285), Color.Gold);
-                spriteBatch.DrawString(myFont, "" + player.skillTree.HPPoint + "/5", cameraPos + new Vector2(880, 385), Color.Gold);
+                spriteBatch.DrawString(myFont, "" + player.skillTree.KevlarPoint + "/5", cameraPos + new Vector2(880, 385), Color.Gold);
                 spriteBatch.DrawString(myFont, "" + player.skillTree.AimPoint + "/5", cameraPos + new Vector2(965, 385), Color.Gold);
                 spriteBatch.DrawString(myFont, "" + player.skillTree.ShieldCDPoint + "/5", cameraPos + new Vector2(920, 485), Color.Gold);
             }
