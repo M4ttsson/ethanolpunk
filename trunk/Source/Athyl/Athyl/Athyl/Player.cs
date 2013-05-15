@@ -231,6 +231,8 @@ namespace Athyl
                 this.frameRow = 2;
                 this.frameColumn = 7;
                 this.myTexture = game.Content.Load<Texture2D>("Player/Gilliam");
+                //this.myTexture = game.Content.Load<Texture2D>("Projectiles/flamethrover");
+                //this.myTexture = game.Content.Load<Texture2D>("Projectiles/Shield");
                 this.TimePerFrame = (float)1 / 1f;
                 this.RestartFrame = 1;
                 torso.Size = torsoSize;
