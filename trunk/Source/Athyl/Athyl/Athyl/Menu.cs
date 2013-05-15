@@ -22,24 +22,23 @@ namespace Athyl
     {
         public Texture2D button, buttonHl;
         public Rectangle rectangle;
-        public bool mouseOver { get; set; }
+        public bool toggleTextures { get; set; }
 
 
-        public Button(Texture2D normal, Texture2D highlight, bool mouseOver)
+        public Button(Texture2D normal, Texture2D highlight, bool toggleTextures)
         {
             this.button = normal;
             this.buttonHl = highlight;
-            this.mouseOver = mouseOver;
+            this.toggleTextures = toggleTextures;
             this.rectangle = Rectangle.Empty;
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Vector2 viewPortPos)
         {
             position = new Vector2(position.X - (button.Width / 2), position.Y);
-
             rectangle = new Rectangle((int)(position.X - viewPortPos.X), (int)(position.Y - viewPortPos.Y), (int)button.Width, (int)this.button.Height);
 
-            if(mouseOver)
+            if (toggleTextures)
                 spriteBatch.Draw(buttonHl, position, Color.White);
             else
                 spriteBatch.Draw(button, position, Color.White);
@@ -48,18 +47,21 @@ namespace Athyl
 
     class HooverText
     {
-        SpriteFont font;
-        string text;
+        private SpriteFont font;
+        private string text;
+        public bool visible;
 
-        public HooverText(Game1 game, string text)
+        public HooverText(Game1 game, string text, bool visible)
         {
             this.font = game.Content.Load<SpriteFont>("font");
             this.text = text;
+            this.visible = visible;
         }
 
-        public void Draw(SpriteBatch spriteBatch, MouseState ms, Vector2 pos)
+        public void Draw(SpriteBatch spriteBatch, Vector2 pos)
         {
-            spriteBatch.DrawString(font, text,pos,Color.White);
+            if(visible)
+                spriteBatch.DrawString(font, text, pos, Color.White);
         }
     }
 
@@ -73,6 +75,10 @@ namespace Athyl
         private Button Fireburst, MoreAthyl, Passtrough, FastShot;                  //Mid Skilltree knappar;
         private Button AtkDmg, AtkSpd, FireBreath, Dodge;                          //close Skilltree knappar;
 
+        private HooverText fireBreathText, AtkDmgText, AtkSpdText, DodgeText;          //Hoovertext för de olika skillsen i close
+        private HooverText fireBurstText, AthylText, PasstroughText, FastShotText;      //Hoovertext för de olika skillsen i midd
+        private HooverText ShieldText, HealthText, AimText, ShieldCDText;               //Hoovertext för de olika skillsen i long
+
         private Texture2D menuBackground, pauseBackground, keyboardLayout, storyText, loadingText, gameOverText, PauseText, closeText, rangeText, middleText;
 
         private Texture2D deadWoman, progressBar, progressBarBorder, runningWoman;
@@ -83,11 +89,11 @@ namespace Athyl
         private Texture2D SkilltreeCombat, SkilltreeMid, SkilltreeLong;             //Stance ikoner
         private Texture2D SkilltreeBorder, SkilltreeGray, SkilltreePipes;
 
-        private Vector2 cameraPos, viewPortPos;                     //Olika positioner man kan använda för att få en standard.
+        private Vector2 cameraPos, viewPortPos, viewPortDim;                  //Olika positioner man kan använda för att få en standard.
         private Vector2 pos0, pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9 = Vector2.Zero;
 
         private int CloseColorIncrease, MidColorIncrease, LongColorIncrease;
-        private Rectangle rect;
+        private Rectangle SkillInfoRect;
         private int colFrame;
         private float TimePerFrame;
         private float TotalElapsed;
@@ -97,8 +103,8 @@ namespace Athyl
         public bool paused = false;
         private static bool runOnce = false;
         private SpriteFont myFont;
-        MouseState mouseState;
-        MouseState previousMouseState;
+        private MouseState mouseState;
+        private MouseState previousMouseState;
 
         public GameState gameState;
         public KeyboardState kbState, prevKdState; 
@@ -106,8 +112,8 @@ namespace Athyl
         #region Constructor
         public Menu(Game1 game)
         {
+            viewPortDim = new Vector2(game.GraphicsDevice.Viewport.Width, game.GraphicsDevice.Viewport.Height);
 
-            rect = new Rectangle(0, 0, game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 8);
             keyboardLayout = game.Content.Load<Texture2D>("Menu items/ControlMenu");
             storyText = game.Content.Load<Texture2D>("Menu items/story");
             loadingText = game.Content.Load<Texture2D>("Menu items/LoadingGameButton");
@@ -169,6 +175,20 @@ namespace Athyl
             FireBreath = new Button(game.Content.Load<Texture2D>("Menu items/Fireburst"), game.Content.Load<Texture2D>("Menu items/FireburstGray"), true);
             Dodge = new Button(game.Content.Load<Texture2D>("Menu items/HornedMan"), game.Content.Load<Texture2D>("Menu items/HornedManGray"), true);
 
+            ShieldText = new HooverText(game, "ShieldText", false);
+            ShieldCDText = new HooverText(game, "ShieldCDText", false);
+            HealthText = new HooverText(game, "HealthText", false);
+            AimText = new HooverText(game, "AimText", false);
+
+            fireBurstText = new HooverText(game, "fireBurstText", false);
+            AthylText = new HooverText(game, "AthylText", false);
+            PasstroughText = new HooverText(game, "PasstroughText", false);
+            FastShotText = new HooverText(game, "FastShotText", false);
+
+            AtkDmgText = new HooverText(game, "AtkDmgText", false);
+            AtkSpdText = new HooverText(game, "AtkSpdText", false);
+            fireBreathText = new HooverText(game, "fireBreathText", false);
+            DodgeText = new HooverText(game, "DodgeText", false);
 
             this.TimePerFrame = (float)1 / 1;           //Update animations
             this.TotalElapsed = 0;
@@ -190,8 +210,6 @@ namespace Athyl
         /// <param name="game"></param>
         public void UpdateMenu(GameTime gametime, Game1 game, Player player)
         {
-
-            
             mouseState = Mouse.GetState();
             kbState = Keyboard.GetState();
             setButtonPositions(game);
@@ -290,55 +308,55 @@ namespace Athyl
         public void ifFullIncreaseColor(Player player)
         {
             if (player.skillTree.firebreathPoint > 0)
-                FireBreath.mouseOver = false;
+                FireBreath.toggleTextures = false;
             else
-                FireBreath.mouseOver = true;
+                FireBreath.toggleTextures = true;
             if (player.skillTree.AtkDmgPoint > 0)
-                AtkDmg.mouseOver = false;
+                AtkDmg.toggleTextures = false;
             else
-                AtkDmg.mouseOver = true;
+                AtkDmg.toggleTextures = true;
             if (player.skillTree.AtkSpdPoint > 0)
-                AtkSpd.mouseOver = false;
+                AtkSpd.toggleTextures = false;
             else
-                AtkSpd.mouseOver = true;
+                AtkSpd.toggleTextures = true;
             if (player.skillTree.DodgePoint > 0)
-                Dodge.mouseOver = false;
+                Dodge.toggleTextures = false;
             else
-                Dodge.mouseOver = true;
+                Dodge.toggleTextures = true;
 
             if (player.skillTree.FireBurstPoint > 0)
-                Fireburst.mouseOver = false;
+                Fireburst.toggleTextures = false;
             else
-                Fireburst.mouseOver = true;
+                Fireburst.toggleTextures = true;
             if (player.skillTree.AthylPoint > 0)
-                MoreAthyl.mouseOver = false;
+                MoreAthyl.toggleTextures = false;
             else
-                MoreAthyl.mouseOver = true;
+                MoreAthyl.toggleTextures = true;
             if (player.skillTree.PassthroughPoint > 0)
-                Passtrough.mouseOver = false;
+                Passtrough.toggleTextures = false;
             else
-                Passtrough.mouseOver = true;
+                Passtrough.toggleTextures = true;
             if (player.skillTree.FastShotPoint > 0)
-                FastShot.mouseOver = false;
+                FastShot.toggleTextures = false;
             else
-                FastShot.mouseOver = true;
+                FastShot.toggleTextures = true;
 
             if (player.skillTree.ShieldPoint > 0)
-                Shield.mouseOver = false;
+                Shield.toggleTextures = false;
             else
-                Shield.mouseOver = true;
+                Shield.toggleTextures = true;
             if (player.skillTree.HPPoint > 0)
-                MoreHP.mouseOver = false;
+                MoreHP.toggleTextures = false;
             else
-                MoreHP.mouseOver = true;
+                MoreHP.toggleTextures = true;
             if (player.skillTree.AimPoint > 0)
-                Aim.mouseOver = false;
+                Aim.toggleTextures = false;
             else
-                Aim.mouseOver = true;
+                Aim.toggleTextures = true;
             if (player.skillTree.ShieldCDPoint > 0)
-                ShieldCD.mouseOver = false;
+                ShieldCD.toggleTextures = false;
             else
-                ShieldCD.mouseOver = true;
+                ShieldCD.toggleTextures = true;
         } 
 
         /// <summary>
@@ -349,34 +367,34 @@ namespace Athyl
         {
             if (player.skillPoints >= 1)     //Ska längre fram öka färgen på skillträdet.
             {
-                FireBreath.mouseOver = false;
-                Fireburst.mouseOver = false;
-                Shield.mouseOver = false;
+                FireBreath.toggleTextures = false;
+                Fireburst.toggleTextures = false;
+                Shield.toggleTextures = false;
                 if (player.skillTree.firebreathPoint > 0)
                 {
-                    AtkDmg.mouseOver = false;
-                    AtkSpd.mouseOver = false;
+                    AtkDmg.toggleTextures = false;
+                    AtkSpd.toggleTextures = false;
                     if (player.skillTree.AtkDmgPoint == 5 || player.skillTree.AtkSpdPoint == 5)
                     {
-                        Dodge.mouseOver = false;
+                        Dodge.toggleTextures = false;
                     }
                 }
                 if (player.skillTree.FireBurstPoint > 0)
                 {
-                    MoreAthyl.mouseOver = false;
-                    Passtrough.mouseOver = false;
+                    MoreAthyl.toggleTextures = false;
+                    Passtrough.toggleTextures = false;
                     if (player.skillTree.AthylPoint == 5 || player.skillTree.PassthroughPoint == 5)
                     {
-                        FastShot.mouseOver = false;
+                        FastShot.toggleTextures = false;
                     }
                 }
                 if (player.skillTree.ShieldPoint > 0)
                 {
-                    MoreHP.mouseOver = false;
-                    Aim.mouseOver = false;
+                    MoreHP.toggleTextures = false;
+                    Aim.toggleTextures = false;
                     if (player.skillTree.HPPoint == 5 || player.skillTree.AimPoint == 5)
                     {
-                        ShieldCD.mouseOver = false;
+                        ShieldCD.toggleTextures = false;
                     }
                 }
             }
@@ -604,74 +622,143 @@ namespace Athyl
         {
             if (start.rectangle.Contains(mouseState.X, mouseState.Y))
             {
-                start.mouseOver = true;
+                start.toggleTextures = true;
             }
             else
             {
-                start.mouseOver = false;
+                start.toggleTextures = false;
             }
             if (control.rectangle.Contains(mouseState.X, mouseState.Y))
             {
-                control.mouseOver = true;
+                control.toggleTextures = true;
             }
             else
             {
-                control.mouseOver = false;
+                control.toggleTextures = false;
             }
             if (story.rectangle.Contains(mouseState.X, mouseState.Y))
             {
-                story.mouseOver = true;
+                story.toggleTextures = true;
             }
             else
             {
-                story.mouseOver = false;
+                story.toggleTextures = false;
             }
             if (exit.rectangle.Contains(mouseState.X, mouseState.Y))
             {
-                exit.mouseOver = true;
+                exit.toggleTextures = true;
             }
             else
             {
-                exit.mouseOver = false;
+                exit.toggleTextures = false;
             }
             if (back.rectangle.Contains(mouseState.X, mouseState.Y))
             {
-                back.mouseOver = true;
+                back.toggleTextures = true;
             }
             else
             {
-                back.mouseOver = false;
+                back.toggleTextures = false;
             }
             if (resume.rectangle.Contains(mouseState.X, mouseState.Y))
             {
-                resume.mouseOver = true;
+                resume.toggleTextures = true;
             }
             else
             {
-                resume.mouseOver = false;
+                resume.toggleTextures = false;
             }
             if (restart.rectangle.Contains(mouseState.X, mouseState.Y))
             {
-                restart.mouseOver = true;
+                restart.toggleTextures = true;
             }
             else
             {
-                restart.mouseOver = false;
+                restart.toggleTextures = false;
             }
             if (mainMenu.rectangle.Contains(mouseState.X, mouseState.Y))
             {
-                mainMenu.mouseOver = true;
+                mainMenu.toggleTextures = true;
             }
             else
             {
-                mainMenu.mouseOver = false;
+                mainMenu.toggleTextures = false;
             }
 
             if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
             {
                 MouseClicked(game, player);
             }
-        } 
+
+            IfMouseOverSkills();
+        }
+
+        public void IfMouseOverSkills()
+        {
+            fireBreathText.visible = false;
+            AtkDmgText.visible = false;
+            AtkSpdText.visible = false;
+            DodgeText.visible = false;
+            fireBurstText.visible = false;
+            AthylText.visible = false;
+            PasstroughText.visible = false;
+            FastShotText.visible = false;
+            ShieldText.visible = false;
+            HealthText.visible = false;
+            AimText.visible = false;
+            ShieldCDText.visible = false;
+
+            if (FireBreath.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                fireBreathText.visible = true;
+            }
+            if (AtkDmg.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                AtkDmgText.visible = true;
+            }
+            if (AtkSpd.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                AtkSpdText.visible = true;
+            }
+            if (Dodge.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                DodgeText.visible = true;
+            }
+
+            if (Fireburst.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                fireBurstText.visible = true;
+            }
+            if (MoreAthyl.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                AthylText.visible = true;
+            }
+            if (Passtrough.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                PasstroughText.visible = true;
+            }
+            if (FastShot.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                FastShotText.visible = true;
+            }
+
+            if (Shield.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                ShieldText.visible = true;
+            }
+            if (MoreHP.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                HealthText.visible = true;
+            }
+            if (Aim.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                AimText.visible = true;
+            }
+            if (ShieldCD.rectangle.Contains(mouseState.X, mouseState.Y))
+            {
+                ShieldCDText.visible = true;
+            }
+        }
         #endregion
         #region Draw
         /// <summary>
@@ -681,14 +768,14 @@ namespace Athyl
         /// <param name="game"></param>
         public void Draw(SpriteBatch spriteBatch, Game1 game, Player player)
         {
-            start.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
-            control.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
-            story.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
-            exit.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
-            resume.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
-            restart.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
-            mainMenu.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
-            back.Draw(spriteBatch, new Vector2(-100, -100), viewPortPos);
+            start.Draw(spriteBatch, viewPortPos - new Vector2(100, 100), viewPortPos);
+            control.Draw(spriteBatch, viewPortPos - new Vector2(100, 100), viewPortPos);
+            story.Draw(spriteBatch, viewPortPos - new Vector2(100, 100), viewPortPos);
+            exit.Draw(spriteBatch, viewPortPos - new Vector2(100, 100), viewPortPos);
+            resume.Draw(spriteBatch, viewPortPos - new Vector2(100, 100), viewPortPos);
+            restart.Draw(spriteBatch, viewPortPos - new Vector2(100, 100), viewPortPos);
+            mainMenu.Draw(spriteBatch, viewPortPos - new Vector2(100, 100), viewPortPos);
+            back.Draw(spriteBatch, viewPortPos - new Vector2(100, 100), viewPortPos);
 
             if (gameState == GameState.StartMenu)
             {
@@ -717,7 +804,7 @@ namespace Athyl
                 spriteBatch.Draw(loadingText, pos5 - new Vector2(loadingText.Width / 2, 0), Color.White);
 
                 //Progressbar in loading menu
-                Rectangle border = new Rectangle((int)cameraPos.X + game.GraphicsDevice.Viewport.Width / 2 - 200, (int)cameraPos.Y + game.GraphicsDevice.Viewport.Height / 2, 400, 40);
+                Rectangle border = new Rectangle((int)(cameraPos.X + viewPortDim.X / 2 - 200), (int)(cameraPos.Y + viewPortDim.Y / 2), 400, 40);
                 Rectangle bar = new Rectangle(border.X, border.Y, (int)((Map.progress / Map.done) * border.Width), border.Height);
                 spriteBatch.Draw(progressBar, bar, Color.White);
                 spriteBatch.Draw(progressBarBorder, border, Color.White);
@@ -786,55 +873,72 @@ namespace Athyl
             {
                 spriteBatch.Draw(pauseBackground, cameraPos, Color.White);
 
-                
+                SkillInfoRect = new Rectangle(0, 0, (int)viewPortDim.X / 2, (int)viewPortDim.Y / 8);
+                spriteBatch.Draw(pauseBackground, pos8 + new Vector2(-viewPortDim.X / 4, viewPortDim.Y / 7), SkillInfoRect, Color.DarkRed);
 
-                spriteBatch.Draw(pauseBackground, pos8 + new Vector2(-game.GraphicsDevice.Viewport.Width / 4, game.GraphicsDevice.Viewport.Height / 7), rect, Color.DarkRed);
+                fireBreathText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
+                AtkDmgText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
+                AtkSpdText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
+                DodgeText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
 
-                spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
-                spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
-                spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 858, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
-                spriteBatch.Draw(SkilltreeCombat, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeCombat.Width, (int)(SkilltreeCombat.Height * 0.34) * CloseColorIncrease), Color.White);
-                spriteBatch.Draw(SkilltreeMid, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeMid.Width, (int)(SkilltreeCombat.Height * 0.34) * MidColorIncrease), Color.White);
-                spriteBatch.Draw(SkilltreeLong, new Rectangle(-(int)Camera.transform.Translation.X + 858, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeLong.Width, (int)(SkilltreeCombat.Height * 0.34) * LongColorIncrease), Color.White);
-                spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 250, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
-                spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 550, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
-                spriteBatch.Draw(SkilltreeBorder, new Rectangle(-(int)Camera.transform.Translation.X + 850, -(int)Camera.transform.Translation.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
-                spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 290, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
-                spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 590, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
-                spriteBatch.Draw(SkilltreePipes, new Rectangle(-(int)Camera.transform.Translation.X + 890, -(int)Camera.transform.Translation.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
+                fireBurstText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
+                AthylText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
+                PasstroughText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
+                FastShotText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
 
-                FireBreath.Draw(spriteBatch, cameraPos + new Vector2(335, 250), viewPortPos);     //Första nivå skillsen
+                ShieldText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
+                HealthText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
+                AimText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
+                ShieldCDText.Draw(spriteBatch, pos8 + new Vector2(-viewPortDim.X / 5, viewPortDim.Y / 7));
+
+                spriteBatch.Draw(SkilltreeGray, new Rectangle((int)cameraPos.X + 258, (int)cameraPos.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
+                spriteBatch.Draw(SkilltreeGray, new Rectangle((int)cameraPos.X + 558, (int)cameraPos.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
+                spriteBatch.Draw(SkilltreeGray, new Rectangle((int)cameraPos.X + 858, (int)cameraPos.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
+                spriteBatch.Draw(SkilltreeCombat, new Rectangle((int)cameraPos.X + 258, (int)cameraPos.Y + 208, (int)SkilltreeCombat.Width, (int)(SkilltreeCombat.Height * 0.34) * CloseColorIncrease), Color.White);
+                spriteBatch.Draw(SkilltreeMid, new Rectangle((int)cameraPos.X + 558, (int)cameraPos.Y + 208, (int)SkilltreeMid.Width, (int)(SkilltreeCombat.Height * 0.34) * MidColorIncrease), Color.White);
+                spriteBatch.Draw(SkilltreeLong, new Rectangle((int)cameraPos.X + 858, (int)cameraPos.Y + 208, (int)SkilltreeLong.Width, (int)(SkilltreeCombat.Height * 0.34) * LongColorIncrease), Color.White);
+                spriteBatch.Draw(SkilltreeBorder, new Rectangle((int)cameraPos.X + 250, (int)cameraPos.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
+                spriteBatch.Draw(SkilltreeBorder, new Rectangle((int)cameraPos.X + 550, (int)cameraPos.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
+                spriteBatch.Draw(SkilltreeBorder, new Rectangle((int)cameraPos.X + 850, (int)cameraPos.Y + 200, (int)SkilltreeBorder.Width, (int)SkilltreeBorder.Height), Color.White);
+                spriteBatch.Draw(SkilltreePipes, new Rectangle((int)cameraPos.X + 290, (int)cameraPos.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
+                spriteBatch.Draw(SkilltreePipes, new Rectangle((int)cameraPos.X + 590, (int)cameraPos.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
+                spriteBatch.Draw(SkilltreePipes, new Rectangle((int)cameraPos.X + 890, (int)cameraPos.Y + 265, (int)SkilltreePipes.Width, (int)SkilltreePipes.Height), Color.White);
+
+                spriteBatch.Draw(closeText, cameraPos + new Vector2(285, 185), Color.White);
+                spriteBatch.Draw(middleText, cameraPos + new Vector2(575, 190), Color.White);
+                spriteBatch.Draw(rangeText, cameraPos + new Vector2(885, 188), Color.White);
+
+                FireBreath.Draw(spriteBatch, cameraPos + new Vector2(335, 250), viewPortPos);
+                AtkDmg.Draw(spriteBatch, cameraPos + new Vector2(295, 350), viewPortPos);
+                AtkSpd.Draw(spriteBatch, cameraPos + new Vector2(380, 350), viewPortPos);
+                Dodge.Draw(spriteBatch, cameraPos + new Vector2(335, 450), viewPortPos);
+
                 Fireburst.Draw(spriteBatch, cameraPos + new Vector2(635, 250), viewPortPos);
-                Shield.Draw(spriteBatch, cameraPos + new Vector2(935, 250), viewPortPos);
-
-                AtkDmg.Draw(spriteBatch, cameraPos + new Vector2(295, 350), viewPortPos);       //Andra vänster nivå skillsen
                 MoreAthyl.Draw(spriteBatch, cameraPos + new Vector2(595, 350), viewPortPos);
-                MoreHP.Draw(spriteBatch, cameraPos + new Vector2(895, 350), viewPortPos);
-
-                AtkSpd.Draw(spriteBatch, cameraPos + new Vector2(380, 350), viewPortPos);       //Andra höger nivå skillsen
                 Passtrough.Draw(spriteBatch, cameraPos + new Vector2(680, 350), viewPortPos);
-                Aim.Draw(spriteBatch, cameraPos + new Vector2(980, 350), viewPortPos);
-
-                Dodge.Draw(spriteBatch, cameraPos + new Vector2(335, 450), viewPortPos);        //Sista nivå skillsen
                 FastShot.Draw(spriteBatch, cameraPos + new Vector2(635, 450), viewPortPos);
+
+                Shield.Draw(spriteBatch, cameraPos + new Vector2(935, 250), viewPortPos);
+                MoreHP.Draw(spriteBatch, cameraPos + new Vector2(895, 350), viewPortPos);
+                Aim.Draw(spriteBatch, cameraPos + new Vector2(980, 350), viewPortPos);
                 ShieldCD.Draw(spriteBatch, cameraPos + new Vector2(935, 450), viewPortPos);
 
-                spriteBatch.Draw(closeText, new Vector2(-(int)Camera.transform.Translation.X + 285, -(int)Camera.transform.Translation.Y + 185), Color.White);
-                spriteBatch.Draw(middleText, new Vector2(-(int)Camera.transform.Translation.X + 575, -(int)Camera.transform.Translation.Y + 190), Color.White);
-                spriteBatch.Draw(rangeText, new Vector2(-(int)Camera.transform.Translation.X + 885, -(int)Camera.transform.Translation.Y + 188), Color.White);
+                //Skriver ut antalet poäng tillgängliga
+                spriteBatch.DrawString(myFont, "Points: " + player.skillPoints, pos1 - new Vector2(50, 0), Color.Gold);
 
-                spriteBatch.DrawString(myFont, "Points: " + player.skillPoints, pos0 - new Vector2(50, 0), Color.Gold);
-
+                //Skriver ut antalet poäng lagda på skills i close trädet.
                 spriteBatch.DrawString(myFont, "" + player.skillTree.firebreathPoint + "/5", cameraPos + new Vector2(320, 285), Color.Gold);
                 spriteBatch.DrawString(myFont, "" + player.skillTree.AtkDmgPoint + "/5", cameraPos + new Vector2(280, 385), Color.Gold);
                 spriteBatch.DrawString(myFont, "" + player.skillTree.AtkSpdPoint + "/5", cameraPos + new Vector2(365, 385), Color.Gold);
                 spriteBatch.DrawString(myFont, "" + player.skillTree.DodgePoint + "/5", cameraPos + new Vector2(320, 485), Color.Gold);
 
+                //Skriver ut antalet poäng lagda på skills i mid trädet.
                 spriteBatch.DrawString(myFont, "" + player.skillTree.FireBurstPoint + "/5", cameraPos + new Vector2(620, 285), Color.Gold);
                 spriteBatch.DrawString(myFont, "" + player.skillTree.AthylPoint + "/5", cameraPos + new Vector2(580, 385), Color.Gold);
                 spriteBatch.DrawString(myFont, "" + player.skillTree.PassthroughPoint + "/5", cameraPos + new Vector2(665, 385), Color.Gold);
                 spriteBatch.DrawString(myFont, "" + player.skillTree.FastShotPoint + "/5", cameraPos + new Vector2(620, 485), Color.Gold);
 
+                //Skriver ut antalet poäng lagda på skills i long trädet.
                 spriteBatch.DrawString(myFont, "" + player.skillTree.ShieldPoint + "/5", cameraPos + new Vector2(920, 285), Color.Gold);
                 spriteBatch.DrawString(myFont, "" + player.skillTree.HPPoint + "/5", cameraPos + new Vector2(880, 385), Color.Gold);
                 spriteBatch.DrawString(myFont, "" + player.skillTree.AimPoint + "/5", cameraPos + new Vector2(965, 385), Color.Gold);
