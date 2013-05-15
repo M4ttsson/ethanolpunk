@@ -442,7 +442,7 @@ namespace Athyl
 
                         else
                         {
-                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 14)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, sniper);
+                            projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 21)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, sniper);
                         }
                     }
 
