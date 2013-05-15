@@ -208,7 +208,8 @@ namespace Athyl
             switch (direction)
             {
                 case Player.Direction.Right:
-                    bullet.body.Rotation = MathHelper.ToRadians(180);
+                    //bullet.body.Rotation = MathHelper.ToRadians(180);
+                    bullet.texture = game.Content.Load<Texture2D>("Projectiles/FistFlip");
                     bullet.body.FixedRotation = true;
                     meleeBullets.Add(bullet);
                     meleeBullets[meleeBullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, 0));
