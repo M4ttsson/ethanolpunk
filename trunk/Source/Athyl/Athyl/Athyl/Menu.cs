@@ -46,6 +46,23 @@ namespace Athyl
         }
     }
 
+    class HooverText
+    {
+        SpriteFont font;
+        string text;
+
+        public HooverText(Game1 game, string text)
+        {
+            this.font = game.Content.Load<SpriteFont>("font");
+            this.text = text;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, MouseState ms, Vector2 pos)
+        {
+            spriteBatch.DrawString(font, text,pos,Color.White);
+        }
+    }
+
     class Menu
     {
         #region Properties
@@ -70,7 +87,7 @@ namespace Athyl
         private Vector2 pos0, pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9 = Vector2.Zero;
 
         private int CloseColorIncrease, MidColorIncrease, LongColorIncrease;
-
+        private Rectangle rect;
         private int colFrame;
         private float TimePerFrame;
         private float TotalElapsed;
@@ -89,6 +106,8 @@ namespace Athyl
         #region Constructor
         public Menu(Game1 game)
         {
+
+            rect = new Rectangle(0, 0, game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 8);
             keyboardLayout = game.Content.Load<Texture2D>("Menu items/ControlMenu");
             storyText = game.Content.Load<Texture2D>("Menu items/story");
             loadingText = game.Content.Load<Texture2D>("Menu items/LoadingGameButton");
@@ -171,6 +190,8 @@ namespace Athyl
         /// <param name="game"></param>
         public void UpdateMenu(GameTime gametime, Game1 game, Player player)
         {
+
+            
             mouseState = Mouse.GetState();
             kbState = Keyboard.GetState();
             setButtonPositions(game);
@@ -487,6 +508,7 @@ namespace Athyl
             {
                 if (FireBreath.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.firebreathPoint < 5)
                 {
+                    
                     player.skillTree.firebreathPoint++;
                     player.skillTree.increasefireBreath();
                     player.skillTree.CloseRange();
@@ -763,6 +785,10 @@ namespace Athyl
             else if (gameState == GameState.Skilltree)
             {
                 spriteBatch.Draw(pauseBackground, cameraPos, Color.White);
+
+                
+
+                spriteBatch.Draw(pauseBackground, pos8 + new Vector2(-game.GraphicsDevice.Viewport.Width / 4, game.GraphicsDevice.Viewport.Height / 7), rect, Color.DarkRed);
 
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 258, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
                 spriteBatch.Draw(SkilltreeGray, new Rectangle(-(int)Camera.transform.Translation.X + 558, -(int)Camera.transform.Translation.Y + 208, (int)SkilltreeGray.Width, (int)SkilltreeGray.Height), Color.White);
