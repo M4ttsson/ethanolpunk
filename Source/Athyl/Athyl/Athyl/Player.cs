@@ -466,6 +466,7 @@ namespace Athyl
         {
             if (OnGround && !Crouching)
             {
+                torso.body.ResetDynamics();
                 torso.body.ApplyLinearImpulse(skillTree.playerJumpForce);
                 lastJump = DateTime.Now;
             }
@@ -475,6 +476,7 @@ namespace Athyl
             {
                 if (direction == Direction.Right)
                 {
+                    torso.body.ResetDynamics();
                     torso.body.ApplyLinearImpulse(new Vector2(skillTree.playerJumpForce.Y/2, skillTree.playerJumpForce.Y));
                     direction = Direction.Left;
                     lastDirection = true;
@@ -482,6 +484,7 @@ namespace Athyl
 
                 else if (direction == Direction.Left)
                 {
+                    torso.body.ResetDynamics();
                     torso.body.ApplyLinearImpulse(new Vector2(-skillTree.playerJumpForce.Y/2, skillTree.playerJumpForce.Y));
                     direction = Direction.Right;
                     lastDirection = false;
