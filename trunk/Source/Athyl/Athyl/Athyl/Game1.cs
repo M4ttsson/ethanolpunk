@@ -86,6 +86,7 @@ namespace Athyl
                     PreferredBackBufferWidth = 1280,
                     IsFullScreen = false
                 };
+            graphics.PreferMultiSampling = false;
             Content.RootDirectory = "Content";
 
             loadThread = new Thread(Load);
