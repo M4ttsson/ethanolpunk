@@ -79,7 +79,8 @@ namespace Athyl
         private HooverText fireBurstText, AthylText, PasstroughText, FastShotText;      //Hoovertext för de olika skillsen i midd
         private HooverText ShieldText, KelvarText, AimText, ShieldCDText;               //Hoovertext för de olika skillsen i long
 
-        private Texture2D menuBackground, pauseBackground, keyboardLayout, storyText, loadingText, gameOverText, PauseText, closeText, rangeText, middleText;
+        private Texture2D menuBackground, pauseBackground, keyboardLayout, AthylLogo; 
+        private Texture2D storyText, loadingText, gameOverText, PauseText, closeText, rangeText, middleText;
 
         private Texture2D deadWoman, progressBar, progressBarBorder, runningWoman;
 
@@ -121,6 +122,7 @@ namespace Athyl
             PauseText = game.Content.Load<Texture2D>("Menu items/Pause");
             menuBackground = game.Content.Load<Texture2D>("Menu items/LoadingScreen");
             pauseBackground = game.Content.Load<Texture2D>("Menu items/PauseMenuBackground");
+            AthylLogo = game.Content.Load<Texture2D>("Menu items/Logotyp");
 
             ColorCombat = game.Content.Load<Texture2D>("GUI/ColorCombat");  //Stance ikoner
             ColorMid = game.Content.Load<Texture2D>("GUI/ColorMidrange");
@@ -780,7 +782,8 @@ namespace Athyl
             if (gameState == GameState.StartMenu)
             {
                 spriteBatch.Draw(menuBackground, cameraPos, Color.White);
-                spriteBatch.DrawString(myFont, "ATHYL\nLOGOTYP", pos0 - new Vector2(200, 0), Color.White, 0, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 1);  //måste ändras
+                spriteBatch.Draw(AthylLogo, pos1 - new Vector2(AthylLogo.Width/2, 0), Color.White);
+                //spriteBatch.DrawString(myFont, "ATHYL\nLOGOTYP", pos0 - new Vector2(200, 0), Color.White, 0, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 1);  //måste ändras
                 if (paused)
                 {
                     resume.Draw(spriteBatch, pos5, viewPortPos);
