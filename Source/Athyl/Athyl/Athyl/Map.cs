@@ -49,7 +49,7 @@ namespace Athyl
             this.world = world;
             this.game = game;
             
-            currentLevel = 1;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
+            currentLevel = 2;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
 
             rand = new Random();
 
