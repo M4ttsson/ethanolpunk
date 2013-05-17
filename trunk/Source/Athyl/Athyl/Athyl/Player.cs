@@ -837,7 +837,6 @@ namespace Athyl
 
             else
             {
-                wheel.body.Friction = 10000f; 
                 if (rayCast(wheel.Position, wheel.Position + new Vector2(1, 0), (int)torso.Size.X / 2 + 5, Category.Cat5)
                  && direction == Direction.Right)
                 {
@@ -926,8 +925,8 @@ namespace Athyl
             projectile.Draw(spriteBatch, torso.Position);
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
 
-            //torso.Draw(spriteBatch);   
-            //wheel.Draw(spriteBatch);
+            torso.Draw(spriteBatch);   
+            wheel.Draw(spriteBatch);
 
             if (Crouching && stance == Stances.LongRange)
             {                
