@@ -127,12 +127,12 @@ namespace Athyl
             WallJumped = false;
 
             // Create the feet of the body, here implemented as high friction wheels 
-            wheel = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), wheelSize, 4.0f, userdata + "wheel");
+            wheel = new DrawableGameObject(world, game.Content.Load<Texture2D>("wheel1"), wheelSize, mass*0.4f, userdata + "wheel");
             wheel.Position = startPosition;
             wheel.body.Friction = 10000f;
 
             //create torso
-            torso = new DrawableGameObject(world, texture, torsoSize, 6.0f, userdata);
+            torso = new DrawableGameObject(world, texture, torsoSize, mass * 0.6f, userdata);
             torso.Position = wheel.Position - new Vector2(0.0f, torsoSize.Y / 2 - 5);
             torso.body.Restitution = 0;
             torso.body.CollisionCategories = Category.Cat1;
