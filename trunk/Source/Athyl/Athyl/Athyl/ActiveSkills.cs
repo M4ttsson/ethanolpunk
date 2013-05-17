@@ -44,11 +44,11 @@ namespace Athyl
 
             if (direction == Player.Direction.Right)
             {
-                shieldGfx.Position = new Vector2(player.torso.Position.X + shieldGfx.texture.Width / 2, player.torso.Position.Y);
+                shieldGfx.Position = new Vector2(player.torso.Position.X + shieldGfx.texture.Width * 1.5f, player.torso.Position.Y);
             }
             else
             {
-                shieldGfx.Position = new Vector2(player.torso.Position.X - shieldGfx.texture.Width*1.5f, player.torso.Position.Y);
+                shieldGfx.Position = new Vector2(player.torso.Position.X - shieldGfx.texture.Width * 1.5f, player.torso.Position.Y);
             }
             shieldGfx.body.FixedRotation = true;
             shieldGfx.body.BodyType = BodyType.Dynamic;
@@ -73,7 +73,7 @@ namespace Athyl
 
             if (contact.IsTouching())
             {
-                if ((fixtureA.UserData.ToString() == "ground" && fixtureB.UserData.ToString() == "shield"))
+                if ((fixtureA.UserData.ToString() == "shield" && fixtureB.UserData.ToString() == "ground"))
                 {
                     JointFactory.CreateFixedDistanceJoint(world, shieldGfx.body, ConvertUnits.ToSimUnits(Vector2.Zero), ConvertUnits.ToSimUnits(shieldGfx.Position));
                 }
