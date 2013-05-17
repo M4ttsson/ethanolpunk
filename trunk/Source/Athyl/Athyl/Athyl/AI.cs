@@ -47,6 +47,7 @@ namespace Athyl
         Texture2D bossRay;
         Rectangle bossRectRay;
         private bool atSpawn;
+        Vector2 estPlayerPos;
 
         #endregion
         #region Constructor
@@ -222,6 +223,11 @@ namespace Athyl
                     {
                         projectile.NewEnemyBullet(torso.body.Position, Direction.Left, world, projectileSpeed, wheel.body, damage);
                     }
+                }
+                else if (behaviors == Behavior.Boss)
+                {
+                    //aim in the direction of the player
+                    projectile.NewBullet(wheel.body.Position, estPlayerPos, world, wheel.body, torso.body, damage, false);
                 }
                 else
                 {
@@ -560,6 +566,9 @@ namespace Athyl
                 case 1:
                     //move towards player and shoot
                     seen = true;
+                    Vector2 dir = new Vector2(wheel.Position.X - distance, wheel.Position.Y);
+                    estPlayerPos = new Vector2(dir.X - wheel.Position.X, dir.Y - wheel.Position.Y);
+                    estPlayerPos.Normalize();
                     attackPlayer();
                     if (distance >= 150 && direction == Direction.Left)
                     {
@@ -620,6 +629,10 @@ namespace Athyl
                 case 1:
                     //move towards player and shoot
                     seen = true;
+                    
+                    Vector2 dir = new Vector2(torso.Position.X - distance, torso.Position.Y - 50);
+                    estPlayerPos = new Vector2(dir.X - torso.Position.X, dir.Y - torso.Position.Y - 50);
+                    estPlayerPos.Normalize();
                     attackPlayer();
                     if (distance >= 150 && direction == Direction.Left)
                     {
@@ -665,6 +678,10 @@ namespace Athyl
                 case 1:
                     //move towards player and shoot
                     seen = true;
+                    
+                    Vector2 dir = new Vector2(wheel.Position.X - distance - 50, wheel.Position.Y + 40);
+                    estPlayerPos = new Vector2(dir.X - wheel.Position.X, dir.Y - wheel.Position.Y + 40);
+                    estPlayerPos.Normalize();
                     attackPlayer();
                     if (distance >= 150 && direction == Direction.Left)
                     {

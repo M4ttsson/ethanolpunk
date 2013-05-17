@@ -167,10 +167,15 @@ namespace Athyl
         /// <param name="world"></param>
         /// <param name="wheel"></param>
         /// <param name="damage">Bullet damage</param>
-        public void NewBullet(Vector2 position, Vector2 direction, World world, Body wheel, Body torso, float damage)
+        public void NewBullet(Vector2 position, Vector2 direction, World world, Body wheel, Body torso, float damage, bool player)
         {
             this.damage = damage;
-            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
+            DrawableGameObject bullet;
+            if(player)
+                bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
+            else
+                bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "hostile");
+
             bullet.body.IsBullet = true;
             bullet.body.Position = position;
             bullet.body.IgnoreGravity = true;
