@@ -28,15 +28,19 @@ namespace Athyl
         private bool friendly;
         private float bulletLifeTime;
         private float meleeBulletLifeTime;
+        private float FireLifeTime;
         private float bulletWasFired;
         private float damage;
 
         //Lists of things to remove
         private List<DrawableGameObject> bullets = new List<DrawableGameObject>();
         private List<DrawableGameObject> meleeBullets = new List<DrawableGameObject>();
+        private List<DrawableGameObject> fire = new List<DrawableGameObject>();
         private List<DrawableGameObject> meleeremoveList = new List<DrawableGameObject>();
+        private List<DrawableGameObject> fireremoveList = new List<DrawableGameObject>();
         private List<DrawableGameObject> removeList = new List<DrawableGameObject>();
         private List<Body> meleeremoveListbody = new List<Body>();
+        private List<Body> fireremoveListbody = new List<Body>();
         private List<Body> removeListbody = new List<Body>();
 
         private Game1 game;
@@ -50,6 +54,7 @@ namespace Athyl
             this.game = game;
             bulletLifeTime = 10.0f;
             meleeBulletLifeTime = 0.5f;
+            FireLifeTime = 1.0f;
         }
 
         public Projectile(Game1 game, Player player)
@@ -271,6 +276,40 @@ namespace Athyl
 
             bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
+
+        public void FireBreath(Vector2 position, Player.Direction direction, World world, float speed, float damage)
+        {
+            this.damage = damage;
+
+            for (int i = 0; i < 5; i++)
+            {
+                DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(22, 14), 10, "melee");
+                bullet.body.IsBullet = true;
+                bullet.body.Position = position;
+                bullet.body.IgnoreGravity = true;
+                bulletWasFired = Game1.runTime;
+                bullet.body.IsSensor = true;
+                
+                switch (direction)
+                {
+                    case Player.Direction.Right:
+                        bullet.body.Rotation = MathHelper.ToRadians(180);
+                        bullet.body.FixedRotation = true;
+                        fire.Add(bullet);
+                        fire[fire.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, -0.4f + (float)i/5));
+                        break;
+
+                    case Player.Direction.Left:
+                        bullet.body.FixedRotation = true;
+                        fire.Add(bullet);
+                        fire[fire.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, 0.4f - (float)i/5));
+                        break;
+                }
+
+                fire[fire.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+            }
+        }
+
         #endregion
         #region Collisionanddraw
         /// <summary>
@@ -321,7 +360,27 @@ namespace Athyl
                         return true;
                     }
 
+
+                    else if (fixtureA.UserData.ToString() == "fire" && fixtureB.UserData.ToString() == "enemy" ||
+                    fixtureA.UserData.ToString() == "fire" && fixtureB.UserData.ToString() == "boss")
+                    {
+                        if (!fireremoveListbody.Contains(fixtureA.Body))
+                            fireremoveListbody.Add(fixtureA.Body);
+                        foreach (DrawableGameObject i in fire)
+                        {
+                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            {
+                                if (!fireremoveList.Contains(i))
+                                    fireremoveList.Add(i);
+                            }
+                        }
+                        game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
+                        return true;
+                    }
+
+
                     else if ((fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "player") ||(fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "shield"))
+
                     {
                         if (!removeListbody.Contains(fixtureA.Body))
                             removeListbody.Add(fixtureA.Body);
@@ -346,6 +405,20 @@ namespace Athyl
                             {
                                 if (!removeList.Contains(i))
                                     removeList.Add(i);
+                            }
+                        }
+                        return true;
+                    }
+                    else if (fixtureA.UserData.ToString() == "fire" && fixtureB.UserData.ToString() == "ground")
+                    {
+                        if (!fireremoveListbody.Contains(fixtureA.Body))
+                            fireremoveListbody.Add(fixtureA.Body);
+                        foreach (DrawableGameObject i in bullets)
+                        {
+                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            {
+                                if (!fireremoveList.Contains(i))
+                                    fireremoveList.Add(i);
                             }
                         }
                         return true;
@@ -439,6 +512,24 @@ namespace Athyl
                         }
                     }
                 }
+
+                for (int i = 0; i < fire.Count; i++)
+                {
+                    fire[i].Draw(spriteBatch);
+                    if (bulletWasFired + FireLifeTime <= (float)Game1.runTime)
+                    {
+                        if (!fireremoveList.Contains(fire[i]))
+                            fireremoveList.Add(fire[i]);
+                        try
+                        {
+                            game.world.RemoveBody(fire[i].body);
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
+                        }
+                    }
+                }
             }
 
             catch (Exception ex)
@@ -456,8 +547,38 @@ namespace Athyl
                 meleeBullets.Remove(i);
             }
 
+            foreach (DrawableGameObject i in fireremoveList)
+            {
+                fire.Remove(i);
+            }
 
             foreach (Body i in removeListbody)
+            {
+                try
+                {
+                    game.world.RemoveBody(i);
+                }
+
+                catch (Exception ex)
+                {
+                    logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
+                }
+            }
+
+            foreach (Body i in meleeremoveListbody)
+            {
+                try
+                {
+                    game.world.RemoveBody(i);
+                }
+
+                catch (Exception ex)
+                {
+                    logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
+                }
+            }
+
+            foreach (Body i in fireremoveListbody)
             {
                 try
                 {
@@ -473,6 +594,9 @@ namespace Athyl
             removeListbody.Clear();
             removeList.Clear();
             meleeremoveList.Clear();
+            meleeremoveListbody.Clear();
+            fireremoveList.Clear();
+            fireremoveListbody.Clear();
 
         }
         #endregion
