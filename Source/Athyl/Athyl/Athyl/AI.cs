@@ -91,7 +91,7 @@ namespace Athyl
                     break;
 
                 case Behavior.Turret:
-                    fireRate = 0.2f;
+                    fireRate = 0.04f;
                     enemyHP += 100;
                     behaviorDel = Turret;
                     damage = 45;
@@ -210,10 +210,23 @@ namespace Athyl
         {
             if ((DateTime.Now - lastBullet).TotalSeconds >= fireRate)
             {
-
+                if (behaviors == Behavior.Turret)
+                {
+                    if (ColFrame == 0)
+                    {
+                        projectile.NewEnemyBullet(torso.body.Position, Direction.Right, world, projectileSpeed, wheel.body, damage);
+                    }
+                    else if (ColFrame == 4)
+                    {
+                        projectile.NewEnemyBullet(torso.body.Position, Direction.Left, world, projectileSpeed, wheel.body, damage);
+                    }
+                }
+                else
+                {
+                    projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed, wheel.body, damage);
+                }
 
                 //projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed);
-                projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed, wheel.body, damage);
                 lastBullet = DateTime.Now;
 
 
@@ -460,7 +473,7 @@ namespace Athyl
         {
             attackPlayer();
 
-            if ((DateTime.Now - lastCheck).TotalSeconds >= 0.8)
+            if ((DateTime.Now - lastCheck).TotalSeconds >= 0.72)
             {
                 direction = (direction == Direction.Left) ? Direction.Right : Direction.Left;
                 lastCheck = DateTime.Now;
