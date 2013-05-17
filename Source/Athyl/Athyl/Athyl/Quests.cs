@@ -20,7 +20,6 @@ namespace Athyl
     class Quests
     {
         public DrawableGameObject boulder;
-        World world;
         public Quests(World world, Game1 game)
         {
 
@@ -43,11 +42,6 @@ namespace Athyl
                     fixtureB.Body.BodyType = BodyType.Static;
 
                 }
-
-
-
-
-
 
                 return true;
             }

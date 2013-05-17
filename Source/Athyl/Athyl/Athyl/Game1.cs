@@ -49,6 +49,7 @@ namespace Athyl
         //Quests quest;
         Camera camera;
         List<Drops> drops = new List<Drops>();
+        ActiveSkills activeSkills; 
         private List<Drops> removedDropsList = new List<Drops>();
         static Map map;
 
@@ -80,6 +81,7 @@ namespace Athyl
         #region Constructor
         public Game1()
         {
+
             graphics = new GraphicsDeviceManager(this)
                 {
                     PreferredBackBufferHeight = 720,
@@ -114,6 +116,8 @@ namespace Athyl
         /// </summary>
         protected override void Initialize()
         {
+
+            
             camera = new Camera(GraphicsDevice.Viewport);
             menu = new Menu(this);
             menu.gameState = Menu.GameState.StartMenu;
@@ -198,6 +202,9 @@ namespace Athyl
         public void Restart()
         {
 
+            activeSkills = null;
+
+
             try
             {
                 
@@ -260,11 +267,13 @@ namespace Athyl
                             {
                                 world.RemoveBody(quest.boulder.body);
                             }
-
+                    
                             quest = new Quests(world, this);
                             if (map != null)
                                 map.button.body.OnCollision += quest.InteractWithQuestItems;
                  * */
+
+
 
                 skilltree = new Skilltree(player);
 
@@ -433,8 +442,23 @@ namespace Athyl
                 player.useWeapon(world);
             }
             //Use stuff ex.lifting stuff (useKey)
-            if (keyboardState.IsKeyDown(InputClass.useKey))
+            if (keyboardState.IsKeyDown(InputClass.useKey) && prevKeyboardState.IsKeyDown(InputClass.useKey))
             {
+                if (player.Stance == Player.Stances.LongRange) //&& activeSkills.shieldDuration > 0)
+                {
+                    if (activeSkills != null)
+                    {
+                        world.RemoveBody(activeSkills.shieldGfx.body);
+                       
+                    }
+
+
+                    activeSkills = new ActiveSkills(world, this, player, player.direction);
+                    activeSkills.UseShield(player, 20);
+                   
+                    activeSkills.shieldActivate = true;
+                    activeSkills.shieldGfx.body.OnCollision += activeSkills.makeShieldStatic;
+                }
             }
 
             //change stances (closeKey, middleKey, longKey)
@@ -696,6 +720,8 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
+            
             menu.UpdateMenu(gameTime, this, player);
             keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.R))
@@ -830,8 +856,15 @@ namespace Athyl
 
                 }
             }
-        
+            if (activeSkills != null)
+            {
+                activeSkills.Update(world);
 
+                if (activeSkills.removeShield)
+                {
+                    activeSkills = null;
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -866,6 +899,10 @@ namespace Athyl
                 
             }
 
+            if (activeSkills != null && activeSkills.shieldActivate)
+            {
+                activeSkills.Draw(spriteBatch);
+            }
             //quest.DrawQuest(spriteBatch);
 
             //button.Draw(spriteBatch);
