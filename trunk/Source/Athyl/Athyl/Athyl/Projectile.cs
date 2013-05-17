@@ -321,7 +321,7 @@ namespace Athyl
                         return true;
                     }
 
-                    else if (fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "player")
+                    else if ((fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "player") ||(fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "shield"))
                     {
                         if (!removeListbody.Contains(fixtureA.Body))
                             removeListbody.Add(fixtureA.Body);

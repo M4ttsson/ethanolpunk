@@ -123,7 +123,7 @@ namespace Athyl
             {
                 try
                 {
-                    if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "athyl"))
+                    if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "athyl") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "athyl") || (fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "playerwheel"))
                     {
 
                             playerz.playerAthyl += 50;
@@ -132,7 +132,7 @@ namespace Athyl
                     }
 
 
-                    else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "hpBox"))
+                    else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "hpBox") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "hpBox") || (fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "playerwheel"))
                     {
                         
                             playerz.playerHP += 35;
