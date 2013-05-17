@@ -30,7 +30,7 @@ namespace Athyl
         private float fireRate = 0.5f;
         private bool hit = false;
         private bool seen = false;
-        private int checkTwice = 0;
+        private int checkUp = 0, checkDown = 0;
         public bool dead = false;
 
         private float speed;
@@ -46,6 +46,7 @@ namespace Athyl
         //test (leave alone)
         Texture2D bossRay;
         Rectangle bossRectRay;
+        private bool atSpawn;
 
         #endregion
         #region Constructor
@@ -102,12 +103,13 @@ namespace Athyl
                     Load(texture, 2, 7, 1, 1);
                     fireRate = 0.5f;
                     enemyHP = 1512;
-                    jumpForce = new Vector2(0, -12);
+                    jumpForce = new Vector2(0, -21);
                     behaviorDel = Boss;
                     jumpInterval = 2f;
                     direction = Direction.Left;
                     damage = 70;
                     speed = 0.5f;
+                    atSpawn = true;
                     break;
 
                 case Behavior.None:
@@ -300,7 +302,7 @@ namespace Athyl
             //DrawFrame(spriteBatch, wheel.Position + new Vector2(-55.0f/2, -110f));
             //enemyBody.Draw(spriteBatch, new Vector2(enemyBody.Size.X, enemyBody.Size.Y + wheel.Size.Y));
             //wheel.Draw(spriteBatch);
-            //spriteBatch.Draw(bossRay, bossRectRay, Color.White);
+            spriteBatch.Draw(bossRay, bossRectRay, Color.White);
             base.Draw(spriteBatch);
         }
 
@@ -483,114 +485,228 @@ namespace Athyl
 
         #region BossBehavior
 
+        /// <summary>
+        /// Chases the player while shooting. If player evades the boss returns to its starting position.
+        /// </summary>
         private void Boss()
         {
             if ((DateTime.Now - lastCheck).TotalSeconds >= 0.2)
             {
                 //bossRectRay.Width = 1;
-                bossRectRay.X = (int)wheel.Position.X;
-                bossRectRay.Y = (int)(wheel.Position.Y);
-                int distance = 0;
-                switch (CheckDirection(direction, 500, out distance))
+                //bossRectRay.X = (int)wheel.Position.X;
+                //bossRectRay.Y = (int)(wheel.Position.Y);
+
+                if(direction == Direction.Right && torso.Position.X >= 9730)
                 {
-                    case 0:
-                        bossRectRay.X -= distance;
-                       // bossRectRay.Width = distance;
-
-                        //Stop and look for player (seen will be true)
-                        Move(Movement.Stop);
-
-                        if (seen)
-                        {
-                            CheckUp();
-                        }
-
-                        break;
-
-                    case 1:
-                        //move towards player and shoot
-                        seen = true;
-                        if (distance >= 150 && direction == Direction.Left)
-                        {
-                            Move(Movement.Left);
-                        }
-                        else if (distance >= 150)
-                        {
-                            Move(Movement.Right);
-                        }
-                        else
-                        {
-                            Move(Movement.Stop);
-                        }
-                        bossRectRay.X -= distance;
-                        //bossRectRay.Width = distance;
-                        break;
-
-                    case 2:
-                        //stop before the wall, if the player was seen, check for way around
-                        if (distance >= 275 && direction == Direction.Left)
-                        {
-                            Move(Movement.Left);
-                        }
-                        else if (distance >= 275)
-                        {
-                            Move(Movement.Right);
-                        }
-                        else
-                        {
-                            Move(Movement.Stop);
-                        }
-
-                        if (seen)
-                        {
-                            CheckUp();
-                        }
-
-                        bossRectRay.X -= distance;
-                        //bossRectRay.Width = distance;
-                        break;
+                    Move(Movement.Stop);
+                    atSpawn = true;
+                    direction = Direction.Left;
                 }
-                //Console.WriteLine(distance);
+                else if (direction == Direction.Right && !atSpawn)
+                {
+                    int distance = 0;
+                    int ret = CheckDirection(Direction.Downright, 100, out distance);
+                    if (ret == 2)
+                    {
+                        if (distance < 100)
+                        {
+                            Jump();
+                        }
+                    }
+                }
+                else if (direction != Direction.Right)
+                {
+                    int forward = CheckForward();
+                    if (forward == 0 || forward == 2)
+                    {
+                        int up = CheckUp();
+                        if (up == 0 || up == 2)
+                        {
+                            int down = CheckDown();
+
+                            //nothing is found. Go back to start.
+                            if ((down == 0 || down == 2) && !atSpawn)
+                            {
+                                seen = false;
+                                Move(Movement.Right);
+                            }
+                        }
+                    }
+                }
+
+
+               
+                //Console.WriteLine(atSpawn);
                 lastCheck = DateTime.Now;
             }
-            //attackPlayer();
         }
 
-        private void CheckUp()
+        /// <summary>
+        /// Checks forward for the player (Intended for boss)
+        /// </summary>
+        /// <returns>Returns 1 for player, 2 for wall and 0 for nothing</returns>
+        private int CheckForward()
         {
+            int distance = 0;
+            switch (CheckDirection(direction, 500, out distance))
+            {
+                case 0:
+                    //bossRectRay.X -= distance;
+                    if (!seen)
+                        Move(Movement.Stop);
+                    // bossRectRay.Width = distance;
+                    return 0;
 
+                case 1:
+                    //move towards player and shoot
+                    seen = true;
+                    attackPlayer();
+                    if (distance >= 150 && direction == Direction.Left)
+                    {
+                        Move(Movement.Left);
+                        atSpawn = false;
+                    }
+                    else if (distance >= 150)
+                    {
+                        //Move(Movement.Right);
+                    }
+                    else
+                    {
+                        Move(Movement.Stop);
+                    }
+                    //bossRectRay.X -= distance;
+                    //bossRectRay.Width = distance;
+                    return 1;
+
+                case 2:
+                    if (distance >= 275 && direction == Direction.Left)
+                    {
+                        Move(Movement.Left);
+                        atSpawn = false;
+                    }
+                    else if (distance >= 275)
+                    {
+                        //Move(Movement.Right);
+                    }
+                    else
+                    {
+                        Move(Movement.Stop);
+                    }
+                    //bossRectRay.X -= distance;
+                    //bossRectRay.Width = distance;
+                    return 2;
+                default:
+                    return 0;
+            }
+        }
+
+        /// <summary>
+        /// Checks for the player 50 pixels up from the torso in forward direction(Intended for boss)
+        /// </summary>
+        /// <returns>Returns 1 for player, 2 for wall and 0 for nothing</returns>
+        private int CheckUp()
+        {
             int distance = 0;
             switch (CheckDirection(Direction.Upleft, 500, out distance))
             {
                 case 0:
-                    //lost player
-                    if (checkTwice++ == 2)
-                    {
-                        seen = false;
-                        checkTwice = 0;
-                    }
-                    break;
+                    bossRectRay.X -= distance;
+                    bossRectRay.Y = (int)torso.Position.Y - 50;
+                    if(!seen)
+                        Move(Movement.Stop);
+                    // bossRectRay.Width = distance;
+                    return 0;
 
                 case 1:
-                    //found player
+                    //move towards player and shoot
+                    seen = true;
                     attackPlayer();
-                    checkTwice = 0;
-                    break;
+                    if (distance >= 150 && direction == Direction.Left)
+                    {
+                        Move(Movement.Left);
+                        atSpawn = false;
+                    }
+                    else if (distance >= 150)
+                    {
+                        //Move(Movement.Right);
+                    }
+                    else
+                    {
+                        Move(Movement.Stop);
+                    }
+                    bossRectRay.X -= distance;
+                    bossRectRay.Y = (int)torso.Position.Y - 50;
+                    //bossRectRay.Width = distance;
+                    return 1;
 
                 case 2:
-                    if (checkTwice++ == 2)
-                    {
-                        seen = false;
-                        checkTwice = 0;
-                    }
-                    break;
+                    return 2;
+                default:
+                    return 0;
             }
-            bossRectRay.X = (int)wheel.Position.X;
-            bossRectRay.X -= distance;
-            bossRectRay.Y -= distance;
-            
+        }
+
+        /// <summary>
+        /// Checks for the player 40 pixels down from the wheel in forward direction(Intended for boss)
+        /// </summary>
+        /// <returns>Returns 1 for player, 2 for wall and 0 for nothing</returns>
+        private int CheckDown()
+        {
+            int distance = 0;
+            switch (CheckDirection(Direction.Downleft, 500, out distance))
+            {
+                case 0:
+                    //bossRectRay.X -= distance;
+                    if (!seen)
+                        Move(Movement.Stop);
+                    // bossRectRay.Width = distance;
+                    return 0;
+
+                case 1:
+                    //move towards player and shoot
+                    seen = true;
+                    attackPlayer();
+                    if (distance >= 150 && direction == Direction.Left)
+                    {
+                        Move(Movement.Left);
+                        atSpawn = false;
+                    }
+                    else if (distance >= 150)
+                    {
+                        //Move(Movement.Right);
+                    }
+                    else
+                    {
+                        Move(Movement.Stop);
+                    }
+                    //bossRectRay.X -= distance;
+                    //bossRectRay.Width = distance;
+                    return 1;
+
+                case 2:
+                    if (distance >= 275 && direction == Direction.Left)
+                    {
+                        Move(Movement.Left);
+                        atSpawn = false;
+                    }
+                    else if (distance >= 275)
+                    {
+                        //Move(Movement.Right);
+                    }
+                    else
+                    {
+                        Move(Movement.Stop);
+                    }
+                    //bossRectRay.X -= distance;
+                    //bossRectRay.Width = distance;
+                    return 2;
+                default:
+                    return 0;
+            }
+
 
         }
+         
 
         #endregion
 
@@ -623,7 +739,7 @@ namespace Athyl
                         {
                             try
                             {
-                                if (fix.UserData.ToString() == "player")
+                                if (fix.UserData.ToString() == "player" || fix.UserData.ToString() == "playerwheel")
                                 {
                                     distance = i;
                                     return 1;
@@ -651,7 +767,7 @@ namespace Athyl
                         {
                             try
                             {
-                                if (fix.UserData.ToString() == "player")
+                                if (fix.UserData.ToString() == "player" || fix.UserData.ToString() == "playerwheel")
                                 {
                                     distance = i;
                                     return 1;
@@ -670,16 +786,16 @@ namespace Athyl
                     return 0;
 
                 case Direction.Upleft:
-                    for (int i = 1; i <= lenght / 2; i++)
+                    for (int i = 1; i <= lenght; i++)
                     {
 
-                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(torso.Position.X - (i + 10), (torso.Position.Y) - (i + 15))));
+                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(torso.Position.X - (i + 10), torso.Position.Y - 50)));
 
                         if (fix != null)
                         {
                             try
                             {
-                                if (fix.UserData.ToString() == "player")
+                                if (fix.UserData.ToString() == "player" || fix.UserData.ToString() == "playerwheel")
                                 {
                                     distance = i;
                                     return 1;
@@ -694,20 +810,20 @@ namespace Athyl
                             { Console.WriteLine("No user data"); }
                         }
                     }
-                    distance = lenght / 2;
+                    distance = lenght;
                     return 0;
 
                 case Direction.Downleft:
-                    for (int i = 1; i <= lenght / 2; i++)
+                    for (int i = 1; i <= lenght; i++)
                     {
 
-                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(wheel.Position.X - (i + 10), wheel.Position.Y + (i + 10))));
+                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(wheel.Position.X - (i + 10), wheel.Position.Y + 40)));
 
                         if (fix != null)
                         {
                             try
                             {
-                                if (fix.UserData.ToString() == "player")
+                                if (fix.UserData.ToString() == "player" || fix.UserData.ToString() == "playerwheel")
                                 {
                                     distance = i;
                                     return 1;
@@ -722,7 +838,35 @@ namespace Athyl
                             { Console.WriteLine("No user data"); }
                         }
                     }
-                    distance = lenght / 2;
+                    distance = lenght;
+                    return 0;
+
+                case Direction.Downright:
+                    for (int i = 1; i <= lenght; i++)
+                    {
+
+                        Fixture fix = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(wheel.Position.X + (i + 10), wheel.Position.Y + 40)));
+
+                        if (fix != null)
+                        {
+                            try
+                            {
+                                if (fix.UserData.ToString() == "player" || fix.UserData.ToString() == "playerwheel")
+                                {
+                                    distance = i;
+                                    return 1;
+                                }
+                                if (fix.UserData.ToString() == "ground")
+                                {
+                                    distance = i;
+                                    return 2;
+                                }
+                            }
+                            catch (Exception)
+                            { Console.WriteLine("No user data"); }
+                        }
+                    }
+                    distance = lenght;
                     return 0;
 
                 default:
