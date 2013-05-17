@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using Microsoft.Xna.Framework.Input;
 using NLog;
 
+
 namespace Athyl
 {
     class InputClass
@@ -22,39 +23,24 @@ namespace Athyl
         {
             try
             {
-                //get the config file
-                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-                NameValueCollection nvc = (NameValueCollection)ConfigurationManager.GetSection("movement");
-
-                //read all keys
+                  //read all keys
                 //movement
-                String key = nvc.Get("Up");
-                upKey = (Keys)Enum.Parse(typeof(Keys), key, true);
-                key = nvc.Get("Left");
-                leftKey = (Keys)Enum.Parse(typeof(Keys), key, true);
-                key = nvc.Get("Down");
-                downKey = (Keys)Enum.Parse(typeof(Keys), key, true);
-                key = nvc.Get("Right");
-                rightKey = (Keys)Enum.Parse(typeof(Keys), key, true);
-                key = nvc.Get("Crouch");
-                crouchKey = (Keys)Enum.Parse(typeof(Keys), key, true);
+                upKey = Properties.Settings.Default.Up;
+                leftKey = Properties.Settings.Default.Left;
+                downKey = Properties.Settings.Default.Down;
+                rightKey = Properties.Settings.Default.Right;
+                crouchKey = Properties.Settings.Default.Crouch;
 
                 //shoot/jump
-                key = nvc.Get("Shoot");
-                shootKey = (Keys)Enum.Parse(typeof(Keys), key, true);
-                key = nvc.Get("Jump");
-                jumpKey = (Keys)Enum.Parse(typeof(Keys), key, true);
+                shootKey = Properties.Settings.Default.Shoot;
+                jumpKey = Properties.Settings.Default.Jump;
 
                 //stances
-                key = nvc.Get("Close");
-                closeKey = (Keys)Enum.Parse(typeof(Keys), key, true);
-                key = nvc.Get("Middle");
-                middleKey = (Keys)Enum.Parse(typeof(Keys), key, true);
-                key = nvc.Get("Long");
-                longKey = (Keys)Enum.Parse(typeof(Keys), key, true);
-                key = nvc.Get("Use");
-                useKey = (Keys)Enum.Parse(typeof(Keys), key, true);
+                closeKey = Properties.Settings.Default.Close;
+                middleKey = Properties.Settings.Default.Middle;
+                longKey = Properties.Settings.Default.Long;
+
+                useKey = Properties.Settings.Default.Use;
 
                 return false;
             }
