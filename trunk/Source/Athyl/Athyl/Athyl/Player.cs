@@ -563,6 +563,12 @@ namespace Athyl
             }
         }
 
+        public void UseFirebreath(World world)
+        {
+            projectile.FireBreath(torso.body.Position, direction, world, 1.0f, 5);
+
+        }
+
         #endregion
         #region Stances
 
