@@ -139,6 +139,9 @@ namespace Athyl
             torso.body.FixedRotation = true;
             torso.body.Rotation = 0;
 
+            // Create a joint to keep the torso upright (leave for now) //Timmo
+           // JointFactory.CreateFixedAngleJoint(world, torso.body);
+
             // Connect the feet to the torso
             axis = JointFactory.CreateRevoluteJoint(world, torso.body, wheel.body, Vector2.Zero);
             axis.CollideConnected = false;
@@ -148,6 +151,8 @@ namespace Athyl
             axis.MotorTorque = 3;
             axis.MaxMotorTorque = 10;
             torso.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+
+            
 
             //xpRequiredPerLevel
             numFootContacts = 0;
