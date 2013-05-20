@@ -118,11 +118,11 @@ namespace Athyl
 
         public bool PickupsForPlayer(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
-
-            if (contact.IsTouching())
+            try
             {
-                try
+                if (contact.IsTouching())
                 {
+                
                     if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "athyl") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "athyl") || (fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "playerwheel"))
                     {
 
@@ -148,11 +148,11 @@ namespace Athyl
 
                     }
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
                 {
                     logger.Error(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                 }
-            }
             return false;
         }
 
