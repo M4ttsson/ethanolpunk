@@ -371,8 +371,8 @@ namespace Athyl
                                     break;
 
                                 case 8:
-                                    theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 10, 20, this, AI.Behavior.Patrol, "enemy"));
-                                    theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 10, 20, this, AI.Behavior.PatrolDistance, "enemy"));
+                                    theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 10, 20, this, AI.Behavior.PatrolDistance, "enemy"));
+                                    theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 10, 20, this, AI.Behavior.Patrol, "enemy"));
                                     break;
 
                                 case 9:
