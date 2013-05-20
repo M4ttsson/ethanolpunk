@@ -328,7 +328,9 @@ namespace Athyl
                 try
                 {
                     if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy" ||
-                        fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "boss")
+                        fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "boss" ||
+                        fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemywheel" ||
+                        fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "bosswheel")
                     {
                         foreach (Bullet i in newbullets)
                         {
@@ -343,7 +345,9 @@ namespace Athyl
                     }
 
                     else if (fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "enemy" ||
-                        fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "boss")
+                        fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "boss" ||
+                        fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "enemywheel" ||
+                        fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "bosswheel")
                     {
                         foreach (Bullet i in newbullets)
                         {
@@ -360,7 +364,9 @@ namespace Athyl
 
 
                     else if (fixtureA.UserData.ToString() == "fire" && fixtureB.UserData.ToString() == "enemy" ||
-                    fixtureA.UserData.ToString() == "fire" && fixtureB.UserData.ToString() == "boss")
+                    fixtureA.UserData.ToString() == "fire" && fixtureB.UserData.ToString() == "boss" ||
+                        fixtureA.UserData.ToString() == "fire" && fixtureB.UserData.ToString() == "enemywheel" ||
+                        fixtureA.UserData.ToString() == "fire" && fixtureB.UserData.ToString() == "bosswheel")
                     {
                         foreach (Bullet i in newbullets)
                         {

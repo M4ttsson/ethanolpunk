@@ -73,6 +73,8 @@ namespace Athyl
         public static float runTime = 0;
         int i = 0;
 
+        //only debug
+        bool endOfMapSpawn = false;
 
 
         //private DrawableGameObject button;
@@ -243,9 +245,10 @@ namespace Athyl
                 player = null;
 
                 //starta i slutet av banan (låt va kvar /Timmo)
-                //player = new Player(world, playerTexture, new Vector2(42, 90), 10.0f, new Vector2(8385, 1000), this, "player");
-
-                player = new Player(world, playerTexture, new Vector2(60, 88), 10.0f, new Vector2(60, 1300), this, "player");
+                if(endOfMapSpawn)
+                    player = new Player(world, playerTexture, new Vector2(42, 90), 10.0f, new Vector2(8385, 1000), this, "player");
+                else
+                    player = new Player(world, playerTexture, new Vector2(60, 88), 10.0f, new Vector2(60, 1300), this, "player");
 
 
                 //reset spawnpoints
@@ -435,6 +438,12 @@ namespace Athyl
                 player.torso.body.ApplyForce(new Vector2(21, 0));
             if (keyboardState.IsKeyDown(Keys.Left))
                 player.torso.body.ApplyForce(new Vector2(-21, 0));*/
+
+            //Debug
+            if (keyboardState.IsKeyDown(Keys.M) && !prevKeyboardState.IsKeyDown(Keys.M))
+            {
+                endOfMapSpawn = endOfMapSpawn ? false : true; 
+            }
 
             //Jump (jumpKey)
             if (keyboardState.IsKeyDown(InputClass.jumpKey) && !prevKeyboardState.IsKeyDown(InputClass.jumpKey))
@@ -633,7 +642,7 @@ namespace Athyl
             {
                 for (int j = 0; j < damageList.Count; j++)
                 {
-                    if (theAI[i].torso.body.BodyId == damageList[j].bodyId)
+                    if (theAI[i].torso.body.BodyId == damageList[j].bodyId || theAI[i].wheel.body.BodyId == damageList[j].bodyId)
                     {
                         theAI[i].enemyHP -= (int)damageList[j].damage;
                         //(int)damageList[j].bodyId;

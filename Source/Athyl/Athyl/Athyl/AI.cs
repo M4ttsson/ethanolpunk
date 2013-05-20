@@ -502,29 +502,23 @@ namespace Athyl
                 //bossRectRay.X = (int)wheel.Position.X;
                 //bossRectRay.Y = (int)(wheel.Position.Y);
 
+                /*if (atSpawn)
+                {
+                    direction = (direction == Direction.Left) ? Direction.Right : Direction.Left;
+                }
+                */
                 if(direction == Direction.Right && torso.Position.X >= 9730)
                 {
                     Move(Movement.Stop);
                     atSpawn = true;
                     direction = Direction.Left;
                 }
-                else if (direction == Direction.Right && !atSpawn)
-                {
-                    int distance = 0;
-                    int ret = CheckDirection(Direction.Downright, 100, out distance);
-                    if (ret == 2)
-                    {
-                        if (distance < 100)
-                        {
-                            Jump();
-                        }
-                    }
-                }
                 else if (direction != Direction.Right)
                 {
                     int forward = CheckForward();
                     if (forward == 0 || forward == 2)
                     {
+
                         int up = CheckUp();
                         if (up == 0 || up == 2)
                         {
@@ -538,7 +532,9 @@ namespace Athyl
                             }
                         }
                     }
+
                 }
+                
 
 
                
@@ -577,7 +573,7 @@ namespace Athyl
                     }
                     else if (distance >= 150)
                     {
-                        //Move(Movement.Right);
+                       // Move(Movement.Right);
                     }
                     else
                     {
@@ -595,7 +591,7 @@ namespace Athyl
                     }
                     else if (distance >= 275)
                     {
-                        //Move(Movement.Right);
+                       // Move(Movement.Right);
                     }
                     else
                     {
