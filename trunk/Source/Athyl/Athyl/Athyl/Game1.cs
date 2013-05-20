@@ -202,11 +202,16 @@ namespace Athyl
         public void Restart()
         {
 
-            activeSkills = null;
+            
 
 
             try
             {
+                if (activeSkills != null)
+                {
+                    world.RemoveBody(activeSkills.shieldGfx.body);
+                    activeSkills = null;
+                }
                 
                 
                 foreach (AI ai in theAI)
@@ -238,9 +243,9 @@ namespace Athyl
                 player = null;
 
                 //starta i slutet av banan (låt va kvar /Timmo)
-                player = new Player(world, playerTexture, new Vector2(42, 90), 10.0f, new Vector2(8385, 1000), this, "player");
+                //player = new Player(world, playerTexture, new Vector2(42, 90), 10.0f, new Vector2(8385, 1000), this, "player");
 
-                //player = new Player(world, playerTexture, new Vector2(60, 88), 10.0f, new Vector2(60, 1300), this, "player");
+                player = new Player(world, playerTexture, new Vector2(60, 88), 10.0f, new Vector2(60, 1300), this, "player");
 
 
                 //reset spawnpoints
@@ -725,8 +730,6 @@ namespace Athyl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-
-            
             menu.UpdateMenu(gameTime, this, player);
             keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.R))
