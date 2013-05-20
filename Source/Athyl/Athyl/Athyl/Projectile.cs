@@ -385,7 +385,7 @@ namespace Athyl
                             {
                                 if (!removeList.Contains(i))
                                     removeList.Add(i);
-                                game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage, i.Damage));
+                                game.damageList.Add(new Damage(fixtureB.Body.BodyId, i.Damage, player.skillTree.playerDmg));
                             }
                         }
                         return true;
