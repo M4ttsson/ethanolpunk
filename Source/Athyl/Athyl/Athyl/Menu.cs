@@ -509,6 +509,7 @@ namespace Athyl
             else if (mainMenu.rectangle.Contains(mouseState.X, mouseState.Y))
             {
                 gameState = GameState.StartMenu;
+                game.Restart();
             }
             else if (exit.rectangle.Contains(mouseState.X, mouseState.Y))
             {
@@ -786,11 +787,10 @@ namespace Athyl
                 //spriteBatch.DrawString(myFont, "ATHYL\nLOGOTYP", pos0 - new Vector2(200, 0), Color.White, 0, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 1);  //måste ändras
                 if (paused)
                 {
-                    resume.Draw(spriteBatch, pos5, viewPortPos);
-                    restart.Draw(spriteBatch, pos6, viewPortPos);
-                    control.Draw(spriteBatch, pos7, viewPortPos);
-                    story.Draw(spriteBatch, pos8, viewPortPos);
-                    exit.Draw(spriteBatch, pos9, viewPortPos);
+                    start.Draw(spriteBatch, pos5, viewPortPos);
+                    control.Draw(spriteBatch, pos6, viewPortPos);
+                    story.Draw(spriteBatch, pos7, viewPortPos);
+                    exit.Draw(spriteBatch, pos8, viewPortPos);
                 }
                 else
                 {

@@ -936,7 +936,7 @@ namespace Athyl
             projectile.Draw(spriteBatch, torso.Position);
             DrawFrame(spriteBatch, torso.Position - new Vector2(torso.Size.X / 2, torso.Size.Y / 2));
 
-            //torso.Draw(spriteBatch);   
+            torso.Draw(spriteBatch);   
             //wheel.Draw(spriteBatch);
 
             if (Crouching && stance == Stances.LongRange)
