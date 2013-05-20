@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="ActiveSkills.cs" />
     <Compile Include="AI.cs" />
+    <Compile Include="Bullet.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="ConvertUnits.cs" />
     <Compile Include="Damage.cs" />

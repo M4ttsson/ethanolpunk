@@ -32,13 +32,16 @@ namespace Athyl
         private float bulletWasFired;
         private float damage;
 
-        //Lists of things to remove
+        
         private List<DrawableGameObject> bullets = new List<DrawableGameObject>();
         private List<DrawableGameObject> meleeBullets = new List<DrawableGameObject>();
         private List<DrawableGameObject> fire = new List<DrawableGameObject>();
+
+        private List<Bullet> newbullets = new List<Bullet>();
+        //Lists of things to remove
         private List<DrawableGameObject> meleeremoveList = new List<DrawableGameObject>();
         private List<DrawableGameObject> fireremoveList = new List<DrawableGameObject>();
-        private List<DrawableGameObject> removeList = new List<DrawableGameObject>();
+        private List<Bullet> removeList = new List<Bullet>();
         private List<Body> meleeremoveListbody = new List<Body>();
         private List<Body> fireremoveListbody = new List<Body>();
         private List<Body> removeListbody = new List<Body>();
@@ -73,7 +76,8 @@ namespace Athyl
         /// <param name="world"></param>
         public void NewBullet(Vector2 position, Player.Direction direction, World world, float speed, Body wheel, Body torso, float damage, bool sniper)
         {
-            this.damage = damage;
+            
+           
             float spread = 0;
             float spreadDiagonal = 1;
 
@@ -87,76 +91,69 @@ namespace Athyl
                 spread /= 133;
             }
 
-            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
-            bullet.body.IsBullet = true;
-            bullet.body.Position = position;
-            bullet.body.IgnoreGravity = true;
-            bulletWasFired = Game1.runTime;
-            bullet.body.IsSensor = true;
-            bullet.body.IgnoreCollisionWith(wheel);
-            bullet.body.IgnoreCollisionWith(torso);
+            DrawableGameObject Obj = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
+            Obj.body.IsBullet = true;
+            Obj.body.Position = position;
+            Obj.body.IgnoreGravity = true;
+            Obj.body.IsSensor = true;
+            Obj.body.IgnoreCollisionWith(wheel);
+            Obj.body.IgnoreCollisionWith(torso);
+            
             switch (direction)
             {
                 case Player.Direction.Right:
-                    bullet.body.Rotation = MathHelper.ToRadians(180);
-                    bullet.body.FixedRotation = true;
-                    bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, spread * 0.2f));
+                    Obj.body.Rotation = MathHelper.ToRadians(180);
+                    Obj.body.FixedRotation = true;              
+                    Obj.body.ApplyLinearImpulse(new Vector2(speed, spread * 0.2f));
                     break;
 
                 case Player.Direction.Left:
-                    bullet.body.FixedRotation = true;
-                    bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, spread * 0.2f));
+                    Obj.body.FixedRotation = true;
+                    Obj.body.ApplyLinearImpulse(new Vector2(speed * -1, spread * 0.2f));
                     break;
 
                 case Player.Direction.Down:
-                    bullet.body.Rotation = MathHelper.ToRadians(270);
-                    bullet.body.FixedRotation = true;
-                    bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed));
+                    Obj.body.Rotation = MathHelper.ToRadians(270);
+                    Obj.body.FixedRotation = true;
+                    Obj.body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed));
                     break;
 
                 case Player.Direction.Up:
-                    bullet.body.Rotation = MathHelper.ToRadians(90);
-                    bullet.body.FixedRotation = true;
-                    bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed * -1.0f));
+                    Obj.body.Rotation = MathHelper.ToRadians(90);
+                    Obj.body.FixedRotation = true;
+                    Obj.body.ApplyLinearImpulse(new Vector2(spread * 0.2f, speed * -1.0f));
                     break;
 
                 case Player.Direction.Upright:
-                    bullet.body.Rotation = MathHelper.ToRadians(135);
-                    bullet.body.FixedRotation = true;
-                    bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * -1.0f) * spreadDiagonal);
+                    Obj.body.Rotation = MathHelper.ToRadians(135);
+                    Obj.body.FixedRotation = true;
+                    Obj.body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2 * -1.0f) * spreadDiagonal);
                     break;
 
                 case Player.Direction.Upleft:
-                    bullet.body.Rotation = MathHelper.ToRadians(45);
-                    bullet.body.FixedRotation = true;
-                    bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2 * -1.0f) * spreadDiagonal);
+                    Obj.body.Rotation = MathHelper.ToRadians(45);
+                    Obj.body.FixedRotation = true;
+                    Obj.body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2 * -1.0f) * spreadDiagonal);
                     break;
 
                 case Player.Direction.Downright:
-                    bullet.body.Rotation = MathHelper.ToRadians(-135);
-                    bullet.body.FixedRotation = true;
-                    bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2) * spreadDiagonal);
+                    Obj.body.Rotation = MathHelper.ToRadians(-135);
+                    Obj.body.FixedRotation = true;
+                    Obj.body.ApplyLinearImpulse(new Vector2(speed / 2, speed / 2) * spreadDiagonal);
                     break;
 
                 case Player.Direction.Downleft:
-                    bullet.body.Rotation = MathHelper.ToRadians(-45);
-                    bullet.body.FixedRotation = true;
-                    bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2) * spreadDiagonal);
+                    Obj.body.Rotation = MathHelper.ToRadians(-45);
+                    Obj.body.FixedRotation = true;
+                    Obj.body.ApplyLinearImpulse(new Vector2(speed / 2 * -1.0f, speed / 2) * spreadDiagonal);
                     break;
 
                 default:
                     break;
 
             }
-            bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+            newbullets.Add(new Bullet(Obj, damage, game, world, bulletLifeTime));
+            newbullets[newbullets.Count - 1].Obj.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
         /// <summary>
@@ -169,30 +166,32 @@ namespace Athyl
         /// <param name="damage">Bullet damage</param>
         public void NewBullet(Vector2 position, Vector2 direction, World world, Body wheel, Body torso, float damage, bool player)
         {
-            this.damage = damage;
-            DrawableGameObject bullet;
+            
+            DrawableGameObject Obj;
             if(player)
-                bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
+                Obj = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
             else
-                bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "hostile");
+                Obj = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "hostile");
 
-            bullet.body.IsBullet = true;
-            bullet.body.Position = position;
-            bullet.body.IgnoreGravity = true;
-            bulletWasFired = Game1.runTime;
-            bullet.body.IsSensor = true;
-            bullet.body.IgnoreCollisionWith(wheel);
-            bullet.body.IgnoreCollisionWith(torso);
+            Obj.body.IsBullet = true;
+            Obj.body.Position = position;
+            Obj.body.IgnoreGravity = true;
+            
+            Obj.body.IsSensor = true;
+            Obj.body.IgnoreCollisionWith(wheel);
+            Obj.body.IgnoreCollisionWith(torso);
 
             //calculate direction and rotation
             float dotProd = Vector2.Dot(Vector2.UnitY, direction);
             float rotation = (direction.X > 0) ? -(float)Math.Acos(dotProd) + MathHelper.ToRadians(-90) : (float)Math.Acos(dotProd) + MathHelper.ToRadians(-90);
-            bullet.body.Rotation = rotation;
-            bullet.body.FixedRotation = true;
+            Obj.body.Rotation = rotation;
+            Obj.body.FixedRotation = true;
 
-            bullets.Add(bullet);
-            bullets[bullets.Count - 1].body.ApplyLinearImpulse(direction / 20);
-            bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+            Obj.body.ApplyLinearImpulse(direction / 20);
+            
+
+            newbullets.Add(new Bullet(Obj, damage, game, world, bulletLifeTime));
+            newbullets[newbullets.Count - 1].Obj.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
         /// <summary>
@@ -206,36 +205,35 @@ namespace Athyl
         /// <param name="damage"></param>
         public void NewMeleeBullet(Vector2 position, Player.Direction direction, World world, float speed, Body wheel, float damage)
         {
-            this.damage = damage;
-            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Fist"), new Vector2(22, 14), 10, "melee");
-            bullet.body.IsBullet = true;
-            bullet.body.Position = position;
-            bullet.body.IgnoreGravity = true;
-            bulletWasFired = Game1.runTime;
-            bullet.body.IsSensor = true;
-            bullet.body.IgnoreCollisionWith(wheel);
+            
+            DrawableGameObject Obj = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Fist"), new Vector2(22, 14), 10, "melee");
+            Obj.body.IsBullet = true;
+            Obj.body.Position = position;
+            Obj.body.IgnoreGravity = true;
+            Obj.body.IsSensor = true;
+            Obj.body.IgnoreCollisionWith(wheel);
 
             switch (direction)
             {
                 case Player.Direction.Right:
                     //bullet.body.Rotation = MathHelper.ToRadians(180);
-                    bullet.texture = game.Content.Load<Texture2D>("Projectiles/FistFlip");
-                    bullet.body.FixedRotation = true;
-                    meleeBullets.Add(bullet);
-                    meleeBullets[meleeBullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, 0));
+                    Obj.texture = game.Content.Load<Texture2D>("Projectiles/FistFlip");
+                    Obj.body.FixedRotation = true;
+                    Obj.body.ApplyLinearImpulse(new Vector2(speed, 0));
                     break;
 
                 case Player.Direction.Left:
-                    bullet.body.FixedRotation = true;
-                    meleeBullets.Add(bullet);
-                    meleeBullets[meleeBullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, 0));
+                    Obj.body.FixedRotation = true;
+                    Obj.body.ApplyLinearImpulse(new Vector2(speed * -1, 0));
                     break;
 
                 default:
                     break;
             }
 
-            meleeBullets[meleeBullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+           
+            newbullets.Add(new Bullet(Obj, damage, game, world, meleeBulletLifeTime));
+            newbullets[newbullets.Count - 1].Obj.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
         }
 
         /// <summary>
@@ -247,71 +245,69 @@ namespace Athyl
         /// <param name="speed"></param>
         public void NewEnemyBullet(Vector2 position, Player.Direction direction, World world, float speed, Body wheel, float damage)
         {
-            this.damage = damage;
             //Allows the linear bullets to have some spread!
             float spread = random.Next(-2, 2);
 
             //Allows diagonal bullets to have some spread!
             float spreadDiagonal = random.Next(1, 5);
             spread /= 133;
-            DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(10, 4), 10, "hostile");
-            bullet.body.IsBullet = true;
-            bullet.body.Position = position;
-            bullet.body.IgnoreGravity = true;
-            bulletLifeTime = 5;
-            bulletWasFired = Game1.runTime;
-            bullet.body.IsSensor = true;
-            bullet.body.IgnoreCollisionWith(wheel);
+            DrawableGameObject Obj = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(10, 4), 10, "hostile");
+            Obj.body.IsBullet = true;
+            Obj.body.Position = position;
+            Obj.body.IgnoreGravity = true;
+            Obj.body.IsSensor = true;
+            Obj.body.IgnoreCollisionWith(wheel);
 
             switch (direction)
             {
                 case Player.Direction.Right:
-                    bullet.body.Rotation = MathHelper.ToRadians(180);
-                    bullet.body.FixedRotation = true;
-                    bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, spread * 0.2f));
+                    Obj.body.Rotation = MathHelper.ToRadians(180);
+                    Obj.body.FixedRotation = true;
+                    Obj.body.ApplyLinearImpulse(new Vector2(speed, spread * 0.2f));
                     break;
 
                 case Player.Direction.Left:
-                    bullet.body.FixedRotation = true;
-                    bullets.Add(bullet);
-                    bullets[bullets.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, spread * 0.2f));
+                    Obj.body.FixedRotation = true;
+                    Obj.body.ApplyLinearImpulse(new Vector2(speed * -1, spread * 0.2f));
                     break;
             }
 
-            bullets[bullets.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+            newbullets.Add(new Bullet(Obj, damage, game, world, bulletLifeTime));
+
+            newbullets[newbullets.Count - 1].Obj.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+
+
         }
 
         public void FireBreath(Vector2 position, Player.Direction direction, World world, float speed, float damage)
         {
-            this.damage = damage;
+          
 
             for (int i = 0; i < 5; i++)
             {
-                DrawableGameObject bullet = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(22, 14), 10, "melee");
-                bullet.body.IsBullet = true;
-                bullet.body.Position = position;
-                bullet.body.IgnoreGravity = true;
-                bulletWasFired = Game1.runTime;
-                bullet.body.IsSensor = true;
+                DrawableGameObject Obj = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(22, 14), 10, "melee");
+                Obj.body.IsBullet = true;
+                Obj.body.Position = position;
+                Obj.body.IgnoreGravity = true;
+                Obj.body.IsSensor = true;
                 
                 switch (direction)
                 {
                     case Player.Direction.Right:
-                        bullet.body.Rotation = MathHelper.ToRadians(180);
-                        bullet.body.FixedRotation = true;
-                        fire.Add(bullet);
-                        fire[fire.Count - 1].body.ApplyLinearImpulse(new Vector2(speed, -0.4f + (float)i/5));
+                        Obj.body.Rotation = MathHelper.ToRadians(180);
+                        Obj.body.FixedRotation = true;
+                        Obj.body.ApplyLinearImpulse(new Vector2(speed, -0.4f + (float)i/5));
                         break;
 
                     case Player.Direction.Left:
-                        bullet.body.FixedRotation = true;
-                        fire.Add(bullet);
-                        fire[fire.Count - 1].body.ApplyLinearImpulse(new Vector2(speed * -1, 0.4f - (float)i/5));
+                        Obj.body.FixedRotation = true;
+                        Obj.body.ApplyLinearImpulse(new Vector2(speed * -1, 0.4f - (float)i/5));
                         break;
                 }
 
-                fire[fire.Count - 1].body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
+                newbullets.Add(new Bullet(Obj, damage, game, world, FireLifeTime));
+
+                newbullets[newbullets.Count - 1].Obj.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
             }
         }
 
@@ -334,34 +330,31 @@ namespace Athyl
                     if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "enemy" ||
                         fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "boss")
                     {
-                        if (!removeListbody.Contains(fixtureA.Body))
-                            removeListbody.Add(fixtureA.Body);
-                        foreach (DrawableGameObject i in bullets)
+                        foreach (Bullet i in newbullets)
                         {
-                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            if (i.Obj.body.BodyId == fixtureA.Body.BodyId)
                             {
                                 if (!removeList.Contains(i))
                                     removeList.Add(i);
+                                game.damageList.Add(new Damage(fixtureB.Body.BodyId, i.Damage));
                             }
                         }
-                        game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
                         return true;
                     }
 
                     else if (fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "enemy" ||
                         fixtureA.UserData.ToString() == "melee" && fixtureB.UserData.ToString() == "boss")
                     {
-                        if (!meleeremoveListbody.Contains(fixtureA.Body))
-                            meleeremoveListbody.Add(fixtureA.Body);
-                        foreach (DrawableGameObject i in bullets)
+                        foreach (Bullet i in newbullets)
                         {
-                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            if (i.Obj.body.BodyId == fixtureA.Body.BodyId)
                             {
-                                if (!meleeremoveList.Contains(i))
-                                    meleeremoveList.Add(i);
+                                if (!removeList.Contains(i))
+                                    removeList.Add(i);
                             }
+                            game.damageList.Add(new Damage(fixtureB.Body.BodyId, i.Damage));
                         }
-                        game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
+                        
                         return true;
                     }
 
@@ -369,17 +362,16 @@ namespace Athyl
                     else if (fixtureA.UserData.ToString() == "fire" && fixtureB.UserData.ToString() == "enemy" ||
                     fixtureA.UserData.ToString() == "fire" && fixtureB.UserData.ToString() == "boss")
                     {
-                        if (!fireremoveListbody.Contains(fixtureA.Body))
-                            fireremoveListbody.Add(fixtureA.Body);
-                        foreach (DrawableGameObject i in fire)
+                        foreach (Bullet i in newbullets)
                         {
-                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            if (i.Obj.body.BodyId == fixtureA.Body.BodyId)
                             {
-                                if (!fireremoveList.Contains(i))
-                                    fireremoveList.Add(i);
+                                if (!removeList.Contains(i))
+                                    removeList.Add(i);
+                                game.damageList.Add(new Damage(fixtureB.Body.BodyId, i.Damage));
                             }
                         }
-                        game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage));
+                        
                         return true;
                     }
 
@@ -387,26 +379,23 @@ namespace Athyl
                     else if ((fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "player") ||(fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "shield"))
 
                     {
-                        if (!removeListbody.Contains(fixtureA.Body))
-                            removeListbody.Add(fixtureA.Body);
-                        foreach (DrawableGameObject i in bullets)
+                        foreach (Bullet i in newbullets)
                         {
-                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            if (i.Obj.body.BodyId == fixtureA.Body.BodyId)
                             {
                                 if (!removeList.Contains(i))
                                     removeList.Add(i);
+                                game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage, i.Damage));
                             }
                         }
-                        game.damageList.Add(new Damage(fixtureB.Body.BodyId, damage, player.skillTree.playerDmg));
                         return true;
                     }
+
                     else if (fixtureA.UserData.ToString() == "shot" && fixtureB.UserData.ToString() == "ground")
                     {
-                        if (!removeListbody.Contains(fixtureA.Body))
-                            removeListbody.Add(fixtureA.Body);
-                        foreach (DrawableGameObject i in bullets)
+                        foreach (Bullet i in newbullets)
                         {
-                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            if (i.Obj.body.BodyId == fixtureA.Body.BodyId)
                             {
                                 if (!removeList.Contains(i))
                                     removeList.Add(i);
@@ -414,27 +403,25 @@ namespace Athyl
                         }
                         return true;
                     }
+
                     else if (fixtureA.UserData.ToString() == "fire" && fixtureB.UserData.ToString() == "ground")
                     {
-                        if (!fireremoveListbody.Contains(fixtureA.Body))
-                            fireremoveListbody.Add(fixtureA.Body);
-                        foreach (DrawableGameObject i in bullets)
+                        foreach (Bullet i in newbullets)
                         {
-                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            if (i.Obj.body.BodyId == fixtureA.Body.BodyId)
                             {
-                                if (!fireremoveList.Contains(i))
-                                    fireremoveList.Add(i);
+                                if (!removeList.Contains(i))
+                                    removeList.Add(i);
                             }
                         }
                         return true;
                     }
+
                     else if (fixtureA.UserData.ToString() == "hostile" && fixtureB.UserData.ToString() == "ground")
                     {
-                        if (!removeListbody.Contains(fixtureA.Body))
-                            removeListbody.Add(fixtureA.Body);
-                        foreach (DrawableGameObject i in bullets)
+                        foreach (Bullet i in newbullets)
                         {
-                            if (i.body.BodyId == fixtureA.Body.BodyId)
+                            if (i.Obj.body.BodyId == fixtureA.Body.BodyId)
                             {
                                 if (!removeList.Contains(i))
                                     removeList.Add(i);
@@ -482,25 +469,25 @@ namespace Athyl
         {
             try
             {
-                for (int i = 0; i < bullets.Count; i++)
+                for (int i = 0; i < newbullets.Count; i++)
                 {
-                    bullets[i].Draw(spriteBatch);
-                    if (bulletWasFired + bulletLifeTime <= Game1.runTime)
+                    newbullets[i].Obj.Draw(spriteBatch);
+                    if (newbullets[i].WasFired + newbullets[i].LifeTime <= Game1.runTime)
                     {
-                        if (!removeList.Contains(bullets[i]))
-                            removeList.Add(bullets[i]);
-                        try
+                        if (!removeList.Contains(newbullets[i]))
+                            removeList.Add(newbullets[i]);
+                        /*try
                         {
                             game.world.RemoveBody(bullets[i].body);
                         }
                         catch (Exception ex)
                         {
                             logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
-                        }
+                        }*/
                     }
                 }
 
-                for (int i = 0; i < meleeBullets.Count; i++)
+                /*for (int i = 0; i < meleeBullets.Count; i++)
                 {
                     meleeBullets[i].Draw(spriteBatch);
                     if (bulletWasFired + meleeBulletLifeTime <= (float)Game1.runTime)
@@ -534,7 +521,7 @@ namespace Athyl
                             logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                         }
                     }
-                }
+                }*/
             }
 
             catch (Exception ex)
@@ -542,12 +529,12 @@ namespace Athyl
                 logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
             }
 
-            foreach (DrawableGameObject i in removeList)
+            foreach (Bullet i in removeList)
             {
-                bullets.Remove(i);
+                newbullets.Remove(i);
             }
 
-            foreach (DrawableGameObject i in meleeremoveList)
+            /*foreach (DrawableGameObject i in meleeremoveList)
             {
                 meleeBullets.Remove(i);
             }
@@ -594,7 +581,7 @@ namespace Athyl
                 {
                     logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                 }
-            }
+            }*/
 
             removeListbody.Clear();
             removeList.Clear();
