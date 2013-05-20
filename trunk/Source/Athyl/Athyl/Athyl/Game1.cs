@@ -209,6 +209,8 @@ namespace Athyl
 
             try
             {
+                
+
                 if (activeSkills != null)
                 {
                     world.RemoveBody(activeSkills.shieldGfx.body);
