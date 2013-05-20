@@ -858,6 +858,7 @@ namespace Athyl
                         if (map.currentLevel > 3)
                             map.currentLevel = 1;
 
+                        map.reloadMapTexture();
                         Restart();
                     }
                     world.Step(0.033333f);

@@ -49,7 +49,7 @@ namespace Athyl
             this.world = world;
             this.game = game;
             
-            currentLevel = 2;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
+            currentLevel = 3;  //Vilken nivå? Ändra mellan 1-3 för att byta utseende på banan.
 
             rand = new Random();
 
@@ -63,7 +63,7 @@ namespace Athyl
         {   
             ReadingTilesTextureToList();
 
-            ReadMapLayout(game.Content.Load<Texture2D>("Lvl" + currentLevel + "Tiles/Map"));
+            ReadMapLayout(game.Content.Load<Texture2D>("Lvl" + 2 + "Tiles/Map"));
             buttonTexture = game.Content.Load<Texture2D>("buttons/button");
 
             DrawTilesOnPlace();
@@ -94,8 +94,6 @@ namespace Athyl
 
         private void randomizeMiddleTexture(int x, int y, Vector2 BodySize)
         {
-            //middleTileNr = rand.Next(1,9);
-
             Texture2D t = game.Content.Load<Texture2D>("Lvl" + currentLevel + "Tiles/Middle" + middleTileNr);
             Vector2 p = new Vector2((x - 1) * 32, (y - 1) * 32);
 
@@ -137,6 +135,18 @@ namespace Athyl
                     lvl3.Add(game.Content.Load<Texture2D>("Lvl3Tiles/Lvl3" + (i + 1) + "x" + (j + 1)));
                 }
             }
+        }
+
+        public void reloadMapTexture()
+        {
+            foreach (DrawableGameObject b in body)
+            {
+                world.RemoveBody(b.body);   
+            }
+            body.Clear();
+            middleTexture.Clear();
+            middlePosition.Clear();
+            DrawTilesOnPlace();
         }
 
         /// <summary>
