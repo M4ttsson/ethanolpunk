@@ -285,7 +285,7 @@ namespace Athyl
 
 
 
-                skilltree = new Skilltree(player);
+                skilltree = new Skilltree(player, this);
 
             }
             catch (Exception ex)
@@ -472,8 +472,8 @@ namespace Athyl
 
 
                     activeSkills = new ActiveSkills(world, this, player, player.direction);
-                    activeSkills.UseShield(player, 20);
-                   
+                    activeSkills.UseShield(player);
+                    
                     activeSkills.shieldActivate = true;
                     activeSkills.shieldGfx.body.OnCollision += activeSkills.makeShieldStatic;
                 }
@@ -878,7 +878,7 @@ namespace Athyl
             }
             if (activeSkills != null)
             {
-                activeSkills.Update(world);
+                activeSkills.Update(world, gameTime);
 
                 if (activeSkills.removeShield)
                 {
@@ -886,6 +886,8 @@ namespace Athyl
                 }
             }
 
+
+            
             base.Update(gameTime);
         }
 
