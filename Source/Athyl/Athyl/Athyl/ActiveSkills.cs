@@ -20,18 +20,19 @@ namespace Athyl
     class ActiveSkills
     {
         public DrawableGameObject shieldGfx;
-        private int shieldHP;
+        
         private bool shieldOnGround = false;
         private Player player;
         private int rowFrame = 0;
         private World world;
         private Texture2D shieldTexture;
 
+        public int shieldHP;
         public bool removeShield = false;
         public int shieldCooldown = 40;
         public bool shieldActivate = false;
         public Player.Direction direction = Player.Direction.Right;
-        public int shieldDuration;
+        public double shieldDuration = 10;
 
 
         public ActiveSkills(World world, Game1 game, Player player, Player.Direction direction)
@@ -50,20 +51,21 @@ namespace Athyl
             {
                 shieldGfx.Position = new Vector2(player.torso.Position.X - shieldGfx.texture.Width * 1.5f, player.torso.Position.Y);
             }
+
+            
             shieldGfx.body.FixedRotation = true;
             shieldGfx.body.BodyType = BodyType.Dynamic;
         }
 
 
-        public void UseShield(Player player, int shieldDuration)
+        public void UseShield(Player player)
         {
 
             //shieldGfx.body.IgnoreCollisionWith(player.torso.body);
             //shieldGfx.body.IgnoreCollisionWith(player.wheel.body);
-
+            shieldActivate = true;
             this.player = player;
-            this.shieldDuration = shieldDuration;
-            shieldDuration = 20;
+            
             shieldHP = (int)(player.playerHP * 0.75f);
         }
 
@@ -103,14 +105,21 @@ namespace Athyl
         }
 
 
-        public void Update( World world)
+        public void Update(World world, GameTime gameTime)
         {
             if (shieldDuration <= 0 || shieldHP <= 0)
             {
                 shieldActivate = false;
                 world.RemoveBody(shieldGfx.body);
-                removeShield = true;
+                removeShield = true; 
             }
+
+            if (shieldActivate)
+            {
+                
+                shieldDuration -= gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
         }
 
         public void Draw(SpriteBatch spriteBatch)

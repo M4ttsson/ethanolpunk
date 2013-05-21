@@ -20,9 +20,13 @@ namespace Athyl
         private float longFireRate, longMoveSpd, longDmg, longEthanolConsumption, longPlayerDmg;
         private int meleeMaxAthyl, midMaxAthyl, longMaxAthyl;
 
+        private ActiveSkills activeSkills;
+
         public Int16 firebreathPoint, AtkSpdPoint, AtkDmgPoint, DodgePoint;
         public Int16 FireBurstPoint, FastShotPoint, AthylPoint, PassthroughPoint;
         public Int16 ShieldPoint, KevlarPoint, AimPoint, ShieldCDPoint;
+
+
 
         //public int playerMaxHP;
         //public int playerMaxAthyl;
@@ -35,9 +39,14 @@ namespace Athyl
         public float playerSpeed;
         public float ethanolConsumption;
         public float playerDmg = 1.0f;
-
-        public Skilltree(Player playerInfo)
+        public Skilltree(Player playerInfo, Game1 game)
         {
+
+
+
+            activeSkills = new ActiveSkills(game.world, game, playerInfo, playerInfo.direction);
+
+
             this.fireRate = 0;
             this.projectileSpeed = 0.039f;
             this.damage = 0;
@@ -161,7 +170,8 @@ namespace Athyl
         #region Longrange
         public void increaseShield()        //Upgrades Shield
         {
-
+            activeSkills.shieldHP += (int)((playerInfo.playerHP / 10) * ShieldPoint);
+            activeSkills.shieldDuration += 2 * ShieldPoint;
         }
 
         public void increaseArmor()        //Upgrades armor
@@ -174,9 +184,9 @@ namespace Athyl
 
         }
 
-        public void increaseShieldCD()        //Upgrades Shield CoolDown
+        public void increaseShieldCD()        //Upgrades Shield by decreasing the cooldown
         {
-
+            activeSkills.shieldCooldown -= ShieldCDPoint*2;
         }
         #endregion
         

@@ -157,7 +157,7 @@ namespace Athyl
             //xpRequiredPerLevel
             numFootContacts = 0;
             projectile = new Projectile(game, this);
-            skillTree = new Skilltree(this);
+            skillTree = new Skilltree(this, game);
 
             Stance = Stances.CloseRange;
             playerLevel = 1;
