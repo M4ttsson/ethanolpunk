@@ -209,7 +209,7 @@ namespace Athyl
 
             try
             {
-                
+                map.currentLevel = 1;
 
                 if (activeSkills != null)
                 {
