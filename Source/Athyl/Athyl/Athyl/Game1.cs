@@ -252,7 +252,11 @@ namespace Athyl
                 else
                     player = new Player(world, playerTexture, new Vector2(60, 88), 10.0f, new Vector2(60, 1300), this, "player");
 
-                map.currentLevel = 1;
+                if (map != null)
+                {
+                    map.currentLevel = 1;
+                    map.reloadMapTexture();
+                }
 
                 //reset spawnpoints
                 foreach (Spawn sp in spawnpoints)
