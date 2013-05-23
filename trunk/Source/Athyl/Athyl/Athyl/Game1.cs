@@ -209,7 +209,7 @@ namespace Athyl
 
             try
             {
-                map.currentLevel = 1;
+                
 
                 if (activeSkills != null)
                 {
@@ -252,6 +252,7 @@ namespace Athyl
                 else
                     player = new Player(world, playerTexture, new Vector2(60, 88), 10.0f, new Vector2(60, 1300), this, "player");
 
+                map.currentLevel = 1;
 
                 //reset spawnpoints
                 foreach (Spawn sp in spawnpoints)
