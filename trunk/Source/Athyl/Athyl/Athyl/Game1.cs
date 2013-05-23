@@ -907,7 +907,7 @@ namespace Athyl
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Camera.transform);
             if (map != null)
             {
-                spriteBatch.Draw(Content.Load<Texture2D>("Backgrounds/BackgroundLvl" + map.currentLevel), new Vector2(-Camera.transform.Translation.X, -Camera.transform.Translation.Y), Color.Wheat);
+                spriteBatch.Draw(Content.Load<Texture2D>("Backgrounds/BackgroundLvl" + map.currentLevel), new Vector2(this.GraphicsDevice.Viewport.X, -Camera.transform.Translation.Y) + new Vector2(-(Camera.transform.Translation.X) * 0.929f, 0), Color.Wheat);
                 map.Draw(spriteBatch);
             }
 
