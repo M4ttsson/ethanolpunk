@@ -475,6 +475,7 @@ namespace Athyl
                     activeSkills.UseShield(player);
                     activeSkills.shieldActivate = true;
                     activeSkills.shieldGfx.body.OnCollision += activeSkills.makeShieldStatic;
+                    player.playerAthyl -= 150;
                 }
                 else if (player.Stance == Player.Stances.CloseRange){
                     player.UseFirebreath(world);
