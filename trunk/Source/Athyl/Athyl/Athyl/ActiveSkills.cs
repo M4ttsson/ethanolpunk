@@ -58,6 +58,7 @@ namespace Athyl
             this.world = world;
             this.shieldHP = (int)((player.skillTree.playerInfo.playerHP / 10) * player.skillTree.ShieldPoint);
             this.shieldDuration += 2 * player.skillTree.ShieldPoint;
+            this.shieldCooldown -= 4 * player.skillTree.ShieldCDPoint;
 
             shieldGfx = new DrawableGameObject(world, shieldTexture, new Vector2(shieldTexture.Width, shieldTexture.Height), 90, "shield");
 

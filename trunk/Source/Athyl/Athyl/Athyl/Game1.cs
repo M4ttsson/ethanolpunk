@@ -464,19 +464,15 @@ namespace Athyl
             //Use stuff ex.lifting stuff (useKey)
             if (keyboardState.IsKeyDown(InputClass.useKey))
             {
-
-
-                if (player.Stance == Player.Stances.LongRange && prevKeyboardState.IsKeyUp(InputClass.useKey))
+                if (player.Stance == Player.Stances.LongRange && prevKeyboardState.IsKeyUp(InputClass.useKey) && player.playerAthyl > 150)
                 {
                     if (activeSkills != null)
                     {
-                        world.RemoveBody(activeSkills.shieldGfx.body);
-                       
+                       world.RemoveBody(activeSkills.shieldGfx.body);
                     }
 
                     activeSkills = new ActiveSkills(world, this, player, player.direction);
                     activeSkills.UseShield(player);
-                    
                     activeSkills.shieldActivate = true;
                     activeSkills.shieldGfx.body.OnCollision += activeSkills.makeShieldStatic;
                 }
@@ -886,7 +882,6 @@ namespace Athyl
                         Restart();
                     }
                     world.Step(0.033333f);
-
                 }
             }
             if (activeSkills != null)
