@@ -462,7 +462,7 @@ namespace Athyl
                 player.useWeapon(world);
             }
             //Use stuff ex.lifting stuff (useKey)
-            if (keyboardState.IsKeyDown(InputClass.useKey) && prevKeyboardState.IsKeyDown(InputClass.useKey))
+            if (keyboardState.IsKeyDown(InputClass.useKey) && prevKeyboardState.IsKeyUp(InputClass.useKey))
             {
 
 
@@ -473,7 +473,6 @@ namespace Athyl
                         world.RemoveBody(activeSkills.shieldGfx.body);
                        
                     }
-
 
                     activeSkills = new ActiveSkills(world, this, player, player.direction);
                     activeSkills.UseShield(player);
