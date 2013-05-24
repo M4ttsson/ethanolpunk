@@ -462,11 +462,11 @@ namespace Athyl
                 player.useWeapon(world);
             }
             //Use stuff ex.lifting stuff (useKey)
-            if (keyboardState.IsKeyDown(InputClass.useKey) && prevKeyboardState.IsKeyUp(InputClass.useKey))
+            if (keyboardState.IsKeyDown(InputClass.useKey))
             {
 
 
-                if (player.Stance == Player.Stances.LongRange) //&& activeSkills.shieldDuration > 0)
+                if (player.Stance == Player.Stances.LongRange && prevKeyboardState.IsKeyUp(InputClass.useKey))
                 {
                     if (activeSkills != null)
                     {
