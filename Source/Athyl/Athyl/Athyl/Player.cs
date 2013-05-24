@@ -511,7 +511,6 @@ namespace Athyl
                             {
                                 torso.body.LinearVelocity = new Vector2(0, torso.body.LinearVelocity.Y);
                                 torso.body.ApplyForce(new Vector2(skillTree.playerJumpForce.Y/2, 0));
-
                             }
 
                             else if (torso.body.LinearVelocity.X >= skillTree.playerJumpForce.Y / 2)
@@ -565,8 +564,7 @@ namespace Athyl
 
         public void UseFirebreath(World world)
         {
-            projectile.FireBreath(torso.body.Position, direction, world, 1.0f, 5);
-
+            projectile.FireBreath(torso.body.Position, direction, world, 0.7f, 5);
         }
 
         #endregion
