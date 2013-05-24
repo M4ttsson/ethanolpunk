@@ -34,17 +34,17 @@ namespace Athyl
 
         
         private List<DrawableGameObject> bullets = new List<DrawableGameObject>();
-        private List<DrawableGameObject> meleeBullets = new List<DrawableGameObject>();
-        private List<DrawableGameObject> fire = new List<DrawableGameObject>();
+        //private List<DrawableGameObject> meleeBullets = new List<DrawableGameObject>();
+        //private List<DrawableGameObject> fire = new List<DrawableGameObject>();
 
         private List<Bullet> newbullets = new List<Bullet>();
         //Lists of things to remove
-        private List<DrawableGameObject> meleeremoveList = new List<DrawableGameObject>();
-        private List<DrawableGameObject> fireremoveList = new List<DrawableGameObject>();
+        //private List<DrawableGameObject> meleeremoveList = new List<DrawableGameObject>();
+        //private List<DrawableGameObject> fireremoveList = new List<DrawableGameObject>();
         private List<Bullet> removeList = new List<Bullet>();
-        private List<Body> meleeremoveListbody = new List<Body>();
-        private List<Body> fireremoveListbody = new List<Body>();
-        private List<Body> removeListbody = new List<Body>();
+        //private List<Body> meleeremoveListbody = new List<Body>();
+        //private List<Body> fireremoveListbody = new List<Body>();
+        //private List<Body> removeListbody = new List<Body>();
 
         private Game1 game;
         private Player player;
@@ -296,12 +296,12 @@ namespace Athyl
                     case Player.Direction.Right:
                         Obj.body.Rotation = MathHelper.ToRadians(180);
                         Obj.body.FixedRotation = true;
-                        Obj.body.ApplyLinearImpulse(new Vector2(speed, -0.4f + (float)i/5));
+                        Obj.body.ApplyLinearImpulse(new Vector2(speed, 0.4f - (float)i/5));
                         break;
 
                     case Player.Direction.Left:
                         Obj.body.FixedRotation = true;
-                        Obj.body.ApplyLinearImpulse(new Vector2(speed * -1, 0.4f - (float)i/5));
+                        Obj.body.ApplyLinearImpulse(new Vector2(speed * -1, -0.4f + (float)i/5));
                         break;
                 }
 
@@ -456,15 +456,15 @@ namespace Athyl
             }
             bullets.Clear();
 
-            foreach (DrawableGameObject d in meleeBullets)
+            /*foreach (DrawableGameObject d in meleeBullets)
             {
                 world.RemoveBody(d.body);
-            }
-            meleeBullets.Clear();
-            meleeremoveList.Clear();
-            meleeremoveListbody.Clear();
+            }*/
+            //meleeBullets.Clear();
+            //meleeremoveList.Clear();
+            //meleeremoveListbody.Clear();
             removeList.Clear();
-            removeListbody.Clear();
+            //removeListbody.Clear();
         }
 
         /// <summary>
@@ -589,12 +589,12 @@ namespace Athyl
                 }
             }*/
 
-            removeListbody.Clear();
+            //removeListbody.Clear();
             removeList.Clear();
-            meleeremoveList.Clear();
-            meleeremoveListbody.Clear();
-            fireremoveList.Clear();
-            fireremoveListbody.Clear();
+            //meleeremoveList.Clear();
+            //meleeremoveListbody.Clear();
+            //fireremoveList.Clear();
+            //fireremoveListbody.Clear();
 
         }
         #endregion

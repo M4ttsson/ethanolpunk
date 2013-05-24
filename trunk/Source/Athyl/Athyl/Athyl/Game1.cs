@@ -165,10 +165,9 @@ namespace Athyl
             //zero gravity /Timmo
             //world = new World(Vector2.Zero);
 
-            //sound = new Sounds(this);
+            sound = new Sounds(this);
 
-            //sound.Play("Music/song1");
-            // MediaPlayer.IsRepeating = true;
+            sound.Play("Music/musik");
             //progressbar
             //progressBar = Content.Load<Texture2D>("ProgressBar");
             //progressBarBorder = Content.Load<Texture2D>("ProgressBarBorder");
@@ -204,8 +203,8 @@ namespace Athyl
         public void Restart()
         {
 
-            
 
+            
 
             try
             {
