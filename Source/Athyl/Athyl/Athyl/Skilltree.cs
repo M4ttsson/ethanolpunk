@@ -44,7 +44,7 @@ namespace Athyl
 
 
 
-            activeSkills = new ActiveSkills(game.world, game, playerInfo, playerInfo.direction);
+            //activeSkills = new ActiveSkills(game.world, game, playerInfo, playerInfo.direction);
 
 
             this.fireRate = 0;
