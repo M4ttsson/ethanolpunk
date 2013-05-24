@@ -42,21 +42,23 @@ namespace Athyl
             this.rowFrame = 0;
             this.world = null;
             this.shieldTexture = null;
-
-            this.shieldHP = 10;
+            this.shieldHP = 0;
             this.removeShield = false;
-            this.shieldCooldown = 40;
+            this.shieldCooldown = 0;
             this.shieldActivate = false;
             this.direction = Player.Direction.Right;
-            this.shieldDuration = 10;
+            this.shieldDuration = 0;
         }
 
         public ActiveSkills(World world, Game1 game, Player player, Player.Direction direction)
         {
-            shieldTexture = game.Content.Load<Texture2D>("Projectiles/Shield");
+            this.shieldTexture = game.Content.Load<Texture2D>("Projectiles/Shield");
             this.direction = direction;
             this.player = player;
             this.world = world;
+            this.shieldHP = (int)((player.skillTree.playerInfo.playerHP / 10) * player.skillTree.ShieldPoint);
+            this.shieldDuration += 2 * player.skillTree.ShieldPoint;
+
             shieldGfx = new DrawableGameObject(world, shieldTexture, new Vector2(shieldTexture.Width, shieldTexture.Height), 90, "shield");
 
             if (direction == Player.Direction.Right)
