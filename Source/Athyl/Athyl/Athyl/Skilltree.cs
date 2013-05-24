@@ -149,7 +149,7 @@ namespace Athyl
 
         public void increaseAthyl()        //Upgrades Athyl
         {
-            midMaxAthyl += (((midMaxAthyl / 100) * 10) * AthylPoint);
+            maxAthyl += (((maxAthyl / 100) * 10) * AthylPoint);
         }
 
         public void increasePasstrough()        //Upgrades Passtrough
