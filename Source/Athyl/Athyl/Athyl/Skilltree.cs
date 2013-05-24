@@ -41,11 +41,7 @@ namespace Athyl
         public float playerDmg = 1.0f;
         public Skilltree(Player playerInfo, Game1 game)
         {
-
-
-
-            //activeSkills = new ActiveSkills(game.world, game, playerInfo, playerInfo.direction);
-
+            activeSkills = new ActiveSkills();
 
             this.fireRate = 0;
             this.projectileSpeed = 0.039f;

@@ -34,6 +34,22 @@ namespace Athyl
         public Player.Direction direction = Player.Direction.Right;
         public double shieldDuration = 10;
 
+        public ActiveSkills()
+        {
+            this.shieldGfx = null;
+            this.shieldOnGround = false;
+            this.player = null;
+            this.rowFrame = 0;
+            this.world = null;
+            this.shieldTexture = null;
+
+            this.shieldHP = 10;
+            this.removeShield = false;
+            this.shieldCooldown = 40;
+            this.shieldActivate = false;
+            this.direction = Player.Direction.Right;
+            this.shieldDuration = 10;
+        }
 
         public ActiveSkills(World world, Game1 game, Player player, Player.Direction direction)
         {
