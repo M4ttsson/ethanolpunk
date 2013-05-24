@@ -490,10 +490,20 @@ namespace Athyl
             if (keyboardState.IsKeyDown(InputClass.closeKey))
             {
                 player.Stance = Player.Stances.CloseRange;
+                if (activeSkills != null)
+                {
+                    world.RemoveBody(activeSkills.shieldGfx.body);
+                    activeSkills = null;
+                }
             }
             else if (keyboardState.IsKeyDown(InputClass.middleKey))
             {
                 player.Stance = Player.Stances.MidRange;
+                if (activeSkills != null)
+                {
+                    world.RemoveBody(activeSkills.shieldGfx.body);
+                    activeSkills = null;
+                }
             }
             else if (keyboardState.IsKeyDown(InputClass.longKey))
             {
