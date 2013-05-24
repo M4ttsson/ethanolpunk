@@ -8,7 +8,7 @@ namespace Athyl
 {
     class Skilltree
     {
-        private Player playerInfo;
+        public Player playerInfo;
         private int playerLevel;
         private Vector2 meleeJmpHeight;
         private Vector2 midJmpHeight;
