@@ -178,7 +178,7 @@ namespace Athyl
             Dodge = new Button(game.Content.Load<Texture2D>("Menu items/HornedMan"), game.Content.Load<Texture2D>("Menu items/HornedManGray"), true);
 
             ShieldText = new HooverText(game, "\nShield: Places a shield in front of Gilliam, protecting her from attacks.\nUse with " + InputClass.useKey.ToString() + "-button.", false);
-            ShieldCDText = new HooverText(game, "\nReduce cooldown: Reduces the cooldown of the shield.", false);
+            ShieldCDText = new HooverText(game, "\nReduce cooldown: Reduces the cooldown of the shield.\nOBS! Skill is under construction!", false);
             KelvarText = new HooverText(game, "\nArmor: Reduces the damage taken from enemy attacks.\nOBS! Skill is under construction!", false);
             AimText = new HooverText(game, "\nLaser Sight: Gives you a better aim with a laser.\nOBS! Skill is under construction!", false);
 
@@ -606,10 +606,10 @@ namespace Athyl
                 }
                 else if (ShieldCD.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.ShieldCDPoint < 5 && (player.skillTree.KevlarPoint == 5 || player.skillTree.AimPoint == 5))
                 {
-                    player.skillTree.ShieldCDPoint++;
-                    player.skillTree.increaseShieldCD();
-                    player.skillTree.LongRange();
-                    player.skillPoints--;
+                    //player.skillTree.ShieldCDPoint++;
+                    //player.skillTree.increaseShieldCD();
+                    //player.skillTree.LongRange();
+                    //player.skillPoints--;
                 }
             }
         }
