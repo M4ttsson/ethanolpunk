@@ -179,18 +179,18 @@ namespace Athyl
 
             ShieldText = new HooverText(game, "\nShield: Places a shield in front of Gilliam, protecting her from attacks.\nUse with " + InputClass.useKey.ToString() + "-button.", false);
             ShieldCDText = new HooverText(game, "\nReduce cooldown: Reduces the cooldown of the shield.", false);
-            KelvarText = new HooverText(game, "\nArmor: Reduces the damage taken from enemy attacks.", false);
-            AimText = new HooverText(game, "\nLaser Sight: Gives you a better aim with a laser.", false);
+            KelvarText = new HooverText(game, "\nArmor: Reduces the damage taken from enemy attacks.\nOBS! Skill is under construction!", false);
+            AimText = new HooverText(game, "\nLaser Sight: Gives you a better aim with a laser.\nOBS! Skill is under construction!", false);
 
             fireBurstText = new HooverText(game, "\nBurst: Fires a rapid burst of bullets. Gives increased damage.\nUse with " + InputClass.useKey.ToString() + "-button.", false);
             AthylText = new HooverText(game, "\nGive me Athyl: Increases your max Athyl reserves.", false);
-            PasstroughText = new HooverText(game, "\nPiercing Bullets: Gives a chance for bullets to penetrate through enemies.", false);
+            PasstroughText = new HooverText(game, "\nPiercing Bullets: Gives a chance for bullets to penetrate through enemies.\nOBS! Skill is under construction!", false);
             FastShotText = new HooverText(game, "\nRapid fire: Increases the rate of fire.", false);
 
             AtkDmgText = new HooverText(game, "\nBalcon Punsch: Fisting deals more damage.", false);
             AtkSpdText = new HooverText(game, "\nFast Fisting: Fist faster!", false);
             fireBreathText = new HooverText(game, "\nFlamethrower: Burn your enemies in flames!\nUse with " + InputClass.useKey.ToString() + "-button.", false);
-            DodgeText = new HooverText(game, "\nMatrix Style: Gives a chance for Gilliam to avoid bullets.", false);
+            DodgeText = new HooverText(game, "\nMatrix Style: Gives a chance for Gilliam to avoid bullets.\nOBS! Skill is under construction!", false);
 
             this.TimePerFrame = (float)1 / 1;           //Update animations
             this.TotalElapsed = 0;
@@ -295,7 +295,7 @@ namespace Athyl
         /// <param name="player"></param>
         public void UpdateColorSkilltree(Player player)
         {
-            CloseColorIncrease = 3;  //Dessa ändrar färgen på själva skillsbordet
+            CloseColorIncrease = 3;  //Dessa ändrar färgen på själva skillsbordets bakgrund
             MidColorIncrease = 3;
             LongColorIncrease = 3;
 
@@ -529,7 +529,6 @@ namespace Athyl
             {
                 if (FireBreath.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.firebreathPoint < 5)
                 {
-                    
                     player.skillTree.firebreathPoint++;
                     player.skillTree.increasefireBreath();
                     player.skillTree.CloseRange();
@@ -565,10 +564,10 @@ namespace Athyl
                 }
                 else if (Kevlar.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.KevlarPoint < 5 && player.skillTree.ShieldPoint > 0)
                 {
-                    player.skillTree.KevlarPoint++;
-                    player.skillTree.increaseArmor();
-                    player.skillTree.LongRange();
-                    player.skillPoints--;
+                    //player.skillTree.KevlarPoint++;
+                    //player.skillTree.increaseArmor();
+                    //player.skillTree.LongRange();
+                    //player.skillPoints--;
                 }
                 else if (AtkSpd.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AtkSpdPoint < 5 && player.skillTree.firebreathPoint > 0)
                 {
@@ -579,24 +578,24 @@ namespace Athyl
                 }
                 else if (Passtrough.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.PassthroughPoint < 5 && player.skillTree.FireBurstPoint > 0)
                 {
-                    player.skillTree.PassthroughPoint++;
-                    player.skillTree.increasePasstrough();
-                    player.skillTree.MidRange();
-                    player.skillPoints--;
+                    //player.skillTree.PassthroughPoint++;
+                    //player.skillTree.increasePasstrough();
+                    //player.skillTree.MidRange();
+                    //player.skillPoints--;
                 }
                 else if (Aim.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.AimPoint < 5 && player.skillTree.ShieldPoint > 0)
                 {
-                    player.skillTree.AimPoint++;
-                    player.skillTree.increaseAim();
-                    player.skillTree.LongRange();
-                    player.skillPoints--;
+                    //player.skillTree.AimPoint++;
+                    //player.skillTree.increaseAim();
+                    //player.skillTree.LongRange();
+                    //player.skillPoints--;
                 }
                 else if (Dodge.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.DodgePoint < 5 && (player.skillTree.AtkDmgPoint == 5 || player.skillTree.AtkSpdPoint == 5))
                 {
-                    player.skillTree.DodgePoint++;
-                    player.skillTree.increaseDodge();
-                    player.skillTree.CloseRange();
-                    player.skillPoints--;
+                    //player.skillTree.DodgePoint++;
+                    //player.skillTree.increaseDodge();
+                    //player.skillTree.CloseRange();
+                    //player.skillPoints--;
                 }
                 else if (FastShot.rectangle.Contains(mouseState.X, mouseState.Y) && player.skillTree.FastShotPoint < 5 && (player.skillTree.AthylPoint == 5 || player.skillTree.PassthroughPoint == 5))
                 {
