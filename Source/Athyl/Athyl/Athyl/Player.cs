@@ -81,6 +81,7 @@ namespace Athyl
         private float tempfallDamage = 0;
         private float aimingAngle = 0;
         private float Damage;
+        private float fireBreathRate;
 
         protected RevoluteJoint axis;
         protected AngleJoint angleJoint;
@@ -152,7 +153,7 @@ namespace Athyl
             axis.MaxMotorTorque = 10;
             torso.body.OnCollision += new OnCollisionEventHandler(body_OnCollision);
 
-            
+            fireBreathRate = 0.13f;
 
             //xpRequiredPerLevel
             numFootContacts = 0;
@@ -564,7 +565,11 @@ namespace Athyl
 
         public void UseFirebreath(World world)
         {
-            projectile.FireBreath(torso.body.Position, direction, world, 0.7f, 5);
+            if ((DateTime.Now - lastBullet).TotalSeconds >= fireBreathRate)
+            {
+                projectile.FireBreath(torso.body.Position, direction, world, 0.2f, 5);
+                lastBullet = DateTime.Now;
+            }
         }
 
         #endregion
