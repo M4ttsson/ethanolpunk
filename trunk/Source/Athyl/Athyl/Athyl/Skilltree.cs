@@ -58,7 +58,7 @@ namespace Athyl
             FireBurstPoint = FastShotPoint = AthylPoint = PassthroughPoint = 0;     //Mid talentpoints
             ShieldPoint = KevlarPoint = AimPoint = ShieldCDPoint = 0;                   //Long talentpoints
 
-            DodgePoint = PassthroughPoint = KevlarPoint = AimPoint = 5;             //Skills that are still under construction!
+            DodgePoint = PassthroughPoint = KevlarPoint = AimPoint = ShieldCDPoint = 5;             //Skills that are still under construction!
 
             //Set default values for melee
             meleeFireRate = 0.3f;
