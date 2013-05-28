@@ -34,17 +34,10 @@ namespace Athyl
 
         
         private List<DrawableGameObject> bullets = new List<DrawableGameObject>();
-        //private List<DrawableGameObject> meleeBullets = new List<DrawableGameObject>();
-        //private List<DrawableGameObject> fire = new List<DrawableGameObject>();
 
         private List<Bullet> newbullets = new List<Bullet>();
         //Lists of things to remove
-        //private List<DrawableGameObject> meleeremoveList = new List<DrawableGameObject>();
-        //private List<DrawableGameObject> fireremoveList = new List<DrawableGameObject>();
         private List<Bullet> removeList = new List<Bullet>();
-        //private List<Body> meleeremoveListbody = new List<Body>();
-        //private List<Body> fireremoveListbody = new List<Body>();
-        //private List<Body> removeListbody = new List<Body>();
 
         private Game1 game;
         private Player player;
@@ -65,6 +58,8 @@ namespace Athyl
             this.game = game;
             this.player = player;
             bulletLifeTime = 10.0f;
+            meleeBulletLifeTime = 0.5f;
+            FireLifeTime = 1.0f;
         }
         #endregion
         #region AddBullet
@@ -216,7 +211,6 @@ namespace Athyl
             switch (direction)
             {
                 case Player.Direction.Right:
-                    //bullet.body.Rotation = MathHelper.ToRadians(180);
                     Obj.texture = game.Content.Load<Texture2D>("Projectiles/FistFlip");
                     Obj.body.FixedRotation = true;
                     Obj.body.ApplyLinearImpulse(new Vector2(speed, 0));
@@ -285,7 +279,7 @@ namespace Athyl
 
             for (int i = 0; i < 5; i++)
             {
-                DrawableGameObject Obj = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(22, 14), 10, "melee");
+                DrawableGameObject Obj = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(22, 14), 10, "fire");
                 Obj.body.IsBullet = true;
                 Obj.body.Position = position;
                 Obj.body.IgnoreGravity = true;
@@ -296,12 +290,12 @@ namespace Athyl
                     case Player.Direction.Right:
                         Obj.body.Rotation = MathHelper.ToRadians(180);
                         Obj.body.FixedRotation = true;
-                        Obj.body.ApplyLinearImpulse(new Vector2(speed, 0.4f - (float)i/5));
+                        Obj.body.ApplyLinearImpulse(new Vector2(speed, 0.1f - (float)i/20));
                         break;
 
                     case Player.Direction.Left:
                         Obj.body.FixedRotation = true;
-                        Obj.body.ApplyLinearImpulse(new Vector2(speed * -1, -0.4f + (float)i/5));
+                        Obj.body.ApplyLinearImpulse(new Vector2(speed * -1, -0.1f + (float)i/20));
                         break;
                 }
 
@@ -455,16 +449,7 @@ namespace Athyl
                 world.RemoveBody(d.body);
             }
             bullets.Clear();
-
-            /*foreach (DrawableGameObject d in meleeBullets)
-            {
-                world.RemoveBody(d.body);
-            }*/
-            //meleeBullets.Clear();
-            //meleeremoveList.Clear();
-            //meleeremoveListbody.Clear();
             removeList.Clear();
-            //removeListbody.Clear();
         }
 
         /// <summary>
@@ -482,27 +467,9 @@ namespace Athyl
                     {
                         if (!removeList.Contains(newbullets[i]))
                             removeList.Add(newbullets[i]);
-                        /*try
-                        {
-                            game.world.RemoveBody(bullets[i].body);
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
-                        }*/
-                    }
-                }
-
-                /*for (int i = 0; i < meleeBullets.Count; i++)
-                {
-                    meleeBullets[i].Draw(spriteBatch);
-                    if (bulletWasFired + meleeBulletLifeTime <= (float)Game1.runTime)
-                    {
-                        if (!meleeremoveList.Contains(meleeBullets[i]))
-                            meleeremoveList.Add(meleeBullets[i]);
                         try
                         {
-                            game.world.RemoveBody(meleeBullets[i].body);
+                            game.world.RemoveBody(newbullets[i].Obj.body);
                         }
                         catch (Exception ex)
                         {
@@ -511,23 +478,6 @@ namespace Athyl
                     }
                 }
 
-                for (int i = 0; i < fire.Count; i++)
-                {
-                    fire[i].Draw(spriteBatch);
-                    if (bulletWasFired + FireLifeTime <= (float)Game1.runTime)
-                    {
-                        if (!fireremoveList.Contains(fire[i]))
-                            fireremoveList.Add(fire[i]);
-                        try
-                        {
-                            game.world.RemoveBody(fire[i].body);
-                        }
-                        catch (Exception ex)
-                        {
-                            logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
-                        }
-                    }
-                }*/
             }
 
             catch (Exception ex)
@@ -540,62 +490,9 @@ namespace Athyl
                 newbullets.Remove(i);
             }
 
-            /*foreach (DrawableGameObject i in meleeremoveList)
-            {
-                meleeBullets.Remove(i);
-            }
+         
 
-            foreach (DrawableGameObject i in fireremoveList)
-            {
-                fire.Remove(i);
-            }
-
-            foreach (Body i in removeListbody)
-            {
-                try
-                {
-                    game.world.RemoveBody(i);
-                }
-
-                catch (Exception ex)
-                {
-                    logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
-                }
-            }
-
-            foreach (Body i in meleeremoveListbody)
-            {
-                try
-                {
-                    game.world.RemoveBody(i);
-                }
-
-                catch (Exception ex)
-                {
-                    logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
-                }
-            }
-
-            foreach (Body i in fireremoveListbody)
-            {
-                try
-                {
-                    game.world.RemoveBody(i);
-                }
-
-                catch (Exception ex)
-                {
-                    logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
-                }
-            }*/
-
-            //removeListbody.Clear();
             removeList.Clear();
-            //meleeremoveList.Clear();
-            //meleeremoveListbody.Clear();
-            //fireremoveList.Clear();
-            //fireremoveListbody.Clear();
-
         }
         #endregion
     }
