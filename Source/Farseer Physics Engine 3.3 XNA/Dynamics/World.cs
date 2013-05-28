@@ -635,21 +635,27 @@ namespace FarseerPhysics.Dynamics
                         ContactManager.Destroy(ce0.Contact);
                     }
                     body.ContactList = null;
-
-                    // Delete the attached fixtures. This destroys broad-phase proxies.
-                    for (int i = 0; i < body.FixtureList.Count; i++)
+                    try
                     {
-                        body.FixtureList[i].DestroyProxies(ContactManager.BroadPhase);
-                        body.FixtureList[i].Destroy();
+                        // Delete the attached fixtures. This destroys broad-phase proxies.
+                        for (int i = 0; i < body.FixtureList.Count; i++)
+                        {
+                            body.FixtureList[i].DestroyProxies(ContactManager.BroadPhase);
+                            body.FixtureList[i].Destroy();
+                        }
+
                     }
 
-                    body.FixtureList = null;
+                    catch
+                    {
+                        body.FixtureList = null;
 
-                    // Remove world body list.
-                    BodyList.Remove(body);
+                        // Remove world body list.
+                        BodyList.Remove(body);
 
-                    if (BodyRemoved != null)
-                        BodyRemoved(body);
+                        if (BodyRemoved != null)
+                            BodyRemoved(body);
+                    }
                 }
 
                 _bodyRemoveList.Clear();

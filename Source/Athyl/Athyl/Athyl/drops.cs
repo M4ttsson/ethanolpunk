@@ -59,7 +59,10 @@ namespace Athyl
             //hpBox.body.IgnoreCollisionWith(player.torso.body);
             hpBox.body.IgnoreCollisionWith(player.wheel.body);
             ethanolBox.body.IgnoreCollisionWith(player.wheel.body);
-
+            hpBox.body.SleepingAllowed = false;
+            ethanolBox.body.SleepingAllowed = false;
+            hpBox.body.Friction = 100f;
+            ethanolBox.body.Friction = 100f;
         }
 
 
