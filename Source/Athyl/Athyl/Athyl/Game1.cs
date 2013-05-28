@@ -454,6 +454,7 @@ namespace Athyl
             //Jump (jumpKey)
             if (keyboardState.IsKeyDown(InputClass.jumpKey) && !prevKeyboardState.IsKeyDown(InputClass.jumpKey))
             {
+                
                 player.Jump();
             }
             //Shoot (shootKey)
