@@ -253,7 +253,6 @@ namespace Athyl
 
                 if (map != null)
                 {
-                    map.currentLevel = 1;
                     map.reloadMapTexture();
                 }
 
@@ -756,6 +755,7 @@ namespace Athyl
             keyboardState = Keyboard.GetState();
             if (keyboardState.IsKeyDown(Keys.R))
             {
+                map.currentLevel = 1;
                 Restart();
             }
 
@@ -879,8 +879,6 @@ namespace Athyl
 
                         if (map.currentLevel > 3)
                             map.currentLevel = 1;
-
-                        map.reloadMapTexture();
                         Restart();
                     }
                     world.Step(0.033333f);
