@@ -79,11 +79,11 @@ namespace Athyl
             if (!sniper)
             {
                 //Allows the linear bullets to have some spread!
-                spread = random.Next(-2, 2);
+                //spread = random.Next(-2, 2);
 
                 //Allows diagonal bullets to have some spread!
-                spreadDiagonal = random.Next(1, 5);
-                spread /= 133;
+                //spreadDiagonal = random.Next(1, 5);
+                //spread /= 133;
             }
 
             DrawableGameObject Obj = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(11, 8), 10, "shot");
