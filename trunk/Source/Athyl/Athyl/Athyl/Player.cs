@@ -574,7 +574,30 @@ namespace Athyl
         {
             if ((DateTime.Now - lastBullet).TotalSeconds >= fireBreathRate)
             {
+            playerSounds.PlaySoundFX("Music/Pewpew");
                 projectile.FireBreath(torso.body.Position, direction, world, 0.2f, 5);
+                lastBullet = DateTime.Now;
+            }
+        }
+
+        public void UseFireburst(World world)
+        {
+            if (playerAthyl >= 0 && (DateTime.Now - lastBullet).TotalSeconds >= skillTree.fireRate)
+            {
+                playerSounds.PlaySoundFX("Music/Pewpew");
+                if (Crouching)
+                {
+                    projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(-20, 21)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, false);
+                    projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 21)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, false);
+                    projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(20, 21)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, false);
+                }
+                else
+                {
+                    projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(-20, 25)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, false);
+                    projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 25)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, false);
+                    projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(20, 25)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, false); 
+                }
+                playerAthyl -= skillTree.ethanolConsumption;
                 lastBullet = DateTime.Now;
             }
         }
