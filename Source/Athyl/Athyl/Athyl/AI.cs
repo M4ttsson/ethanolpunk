@@ -27,7 +27,7 @@ namespace Athyl
         private DateTime lastBullet;
         private float projectileSpeed = 0.02f;
         private float jumpInterval = 1f;
-        private float fireRate = 0.5f;
+        private float fireRate = 0.75f;
         private bool hit = false;
         private bool seen = false;
         private int checkUp = 0, checkDown = 0;
@@ -93,7 +93,7 @@ namespace Athyl
                     break;
 
                 case Behavior.Turret:
-                    fireRate = 0.04f;
+                    fireRate = 0.02f;
                     enemyHP += 100;
                     behaviorDel = Turret;
                     damage = 45;
