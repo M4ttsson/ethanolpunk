@@ -243,8 +243,12 @@ namespace Athyl
             float spread = random.Next(-2, 2);
 
             //Allows diagonal bullets to have some spread!
-            float spreadDiagonal = random.Next(1, 5);
+            float spreaddiagonal = random.Next(1, 5);
             spread /= 133;
+
+            spread = 0;
+            spreaddiagonal = 3;
+
             DrawableGameObject Obj = new DrawableGameObject(world, game.Content.Load<Texture2D>("Projectiles/Bullet"), new Vector2(10, 4), 10, "hostile");
             Obj.body.IsBullet = true;
             Obj.body.Position = position;
