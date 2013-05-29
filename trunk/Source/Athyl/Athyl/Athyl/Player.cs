@@ -572,10 +572,11 @@ namespace Athyl
 
         public void UseFirebreath(World world)
         {
-            if ((DateTime.Now - lastBullet).TotalSeconds >= fireBreathRate)
+            if (playerAthyl >= 0 && (DateTime.Now - lastBullet).TotalSeconds >= fireBreathRate)
             {
-            playerSounds.PlaySoundFX("Music/Pewpew");
+                playerSounds.PlaySoundFX("Music/Pewpew");
                 projectile.FireBreath(torso.body.Position, direction, world, 0.2f, 5);
+                playerAthyl -= (skillTree.ethanolConsumption + (10/skillTree.firebreathPoint));
                 lastBullet = DateTime.Now;
             }
         }
