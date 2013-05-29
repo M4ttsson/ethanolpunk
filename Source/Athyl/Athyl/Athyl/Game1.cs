@@ -445,15 +445,14 @@ namespace Athyl
                 player.torso.body.ApplyForce(new Vector2(-21, 0));*/
 
             //Debug
-            if (keyboardState.IsKeyDown(Keys.M) && !prevKeyboardState.IsKeyDown(Keys.M))
-            {
-                endOfMapSpawn = endOfMapSpawn ? false : true; 
-            }
+            //if (keyboardState.IsKeyDown(Keys.M) && !prevKeyboardState.IsKeyDown(Keys.M))
+            //{
+            //    endOfMapSpawn = endOfMapSpawn ? false : true;
+            //}
 
             //Jump (jumpKey)
             if (keyboardState.IsKeyDown(InputClass.jumpKey) && !prevKeyboardState.IsKeyDown(InputClass.jumpKey))
             {
-                
                 player.Jump();
             }
             //Shoot (shootKey)
@@ -758,11 +757,11 @@ namespace Athyl
         {
             menu.UpdateMenu(gameTime, this, player);
             keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.R))
-            {
-                map.currentLevel = 1;
-                Restart();
-            }
+            //if (keyboardState.IsKeyDown(Keys.R))
+            //{
+            //    map.currentLevel = 1;
+            //    Restart();
+            //}
 
             if (player != null && player.Dead)
             {
