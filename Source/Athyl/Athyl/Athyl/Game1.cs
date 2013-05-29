@@ -464,7 +464,7 @@ namespace Athyl
             //Use stuff ex.lifting stuff (useKey)
             if (keyboardState.IsKeyDown(InputClass.useKey))
             {
-                if (player.Stance == Player.Stances.LongRange && prevKeyboardState.IsKeyUp(InputClass.useKey) && player.playerAthyl > 150)
+                if (player.Stance == Player.Stances.LongRange && prevKeyboardState.IsKeyUp(InputClass.useKey) && player.playerAthyl > 150 && player.skillTree.ShieldPoint > 0)
                 {
                     if (activeSkills != null)
                     {
@@ -477,8 +477,13 @@ namespace Athyl
                     activeSkills.shieldGfx.body.OnCollision += activeSkills.makeShieldStatic;
                     player.playerAthyl -= 150;
                 }
-                else if (player.Stance == Player.Stances.CloseRange){
+                else if (player.Stance == Player.Stances.CloseRange && player.skillTree.firebreathPoint > 0)
+                {
                     player.UseFirebreath(world);
+                }
+                else if (player.Stance == Player.Stances.MidRange && player.skillTree.FireBurstPoint > 0)
+                {
+                    player.UseFireburst(world);
                 }
             }
 
