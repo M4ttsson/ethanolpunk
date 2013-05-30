@@ -80,6 +80,7 @@ namespace Athyl
 
             b.Position = new Vector2((x - 1) * 32 + 16, (y-1) * 32 + 16);
             b.body.BodyType = BodyType.Static;
+            b.body.Awake = false;
             if (!Collidable)
             {
                 for (int i = 0; i < b.body.FixtureList.Count; i++)
@@ -232,6 +233,7 @@ namespace Athyl
                         b = new DrawableGameObject(world, lvl3[0], bodySize, 0, "goal");
                         b.Position = new Vector2((x - 1) * 32 + 16, (y - 1) * 32 + 16);
                         b.body.BodyType = BodyType.Static;
+                        b.body.Awake = false;
                         b.body.CollisionCategories = Category.Cat13;
                     }
                     else if (colors2D[x, y] == new Color(150, 150, 150))         //Quest Button
@@ -239,6 +241,7 @@ namespace Athyl
                         button = new DrawableGameObject(world, buttonTexture, 0, "button");
                         button.Position = new Vector2((x - 1) * 32 + 16, (y - 1) * 32 + 16);
                         button.body.BodyType = BodyType.Static;
+                        b.body.Awake = false;
                         body.Add(button);
                     }
                     else if (colors2D[x, y] == new Color(255, 102, 0))           //Invicible walls
@@ -246,6 +249,7 @@ namespace Athyl
                         b = new DrawableGameObject(world, lvl3[0], bodySize, 0, "ground");
                         b.Position = new Vector2((x - 1) * 32 + 16, (y - 1) * 32 + 16);
                         b.body.BodyType = BodyType.Static;
+                        b.body.Awake = false;
                         b.body.CollisionCategories = Category.Cat12;
                     }
 
