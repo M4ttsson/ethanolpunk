@@ -63,9 +63,9 @@ namespace Athyl
         {   
             ReadingTilesTextureToList();
 
-            ReadMapLayout(game.Content.Load<Texture2D>("Lvl" + 2 + "Tiles/Map"));
+            ReadMapLayout(game.Content.Load<Texture2D>("Lvl" + currentLevel + "Tiles/Map"));
             buttonTexture = game.Content.Load<Texture2D>("buttons/button");
-
+            reloadMapTexture();
             DrawTilesOnPlace();
         }
 
@@ -147,7 +147,7 @@ namespace Athyl
             body.Clear();
             middleTexture.Clear();
             middlePosition.Clear();
-            DrawTilesOnPlace();
+           
         }
 
         /// <summary>
