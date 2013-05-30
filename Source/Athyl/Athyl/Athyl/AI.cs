@@ -215,25 +215,33 @@ namespace Athyl
             {
                 if (behaviors == Behavior.Turret)
                 {
-                    if (ColFrame == 0)
+                    if (torso.Position.X +Camera.transform.Translation.X < game.GraphicsDevice.Viewport.Width && torso.Position.X + Camera.transform.Translation.X > 0)
                     {
-                        projectile.NewEnemyBullet(torso.body.Position, Direction.Right, world, projectileSpeed, wheel.body, damage);
-                    }
-                    else if (ColFrame == 4)
-                    {
-                        projectile.NewEnemyBullet(torso.body.Position, Direction.Left, world, projectileSpeed, wheel.body, damage);
+                        if (ColFrame == 0)
+                        {
+                            playerSounds.PlaySoundFX("Music/Pewpew");
+                            projectile.NewEnemyBullet(torso.body.Position, Direction.Right, world, projectileSpeed, wheel.body, damage);
+
+                        }
+                        else if (ColFrame == 4)
+                        {
+                            playerSounds.PlaySoundFX("Music/Pewpew");
+                            projectile.NewEnemyBullet(torso.body.Position, Direction.Left, world, projectileSpeed, wheel.body, damage);
+                        }
                     }
                 }
                 else if (behaviors == Behavior.Boss)
                 {
                     //aim in the direction of the player
+                    playerSounds.PlaySoundFX("Music/Pewpew");
                     projectile.NewBullet(wheel.body.Position, estPlayerPos, world, wheel.body, torso.body, damage, false);
                 }
                 else
                 {
+                    playerSounds.PlaySoundFX("Music/Pewpew");
                     projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed, wheel.body, damage);
                 }
-
+                
                 //projectile.NewEnemyBullet(torso.body.Position, direction, world, projectileSpeed);
                 lastBullet = DateTime.Now;
 
