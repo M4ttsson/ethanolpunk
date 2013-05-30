@@ -42,8 +42,10 @@ namespace Athyl
 
             ethanolBox = new DrawableGameObject(world, ethanolTexture, new Vector2(32, 32), 1, "athyl", 0);
             hpBox = new DrawableGameObject(world, hpTexture, new Vector2(32, 32), 1, "hpBox", 0);
-            ethanolBox.body.OnCollision += PickupsForPlayer;
-            hpBox.body.OnCollision += PickupsForPlayer;
+            //ethanolBox.body.OnCollision += PickupsForPlayer;
+            //hpBox.body.OnCollision += PickupsForPlayer;
+            ethanolBox.body.OnCollision += new OnCollisionEventHandler(PickupsForPlayer);
+            hpBox.body.OnCollision += new OnCollisionEventHandler(PickupsForPlayer);
 
             hpBox.body.FixedRotation = true;
             ethanolBox.body.FixedRotation = true;
@@ -57,8 +59,8 @@ namespace Athyl
             hpDrop = false;
             //ethanolBox.body.IgnoreCollisionWith(player.torso.body);
             //hpBox.body.IgnoreCollisionWith(player.torso.body);
-            hpBox.body.IgnoreCollisionWith(player.wheel.body);
-            ethanolBox.body.IgnoreCollisionWith(player.wheel.body);
+            //hpBox.body.IgnoreCollisionWith(player.wheel.body);
+            //ethanolBox.body.IgnoreCollisionWith(player.wheel.body);
             hpBox.body.SleepingAllowed = false;
             ethanolBox.body.SleepingAllowed = false;
             hpBox.body.Friction = 100f;
@@ -109,8 +111,6 @@ namespace Athyl
                     }
                 }
 
-      
-
                 ethanolBox.body.IgnoreCollisionWith(ai.torso.body);
                 hpBox.body.IgnoreCollisionWith(ai.torso.body);
                 ethanolBox.body.IgnoreCollisionWith(ai.wheel.body);
@@ -121,41 +121,39 @@ namespace Athyl
 
         public bool PickupsForPlayer(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
-            try
+            if (contact.IsTouching())
             {
-                if (contact.IsTouching())
+                try
                 {
                 
-                    if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "athyl") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "athyl") || (fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "playerwheel"))
+                    if ((fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "player") || 
+                        (fixtureA.UserData.ToString() == "athyl" && fixtureB.UserData.ToString() == "playerwheel"))
                     {
-
-                            playerz.playerAthyl += 50;
-
+                        playerz.playerAthyl += 50;
                         ethanolDrop = true;
+                        return true;
                     }
 
 
-                    else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "player") || (fixtureA.UserData.ToString() == "player" && fixtureB.UserData.ToString() == "hpBox") || (fixtureA.UserData.ToString() == "playerwheel" && fixtureB.UserData.ToString() == "hpBox") || (fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "playerwheel"))
+                    else if ((fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "player") || 
+                        (fixtureA.UserData.ToString() == "hpBox" && fixtureB.UserData.ToString() == "playerwheel"))
                     {
-                        
-                            playerz.playerHP += 35;
-                        
+                        playerz.playerHP += 35;
                         hpDrop = true;
+                        return true;
                     }
 
                     else
                     {
-
                         ethanolDrop = false;
                         hpDrop = false;
-
                     }
                 }
-            }
-            catch (Exception ex)
+                catch (Exception ex)
                 {
                     logger.Error(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
                 }
+            }
             return false;
         }
 
