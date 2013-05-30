@@ -913,9 +913,7 @@ namespace Athyl
                         //Restart();
                         RestartMapWon();
                     }
-                    //world.Step(0.033333f);
-                    world.Step(0.01666f);
-                    world.Step(0.01666f);
+                    world.Step(0.033333f);
                 }
             }
             if (activeSkills != null)
