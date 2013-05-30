@@ -195,14 +195,8 @@ namespace Athyl
         /// </summary>
         public void Restart()
         {
-
-
-            
-
             try
-            {
-                
-
+            {               
                 if (activeSkills != null)
                 {
                     world.RemoveBody(activeSkills.shieldGfx.body);
@@ -239,11 +233,11 @@ namespace Athyl
                 player = null;
 
                 //starta i slutet av banan (låt va kvar /Timmo)
-                if(endOfMapSpawn)
+                if (endOfMapSpawn)
                     player = new Player(world, playerTexture, new Vector2(42, 90), 10.0f, new Vector2(8385, 1000), this, "player");
                 else
                     player = new Player(world, playerTexture, new Vector2(60, 88), 10.0f, new Vector2(60, 1300), this, "player");
-
+                
                 if (map != null)
                 {
                     map.reloadMapTexture();
@@ -287,6 +281,75 @@ namespace Athyl
             catch (Exception ex)
             {
                 logger.Fatal("Restart: " + ex.Message + "  " + ex.TargetSite + "  " +  ex.StackTrace);
+            }
+        }
+
+        public void RestartMapWon()
+        {
+            try
+            {
+                if (activeSkills != null)
+                {
+                    world.RemoveBody(activeSkills.shieldGfx.body);
+                    activeSkills = null;
+                }
+
+                foreach (AI ai in theAI)
+                {
+                    ai.projectile.Clear(world);
+                    world.RemoveBody(ai.wheel.body);
+                    world.RemoveBody(ai.torso.body);
+                }
+                theAI.Clear();
+
+                if (drops.Count > 0)
+                {
+                    foreach (Drops d in drops)
+                    {
+                        world.RemoveBody(d.hpBox.body);
+                        world.RemoveBody(d.ethanolBox.body);
+                    }
+                }
+                if (player != null)
+                    player.projectile.Clear(world);
+
+                player.torso.Position = new Vector2(60, 1300);
+                if (map != null)
+                {
+                    map.reloadMapTexture();
+                }
+
+                //reset spawnpoints
+                foreach (Spawn sp in spawnpoints)
+                {
+                    if (sp.Visited)
+                        sp.Visited = false;
+                }
+
+                drops.Clear();
+
+                menu.totalTime = 0f;
+
+                runTime = 0;
+                player.torso.Position = new Vector2(60, 1300);
+                camera = new Camera(graphics.GraphicsDevice.Viewport);
+                camera.UpdateCamera(player);
+
+                /*
+                            if (quest != null)
+                            {
+                                world.RemoveBody(quest.boulder.body);
+                            }
+                    
+                            quest = new Quests(world, this);
+                            if (map != null)
+                                map.button.body.OnCollision += quest.InteractWithQuestItems;
+                 * */
+
+            }
+            catch (Exception ex)
+            {
+                logger.Fatal("Restart: " + ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
             }
         }
         #endregion
@@ -427,10 +490,10 @@ namespace Athyl
                 player.torso.body.ApplyForce(new Vector2(-21, 0));*/
 
             //Debug
-            //if (keyboardState.IsKeyDown(Keys.M) && !prevKeyboardState.IsKeyDown(Keys.M))
-            //{
-            //    endOfMapSpawn = endOfMapSpawn ? false : true;
-            //}
+            if (keyboardState.IsKeyDown(Keys.M) && !prevKeyboardState.IsKeyDown(Keys.M))
+            {
+                endOfMapSpawn = endOfMapSpawn ? false : true;
+            }
 
             //Jump (jumpKey)
             if (keyboardState.IsKeyDown(InputClass.jumpKey) && !prevKeyboardState.IsKeyDown(InputClass.jumpKey))
@@ -739,11 +802,11 @@ namespace Athyl
         {
             menu.UpdateMenu(gameTime, this, player);
             keyboardState = Keyboard.GetState();
-            //if (keyboardState.IsKeyDown(Keys.R))
-            //{
-            //    map.currentLevel = 1;
-            //    Restart();
-            //}
+            if (keyboardState.IsKeyDown(Keys.R))
+            {
+                map.currentLevel = 1;
+                Restart();
+            }
 
             if (player != null && player.Dead)
             {
@@ -865,6 +928,7 @@ namespace Athyl
 
                         if (map.currentLevel > 3)
                             map.currentLevel = 1;
+
                         Restart();
                     }
                     world.Step(0.033333f);
