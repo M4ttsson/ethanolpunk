@@ -182,6 +182,12 @@ namespace Athyl
             }
         }
 
+        public void MovePlayer(Vector2 newPosition)
+        {
+            wheel.Position = newPosition;
+            torso.Position = newPosition - new Vector2(0.0f, torsoSize.Y / 2 - 5);
+        }
+
         protected void Load(Texture2D texture, int FrameRow, int FrameColumn, int FramesPerSec, int RestartFrame)
         {
             this.frameRow = FrameRow;
