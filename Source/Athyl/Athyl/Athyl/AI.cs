@@ -337,7 +337,6 @@ namespace Athyl
             else
             {
                 base.UpdateFrame(0.2f);
-                Console.WriteLine(ColFrame);
             }
         }
 
