@@ -635,8 +635,7 @@ namespace FarseerPhysics.Dynamics
                         ContactManager.Destroy(ce0.Contact);
                     }
                     body.ContactList = null;
-                    try
-                    {
+
                         // Delete the attached fixtures. This destroys broad-phase proxies.
                         for (int i = 0; i < body.FixtureList.Count; i++)
                         {
@@ -644,10 +643,6 @@ namespace FarseerPhysics.Dynamics
                             body.FixtureList[i].Destroy();
                         }
 
-                    }
-
-                    catch
-                    {
                         body.FixtureList = null;
 
                         // Remove world body list.
@@ -655,7 +650,6 @@ namespace FarseerPhysics.Dynamics
 
                         if (BodyRemoved != null)
                             BodyRemoved(body);
-                    }
                 }
 
                 _bodyRemoveList.Clear();
