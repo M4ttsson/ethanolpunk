@@ -1,0 +1,1 @@
+xcopy /s /y %0\..\Showcases c:\temp\Athyl\Showcases\
