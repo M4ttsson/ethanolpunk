@@ -448,12 +448,20 @@ namespace Athyl
         /// <param name="world"></param>
         public void Clear(World world)
         {
-            foreach (DrawableGameObject d in bullets)
+            try
             {
-                world.RemoveBody(d.body);
+
+                foreach (DrawableGameObject d in bullets)
+                {
+                    world.RemoveBody(d.body);
+                }
+                bullets.Clear();
+                removeList.Clear();
             }
-            bullets.Clear();
-            removeList.Clear();
+            catch (Exception ex)
+            {
+                logger.Fatal(ex.Message + "  " + ex.TargetSite + "  " + ex.StackTrace);
+            }
         }
 
         /// <summary>

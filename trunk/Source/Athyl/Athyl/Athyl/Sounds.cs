@@ -39,7 +39,7 @@ namespace Athyl
         #region Play
         public void PlaySoundFX(string sound)
         {
-            SoundEffect.MasterVolume = 0.1f;
+            SoundEffect.MasterVolume = 0.01f;
             soundFX = game.Content.Load<SoundEffect>(sound);
             soundFX.Play();
         }
