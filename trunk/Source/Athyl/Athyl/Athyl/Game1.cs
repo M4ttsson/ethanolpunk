@@ -357,7 +357,9 @@ namespace Athyl
                                 case 5:
                                     theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[0], 10, 20, this, AI.Behavior.PatrolDistance, "enemy"));
                                     theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), sp.SpawnPositions[1], 10, 20, this, AI.Behavior.PatrolDistance, "enemy"));
-                                    theAI.Add(new AI(world, enemyTurret, new Vector2(64, 68), sp.SpawnPositions[2], 10, 20, this, AI.Behavior.Turret, "enemy"));
+                                    AI test = new AI(world, enemyTurret, new Vector2(64, 68), sp.SpawnPositions[2], 10, 20, this, AI.Behavior.Turret, "enemy");
+                                    test.direction = Player.Direction.Left;
+                                    theAI.Add(test);
                                     theAI.Add(new AI(world, enemyTurret, new Vector2(64, 68), sp.SpawnPositions[3], 10, 20, this, AI.Behavior.Turret, "enemy"));
                                     break;
 

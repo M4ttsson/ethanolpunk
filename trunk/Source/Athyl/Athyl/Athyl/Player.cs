@@ -54,7 +54,7 @@ namespace Athyl
         public float playerAthylPc;
         
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        private Sounds playerSounds;
+        protected Sounds playerSounds;
         private Joint j;
         private List<DrawableGameObject> shots = new List<DrawableGameObject>();
         private Texture2D crossHair;
