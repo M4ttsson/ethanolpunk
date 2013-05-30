@@ -535,6 +535,9 @@ namespace Athyl
                 }
             }
 
+            if (keyboardState.IsKeyUp(InputClass.useKey))
+           
+
             //change stances (closeKey, middleKey, longKey)
             if (keyboardState.IsKeyDown(InputClass.closeKey))
             {

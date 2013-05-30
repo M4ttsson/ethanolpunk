@@ -43,6 +43,7 @@ namespace Athyl
             soundFX = game.Content.Load<SoundEffect>(sound);
             soundFX.Play();
         }
+       
         public void Play(string sound)
         {
             song = game.Content.Load<Song>(sound);
@@ -72,6 +73,8 @@ namespace Athyl
         {
             MediaPlayer.Volume = 0.0f;
         }
+
+    
 
         public void adjustVolume()
         {
