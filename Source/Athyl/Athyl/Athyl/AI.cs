@@ -93,7 +93,7 @@ namespace Athyl
                     break;
 
                 case Behavior.Turret:
-                    fireRate = 0.02f;
+                    fireRate = 0.08f;
                     enemyHP += 100;
                     behaviorDel = Turret;
                     damage = 45;
