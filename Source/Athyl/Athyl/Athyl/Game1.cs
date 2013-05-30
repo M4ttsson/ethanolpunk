@@ -129,10 +129,6 @@ namespace Athyl
             
             myFont = Content.Load<SpriteFont>("font");
 
-            //start a thread that listens for exit (debug)
-            //listenPauseThread = new Thread(ListenPause);
-            //listenPauseThread.IsBackground = true;
-            //listenPauseThread.Start();
             //quest = new Quests(world, this);
             IsFixedTimeStep = false;
             timer = new System.Timers.Timer(10);
@@ -168,9 +164,6 @@ namespace Athyl
             sound = new Sounds(this);
 
             sound.Play("Music/musik");
-            //progressbar
-            //progressBar = Content.Load<Texture2D>("ProgressBar");
-            //progressBarBorder = Content.Load<Texture2D>("ProgressBarBorder");
 
             //music.Stop();
 
@@ -411,19 +404,6 @@ namespace Athyl
         #endregion
 
         #region Input
-        //listen for pause
-        private void ListenPause()
-        {
-            while (true)
-            {
-                if (keyboardState.IsKeyDown(Keys.Escape))
-                {
-                    Exit();
-                }
-                
-                Thread.Sleep(20);
-            }
-        }
 
         /// <summary>
         /// Handle all input
