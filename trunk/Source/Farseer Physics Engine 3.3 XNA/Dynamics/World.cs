@@ -607,54 +607,59 @@ namespace FarseerPhysics.Dynamics
         {
             if (_bodyRemoveList.Count > 0)
             {
-                foreach (Body body in _bodyRemoveList)
+                try
                 {
-                    Debug.Assert(BodyList.Count > 0);   
-
-                    // You tried to remove a body that is not contained in the BodyList.
-                    // Are you removing the body more than once?
-                    Debug.Assert(BodyList.Contains(body));
-
-                    // Delete the attached joints.
-                    JointEdge je = body.JointList;
-                    while (je != null)
+                    foreach (Body body in _bodyRemoveList)
                     {
-                        JointEdge je0 = je;
-                        je = je.Next;
+                        Debug.Assert(BodyList.Count > 0);
 
-                        RemoveJoint(je0.Joint, false);
-                    }
-                    body.JointList = null;
+                        // You tried to remove a body that is not contained in the BodyList.
+                        // Are you removing the body more than once?
+                        Debug.Assert(BodyList.Contains(body));
 
-                    // Delete the attached contacts.
-                    ContactEdge ce = body.ContactList;
-                    while (ce != null)
-                    {
-                        ContactEdge ce0 = ce;
-                        ce = ce.Next;
-                        ContactManager.Destroy(ce0.Contact);
-                    }
-                    body.ContactList = null;
+                        // Delete the attached joints.
+                        JointEdge je = body.JointList;
+                        while (je != null)
+                        {
+                            JointEdge je0 = je;
+                            je = je.Next;
+
+                            RemoveJoint(je0.Joint, false);
+                        }
+                        body.JointList = null;
+
+                        // Delete the attached contacts.
+                        ContactEdge ce = body.ContactList;
+                        while (ce != null)
+                        {
+                            ContactEdge ce0 = ce;
+                            ce = ce.Next;
+                            ContactManager.Destroy(ce0.Contact);
+                        }
+                        body.ContactList = null;
 
                         // Delete the attached fixtures. This destroys broad-phase proxies.
-                    if (body.FixtureList != null)
-                    {
-                        for (int i = 0; i < body.FixtureList.Count; i++)
+                        if (body.FixtureList != null)
                         {
-                            body.FixtureList[i].DestroyProxies(ContactManager.BroadPhase);
-                            body.FixtureList[i].Destroy();
+                            for (int i = 0; i < body.FixtureList.Count; i++)
+                            {
+                                body.FixtureList[i].DestroyProxies(ContactManager.BroadPhase);
+                                body.FixtureList[i].Destroy();
+                            }
                         }
-                    }
                         body.FixtureList = null;
-                    
+
                         // Remove world body list.
                         BodyList.Remove(body);
 
                         if (BodyRemoved != null)
                             BodyRemoved(body);
-                }
+                    }
 
-                _bodyRemoveList.Clear();
+                    _bodyRemoveList.Clear();
+                }
+                catch (Exception)
+                { Console.WriteLine("KRASCHELIKRASCH"); }
             }
         }
 
