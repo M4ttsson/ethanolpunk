@@ -101,7 +101,7 @@ namespace Athyl
                     break;
 
                 case Behavior.Boss:
-                    Load(texture, 2, 7, 1, 1);
+                    Load(texture, 2, 7, 60, 1);
                     fireRate = 0.5f;
                     enemyHP = 1512;
                     jumpForce = new Vector2(0, -21);
@@ -329,6 +329,7 @@ namespace Athyl
             else
             {
                 base.UpdateFrame(0.2f);
+                Console.WriteLine(ColFrame);
             }
         }
 
@@ -532,12 +533,13 @@ namespace Athyl
                             }
                         }
                     }
-
+                }
+                else if (direction == Direction.Right)
+                {
+                    seen = false;
+                    Move(Movement.Right);
                 }
                 
-
-
-               
                 //Console.WriteLine(atSpawn);
                 lastCheck = DateTime.Now;
             }
