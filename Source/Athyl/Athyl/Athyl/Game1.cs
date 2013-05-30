@@ -227,6 +227,7 @@ namespace Athyl
 
                     }
                 }
+
                 if (player != null)
                     player.projectile.Clear(world);
 
@@ -310,6 +311,7 @@ namespace Athyl
                         world.RemoveBody(d.ethanolBox.body);
                     }
                 }
+
                 if (player != null)
                     player.projectile.Clear(world);
 
@@ -746,12 +748,9 @@ namespace Athyl
 
                 else if (theAI[i].enemyHP <= 0 && theAI[i].torso.body.FixtureList[0].UserData.ToString() != "boss")
                 {
-
                     drops.Add(new Drops(this, world, player));
 
                     drops[drops.Count - 1].DropPickups(theAI[i]);
-
-
 
                     removedAIList.Add(theAI[i]);
 
@@ -812,7 +811,7 @@ namespace Athyl
 
             if (player != null && player.Dead)
             {
-                
+
                 player.UpdatePlayer();
 
             }
@@ -849,38 +848,14 @@ namespace Athyl
                                 theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].wheel.body);
                                 theAI[i].torso.body.IgnoreCollisionWith(theAI[j].wheel.body);
                                 theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].torso.body);
-                                //theAI[i].wheel.body.IgnoreCollisionWith(drops[j].ethanolBox.body);
-                                //theAI[i].wheel.body.IgnoreCollisionWith(drops[j].hpBox.body);
-                                //theAI[i].torso.body.IgnoreCollisionWith(drops[j].hpBox.body);
-                                //theAI[i].torso.body.IgnoreCollisionWith(drops[j].ethanolBox.body);
 
                             }
                         }
                     }
 
-                  /*  if (runTime == 2 && theAI.Count < 0)
-                    {
-
-                        theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(300, 300), 100, 20, this, AI.Behavior.Patrol, "enemy"));
-
-
-                        for (int i = 0; i < theAI.Count; i++)
-                        {
-                            for (int j = 0; j < theAI.Count; j++)
-                            {
-                                theAI[i].torso.body.IgnoreCollisionWith(theAI[j].torso.body);
-                                theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].wheel.body);
-                                theAI[i].torso.body.IgnoreCollisionWith(theAI[j].wheel.body);
-                                theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].torso.body);
-                            }
-                        }
-                    }*/
-                    //sound.UpdateSound(gameTime);
-
                     foreach (AI ai in theAI)
                     {
-                        ai.UpdateEnemy(player, world, drops);
-
+                        ai.UpdateEnemy(player, world);
 
                     }
 
@@ -890,6 +865,7 @@ namespace Athyl
                     camera.UpdateCamera(player);
 
                     
+
                     removedDropsList.Clear();
 
                     foreach (var d in drops)
@@ -910,8 +886,8 @@ namespace Athyl
 
                         for (int i = 0; i < removedDropsList.Count; i++)
                         {
-                            world.RemoveBody(removedDropsList[i].hpBox.body);
-                            world.RemoveBody(removedDropsList[i].ethanolBox.body);
+                            //world.RemoveBody(removedDropsList[i].hpBox.body);
+                            //world.RemoveBody(removedDropsList[i].ethanolBox.body);
                             drops.Remove(removedDropsList[i]);
                         }
                     }
@@ -920,24 +896,26 @@ namespace Athyl
                         logger.Fatal(ex.Message + "  " + ex.TargetSite +  "  " + ex.StackTrace);
                     }
 
+
+
+
+
+
                     Fixture fixture = world.TestPoint(ConvertUnits.ToSimUnits(new Vector2(player.torso.Position.X + player.torso.Size.X, player.torso.Position.Y)));
 
                     if (fixture != null && fixture.Body.FixtureList[0].UserData.ToString() == "goal")
                     {
-                        
-                        //map = null;
-                        //Load();
-                        
                         map.currentLevel++;
                        
-
                         if (map.currentLevel > 3)
                             map.currentLevel = 1;
 
                         //Restart();
                         RestartMapWon();
                     }
-                    world.Step(0.033333f);
+                    //world.Step(0.033333f);
+                    world.Step(0.01666f);
+                    world.Step(0.01666f);
                 }
             }
             if (activeSkills != null)
@@ -950,8 +928,6 @@ namespace Athyl
                 }
             }
 
-
-            
             base.Update(gameTime);
         }
 
