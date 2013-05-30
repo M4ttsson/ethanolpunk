@@ -240,7 +240,7 @@ namespace Athyl
                 
                 if (map != null)
                 {
-                    map.reloadMapTexture();
+                    map.InializeMap();
                 }
 
                 //reset spawnpoints
@@ -490,10 +490,10 @@ namespace Athyl
                 player.torso.body.ApplyForce(new Vector2(-21, 0));*/
 
             //Debug
-            if (keyboardState.IsKeyDown(Keys.M) && !prevKeyboardState.IsKeyDown(Keys.M))
+            /*if (keyboardState.IsKeyDown(Keys.M) && !prevKeyboardState.IsKeyDown(Keys.M))
             {
                 endOfMapSpawn = endOfMapSpawn ? false : true;
-            }
+            }*/
 
             //Jump (jumpKey)
             if (keyboardState.IsKeyDown(InputClass.jumpKey) && !prevKeyboardState.IsKeyDown(InputClass.jumpKey))
@@ -802,11 +802,11 @@ namespace Athyl
         {
             menu.UpdateMenu(gameTime, this, player);
             keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.R))
+            /*if (keyboardState.IsKeyDown(Keys.R))
             {
                 map.currentLevel = 1;
                 Restart();
-            }
+            }*/
 
             if (player != null && player.Dead)
             {
@@ -856,7 +856,7 @@ namespace Athyl
                         }
                     }
 
-                    if (runTime == 2 && theAI.Count < 0)
+                  /*  if (runTime == 2 && theAI.Count < 0)
                     {
 
                         theAI.Add(new AI(world, enemyTexture, new Vector2(42, 90), new Vector2(300, 300), 100, 20, this, AI.Behavior.Patrol, "enemy"));
@@ -872,7 +872,7 @@ namespace Athyl
                                 theAI[i].wheel.body.IgnoreCollisionWith(theAI[j].torso.body);
                             }
                         }
-                    }
+                    }*/
                     //sound.UpdateSound(gameTime);
 
                     foreach (AI ai in theAI)
@@ -922,9 +922,12 @@ namespace Athyl
 
                     if (fixture != null && fixture.Body.FixtureList[0].UserData.ToString() == "goal")
                     {
+                        
                         //map = null;
                         //Load();
+                        
                         map.currentLevel++;
+                       
 
                         if (map.currentLevel > 3)
                             map.currentLevel = 1;
