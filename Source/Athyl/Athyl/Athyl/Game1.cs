@@ -855,7 +855,7 @@ namespace Athyl
 
                     foreach (AI ai in theAI)
                     {
-                        ai.UpdateEnemy(player, world);
+                        ai.UpdateEnemy(player, world, drops);
 
                     }
 
@@ -886,8 +886,8 @@ namespace Athyl
 
                         for (int i = 0; i < removedDropsList.Count; i++)
                         {
-                            //world.RemoveBody(removedDropsList[i].hpBox.body);
-                            //world.RemoveBody(removedDropsList[i].ethanolBox.body);
+                            world.RemoveBody(removedDropsList[i].hpBox.body);
+                            world.RemoveBody(removedDropsList[i].ethanolBox.body);
                             drops.Remove(removedDropsList[i]);
                         }
                     }
