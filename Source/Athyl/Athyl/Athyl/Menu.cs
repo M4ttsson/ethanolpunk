@@ -781,7 +781,9 @@ namespace Athyl
 
             if (gameState == GameState.StartMenu)
             {
+                
                 spriteBatch.Draw(menuBackground, cameraPos, Color.White);
+                
                 spriteBatch.Draw(AthylLogo, pos1 - new Vector2(AthylLogo.Width/2, 0), Color.White);
                 //spriteBatch.DrawString(myFont, "ATHYL\nLOGOTYP", pos0 - new Vector2(200, 0), Color.White, 0, Vector2.Zero, new Vector2(4, 4), SpriteEffects.None, 1);  //måste ändras
                 if (paused)
@@ -798,6 +800,11 @@ namespace Athyl
                     story.Draw(spriteBatch, pos7, viewPortPos);
                     exit.Draw(spriteBatch, pos8, viewPortPos);
                 }
+
+                spriteBatch.End();
+                spriteBatch.Begin();
+                spriteBatch.DrawString(myFont, "By: Joel, Hampus, Timothy, Jonatan, Simon and Aron.                           Special thanks to: Linnea Kleist and Lydia Duberg", new Vector2(game.GraphicsDevice.Viewport.X + 20, game.GraphicsDevice.Viewport.Height - 30), Color.DarkRed);
+                
             }
 
             else if (gameState == GameState.Loading)
