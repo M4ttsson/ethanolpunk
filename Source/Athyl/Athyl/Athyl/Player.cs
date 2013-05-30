@@ -582,7 +582,7 @@ namespace Athyl
             {
                 playerSounds.PlaySoundFX("Music/Pewpew");
                 projectile.FireBreath(torso.body.Position, direction, world, 0.2f, 5*skillTree.firebreathPoint);
-                playerAthyl -= (skillTree.ethanolConsumption + (10/skillTree.firebreathPoint));
+                playerAthyl -= (skillTree.ethanolConsumption + (100/skillTree.firebreathPoint));
                 lastBullet = DateTime.Now;
             }
         }
@@ -604,7 +604,7 @@ namespace Athyl
                     projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(0, 21)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, false);
                     projectile.NewBullet(torso.body.Position + ConvertUnits.ToSimUnits(new Vector2(20, 21)), direction, world, skillTree.projectileSpeed, wheel.body, torso.body, skillTree.damage, false); 
                 }
-                playerAthyl -= (skillTree.ethanolConsumption + (10 / skillTree.FireBurstPoint));
+                playerAthyl -= (skillTree.ethanolConsumption + (100 / skillTree.FireBurstPoint));
                 lastBullet = DateTime.Now;
             }
         }
@@ -803,20 +803,20 @@ namespace Athyl
 
         public void UpdatePlayer()
         {
-
+            
             //Om det finns skillpoints oanvända
             if (skillPoints > 0)
                 NextLevel = true;
             else
                 NextLevel = false;
 
-            if (WallJumped)         //Ser till att gubben vänder sig åt rätt håll vid walljump
-            {
-                if (direction == Direction.Left)
-                    RowFrame = 1;
-                else if (direction == Direction.Right)
-                    RowFrame = 0;
-            }
+         
+            if (direction == Direction.Left)
+                RowFrame = 1;
+            else if (direction == Direction.Right)
+                RowFrame = 0;
+         
+       
 
             if (playerHP > skillTree.maxHp)
             {
