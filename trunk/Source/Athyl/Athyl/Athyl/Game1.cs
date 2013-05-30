@@ -313,10 +313,11 @@ namespace Athyl
                 if (player != null)
                     player.projectile.Clear(world);
 
-                player.torso.Position = new Vector2(60, 1300);
+                //player.torso.Position = new Vector2(60, 1300);
+                player.MovePlayer(new Vector2(60, 1300));
                 if (map != null)
                 {
-                    map.reloadMapTexture();
+                    map.InializeMap();
                 }
 
                 //reset spawnpoints
@@ -332,6 +333,7 @@ namespace Athyl
 
                 runTime = 0;
                 player.torso.Position = new Vector2(60, 1300);
+                player.wheel.Position = new Vector2(60, 1300);
                 camera = new Camera(graphics.GraphicsDevice.Viewport);
                 camera.UpdateCamera(player);
 
@@ -490,10 +492,10 @@ namespace Athyl
                 player.torso.body.ApplyForce(new Vector2(-21, 0));*/
 
             //Debug
-            /*if (keyboardState.IsKeyDown(Keys.M) && !prevKeyboardState.IsKeyDown(Keys.M))
+            if (keyboardState.IsKeyDown(Keys.M) && !prevKeyboardState.IsKeyDown(Keys.M))
             {
                 endOfMapSpawn = endOfMapSpawn ? false : true;
-            }*/
+            }
 
             //Jump (jumpKey)
             if (keyboardState.IsKeyDown(InputClass.jumpKey) && !prevKeyboardState.IsKeyDown(InputClass.jumpKey))
@@ -802,11 +804,11 @@ namespace Athyl
         {
             menu.UpdateMenu(gameTime, this, player);
             keyboardState = Keyboard.GetState();
-            /*if (keyboardState.IsKeyDown(Keys.R))
+            if (keyboardState.IsKeyDown(Keys.R))
             {
                 map.currentLevel = 1;
                 Restart();
-            }*/
+            }
 
             if (player != null && player.Dead)
             {
@@ -932,7 +934,8 @@ namespace Athyl
                         if (map.currentLevel > 3)
                             map.currentLevel = 1;
 
-                        Restart();
+                        //Restart();
+                        RestartMapWon();
                     }
                     world.Step(0.033333f);
                 }

@@ -646,7 +646,7 @@ namespace FarseerPhysics.Dynamics
                         }
                     }
                         body.FixtureList = null;
-
+                    
                         // Remove world body list.
                         BodyList.Remove(body);
 
