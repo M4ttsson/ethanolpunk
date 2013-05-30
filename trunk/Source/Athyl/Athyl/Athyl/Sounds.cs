@@ -48,6 +48,7 @@ namespace Athyl
             song = game.Content.Load<Song>(sound);
             MediaPlayer.Play(song);
             MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.02f;
         }
         #endregion
         #region MuteAndVolume
